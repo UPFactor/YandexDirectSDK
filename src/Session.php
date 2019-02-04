@@ -141,8 +141,17 @@ class Session
      */
     public function call($service, $method, array $params = array()){
 
-        $params = json_encode(array('method' => (string) $method,'params' => $params),JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (key_exists('SelectionCriteria', $params)){
+            $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
+        }
+
+        $params = json_encode(
+            ['method' => (string) $method,'params' => $params],
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
+
         $curl = curl_init();
+
         curl_setopt($curl, CURLOPT_URL, ($this->sandbox ? static::sandboxApi : static::api).$service);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
@@ -158,6 +167,6 @@ class Session
             'Content-Type: application/json; charset=utf-8'
         ));
 
-        return new Result($curl);
+        return new Result($this, $curl);
     }
 }

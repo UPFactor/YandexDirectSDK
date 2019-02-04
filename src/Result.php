@@ -5,6 +5,8 @@ namespace YandexDirectSDK;
 /**
  * Class Result
  *
+ * @property-read Session       session
+ * @property-read string        response
  * @property-read integer       code
  * @property-read array         header
  * @property-read null|array    data
@@ -27,6 +29,7 @@ namespace YandexDirectSDK;
  * @method Data                 filter(callable $callable, $context = null)
  * @method Data                 pluck($keys)
  * @method Data                 group($condition)
+ * @method Data                 chunk($size)
  * @method Data                 where($key, $operator = null, $value = null)
  * @method Data                 whereIn($key, $values, $strict = false)
  * @method Data                 whereNotIn($key, $values, $strict = false)
@@ -39,6 +42,20 @@ namespace YandexDirectSDK;
  */
 class Result
 {
+    /**
+     * Session instance.
+     *
+     * @var Session
+     */
+    protected $session;
+
+    /**
+     * Original API response.
+     *
+     * @var string
+     */
+    protected $response;
+
     /**
      * Response code.
      *
@@ -74,9 +91,12 @@ class Result
     /**
      * Create Result instance.
      *
+     * @param Session $session
      * @param resource $resource
      */
-    public function __construct($resource){
+    public function __construct(Session $session, $resource){
+
+        $this->session = $session;
 
         if (!is_resource($resource)) {
             $this->setError([
@@ -92,6 +112,8 @@ class Result
             ]);
             return;
         }
+
+        $this->response = $response;
 
         $responseHeadersSize = curl_getinfo($resource, CURLINFO_HEADER_SIZE);
         $this->setCode(curl_getinfo($resource, CURLINFO_RESPONSE_CODE));

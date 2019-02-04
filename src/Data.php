@@ -236,6 +236,20 @@ class Data
     }
 
     /**
+     * Chunk the dataset.
+     *
+     * @param int $size
+     * @return static
+     */
+    public function chunk($size){
+        if (!is_numeric($size) or $size < 1){
+            return $this->redeclare($this->items);
+        }
+
+        return $this->redeclare(array_chunk($this->items, $size, true));
+    }
+
+    /**
      * Filter items by the given key value pair using "dot" notation.
      *
      * @see \YandexDirectSDK\Common\Arr::where()
