@@ -49,11 +49,12 @@ abstract class Service
      *
      * @param string $method
      * @param array $params
-     * @return null|Result
+     * @return Result|null
      */
     public function __call($method, $params){
         if (in_array($method, (array) $this->getMethodList())){
-            $params = (array) $this->requestHandler($method, $params);
+            $params = $params[0];
+            $params = $this->requestHandler($method, $params);
             return $this->resultHandler($method, $this->session->call($this->serviceName, $method, $params));
         }
         return null;

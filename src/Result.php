@@ -9,8 +9,27 @@ namespace YandexDirectSDK;
  * @property-read array         header
  * @property-read null|array    data
  * @property-read array         error
- * @property-read boolean       isSuccess
- * @property-read boolean       isError
+ *
+ * @method array                all()
+ * @method array                dot()
+ * @method string               serialize()
+ * @method string               json()
+ * @method Data|mixed           get($keys, $default = null)
+ * @method boolean              has($keys, $strict = false)
+ * @method Data                 only($keys, $strict = false)
+ * @method Data                 except($keys)
+ * @method Data                 map(callable $callable, $context = null)
+ * @method void                 each(callable $callable, $context = null)
+ * @method Data                 filter(callable $callable, $context = null)
+ * @method Data                 pluck($keys)
+ * @method Data                 group($condition)
+ * @method Data                 where($key, $operator = null, $value = null)
+ * @method Data                 whereIn($key, $values, $strict = false)
+ * @method Data                 whereNotIn($key, $values, $strict = false)
+ * @method mixed                max($key = null)
+ * @method mixed                min($key = null)
+ * @method float|int            avg($key = null)
+ * @method float|int            sum($key = null)
  *
  * @package YandexDirectSDK
  */
@@ -35,7 +54,7 @@ class Result
      *
      * @var array|null
      */
-    protected $data = null;
+    protected $data = [];
 
     /**
      * Error information:
@@ -77,21 +96,58 @@ class Result
     }
 
     /**
-     * Dynamic call of object instance properties.
+     * Dynamic call of properties of the current object.
      *
      * @param string $name
      * @return mixed
      */
     public function __get($name){
-        switch ($name){
-            case 'code': return $this->code; break;
-            case 'header': return $this->header; break;
-            case 'data': return $this->data; break;
-            case 'error': return $this->error; break;
-            case 'isSuccess': return (empty($this->error) and is_array($this->data)); break;
-            case 'isError': return !empty($this->error); break;
-            default: return null;
+        return $this->{$name};
+    }
+
+    /**
+     * Dynamic call methods of Data.
+     *
+     * @param $method
+     * @param $arguments
+     * @return Data|mixed
+     */
+    public function __call($method, $arguments){
+        return Data::wrap($this->data)->{$method}(...$arguments);
+    }
+
+    /**
+     * Determine whether the result is successful.
+     *
+     * @param callable $callable
+     * @return bool
+     */
+    public function isSuccess(callable $callable = null){
+        if (empty($this->error) and !empty($this->data)){
+            if (!is_null($callable)){
+                $callable($this);
+            }
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Determine if the result is a failure.
+     *
+     * @param callable $callable
+     * @return bool
+     */
+    public function isError(callable $callable = null){
+        if (!empty($this->error)){
+            if (!is_null($callable)){
+                $callable($this);
+            }
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -158,14 +214,18 @@ class Result
             $this->setError([
                 'string' => 'Request failed'
             ]);
-            $this->data = null;
+            $this->data = [];
             return $this;
         }
 
         if (isset($data['error'])){
             $this->setError($data['error']);
-            $this->data = null;
+            $this->data = [];
             return $this;
+        }
+
+        if (array_key_exists('result', $data)){
+            $data = $data['result'];
         }
 
         $this->data = $data;

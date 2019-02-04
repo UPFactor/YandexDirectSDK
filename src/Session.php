@@ -88,6 +88,16 @@ class Session
      * Create Session instance.
      *
      * @param array $params
+     * @return Session
+     */
+    public static function make(array $params){
+        return new static($params);
+    }
+
+    /**
+     * Create Session instance.
+     *
+     * @param array $params
      */
     public function __construct(array $params){
         if (!empty($params['token']) and is_string($params['token'])){
@@ -131,10 +141,11 @@ class Session
      */
     public function call($service, $method, array $params = array()){
 
+        $params = json_encode(array('method' => (string) $method,'params' => $params),JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, ($this->sandbox ? static::sandboxApi : static::api).$service);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(array('method' => (string) $method,'params' => $params),JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
