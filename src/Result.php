@@ -160,6 +160,17 @@ class Result
     }
 
     /**
+     * If successful, execute callback function.
+     *
+     * @param callable $callable
+     * @return $this
+     */
+    public function isSuccessDo(callable $callable){
+        $this->isSuccess($callable);
+        return $this;
+    }
+
+    /**
      * Determine if the result is a failure.
      *
      * @param callable $callable
@@ -174,6 +185,17 @@ class Result
         }
 
         return false;
+    }
+
+    /**
+     * If error, execute callback function.
+     *
+     * @param callable $callable
+     * @return $this
+     */
+    public function isErrorDo(callable $callable){
+        $this->isError($callable);
+        return $this;
     }
 
     /**
