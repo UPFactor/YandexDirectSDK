@@ -11,6 +11,10 @@ namespace YandexDirectSDK;
  * @property-read array         error
  *
  * @method array                all()
+ * @method integer              count()
+ * @method boolean              isEmpty()
+ * @method array                keys()
+ * @method array                values()
  * @method array                dot()
  * @method string               serialize()
  * @method string               json()

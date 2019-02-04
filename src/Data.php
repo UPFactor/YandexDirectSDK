@@ -64,6 +64,42 @@ class Data
     }
 
     /**
+     * Count the number of items in the dataset.
+     *
+     * @return int
+     */
+    public function count(){
+        return count($this->items);
+    }
+
+    /**
+     * Determine if the dataset is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty(){
+        return empty($this->items);
+    }
+
+    /**
+     * Get the keys of the dataset items.
+     *
+     * @return array
+     */
+    public function keys(){
+        return array_keys($this->items);
+    }
+
+    /**
+     * Get the values of the dataset items.
+     *
+     * @return array
+     */
+    public function values(){
+        return array_values($this->items);
+    }
+
+    /**
      * Flatten a dataset with dots.
      *
      * @return array
