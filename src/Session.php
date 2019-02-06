@@ -31,6 +31,13 @@ namespace YandexDirectSDK;
 class Session
 {
     /**
+     * YandexDirectSDK version.
+     *
+     * @var string
+     */
+    const version = '1.0.0';
+
+    /**
      * API URL v5
      *
      * @var string
