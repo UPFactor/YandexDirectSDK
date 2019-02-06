@@ -1,5 +1,5 @@
 {
-    "name": "upfactor/YandexDirectSDK",
+    "name": "upfactor/yandex-direct-sdk",
     "keywords": ["yandex","direct"],
     "description": "YandexDirect SDK for PHP",
     "type": "library",
