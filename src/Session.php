@@ -15,7 +15,7 @@ namespace YandexDirectSDK;
  * @property-read \YandexDirectSDK\Services\ServiceAudienceTargets       audienceTargets
  * @property-read \YandexDirectSDK\Services\ServiceRetargetingLists      retargetingLists
  * @property-read \YandexDirectSDK\Services\ServiceVCards                vCards
- * @property-read \YandexDirectSDK\Services\ServiceSitelinks             siteLinks
+ * @property-read \YandexDirectSDK\Services\ServiceSiteLinks             siteLinks
  * @property-read \YandexDirectSDK\Services\ServiceAdImages              adImages
  * @property-read \YandexDirectSDK\Services\ServiceAdExtensions          adExtensions
  * @property-read \YandexDirectSDK\Services\ServiceDynamicTextAdTargets  dynamicTextAdTargets

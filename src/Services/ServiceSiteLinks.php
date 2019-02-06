@@ -14,7 +14,7 @@ use YandexDirectSDK\Result;
  * @see https://tech.yandex.ru/direct/doc/ref-v5/sitelinks/sitelinks-docpage/
  * @package YandexDirectSDK\Services
  */
-class ServiceSitelinks extends Service
+class ServiceSiteLinks extends Service
 {
     final protected function getServiceName(){
         return 'sitelinks';

@@ -212,6 +212,36 @@ class Data
     }
 
     /**
+     * Return the first element in the dataset passing a given truth test.
+     *
+     * @param callable $callback
+     * @param null $default
+     * @return mixed|Data
+     */
+    public function first(callable $callback = null, $default = null){
+        $item = Arr::first($this->items, $callback, $default);
+        if (is_array($item)){
+            return $this->redeclare($item);
+        }
+        return $item;
+    }
+
+    /**
+     * Return the last element in the dataset passing a given truth test.
+     *
+     * @param callable $callback
+     * @param null $default
+     * @return mixed|Data
+     */
+    public function last(callable $callback = null, $default = null){
+        $item = Arr::last($this->items, $callback, $default);
+        if (is_array($item)){
+            return $this->redeclare($item);
+        }
+        return $item;
+    }
+
+    /**
      * Pluck an dataset from the current dataset by key/keys
      * using "dot" notation.
      *

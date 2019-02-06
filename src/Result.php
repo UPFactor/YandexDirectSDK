@@ -27,6 +27,8 @@ namespace YandexDirectSDK;
  * @method Data                 map(callable $callable, $context = null)
  * @method void                 each(callable $callable, $context = null)
  * @method Data                 filter(callable $callable, $context = null)
+ * @method Data|mixed           first(callable $callback = null, $default = null)
+ * @method Data|mixed           last(callable $callback = null, $default = null)
  * @method Data                 pluck($keys)
  * @method Data                 group($condition)
  * @method Data                 chunk($size)
