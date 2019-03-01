@@ -7,7 +7,7 @@ use Closure;
 /**
  * Class Arr
  *
- * @package YandexDirectSDK\Common
+ * @package Sim\Common
  */
 class Arr {
 
@@ -17,8 +17,7 @@ class Arr {
      * @param  mixed  $value
      * @return array
      */
-    static public function wrap($value)
-    {
+    static public function wrap($value){
         return is_array($value) ? $value : [$value];
     }
 
@@ -29,9 +28,64 @@ class Arr {
      * @param  array  $array
      * @return bool
      */
-    static public function isAssoc(array $array) {
+    static public function isAssoc(array $array){
         $keys = array_keys($array);
         return array_keys($keys) !== $keys;
+    }
+
+    /**
+     * Determines if an array is multidimensional.
+     *
+     * @param array $array
+     * @return bool
+     */
+    static public function isMultiple(array $array){
+        foreach ($array as $value) {
+            if (is_array($value)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the JSON representation of an array.
+     *
+     * @param array $array
+     * @param int|int[]|string|string[]|null $keys
+     * @return string
+     */
+    static function toJson($array, $keys = null){
+        if (!is_null($keys)){
+            $array = static::pluck($array, $keys);
+        }
+        return json_encode($array, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Returns the serialized representation of an array.
+     *
+     * @param array $array
+     * @param int|int[]|string|string[]|null $keys
+     * @return string
+     */
+    static public function toSerialize($array, $keys = null){
+        if (!is_null($keys)){
+            $array = static::pluck($array, $keys);
+        }
+        return serialize($array);
+    }
+
+    /**
+     * Convert the array into a query string.
+     *
+     * @param $array
+     * @param int|int[]|string|string[]|null $keys
+     * @return string
+     */
+    static public function toQuery($array, $keys = null){
+        if (!is_null($keys)){
+            $array = static::pluck($array, $keys);
+        }
+        return http_build_query($array, null, '&', PHP_QUERY_RFC3986);
     }
 
     /**
@@ -41,49 +95,18 @@ class Arr {
      * @param string $prepend
      * @return array
      */
-    static public function dot($array, $prepend = '')
-    {
+    static public function toDot($array, $prepend = ''){
         $results = [];
-
         foreach ($array as $key => $value) {
             if (is_array($value) && !empty($value)) {
-                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+                foreach (static::toDot($value, $prepend.$key.'.') as $subKey => $subValue){
+                    $results[$subKey] = $subValue;
+                }
             } else {
                 $results[$prepend.$key] = $value;
             }
         }
-
         return $results;
-    }
-
-    /**
-     * Returns the JSON representation of a value.
-     *
-     * @param $value
-     * @return string
-     */
-    static function json($value){
-        return json_encode($value, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * Returns the serialized representation of a value.
-     *
-     * @param $value
-     * @return string
-     */
-    static public function serialize($value){
-        return serialize($value);
-    }
-
-    /**
-     * Convert the array into a query string.
-     *
-     * @param $value
-     * @return string
-     */
-    static public function query($value){
-        return http_build_query($value, null, '&', PHP_QUERY_RFC3986);
     }
 
     /**
@@ -93,7 +116,7 @@ class Arr {
      * @return string
      */
     static public function hash(array $array){
-        return sha1(static::json($array));
+        return sha1(static::toJson($array));
     }
 
     /**
@@ -105,7 +128,6 @@ class Arr {
      * @return mixed|array|null
      */
     static public function get(array $array, $keys, $default = null){
-
         if (is_string($keys) or is_int($keys)){
             if (array_key_exists($keys, $array)){
                 return $array[$keys];
@@ -146,7 +168,6 @@ class Arr {
      * @return mixed|array|null
      */
     static public function pull(array &$array, $keys, $default = null){
-
         if (is_string($keys) or is_int($keys)){
             if (array_key_exists($keys, $array)){
                 $value = $array[$keys];
@@ -196,16 +217,14 @@ class Arr {
      *
      * @param array $array
      * @param string|array $keys
-     * @param bool $strict
      * @return array
      */
-    static public function only(array $array, $keys, $strict = false){
+    static public function only(array $array, $keys){
         $keys = static::wrap($keys);
         $result = [];
 
         foreach($keys as $key){
             if (!array_key_exists($key, $array)) continue;
-            if ($strict and empty($array[$key])) continue;
             $result[$key] = $array[$key];
         }
 
@@ -221,7 +240,6 @@ class Arr {
      * @return array
      */
     static public function except(array $array, $keys){
-
         if (!is_array($keys)){
             $keys = static::wrap($keys);
         }
@@ -235,20 +253,14 @@ class Arr {
 
     /**
      * Check by key/keys if there is an item/items in the array using "dot" notation.
-     * Set the parameter [$strict], for additional checking for empty values.
      *
      * @param array $array
      * @param string|string[]|int|int[] $keys
-     * @param bool $strict
      * @return bool
      */
-    static public function has(array $array, $keys, $strict = false){
-
+    static public function has(array $array, $keys){
         if (is_string($keys) or is_int($keys)){
             if (array_key_exists($keys, $array)){
-                if ($strict and empty($array[$keys])){
-                    return false;
-                }
                 return true;
             }
 
@@ -264,16 +276,12 @@ class Arr {
                 }
             }
 
-            if ($strict and empty($array)){
-                return false;
-            }
-
             return true;
         }
 
-        if (is_array($keys)){
+        if (is_array($keys) and !empty($keys)){
             foreach ($keys as $index => $key){
-                if (static::has($array, $key, $strict) === false){
+                if (static::has($array, $key) === false){
                     return false;
                 }
             }
@@ -306,7 +314,6 @@ class Arr {
      * @param mixed $value
      */
     static public function set(array &$array, $key, $value){
-
         if (array_key_exists($key, $array)){
             $array[$key] = $value;
             return;
@@ -376,7 +383,6 @@ class Arr {
      * @return array
      */
     static public function map(array $array, Closure $callable, $context = null){
-
         if (!is_null($context)){
             $callable = $callable->bindTo($context, $context);
         }
@@ -409,7 +415,6 @@ class Arr {
      * @return array
      */
     static public function filter(array $array, Closure $filter, $context = null){
-
         if (!is_null($context)){
             $filter = $filter->bindTo($context, $context);
         }
@@ -440,11 +445,10 @@ class Arr {
      * in all transferred arrays.
      *
      * @param array $array
-     * @param array ...$arrays
+     * @param array|array[] ...$arrays
      * @return array
      */
     static public function diff(array $array, array ...$arrays){
-
         foreach ($array as $key => $value){
             foreach ($arrays as $item){
                 if (in_array($value, $item, true)){
@@ -462,11 +466,10 @@ class Arr {
      * in all transferred arrays.
      *
      * @param array $array
-     * @param array ...$arrays
+     * @param array|array[] ...$arrays
      * @return array
      */
     static public function intersect(array $array, array ...$arrays){
-
         foreach ($array as $key => $value){
             foreach ($arrays as $item){
                 if (!in_array($value, $item, true)){
@@ -487,15 +490,13 @@ class Arr {
      */
     static public function collapse(array $array){
         $result = [];
-
-        foreach ($array as $item) {
-            if (!is_array($item)){
+        foreach ($array as $key => $item) {
+            if (is_array($item)){
+                $result = array_merge($result, $item);
                 continue;
             }
-
-            $result = array_merge($result, $item);
+            $result[$key] = $item;
         }
-
         return $result;
     }
 
@@ -506,9 +507,13 @@ class Arr {
      * @return array
      */
     static public function compact(array $array){
-        return static::filter($array, function ($value){
-            return !empty($value);
-        });
+        $result = [];
+        foreach ($array as $key => $value){
+            if (!empty($value)) {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
     }
 
     /**
@@ -518,17 +523,13 @@ class Arr {
      * @return array
      */
     static public function unique(array $array){
-
-        $buffer = [];
-
-        return static::filter($array, function($value) use (&$buffer){
-
-            if(!in_array($value, $buffer, true)){
-                return $buffer[] = $value;
+        $result = [];
+        foreach ($array as $key => $value){
+            if(!in_array($value, $result, true)){
+                $result[$key] = $value;
             }
-
-            return false;
-        });
+        }
+        return $result;
     }
 
     /**
@@ -536,7 +537,7 @@ class Arr {
      * The order of the elements will be determined by the order of their appearance
      * in the source arrays.
      *
-     * @param array ...$arrays
+     * @param array|array[] ...$arrays
      * @return array
      */
     static public function union(array ...$arrays){
@@ -547,11 +548,15 @@ class Arr {
      * Return the first element in an array passing a given truth test.
      *
      * @param  array  $array
-     * @param  callable|null  $callback
      * @param  mixed  $default
+     * @param  Closure $callback
      * @return mixed
      */
-    static public function first($array, callable $callback = null, $default = null){
+    static public function first($array, $default = null, $callback = null){
+        if ($default instanceof Closure){
+            $callback = $default;
+            $default = null;
+        }
 
         if (is_null($callback)) {
             if (empty($array)) {
@@ -564,7 +569,7 @@ class Arr {
         }
 
         foreach ($array as $key => $value) {
-            if (call_user_func($callback, $value, $key)) {
+            if (call_user_func($callback, $value, $key) !== false) {
                 return $value;
             }
         }
@@ -575,18 +580,22 @@ class Arr {
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param $array
-     * @param callable|null $callback
-     * @param mixed $default
+     * @param  array  $array
+     * @param  mixed  $default
+     * @param  Closure $callback
      * @return mixed
      */
-    static public function last($array, callable $callback = null, $default = null){
+    static public function last($array, $default = null, $callback = null){
+        if ($default instanceof Closure){
+            $callback = $default;
+            $default = null;
+        }
 
         if (is_null($callback)) {
             return empty($array) ? $default : end($array);
         }
 
-        return static::first(array_reverse($array, true), $callback, $default);
+        return static::first(array_reverse($array, true), $default, $callback);
     }
 
     /**
@@ -643,11 +652,11 @@ class Arr {
      * specify the element key ("dot" notation) for which you want to group.
      *
      * @param array $array
-     * @param callable|string|int $condition
+     * @param Closure|string|int $condition
      * @return array
      */
     static public function group(array $array, $condition){
-        if ($condition instanceof \Closure){
+        if ($condition instanceof Closure){
             $result = [];
             foreach ($array as $key => $value){
                 $groupKey = call_user_func($condition, $value, $key);
@@ -701,7 +710,6 @@ class Arr {
      * @return array
      */
     static public function where(array $array, $key, $operator = null, $value = null){
-
         $numArgs = func_num_args();
         $conditions = [];
 
@@ -736,7 +744,6 @@ class Arr {
         }
 
         return static::filter($array, function($item) use ($conditions){
-
             if (!is_array($item)){
                 return false;
             }
@@ -780,9 +787,8 @@ class Arr {
      */
     static public function whereIn(array $array, $key, $values, $strict = false){
         $values = Arr::wrap($values);
-
         return static::filter($array, function($item) use ($key, $values, $strict){
-            if (is_array($item)){
+            if (is_array($item) and static::has($item, $key)){
                 return in_array(static::get($item, $key), $values, $strict);
             }
             return false;
@@ -801,9 +807,11 @@ class Arr {
      */
     static public function whereNotIn(array $array, $key, $values, $strict = false){
         $values = Arr::wrap($values);
-
         return static::filter($array, function($item) use ($key, $values, $strict){
             if (is_array($item)){
+                if (!static::has($item, $key)){
+                    return true;
+                }
                 return !in_array(static::get($item, $key), $values, $strict);
             }
             return false;
@@ -827,11 +835,15 @@ class Arr {
      * @return bool
      */
     static public function every(array $array, $key, $operator = null, $value = null){
-        if ($key instanceof \Closure){
+        if (empty($array)){
+            return false;
+        }
+
+        if ($key instanceof Closure){
             return count($array) === count(Arr::filter($array, $key));
         }
 
-        if ($operator instanceof \Closure){
+        if ($operator instanceof Closure){
             return count($array) === count(Arr::filter(Arr::pluck($array, $key), $operator));
         }
 
@@ -849,7 +861,6 @@ class Arr {
         if (!is_null($key)){
             $array = static::pluck($array, $key);
         }
-
         return max($array);
     }
 
@@ -864,7 +875,6 @@ class Arr {
         if (!is_null($key)){
             $array = static::pluck($array, $key);
         }
-
         return min($array);
     }
 

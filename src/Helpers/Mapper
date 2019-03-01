@@ -1,0 +1,554 @@
+<?php
+require_once __DIR__ . "/../autoload.php";
+
+use YandexDirectSDK\Common\ConsoleLauncher;
+use YandexDirectSDK\Common\Arr;
+use YandexDirectSDK\Common\Str;
+use YandexDirectSDK\Common\Dir;
+use YandexDirectSDK\Common\File;
+use YandexDirectSDK\Common\FileInfo;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
+use YandexDirectSDK\Interfaces\Model as ModelInterface;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
+use YandexDirectSDK\Components\Service;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Components\QueryBuilder;
+
+class Mapper extends ConsoleLauncher{
+
+    /**
+     * @var Dir
+     */
+    protected $rootDir;
+
+    /**
+     * @var Dir
+     */
+    protected $modelDir;
+
+    /**
+     * @var Dir
+     */
+    protected $collectionDir;
+
+    /**
+     * @var Dir
+     */
+    protected $serviceDir;
+
+    /**
+     * @var string
+     */
+    protected $objectClass;
+
+    /**
+     * @var ReflectionClass
+     */
+    protected $objectReflection;
+
+    /**
+     * Mapper constructor.
+     */
+    public function __construct()
+    {
+        $this->rootDir = Dir::bind(__DIR__.'/../');
+        $this->modelDir =  Dir::bind($this->rootDir->realPath)->change('Models');
+        $this->collectionDir =  Dir::bind($this->rootDir->realPath)->change('Collections');
+        $this->serviceDir =  Dir::bind($this->rootDir->realPath)->change('Services');
+    }
+
+    public function execute()
+    {
+        $settings = [];
+
+        $this->bind('model', function($options) use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
+                'methods' => ['model'],
+                'files' => $this->getFiles($this->modelDir->realPath, $options['model'].'.php')
+            ];
+        });
+
+        $this->bind('model all', function() use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
+                'methods' => ['model'],
+                'files' => $this->getFiles($this->modelDir->realPath)
+            ];
+        });
+
+        $this->bind('collection', function($options) use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
+                'methods' => ['collection'],
+                'files' => $this->getFiles($this->collectionDir->realPath, $options['collection'].'.php')
+            ];
+        });
+
+        $this->bind('collection all', function() use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
+                'methods' => ['collection'],
+                'files' => $this->getFiles($this->collectionDir->realPath)
+            ];
+        });
+
+        $this->bind('service', function($options) use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
+                'methods' => ['service'],
+                'files' => $this->getFiles($this->serviceDir->realPath, $options['service'].'.php')
+            ];
+        });
+
+        $this->bind('service all', function() use (&$settings){
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
+                'methods' => ['service'],
+                'files' => $this->getFiles($this->serviceDir->realPath)
+            ];
+        });
+
+        $this->bind('all', function() use (&$settings) {
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
+                'methods' => ['model'],
+                'files' => $this->getFiles($this->modelDir->realPath)
+            ];
+
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
+                'methods' => ['collection'],
+                'files' => $this->getFiles($this->collectionDir->realPath)
+            ];
+
+            $settings[] = [
+                'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
+                'methods' => ['service'],
+                'files' => $this->getFiles($this->serviceDir->realPath)
+            ];
+        });
+
+        $this->start();
+
+        Arr::each($settings, function($setting){
+            Arr::each($setting['files'], function (File $modelFile) use ($setting){
+
+                $this->objectClass = $setting['namespace'].'\\'.Str::replaceLast('.php', '', $modelFile->name);
+                $this->objectReflection = new ReflectionClass($this->objectClass);
+
+                foreach ($setting['methods'] as $method){
+                    $lexemes = $this->{'get' . ucfirst($method) . 'Lexemes'}($modelFile);
+                    $this->createDoc($modelFile, $lexemes);
+                }
+
+            });
+        });
+    }
+
+    protected function getModelLexemes(File $file)
+    {
+        $modelLexemes = [
+            'property' => [],
+            'methodSet' => [],
+            'methodGet' => []
+        ];
+
+        /** @var ModelInterface $modelObject */
+        $modelObject = new $this->objectClass();
+        $modelFileContent = $file->content();
+        $modelMethodsMeta = $modelObject->getServiceProvidersMethodsMeta();
+        $modelPropertiesMeta = $modelObject->getPropertiesMeta();
+
+        foreach ($modelMethodsMeta as $alias => $provider){
+
+            /** @var String $provider */
+            if (!class_exists($provider)){
+                $this->warning("Model [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
+                continue;
+            }
+
+            /** @var Service $provider */
+            $provider = new $provider(new \YandexDirectSDK\Session([]));
+            $providerMeta = $provider->getMethodsMeta();
+            $providerResultType = null;
+
+            if ($provider->getServiceModelClass() !== $this->objectReflection->name){
+                $this->notice("Service provider [".get_class($provider)."] is not associated with the model [{$this->objectReflection->name}].");
+            }
+
+            if (array_key_exists($alias, $providerMeta)) {
+
+                switch ($providerMeta[$alias]['type']) {
+                    case 'addCollection':
+                    case 'updateModel':
+                    case 'updateCollection':
+                    case 'actionByIds':
+                        $providerResultType = $this->classNameNormalization(Result::class, $modelFileContent);
+                        break;
+                    case 'selectionElements':
+                        $providerResultType = $this->classNameNormalization(QueryBuilder::class, $modelFileContent);
+                        break;
+                }
+
+                if (is_null($providerResultType)) {
+                    $this->warning("Service provider [" . get_class($provider) . "] declares an unknown type of method [{$providerMeta[$alias]['type']}].");
+                    continue;
+                }
+            } else {
+
+                $providerReflection = new ReflectionClass($provider);
+
+                foreach ($providerReflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
+                    if ($method->getName() !== $alias){
+                        continue;
+                    }
+
+                    $methodResultType = $method->getReturnType();
+
+                    if (is_null($methodResultType)){
+                        $providerResultType = $this->classNameNormalization(Result::class, $modelFileContent);
+                    } else {
+                        $providerResultType = $method->getReturnType()->getName();
+                        if (class_exists($providerResultType)){
+                            $providerResultType = $this->classNameNormalization($providerResultType, $modelFileContent);
+                        } else {
+                            $providerResultType = str_replace('YandexDirectSDK\Services\\', '', $providerResultType);
+                        }
+                    }
+
+                    break;
+                }
+
+            }
+
+            if (is_null($providerResultType)){
+                $this->warning("Service provider [".get_class($provider)."] does not implement method [{$alias}], which is declared in model [{$this->objectReflection->name}].");
+                continue;
+            }
+
+            $modelLexemes['method'][] = ['@method', $providerResultType, $alias."()"];
+        }
+
+        foreach ($modelPropertiesMeta as $property){
+
+            $resultType = '';
+
+            switch ($property['type']){
+                case 'numeric': $resultType = 'integer'; break;
+                case 'enum': $resultType = 'string'; break;
+                case 'set': $resultType = 'string[]'; break;
+                case 'array':
+                    if (!empty($property['meta']) and is_array($property['meta'])){
+                        $resultType = implode('|[]',$property['meta']).'[]';
+                    }
+                    break;
+                case 'object':
+                    if (is_null($property['meta'])){
+                        $resultType = 'object';
+                    } elseif (strpos($property['meta'], $this->objectReflection->getNamespaceName()) !== false){
+                        $resultType = (new ReflectionClass($property['meta']))->getShortName();
+                    } else {
+                        $resultType = $this->classNameNormalization($property['meta'], $modelFileContent);
+                    }
+                    break;
+
+                default: $resultType = $property['type'];
+            }
+
+            if ($property['write'] === false and $property['read'] === false){
+                continue;
+            }
+
+            if ($property['write'] === true and $property['read'] === true) {
+                $modelLexemes['property'][] = ['@property', $resultType, "\${$property['name']}"];
+            } elseif ($property['write'] === true){
+                $modelLexemes['property'][] = ['@property-write', $resultType, "\${$property['name']}"];
+            } else {
+                $modelLexemes['property'][] = ['@property-read', $resultType, "\${$property['name']}"];
+            }
+
+            if ($property['write'] === true){
+                $modelLexemes['methodSet'][] = ['@method', '$this', "set".ucfirst($property['name'])."({$resultType} \${$property['name']})"];
+            }
+
+            if ($property['read'] === true){
+                $modelLexemes['methodGet'][] = ['@method', $resultType, "get".ucfirst($property['name'])."()"];
+            }
+        }
+
+        return $modelLexemes;
+    }
+
+    protected function getCollectionLexemes(File $file)
+    {
+        $collectionLexemes = [
+            'property' => [],
+            'methodSet' => [],
+            'methodGet' => [],
+            'method' => []
+        ];
+
+        /** @var ModelCollectionInterface $collectionObject */
+        $collectionObject = new $this->objectClass();
+        $collectionFileContent = $file->content();
+        $collectionCompatibleModel = $collectionObject->getCompatibleModel();
+        $collectionMethodsMeta = $collectionObject->getServiceProvidersMethodsMeta();
+
+        if (is_null($collectionCompatibleModel)){
+            $this->warning("Collection [{$this->objectReflection->name}]. Compatible model not defined.");
+            return $collectionLexemes;
+        }
+
+        foreach ($collectionMethodsMeta as $alias => $provider){
+
+            /** @var String $provider */
+            if (!class_exists($provider)){
+                $this->warning("Collection [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
+                continue;
+            }
+
+            /** @var Service $provider */
+            $provider = new $provider(new \YandexDirectSDK\Session([]));
+            $providerMeta = $provider->getMethodsMeta();
+            $providerResultType = null;
+
+            if ($provider->getServiceModelCollectionClass() !== $this->objectReflection->name){
+                $this->notice("Service provider [".get_class($provider)."] is not associated with the collection [{$this->objectReflection->name}].");
+            }
+
+            if (array_key_exists($alias, $providerMeta)){
+
+                switch ($providerMeta[$alias]['type']){
+                    case 'addCollection':
+                    case 'updateModel':
+                    case 'updateCollection':
+                    case 'actionByIds': $providerResultType = $this->classNameNormalization(Result::class, $collectionFileContent); break;
+                    case 'selectionElements': $providerResultType = $this->classNameNormalization(QueryBuilder::class, $collectionFileContent); break;
+                }
+
+                if (is_null($providerResultType)){
+                    $this->warning("Service provider [".get_class($provider)."] declares an unknown type of method [{$providerMeta[$alias]['type']}].");
+                    continue;
+                }
+
+            } else {
+
+                $providerReflection = new ReflectionClass($provider);
+
+                foreach ($providerReflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
+                    if ($method->getName() !== $alias){
+                        continue;
+                    }
+
+                    $methodResultType = $method->getReturnType();
+
+                    if (is_null($methodResultType)){
+                        $providerResultType = $this->classNameNormalization(Result::class, $collectionFileContent);
+                    } else {
+                        $providerResultType = $method->getReturnType()->getName();
+                        if (class_exists($providerResultType)){
+                            $providerResultType = $this->classNameNormalization($providerResultType, $collectionFileContent);
+                        } else {
+                            $providerResultType = str_replace('YandexDirectSDK\Services\\', '', $providerResultType);
+                        }
+                    }
+
+                    break;
+                }
+
+            }
+
+            if (is_null($providerResultType)){
+                $this->warning("Service provider [".get_class($provider)."] does not implement method [{$alias}], which is declared in collection [{$this->objectReflection->name}].");
+                continue;
+            }
+
+            $collectionLexemes['method'][] = ['@method', $providerResultType, $alias."()"];
+        }
+
+        return $collectionLexemes;
+    }
+
+    protected function getServiceLexemes(File $file)
+    {
+        $serviceLexemes = [
+            'property' => [],
+            'methodSet' => [],
+            'methodGet' => [],
+            'method' => []
+        ];
+
+        /** @var Service $serviceObject */
+        /** @var string $serviceModelClass */
+        /** @var string $serviceModelCollectionClass */
+
+        $serviceObject = new $this->objectClass(new \YandexDirectSDK\Session([]));
+        $serviceFileContent = $file->content();
+        $serviceName = $serviceObject->getServiceName();
+        $serviceModelClass = $serviceObject->getServiceModelClass();
+        $serviceModelCollectionClass = $serviceObject->getServiceModelCollectionClass();
+        $serviceMethodsMeta = $serviceObject->getMethodsMeta();
+
+        if (is_null($serviceName)){
+            $this->warning("Service provider [{$this->objectReflection->name}]. Service name is missing.");
+            return $serviceLexemes;
+        }
+
+        if (empty($serviceMethodsMeta)){
+            $this->warning("Service provider [{$this->objectReflection->name}]. Service methods is missing.");
+            return $serviceLexemes;
+        }
+
+        if (is_null($serviceModelClass) or is_null($serviceModelCollectionClass)){
+            $this->warning("Service provider [{$this->objectReflection->name}]. Dependent model or collection of models is not declared.");
+            return $serviceLexemes;
+        }
+
+        if (!class_exists($serviceModelClass)){
+            $this->warning("Service provider [{$this->objectReflection->name}]. The dependent model [{$serviceModelClass}] is not exist.");
+            return $serviceLexemes;
+        }
+
+        if (!class_exists($serviceModelCollectionClass)){
+            $this->warning("Service provider [{$this->objectReflection->name}]. The dependent model collection [{$serviceModelCollectionClass}] is not exist.");
+            return $serviceLexemes;
+        }
+
+        foreach ($serviceMethodsMeta as $alias => $method){
+
+            $params = null;
+            $resultType = null;
+
+            switch ($method['type']){
+                case 'addCollection':
+                case 'updateCollection':
+                    $paramsName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName());
+                    $paramsType = $this->classNameNormalization(ModelCommonInterface::class, $serviceFileContent);
+                    $params = "{$paramsType} \${$paramsName}";
+                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    break;
+                case 'updateModel':
+                    $paramsName = lcfirst((new ReflectionClass($serviceModelClass))->getShortName());
+                    $paramsType = $this->classNameNormalization(ModelInterface::class, $serviceFileContent);
+                    $params = "{$paramsType} \${$paramsName}";
+                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    break;
+                case 'actionByIds':
+                    $paramsName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName());
+                    $paramsType = $this->classNameNormalization(ModelCommonInterface::class, $serviceFileContent) . '|integer[]|integer';
+                    $params = "{$paramsType} \${$paramsName}";
+                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    break;
+                case 'selectionElements':
+                    $params = '';
+                    $resultType = $this->classNameNormalization(QueryBuilder::class, $serviceFileContent);
+                    break;
+            }
+
+            if (is_null($resultType)){
+                $this->warning("Service provider [{$this->objectReflection->name}] declares an unknown type of method [{$method['type']}].");
+                continue;
+            }
+
+            $serviceLexemes['method'][] = ['@method', $resultType, "{$alias}({$params})"];
+        }
+
+        return $serviceLexemes;
+    }
+
+    protected function createDoc(File $modelFile, $lexemes): void
+    {
+        $doc = '';
+
+        $maxLenTag = 0;
+        $maxLenReturnType = 0;
+        $maxLenOperator = 0;
+
+        foreach ($lexemes as $lexemeItem){
+            foreach ($lexemeItem as $index => $lexeme){
+                $maxLenTag = max($maxLenTag, strlen($lexeme[0]));
+                $maxLenReturnType = max($maxLenReturnType, strlen($lexeme[1]));
+                $maxLenOperator = max($maxLenOperator, strlen($lexeme[2]));
+            }
+        }
+
+        $doc .= "/** \n";
+        $doc .= " * Class ".$this->objectReflection->getShortName()." \n";
+        $doc .= " * \n";
+
+        foreach ($lexemes as $lexemeItem) {
+            if (!empty($lexemeItem)){
+                foreach ($lexemeItem as $index => $lexeme) {
+                    $lexeme[0] = str_pad($lexeme[0], $maxLenTag+2, ' ');
+                    $lexeme[1] = str_pad($lexeme[1], $maxLenReturnType+2, ' ');
+                    $doc .= " * {$lexeme[0]} {$lexeme[1]} {$lexeme[2]} \n";
+                }
+                $doc .= " * \n";
+            }
+        }
+
+        $doc .= " * @package {$this->objectReflection->getNamespaceName()} \n";
+        $doc .= " */";
+
+        $this->applyDoc($modelFile, $doc);
+    }
+
+    protected function applyDoc(File $modelFile, $doc = ''): void
+    {
+        $class = $this->objectReflection->getShortName();
+        $content = $modelFile->content();
+
+        if (preg_match('/(\/\*\*.*?\*\/)\s*class\s+('.$class.')/s', $content, $match)){
+            $content = Str::replaceFirst($match[1], $doc, $content);
+            $modelFile->put($content);
+            $this->message("{$class}: OK");
+            return;
+        }
+
+        if (preg_match('/class\s+'.$class.'/s', $content, $match)){
+            $content = Str::replaceFirst($match[0], "{$doc}\n{$match[0]}", $content);
+            $modelFile->put($content);
+            $this->message("{$class}: OK");
+            return;
+        }
+
+        $this->message("{$class}: Failed");
+    }
+
+    protected function getFiles($path, $file = null){
+        if (is_null($file)){
+            $dir = Dir::bind($path);
+            return $dir->map(function(FileInfo $file){
+                return File::bind($file->realPath);
+            });
+        } else {
+            $file = File::bind($path.DIRECTORY_SEPARATOR.$file);
+            $file->missing(function($file){
+                $this->error("File [{$file->realPath}] not found");
+                die();
+            });
+            return [$file];
+        }
+    }
+
+    protected function classNameNormalization(string $class, string $content){
+        if (empty($class) or empty($content)){
+            return $class;
+        }
+
+        if (preg_match('/use.*?' . preg_quote($class) . '\s*(?:as\s+([\w+]+))?;[^\;]/s', $content, $matches)) {
+            if (!empty($matches[1])){
+                return $matches[1];
+            }
+            return (new ReflectionClass($class))->getShortName();
+        }
+        return '\\' . $class;
+    }
+}
+
+try{
+    (new Mapper())->execute();
+} catch (Exception $e){
+    (new ConsoleLauncher())->error($e);
+}

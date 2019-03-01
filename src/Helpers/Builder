@@ -1,0 +1,116 @@
+<?php
+require_once __DIR__ . "/../autoload.php";
+
+use YandexDirectSDK\Common\ConsoleLauncher;
+use YandexDirectSDK\Common\Dir;
+use YandexDirectSDK\Common\File;
+
+class Builder extends ConsoleLauncher
+{
+    protected $rootDir;
+    protected $modelDir;
+    protected $collectionDir;
+
+    public function __construct()
+    {
+        $this->rootDir = Dir::bind(__DIR__.'/../');
+        $this->modelDir =  Dir::bind($this->rootDir->realPath)->change('Models');
+        $this->collectionDir =  Dir::bind($this->rootDir->realPath)->change('Collections');
+    }
+
+    public function execute(): void
+    {
+        $this->bind('model', function($options){
+            $file = File::bind($this->modelDir->path.DIRECTORY_SEPARATOR.$options['model'].'.php');
+            $class = 'YandexDirectSDK\Models\\'.$options['model'];
+            $className = $options['model'];
+
+            if ($file->exists()) {
+                $this->error("Model file [{$file->realPath}] already exists");
+            }
+
+            if (class_exists($class)){
+                $this->error("Model class [{$class}] already exists");
+            }
+
+            $content = "<?php \n";
+            $content .= "namespace YandexDirectSDK\Models; \n\n";
+            $content .= "use YandexDirectSDK\Components\Model; \n";
+            $content .= "use YandexDirectSDK\Components\Result; \n";
+            $content .= "use YandexDirectSDK\Components\QueryBuilder; \n\n";
+            $content .= "/**  \n";
+            $content .= " * Class {$className} \n";
+            $content .= " * \n";
+            $content .= " * @package YandexDirectSDK\Models \n";
+            $content .= " */ \n";
+            $content .= "class {$className} extends Model \n";
+            $content .= "{ \n";
+            $content .= "    protected \$compatibleCollection; \n\n";
+            $content .= "    protected \$serviceProvidersMethods = []; \n\n";
+            $content .= "    protected \$properties = []; \n\n";
+            $content .= "    protected \$nonWritableProperties = []; \n\n";
+            $content .= "    protected \$nonReadableProperties = []; \n\n";
+            $content .= "    protected \$requiredProperties = []; \n";
+            $content .= "}";
+
+            $file->create($content);
+            $this->message("{$class}: OK");
+        });
+
+        $this->bind('collection for', function($options){
+            $file = File::bind($this->collectionDir->path.DIRECTORY_SEPARATOR.$options['collection'].'.php');
+            $modelClass = 'YandexDirectSDK\Models\\'.$options['for'];
+            $modelClassName = $options['for'];
+            $collectionClass = 'YandexDirectSDK\Collections\\'.$options['collection'];
+            $collectionClassName = $options['collection'];
+
+            if (!class_exists($modelClass)){
+                $this->error("Model class [{$modelClass}] does not exist");
+            }
+
+            if ($file->exists()) {
+                $this->error("Collection file [{$file->realPath}] already exists");
+            }
+
+            if (class_exists($collectionClass)){
+                $this->error("Collection class [{$collectionClass}] already exists");
+                die();
+            }
+
+            $content = "<?php \n";
+            $content .= "namespace YandexDirectSDK\Collections; \n\n";
+            $content .= "use YandexDirectSDK\Components\Result; \n";
+            $content .= "use YandexDirectSDK\Components\QueryBuilder; \n";
+            $content .= "use YandexDirectSDK\Components\ModelCollection; \n";
+            $content .= "use {$modelClass}; \n\n";
+            $content .= "/**  \n";
+            $content .= " * Class {$collectionClassName} \n";
+            $content .= " * \n";
+            $content .= " * @package YandexDirectSDK\Collections \n";
+            $content .= " */ \n";
+            $content .= "class {$collectionClassName} extends ModelCollection \n";
+            $content .= "{ \n";
+            $content .= "    /** \n";
+            $content .= "     * @var {$modelClassName}[] \n";
+            $content .= "     */ \n";
+            $content .= "    protected \$items = []; \n\n";
+            $content .= "    /** \n";
+            $content .= "     * @var {$modelClassName} \n";
+            $content .= "     */ \n";
+            $content .= "    protected \$compatibleModel = {$modelClassName}::class; \n\n";
+            $content .= "    protected \$serviceProvidersMethods = []; \n";
+            $content .= "}";
+
+            $file->create($content);
+            $this->message("{$collectionClass}: OK");
+        });
+
+        $this->start();
+    }
+}
+
+try{
+    (new Builder())->execute();
+} catch (Exception $e){
+    (new ConsoleLauncher())->error($e->getMessage());
+}

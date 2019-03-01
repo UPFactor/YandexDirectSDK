@@ -2,29 +2,31 @@
 
 namespace YandexDirectSDK;
 
+use YandexDirectSDK\Components\Result;
+
 /**
  * Class Session
  *
- * @property-read \YandexDirectSDK\Services\ServiceCampaigns             campaigns
- * @property-read \YandexDirectSDK\Services\ServiceAdGroups              adGroups
- * @property-read \YandexDirectSDK\Services\ServiceAds                   ads
- * @property-read \YandexDirectSDK\Services\ServiceAds                   keywords
- * @property-read \YandexDirectSDK\Services\ServiceBids                  bids
- * @property-read \YandexDirectSDK\Services\ServiceKeywordBids           keywordBids
- * @property-read \YandexDirectSDK\Services\ServiceBidModifiers          bidModifiers
- * @property-read \YandexDirectSDK\Services\ServiceAudienceTargets       audienceTargets
- * @property-read \YandexDirectSDK\Services\ServiceRetargetingLists      retargetingLists
- * @property-read \YandexDirectSDK\Services\ServiceVCards                vCards
- * @property-read \YandexDirectSDK\Services\ServiceSiteLinks             siteLinks
- * @property-read \YandexDirectSDK\Services\ServiceAdImages              adImages
- * @property-read \YandexDirectSDK\Services\ServiceAdExtensions          adExtensions
- * @property-read \YandexDirectSDK\Services\ServiceDynamicTextAdTargets  dynamicTextAdTargets
- * @property-read \YandexDirectSDK\Services\ServiceChanges               changes
- * @property-read \YandexDirectSDK\Services\ServiceDictionaries          dictionaries
- * @property-read \YandexDirectSDK\Services\ServiceClients               clients
- * @property-read \YandexDirectSDK\Services\ServiceAgencyClients         agencyClients
- * @property-read \YandexDirectSDK\Services\ServiceKeywordsResearch      keywordsResearch
- * @property-read \YandexDirectSDK\Services\ServiceLeads                 leads
+ * @property-read \YandexDirectSDK\Services\CampaignsService             campaignsService
+ * @property-read \YandexDirectSDK\Services\AdGroupsService              adGroupsService
+ * @property-read \YandexDirectSDK\Services\AdsService                   adsService
+ * @property-read \YandexDirectSDK\Services\AdsService                   keywordsService
+ * @property-read \YandexDirectSDK\Services\BidsService                  bidsService
+ * @property-read \YandexDirectSDK\Services\KeywordBidsService           keywordBidsService
+ * @property-read \YandexDirectSDK\Services\BidModifiersService          bidModifiersService
+ * @property-read \YandexDirectSDK\Services\AudienceTargetsService       audienceTargetsService
+ * @property-read \YandexDirectSDK\Services\RetargetingListsService      retargetingListsService
+ * @property-read \YandexDirectSDK\Services\VCardsService                vCardsService
+ * @property-read \YandexDirectSDK\Services\SitelinksService             siteLinksService
+ * @property-read \YandexDirectSDK\Services\AdImagesService              adImagesService
+ * @property-read \YandexDirectSDK\Services\AdExtensionsService          adExtensionsService
+ * @property-read \YandexDirectSDK\Services\DynamicTextAdTargetsService  dynamicTextAdTargetsService
+ * @property-read \YandexDirectSDK\Services\ChangesService               changesService
+ * @property-read \YandexDirectSDK\Services\DictionariesService          dictionariesService
+ * @property-read \YandexDirectSDK\Services\ClientsService               clientsService
+ * @property-read \YandexDirectSDK\Services\AgencyClientsService         agencyClientsService
+ * @property-read \YandexDirectSDK\Services\KeywordsResearchService      keywordsResearchService
+ * @property-read \YandexDirectSDK\Services\LeadsService                 leadsServiceZ nen
  *
  * @package YandexDirectSDK
  */
@@ -131,7 +133,8 @@ class Session
      * @return null
      */
     public function __get($name){
-        $name = 'YandexDirectSDK\Services\Service'.ucfirst($name);
+        $name = __NAMESPACE__.'\Services\\' . ucfirst($name);
+
         if (class_exists($name)) {
             return new $name($this);
         }
@@ -146,7 +149,7 @@ class Session
      * @param array $params API service parameters
      * @return Result
      */
-    public function call($service, $method, array $params = array()){
+    public function call($service, $method, $params = array()){
 
         if (key_exists('SelectionCriteria', $params)){
             $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
@@ -174,6 +177,6 @@ class Session
             'Content-Type: application/json; charset=utf-8'
         ));
 
-        return new Result($this, $curl);
+        return new Result($curl);
     }
 }
