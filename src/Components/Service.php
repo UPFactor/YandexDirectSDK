@@ -57,7 +57,8 @@ class Service
      *
      * @param Session $session
      */
-    public function __construct(Session $session) {
+    public function __construct(Session $session)
+    {
         $this->session = $session;
         $this->initialize();
 
@@ -84,7 +85,8 @@ class Service
      * @param array $arguments
      * @return null
      */
-    public function __call($method, $arguments){
+    public function __call($method, $arguments)
+    {
         $method = $this->serviceMethods[$method] ?? null;
 
         if (is_null($method)){
@@ -101,7 +103,8 @@ class Service
      * @param array $params API service parameters
      * @return Result
      */
-    public function call($method, $params = array()){
+    public function call($method, $params = array())
+    {
         return $this->session->call($this->serviceName, $method, $params);
     }
 
@@ -110,7 +113,8 @@ class Service
      *
      * @return null|Session
      */
-    public function getSession(){
+    public function getSession()
+    {
         return $this->session;
     }
 
@@ -119,7 +123,8 @@ class Service
      *
      * @return string
      */
-    public function getServiceName(){
+    public function getServiceName()
+    {
         return $this->serviceName;
     }
 
@@ -128,7 +133,8 @@ class Service
      *
      * @return ModelInterface
      */
-    public function getServiceModelClass(){
+    public function getServiceModelClass()
+    {
         return $this->serviceModelClass;
     }
 
@@ -137,7 +143,8 @@ class Service
      *
      * @return ModelCollectionInterface
      */
-    public function getServiceModelCollectionClass(){
+    public function getServiceModelCollectionClass()
+    {
         return $this->serviceModelCollectionClass;
     }
 
@@ -146,7 +153,8 @@ class Service
      *
      * @return array
      */
-    public function getMethodsMeta(){
+    public function getMethodsMeta()
+    {
         return $this->serviceMethods;
     }
 
@@ -164,7 +172,8 @@ class Service
      * @param ModelInterface $model
      * @return Result
      */
-    protected function addModel(string $methodName, ModelInterface $model){
+    protected function addModel(string $methodName, ModelInterface $model)
+    {
         return $this->call($methodName, $model->toArray())
             ->setResource(
                 $model->setSession($this->session)
@@ -178,7 +187,8 @@ class Service
      * @param ModelCommonInterface $collection
      * @return Result
      */
-    protected function addCollection(string $methodName, ModelCommonInterface $collection){
+    protected function addCollection(string $methodName, ModelCommonInterface $collection)
+    {
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
                 throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
@@ -197,11 +207,10 @@ class Service
                 }
 
                 try{
-                    $models[$key]->{'setId'}($item['Id']);
+                    $models[$key]->{'id'} = $item['Id'];
                 } catch (Exception $error) {
                     return;
                 }
-
             });
         }
 
@@ -279,39 +288,32 @@ class Service
     }
 
     /**
-     * Typical method for action based on object ids.
+     * Typical method for action based on object property values.
      *
      * @param string $methodName
-     * @param ModelCommonInterface|integer[]|integer $elements
+     * @param ModelCommonInterface|array $elements
+     * @param string $modelProperty
+     * @param string $actionProperty
      * @return Result
      */
-    protected function actionByIds(string $methodName, $elements){
+    protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty){
         if ($elements instanceof ModelCommonInterface){
 
             if ($elements instanceof ModelCollectionInterface){
 
-                $elements->setSession($this->session);
-                $elements = $elements->all();
-                foreach ($elements as $key => $item){
-                    try {
-                        $elements[$key] = $item->{'getId'}();
-                    } catch (Exception $error){
-                        unset($elements[$key]);
-                    }
-                }
+                $elements = $elements
+                    ->setSession($this->session)
+                    ->pluck($modelProperty);
 
             } elseif ($elements instanceof ModelInterface){
 
-                $elements->setSession($this->session);
-                try {
-                    $elements = [$elements->{'getId'}()];
-                } catch (Exception $error){
-                    $elements = [];
-                }
+                $elements = $elements
+                    ->setSession($this->session)
+                    ->{$modelProperty};
 
             } else {
 
-                throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Invalid argument type. Expected [".ModelCollectionInterface::class."|".ModelInterface::class."|integer[]|integer].");
+                throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Invalid object type. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
 
             }
 
@@ -321,6 +323,22 @@ class Service
 
         }
 
-        return $this->call($methodName, (new QueryBuilder())->where('Ids', $elements)->toArray());
+        return $this->call($methodName, (new QueryBuilder())->where($actionProperty, $elements)->toArray());
+    }
+
+    /**
+     * Typical method for action based on object ids.
+     *
+     * @param string $methodName
+     * @param ModelCommonInterface|integer[]|integer $elements
+     * @return Result
+     */
+    protected function actionByIds(string $methodName, $elements){
+        return $this->actionByProperty(
+            $methodName,
+            $elements,
+            'id',
+            'Ids'
+        );
     }
 }

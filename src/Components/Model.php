@@ -89,7 +89,8 @@ class Model implements ModelInterface
      *
      * @return string
      */
-    public static function getClassName(){
+    public static function getClassName()
+    {
         return (new ReflectionClass(static::class))->getShortName();
     }
 
@@ -230,7 +231,8 @@ class Model implements ModelInterface
      *
      * @return array
      */
-    public function unwrap(){
+    public function unwrap()
+    {
         $properties = [];
         foreach ($this->modelData as $name => $value){
             if ($value instanceof ModelCommonInterface){
@@ -407,7 +409,8 @@ class Model implements ModelInterface
      *
      * @return null|Session
      */
-    public function getSession(){
+    public function getSession()
+    {
         return $this->session;
     }
 
@@ -416,7 +419,8 @@ class Model implements ModelInterface
      *
      * @return ModelCollectionInterface
      */
-    public function getCompatibleCollection(){
+    public function getCompatibleCollection()
+    {
         return $this->compatibleCollection::make();
     }
 

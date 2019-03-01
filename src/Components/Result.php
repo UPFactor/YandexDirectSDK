@@ -72,11 +72,12 @@ class Result
 
     /**
      * Create Result instance.
+     *
      * @param resource $resource
      * @throws Exception
      */
-    public function __construct($resource){
-
+    public function __construct($resource)
+    {
         if (!is_resource($resource)) {
             throw new Exception('cURL Error.');
         }
@@ -112,7 +113,8 @@ class Result
      *
      * @return array
      */
-    public function fetch(){
+    public function fetch()
+    {
         return array(
             'code' => $this->code,
             'header' => $this->header,
@@ -128,7 +130,8 @@ class Result
      * @param ModelCommonInterface|ModelInterface|ModelCollectionInterface $resource
      * @return $this
      */
-    public function setResource(ModelCommonInterface $resource){
+    public function setResource(ModelCommonInterface $resource)
+    {
         $this->resource = $resource;
         return $this;
     }
@@ -139,7 +142,8 @@ class Result
      * @param string|integer $code
      * @return $this
      */
-    protected function setCode($code){
+    protected function setCode($code)
+    {
         $this->code = (integer) $code;
         return $this;
     }
@@ -150,8 +154,8 @@ class Result
      * @param string $header
      * @return $this
      */
-    protected function setHeader($header){
-
+    protected function setHeader($header)
+    {
         $this->header = [];
 
         foreach (explode("\n", $header) as $item){
@@ -177,7 +181,8 @@ class Result
      * @return $this
      * @throws Exception
      */
-    protected function setResult($result){
+    protected function setResult($result)
+    {
         $result = json_decode($result, true);
         $warnings = [];
         $errors = [];
@@ -238,7 +243,8 @@ class Result
      * @param $sourceError
      * @return array
      */
-    protected function parseError($sourceError){
+    protected function parseError($sourceError)
+    {
         $error = array(
             'code' => 0,
             'message' => 'Unknown error',

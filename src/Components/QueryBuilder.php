@@ -125,7 +125,8 @@ class QueryBuilder
      *
      * @return array
      */
-    public function toArray(){
+    public function toArray()
+    {
         $result = [
             'SelectionCriteria' => $this->criteria,
         ];
@@ -155,7 +156,8 @@ class QueryBuilder
      *
      * @return string
      */
-    public function toJson(){
+    public function toJson()
+    {
         return Arr::toJson($this->toArray());
     }
 
@@ -165,7 +167,8 @@ class QueryBuilder
      *
      * @return Result|null|mixed
      */
-    public function get(){
+    public function get()
+    {
         $getter = $this->getter;
 
         if (is_null($getter)){

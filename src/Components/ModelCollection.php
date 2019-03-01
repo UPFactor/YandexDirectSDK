@@ -46,7 +46,8 @@ class ModelCollection implements ModelCollectionInterface
      *
      * @return string
      */
-    public static function getClassName(){
+    public static function getClassName()
+    {
         return (new ReflectionClass(static::class))->getShortName();
     }
 
@@ -96,7 +97,8 @@ class ModelCollection implements ModelCollectionInterface
      *
      * @return array
      */
-    public function unwrap(){
+    public function unwrap()
+    {
         return Arr::map($this->items, function(ModelInterface $item){
             return $item->unwrap();
         });
@@ -115,12 +117,40 @@ class ModelCollection implements ModelCollectionInterface
     /**
      * Push an item onto the end of the collection.
      *
-     * @param $value
+     * @param ModelInterface $value
      * @return $this
      */
-    public function push($value){
+    public function push($value)
+    {
         array_push($this->items, $this->dataItemController($value));
         return $this;
+    }
+
+    /**
+     * Pluck an array of model property values from the collection.
+     *
+     * @param string|string[] $properties
+     * @return array
+     */
+    public function pluck($properties)
+    {
+        if (is_string($properties)){
+            return Arr::map($this->items, function($model) use ($properties){
+                return $model->{$properties};
+            });
+        }
+
+        if (is_array($properties)){
+            return Arr::map($this->items, function($model) use ($properties){
+                $result = [];
+                foreach ($properties as $property){
+                    $result[$property] = $model->{$property};
+                }
+                return $result;
+            });
+        }
+
+        return [];
     }
 
     /**
@@ -164,7 +194,8 @@ class ModelCollection implements ModelCollectionInterface
      * @param Session $session
      * @return $this
      */
-    public function setSession(Session $session){
+    public function setSession(Session $session)
+    {
         $this->session = $session;
         return $this;
     }
@@ -174,7 +205,8 @@ class ModelCollection implements ModelCollectionInterface
      *
      * @return null|Session
      */
-    public function getSession(){
+    public function getSession()
+    {
         return $this->session;
     }
 
@@ -183,7 +215,8 @@ class ModelCollection implements ModelCollectionInterface
      *
      * @return ModelInterface
      */
-    public function getCompatibleModel(){
+    public function getCompatibleModel()
+    {
         return $this->compatibleModel::make();
     }
 
@@ -192,7 +225,8 @@ class ModelCollection implements ModelCollectionInterface
      *
      * @return Service[]
      */
-    public function getServiceProvidersMethodsMeta(){
+    public function getServiceProvidersMethodsMeta()
+    {
         return $this->serviceProvidersMethods;
     }
 
