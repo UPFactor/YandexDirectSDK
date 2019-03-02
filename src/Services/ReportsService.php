@@ -575,8 +575,6 @@ class ReportsService extends Service
             ($result->header['retryIn'] ?? 0) > 0 and
             $attempts > 0
         ){
-            echo $result->header['retryIn'].'...';
-
             sleep($result->header['retryIn']);
             $attempts = $attempts - 1;
             $result = $this->call('get', $request);
