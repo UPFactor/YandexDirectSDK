@@ -95,6 +95,7 @@ class Result
         $this->setCode(curl_getinfo($resource, CURLINFO_RESPONSE_CODE));
         $this->setHeader(substr($response, 0, $responseHeadersSize));
         $this->setResult(substr($response, $responseHeadersSize));
+        curl_close($resource);
     }
 
     /**
