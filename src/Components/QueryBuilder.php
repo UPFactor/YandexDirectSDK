@@ -97,7 +97,7 @@ class QueryBuilder
     }
 
     /**
-     * Setting the selection criteria.
+     * Setting the selection limit.
      *
      * @param integer $limit
      * @return $this

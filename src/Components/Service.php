@@ -56,11 +56,12 @@ class Service
      * Create Service instance.
      *
      * @param Session $session
+     * @param mixed ...$arguments
      */
-    public function __construct(Session $session)
+    public function __construct(Session $session, ...$arguments)
     {
         $this->session = $session;
-        $this->initialize();
+        $this->initialize(...$arguments);
 
         foreach ($this->serviceMethods as $methodAlias => $methodMeta){
             $methodMeta = explode(':', $methodMeta, 2);
@@ -161,9 +162,10 @@ class Service
     /**
      * Service initialization handler.
      *
+     * @param mixed ...$arguments
      * @return void
      */
-    protected function initialize(){}
+    protected function initialize(...$arguments){}
 
     /**
      * Typical method for adding model data.

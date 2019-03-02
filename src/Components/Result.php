@@ -93,8 +93,8 @@ class Result
 
         $responseHeadersSize = curl_getinfo($resource, CURLINFO_HEADER_SIZE);
         $this->setCode(curl_getinfo($resource, CURLINFO_RESPONSE_CODE));
-        $this->setResult(substr($response, $responseHeadersSize));
         $this->setHeader(substr($response, 0, $responseHeadersSize));
+        $this->setResult(substr($response, $responseHeadersSize));
     }
 
     /**
@@ -140,21 +140,18 @@ class Result
      * Sets the value [$this->code].
      *
      * @param string|integer $code
-     * @return $this
      */
-    protected function setCode($code)
+    protected function setCode($code):void
     {
         $this->code = (integer) $code;
-        return $this;
     }
 
     /**
      * Sets the value [$this->header].
      *
      * @param string $header
-     * @return $this
      */
-    protected function setHeader($header)
+    protected function setHeader($header):void
     {
         $this->header = [];
 
@@ -170,25 +167,41 @@ class Result
             $item = explode(":", $item, 2);
             $this->header[trim($item[0])] = trim($item[1]);
         }
-
-        return $this;
     }
 
     /**
      * Sets the value [$this->data].
      *
      * @param string $result
-     * @return $this
      * @throws Exception
      */
-    protected function setResult($result)
+    protected function setResult($result):void
+    {
+        $contentType = explode(';', $this->header['Content-Type'], 2);
+        $contentType = $contentType[0] ?? '';
+
+        switch ($contentType){
+            case 'application/json': $this->setJsonResult($result); return; break;
+            case 'text/tab-separated-values': $this->setTsvResult($result); return; break;
+        }
+
+        throw new Exception('Invalid server response format.');
+    }
+
+    /**
+     * Sets the value [$this->data] by JSON data.
+     *
+     * @param string $result
+     * @throws Exception
+     */
+    protected function setJsonResult($result):void
     {
         $result = json_decode($result, true);
         $warnings = [];
         $errors = [];
 
         if (json_last_error() !== JSON_ERROR_NONE){
-            throw new Exception('Invalid server response format.');
+            throw new Exception('Invalid JSON in API response.');
         }
 
         if (isset($result['error'])){
@@ -232,8 +245,39 @@ class Result
         $this->data->reset($result);
         $this->warnings->reset($warnings);
         $this->errors->reset($errors);
+    }
 
-        return $this;
+    /**
+     * Sets the value [$this->data] by TSV data.
+     *
+     * @param string $result
+     * @throws Exception
+     */
+    protected function setTsvResult($result):void
+    {
+        if ($this->code !== 200){
+            return;
+        }
+
+        $result = explode("\n", $result);
+
+        if (count($result) < 3){
+            throw new Exception('Invalid JSON in API response.');
+        }
+
+        $result = array_slice($result, 1, -2);
+        $columnNames = explode("\t", array_shift($result));
+        $data = $result;
+
+        try{
+            foreach ($data as $key => $row){
+                $data[$key] = array_combine($columnNames, explode("\t", $row));
+            }
+        } catch (Exception $error){
+            throw new Exception('Invalid JSON in API response.');
+        }
+
+        $this->data->reset($data);
     }
 
     /**

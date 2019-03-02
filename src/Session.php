@@ -26,7 +26,9 @@ use YandexDirectSDK\Components\Result;
  * @property-read \YandexDirectSDK\Services\ClientsService               clientsService
  * @property-read \YandexDirectSDK\Services\AgencyClientsService         agencyClientsService
  * @property-read \YandexDirectSDK\Services\KeywordsResearchService      keywordsResearchService
- * @property-read \YandexDirectSDK\Services\LeadsService                 leadsServiceZ nen
+ * @property-read \YandexDirectSDK\Services\LeadsService                 leadsService
+ *
+ * @method \YandexDirectSDK\Services\ReportsService                      reportsService(string $reportName, string $reportType='CUSTOM_REPORT')
  *
  * @package YandexDirectSDK
  */
@@ -129,14 +131,32 @@ class Session
     /**
      * Dynamic gets of management objects for API services.
      *
-     * @param string $name API service name
+     * @param string $serviceName service name
      * @return null
      */
-    public function __get($name){
-        $name = __NAMESPACE__.'\Services\\' . ucfirst($name);
+    public function __get($serviceName)
+    {
+        $serviceName = __NAMESPACE__.'\Services\\' . ucfirst($serviceName);
 
-        if (class_exists($name)) {
-            return new $name($this);
+        if (class_exists($serviceName)) {
+            return new $serviceName($this);
+        }
+        return null;
+    }
+
+    /**
+     * Dynamic call of management objects for API services.
+     *
+     * @param string $serviceName service name
+     * @param array $arguments
+     * @return null
+     */
+    public function __call($serviceName, $arguments)
+    {
+        $serviceName = __NAMESPACE__.'\Services\\' . ucfirst($serviceName);
+
+        if (class_exists($serviceName)) {
+            return new $serviceName($this, ...$arguments);
         }
         return null;
     }
