@@ -177,6 +177,22 @@ class Result
      */
     protected function setResult($result):void
     {
+        switch ($this->code){
+            case 201:
+            case 202: return;
+            case 500: throw new Exception('Internal server error.');
+            case 502: throw new Exception('Request timeout.');
+            case 400:
+                $error = json_decode($result, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE or !isset($error['error'])){
+                    throw new Exception("Bad request. Server response could not be read. Server response content: {$this->response}");
+                }
+
+                $error = $this->parseError($error['error']);
+                throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+        }
+
         $contentType = explode(';', $this->header['Content-Type'], 2);
         $contentType = $contentType[0] ?? '';
 
@@ -185,7 +201,7 @@ class Result
             case 'text/tab-separated-values': $this->setTsvResult($result); return; break;
         }
 
-        throw new Exception('Invalid server response format.');
+        throw new Exception("Invalid server response format. Server response content: {$this->response}");
     }
 
     /**
@@ -201,12 +217,7 @@ class Result
         $errors = [];
 
         if (json_last_error() !== JSON_ERROR_NONE){
-            throw new Exception('Invalid JSON in API response.');
-        }
-
-        if (isset($result['error'])){
-            $error = $this->parseError($result['error']);
-            throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+            throw new Exception("Server response could not be read. Server response content: {$this->response}");
         }
 
         if (array_key_exists('result', $result)){
@@ -255,14 +266,10 @@ class Result
      */
     protected function setTsvResult($result):void
     {
-        if ($this->code !== 200){
-            return;
-        }
-
         $result = explode("\n", $result);
 
         if (count($result) < 3){
-            throw new Exception('Invalid JSON in API response.');
+            throw new Exception("Server response could not be read. Server response content: {$this->response}");
         }
 
         $result = array_slice($result, 1, -2);
@@ -274,7 +281,7 @@ class Result
                 $data[$key] = array_combine($columnNames, explode("\t", $row));
             }
         } catch (Exception $error){
-            throw new Exception('Invalid JSON in API response.');
+            throw new Exception("Server response could not be read. Server response content: {$this->response}");
         }
 
         $this->data->reset($data);

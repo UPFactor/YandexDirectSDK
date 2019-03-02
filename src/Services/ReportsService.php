@@ -69,35 +69,110 @@ class ReportsService extends Service
         'AUTO'
     ];
 
+    /**
+     * The service name.
+     *
+     * @var string
+     */
     protected $serviceName = 'reports';
 
+    /**
+     * Report name.
+     *
+     * @var string
+     */
     protected $reportName;
 
+    /**
+     * Report type.
+     *
+     * @var string
+     */
     protected $reportType;
 
+    /**
+     * Selection fields.
+     *
+     * @var array
+     */
     protected $selection = [];
 
+    /**
+     * The starting date of the reporting period.
+     *
+     * @var string|null
+     */
     protected $dateFrom;
 
+    /**
+     * End date of the reporting period.
+     *
+     * @var string|null
+     */
     protected $dateTo;
 
+    /**
+     * Period for which the report is generated.
+     *
+     * @var string
+     */
     protected $dateRangeType = 'AUTO';
 
+    /**
+     * Selection criteria.
+     *
+     * @var array
+     */
     protected $criteria = [];
 
+    /**
+     * Selection limit.
+     *
+     * @var integer
+     */
     protected $limit = 0;
 
+    /**
+     * Selection order.
+     *
+     * @var array
+     */
     protected $orders = [];
 
+    /**
+     * Target identifiers Yandex.Metrics for which you want to get statistics.
+     *
+     * @var array|null
+     */
     protected $goals;
 
+    /**
+     * Attribution models used in the calculation of data on goals Yandex.Metrics.
+     *
+     * @var array|null
+     */
     protected $attributionModels;
 
+    /**
+     * Whether to include VAT in the amount of money in the report.
+     *
+     * @var string
+     */
     protected $includeVAT = 'NO';
 
+    /**
+     * Whether to consider a discount for monetary amounts in the report.
+     *
+     * @var string
+     */
     protected $includeDiscount = 'NO';
 
-
+    /**
+     * Service initialization handler.
+     *
+     * @param mixed ...$arguments
+     * @return void
+     */
     protected function initialize(...$arguments)
     {
         if (!is_string($arguments[0])){
@@ -475,10 +550,38 @@ class ReportsService extends Service
     }
 
     /**
+     * Run an API request.
+     *
      * @return Result
      */
     public function get()
     {
         return $this->call('get', $this->toArray());
+    }
+
+    /**
+     * Run an API request and wait for it to complete.
+     *
+     * @param int $attempts Maximum number of calls to the API server
+     * @return Result
+     */
+    public function getSync($attempts = 4)
+    {
+        $request = $this->toArray();
+        $result = $this->call('get', $request);
+
+        while (
+            in_array($result->code, [201,202]) and
+            ($result->header['retryIn'] ?? 0) > 0 and
+            $attempts > 0
+        ){
+            echo $result->header['retryIn'].'...';
+
+            sleep($result->header['retryIn']);
+            $attempts = $attempts - 1;
+            $result = $this->call('get', $request);
+        }
+
+        return $result;
     }
 }
