@@ -255,7 +255,7 @@ class ReportsService extends Service
      * @param mixed $values
      * @return $this
      */
-    public function where(string $field, $operator, $values)
+    public function where(string $field, string $operator, $values)
     {
         switch ($operator){
             case '>': $operator = 'GREATER_THAN'; break;
