@@ -197,19 +197,25 @@ class ReportsService extends Service
      */
     public function select($fields)
     {
+        $this->selection = [];
+
         if (empty($fields)){
             return $this;
         }
 
-        if (is_string($fields)){
-            $fields = preg_split('/\s*,\s*/is', trim($fields), null, PREG_SPLIT_NO_EMPTY);
+        if (count($fields) === 1){
+            $fields = is_array($fields[0]) ? $fields[0] : [$fields[0]];
         }
 
-        if (!is_array($fields)){
-            throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|array].");
+        foreach ($fields as $k => $field){
+            if (!is_string($field)){
+                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|string[]].");
+            }
+
+            $this->selection[] = trim($field);
         }
 
-        $this->selection = array_unique(array_values($fields));
+        $this->selection = array_unique($this->selection);
 
         return $this;
     }
@@ -434,15 +440,26 @@ class ReportsService extends Service
      */
     public function goals($goals)
     {
-        if (is_string($goals)){
-            $goals = preg_split('/\s*,\s*/is', trim($goals), null, PREG_SPLIT_NO_EMPTY);
+        $this->goals = [];
+
+        if (empty($goals)){
+            return $this;
         }
 
-        if (!is_array($goals)){
-            throw new InvalidArgumentException(static::class.". Failed method [goals]. Invalid argument type. Expected [string|array].");
+        if (count($goals) === 1){
+            $goals = is_array($goals[0]) ? $goals[0] : [$goals[0]];
         }
 
-        $this->goals = array_unique(array_values($goals));
+        foreach ($goals as $k => $goal){
+            if (!is_string($goal)){
+                throw new InvalidArgumentException(static::class.". Failed method [goals]. Invalid argument type [".gettype($goals)."]. Expected [string|string[]].");
+            }
+
+            $this->goals[] = trim($goal);
+        }
+
+        $this->goals = array_unique($this->goals);
+
         return $this;
     }
 
@@ -454,15 +471,26 @@ class ReportsService extends Service
      */
     public function attributionModels($attributionModels)
     {
-        if (is_string($attributionModels)){
-            $attributionModels = preg_split('/\s*,\s*/is', trim($attributionModels), null, PREG_SPLIT_NO_EMPTY);
+        $this->attributionModels = [];
+
+        if (empty($attributionModels)){
+            return $this;
         }
 
-        if (!is_array($attributionModels)){
-            throw new InvalidArgumentException(static::class.". Failed method [attributionModels]. Invalid argument type. Expected [string|array].");
+        if (count($attributionModels) === 1){
+            $attributionModels = is_array($attributionModels[0]) ? $attributionModels[0] : [$attributionModels[0]];
         }
 
-        $this->attributionModels = array_unique(array_values($attributionModels));
+        foreach ($attributionModels as $k => $attributionModel){
+            if (!is_string($attributionModel)){
+                throw new InvalidArgumentException(static::class.". Failed method [attributionModels]. Invalid argument type [".gettype($attributionModels)."]. Expected [string|string[]].");
+            }
+
+            $this->attributionModels[] = trim($attributionModel);
+        }
+
+        $this->attributionModels = array_unique($this->attributionModels);
+
         return $this;
     }
 

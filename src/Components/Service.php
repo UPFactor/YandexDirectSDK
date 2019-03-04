@@ -325,7 +325,7 @@ class Service
 
         }
 
-        return $this->call($methodName, (new QueryBuilder())->where($actionProperty, $elements)->toArray());
+        return $this->call($methodName, (new QueryBuilder())->whereIn($actionProperty, $elements)->toArray());
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
+use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
@@ -45,6 +46,7 @@ class ModelCollection implements ModelCollectionInterface
      * Returns the short class name.
      *
      * @return string
+     * @throws ReflectionException
      */
     public static function getClassName()
     {

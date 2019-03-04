@@ -3,6 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
+use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
 use YandexDirectSDK\Session;
@@ -88,6 +89,7 @@ class Model implements ModelInterface
      * Returns the short class name.
      *
      * @return string
+     * @throws ReflectionException
      */
     public static function getClassName()
     {
@@ -471,7 +473,7 @@ class Model implements ModelInterface
         }
 
         if ($this->propertyValidation($property, $value) === false){
-            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$property}]. Expected value [{$this->properties[$property]}].");
+            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$property}]. Expected value [{$this->properties[$property]['type']}].");
         }
 
         $this->modelData[$property['name']] = $value;

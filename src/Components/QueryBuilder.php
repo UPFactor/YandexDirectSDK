@@ -56,24 +56,30 @@ class QueryBuilder
     /**
      * Setting the selection fields.
      *
-     * @param string|string[] $fields
+     * @param string|string[] ...$fields
      * @return $this
      */
-    public function select($fields)
+    public function select(...$fields)
     {
+        $this->selection = [];
+
         if (empty($fields)){
             return $this;
         }
 
-        if (is_string($fields)){
-            $fields = preg_split('/\s*,\s*/is', trim($fields), null, PREG_SPLIT_NO_EMPTY);
+        if (count($fields) === 1){
+            $fields = is_array($fields[0]) ? $fields[0] : [$fields[0]];
         }
 
-        if (!is_array($fields)){
-            throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|array].");
+        foreach ($fields as $k => $field){
+            if (!is_string($field)){
+                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|string[]].");
+            }
+
+            $this->selection[] = trim($field);
         }
 
-        $this->selection = array_unique(array_values($fields));
+        $this->selection = array_unique($this->selection);
 
         return $this;
     }
@@ -85,7 +91,7 @@ class QueryBuilder
      * @param mixed $value
      * @return $this
      */
-    public function where($field, $value)
+    public function whereIn($field, $value)
     {
         if (!is_string($field)){
             throw new InvalidArgumentException(static::class.". Failed method [where]. Invalid field name. Expected [string].");
