@@ -93,12 +93,7 @@ class QueryBuilder
      */
     public function where(string $field, $value)
     {
-        if (!is_string($field)){
-            throw new InvalidArgumentException(static::class.". Failed method [where]. Invalid field name. Expected [string].");
-        }
-
         $this->criteria[$field] = $value;
-
         return $this;
     }
 
@@ -112,7 +107,6 @@ class QueryBuilder
     public function whereIn(string $field, $value)
     {
         $this->criteria[$field] = is_array($value) ? array_unique(array_values($value)) : [$value];
-
         return $this;
     }
 
