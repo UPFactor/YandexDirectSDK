@@ -27,7 +27,6 @@ class BidsService extends Service
 
     protected $serviceMethods = [
         'set' => 'set:updateCollection',
-        //'setAuto' => 'setAuto:updateCollection',
         'query' => 'get:selectionElements',
     ];
 
