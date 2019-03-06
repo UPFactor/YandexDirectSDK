@@ -261,6 +261,69 @@ class Model implements ModelInterface
     }
 
     /**
+     * Insert properties into the model.
+     *
+     * @param Data|array $source
+     * @return $this
+     */
+    public function insert($source)
+    {
+        if (empty($source)){
+            return $this;
+        }
+
+        if (!is_array($source)){
+            if (!($source instanceof Data)){
+                return $this;
+            }
+
+            $source = $source->all();
+        }
+
+        foreach ($source as $name => $value){
+            $name = lcfirst($name);
+
+            if (!array_key_exists($name, $this->properties)){
+                continue;
+            }
+
+            if ($this->properties[$name]['items'] === true){
+                $value = $value['Items'] ?? null;
+            }
+
+            if ($this->properties[$name]['type'] !== 'object'){
+                $this->modelData[$name] =  $value;
+                continue;
+            }
+
+            $propertyObject = $this->properties[$name]['meta'];
+            $propertyObject = new $propertyObject();
+
+            if ($propertyObject instanceof ModelInterface){
+                $propertyObject->insert($value);
+                $this->modelData[$name] = $propertyObject;
+                continue;
+            }
+
+            if ($propertyObject instanceof ModelCollectionInterface){
+                if (is_array($value)) {
+                    foreach ($value as $item) {
+                        $propertyObject->push(
+                            $propertyObject
+                                ->getCompatibleModel()
+                                ->insert($item)
+                        );
+                    }
+                }
+
+                $this->modelData[$name] = $propertyObject;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Converts current model to array.
      *
      * @return array
@@ -333,61 +396,6 @@ class Model implements ModelInterface
         foreach ($this->modelData as $value){
             if ($value instanceof ModelInterface or $value instanceof ModelCollectionInterface){
                 $value->check();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Insert properties in the model.
-     *
-     * @param array $properties
-     * @return $this
-     */
-    public function insert($properties)
-    {
-        if (empty($properties) or !is_array($properties)){
-            return $this;
-        }
-
-        foreach ($properties as $name => $value){
-            $name = lcfirst($name);
-
-            if (!array_key_exists($name, $this->properties)){
-                continue;
-            }
-
-            if ($this->properties[$name]['items'] === true){
-                $value = $value['Items'] ?? null;
-            }
-
-            if ($this->properties[$name]['type'] !== 'object'){
-                $this->modelData[$name] =  $value;
-                continue;
-            }
-
-            $propertyObject = $this->properties[$name]['meta'];
-            $propertyObject = new $propertyObject();
-
-            if ($propertyObject instanceof ModelInterface){
-                $propertyObject->insert($value);
-                $this->modelData[$name] = $propertyObject;
-                continue;
-            }
-
-            if ($propertyObject instanceof ModelCollectionInterface){
-                if (is_array($value)) {
-                    foreach ($value as $item) {
-                        $propertyObject->push(
-                            $propertyObject
-                                ->getCompatibleModel()
-                                ->insert($item)
-                        );
-                    }
-                }
-
-                $this->modelData[$name] = $propertyObject;
             }
         }
 

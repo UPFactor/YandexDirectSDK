@@ -48,6 +48,7 @@ class Mapper extends ConsoleLauncher{
 
     /**
      * Mapper constructor.
+     * @throws Exception
      */
     public function __construct()
     {
@@ -146,6 +147,12 @@ class Mapper extends ConsoleLauncher{
         });
     }
 
+    /**
+     * @param File $file
+     * @return array
+     * @throws ReflectionException
+     * @throws Exception
+     */
     protected function getModelLexemes(File $file)
     {
         $modelLexemes = [
@@ -180,6 +187,7 @@ class Mapper extends ConsoleLauncher{
             if (array_key_exists($alias, $providerMeta)) {
 
                 switch ($providerMeta[$alias]['type']) {
+                    case 'addModel':
                     case 'addCollection':
                     case 'updateModel':
                     case 'updateCollection':
@@ -280,6 +288,12 @@ class Mapper extends ConsoleLauncher{
         return $modelLexemes;
     }
 
+    /**
+     * @param File $file
+     * @return array
+     * @throws ReflectionException
+     * @throws Exception
+     */
     protected function getCollectionLexemes(File $file)
     {
         $collectionLexemes = [
@@ -320,6 +334,7 @@ class Mapper extends ConsoleLauncher{
             if (array_key_exists($alias, $providerMeta)){
 
                 switch ($providerMeta[$alias]['type']){
+                    case 'addModel':
                     case 'addCollection':
                     case 'updateModel':
                     case 'updateCollection':
@@ -370,6 +385,12 @@ class Mapper extends ConsoleLauncher{
         return $collectionLexemes;
     }
 
+    /**
+     * @param File $file
+     * @return array
+     * @throws ReflectionException
+     * @throws Exception
+     */
     protected function getServiceLexemes(File $file)
     {
         $serviceLexemes = [
@@ -428,6 +449,7 @@ class Mapper extends ConsoleLauncher{
                     $params = "{$paramsType} \${$paramsName}";
                     $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
                     break;
+                case 'addModel':
                 case 'updateModel':
                     $paramsName = lcfirst((new ReflectionClass($serviceModelClass))->getShortName());
                     $paramsType = $this->classNameNormalization(ModelInterface::class, $serviceFileContent);
@@ -457,6 +479,11 @@ class Mapper extends ConsoleLauncher{
         return $serviceLexemes;
     }
 
+    /**
+     * @param File $modelFile
+     * @param $lexemes
+     * @throws Exception
+     */
     protected function createDoc(File $modelFile, $lexemes): void
     {
         $doc = '';
@@ -494,6 +521,11 @@ class Mapper extends ConsoleLauncher{
         $this->applyDoc($modelFile, $doc);
     }
 
+    /**
+     * @param File $modelFile
+     * @param string $doc
+     * @throws Exception
+     */
     protected function applyDoc(File $modelFile, $doc = ''): void
     {
         $class = $this->objectReflection->getShortName();
@@ -516,6 +548,12 @@ class Mapper extends ConsoleLauncher{
         $this->message("{$class}: Failed");
     }
 
+    /**
+     * @param $path
+     * @param null $file
+     * @return array
+     * @throws Exception
+     */
     protected function getFiles($path, $file = null){
         if (is_null($file)){
             $dir = Dir::bind($path);
@@ -532,6 +570,12 @@ class Mapper extends ConsoleLauncher{
         }
     }
 
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     * @throws ReflectionException
+     */
     protected function classNameNormalization(string $class, string $content){
         if (empty($class) or empty($content)){
             return $class;

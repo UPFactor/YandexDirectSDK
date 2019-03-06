@@ -4,6 +4,7 @@ namespace YandexDirectSDK\Interfaces;
 
 use YandexDirectSDK\Session;
 use YandexDirectSDK\Components\Service;
+use YandexDirectSDK\Components\Data;
 
 /**
  * Interface ModelsCommon
@@ -45,6 +46,14 @@ interface ModelCommon
      * @return $this
      */
     public function check();
+
+    /**
+     * Insert data into the object.
+     *
+     * @param Data|array $source
+     * @return $this
+     */
+    public function insert($source);
 
     /**
      * Binds the object to a session.

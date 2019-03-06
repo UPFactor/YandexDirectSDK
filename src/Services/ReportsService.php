@@ -209,7 +209,7 @@ class ReportsService extends Service
 
         foreach ($fields as $k => $field){
             if (!is_string($field)){
-                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|string[]].");
+                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type. Expected [string|string[]].");
             }
 
             $this->selection[] = trim($field);
@@ -452,7 +452,7 @@ class ReportsService extends Service
 
         foreach ($goals as $k => $goal){
             if (!is_string($goal)){
-                throw new InvalidArgumentException(static::class.". Failed method [goals]. Invalid argument type [".gettype($goals)."]. Expected [string|string[]].");
+                throw new InvalidArgumentException(static::class.". Failed method [goals]. Invalid argument type. Expected [string|string[]].");
             }
 
             $this->goals[] = trim($goal);
@@ -483,7 +483,7 @@ class ReportsService extends Service
 
         foreach ($attributionModels as $k => $attributionModel){
             if (!is_string($attributionModel)){
-                throw new InvalidArgumentException(static::class.". Failed method [attributionModels]. Invalid argument type [".gettype($attributionModels)."]. Expected [string|string[]].");
+                throw new InvalidArgumentException(static::class.". Failed method [attributionModels]. Invalid argument type. Expected [string|string[]].");
             }
 
             $this->attributionModels[] = trim($attributionModel);

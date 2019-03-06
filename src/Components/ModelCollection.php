@@ -22,6 +22,13 @@ class ModelCollection implements ModelCollectionInterface
     use CollectionBaseTrait;
 
     /**
+     * The models contained in the collection.
+     *
+     * @var ModelInterface[]
+     */
+    protected $items = [];
+
+    /**
      * Compatible class of model.
      *
      * @var ModelInterface
@@ -124,7 +131,41 @@ class ModelCollection implements ModelCollectionInterface
      */
     public function push($value)
     {
-        array_push($this->items, $this->dataItemController($value));
+        $value = $this->dataItemController($value);
+        array_push($this->items, $value->setSession($this->session));
+        return $this;
+    }
+
+    /**
+     * Insert model source into the collection.
+     *
+     * @param Data|array $source
+     * @return $this
+     */
+    public function insert($source)
+    {
+        if (empty($source)){
+            return $this;
+        }
+
+        if (!is_array($source)){
+            if (!($source instanceof Data)){
+                return $this;
+            }
+
+            $source = $source->all();
+        }
+
+        foreach ($source as $index => $model){
+            if (array_key_exists($index, $this->items)){
+                $this->items[$index]->insert($model);
+            } else {
+                $this->push(
+                    $this->compatibleModel::make($model)->setSession($this->session)
+                );
+            }
+        }
+
         return $this;
     }
 
@@ -199,6 +240,9 @@ class ModelCollection implements ModelCollectionInterface
     public function setSession(Session $session)
     {
         $this->session = $session;
+        foreach ($this->items as $model){
+            $model->setSession($session);
+        }
         return $this;
     }
 

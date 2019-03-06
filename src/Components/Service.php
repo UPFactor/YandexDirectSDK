@@ -2,7 +2,6 @@
 
 namespace YandexDirectSDK\Components;
 
-use Exception;
 use BadMethodCallException;
 use InvalidArgumentException;
 use YandexDirectSDK\Session;
@@ -176,10 +175,12 @@ class Service
      */
     protected function addModel(string $methodName, ModelInterface $model)
     {
-        return $this->call($methodName, $model->toArray())
-            ->setResource(
-                $model->setSession($this->session)
-            );
+        $result = $this->call($methodName, $model->toArray());
+        return $result->setResource(
+            $model
+                ->setSession($this->session)
+                ->insert($result->data)
+        );
     }
 
     /**
@@ -200,24 +201,11 @@ class Service
         }
 
         $result = $this->call($methodName, [$collection::getClassName() => $collection->check()->toArray()]);
-        $addResults = $result->data->get('AddResults');
-        if (!is_null($addResults)){
-            $models = $collection->all();
-            $addResults->each(function($item, $key) use ($models){
-                if (!isset($item['Id']) or !isset($models[$key])){
-                    return;
-                }
-
-                try{
-                    $models[$key]->{'id'} = $item['Id'];
-                } catch (Exception $error) {
-                    return;
-                }
-            });
-        }
 
         return $result->setResource(
-            $collection->setSession($this->session)
+            $collection
+                ->setSession($this->session)
+                ->insert($result->data->get('AddResults'))
         );
     }
 
@@ -229,10 +217,12 @@ class Service
      * @return Result
      */
     protected function updateModel(string $methodName, ModelInterface $model){
-        return $this->call($methodName, $model->toArray())
-            ->setResource(
-                $model->setSession($this->session)
-            );
+        $result = $this->call($methodName, $model->toArray());
+        return $result->setResource(
+            $model
+                ->setSession($this->session)
+                ->insert($result->data)
+        );
     }
 
     /**
@@ -251,10 +241,13 @@ class Service
             $collection = $modelCollection::make($collection);
         }
 
-        return $this->call($methodName, [$collection::getClassName() => $collection->toArray()])
-            ->setResource(
-                $collection->setSession($this->session)
-            );
+        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray()]);
+
+        return $result->setResource(
+                $collection
+                    ->setSession($this->session)
+                    ->insert($result->data->get('UpdateResults'))
+        );
     }
 
     /**
@@ -271,21 +264,11 @@ class Service
         return new QueryBuilder(function (QueryBuilder $query) use ($methodName){
             $result = $this->call($methodName, $query->toArray());
 
-            $models = $result->data
-                ->get($this->serviceModelCollectionClass::getClassName(), [])
-                ->map(function($item){
-                    return $this->serviceModelClass::make($item)
-                        ->setSession($this->session);
-                });
-
-            if ($models->isNotEmpty()){
-                $result->setResource(
-                    $this->serviceModelCollectionClass::wrap($models->all())
-                        ->setSession($this->session)
-                );
-            }
-
-            return $result;
+            return $result->setResource(
+                $this->serviceModelCollectionClass::make()
+                    ->setSession($this->session)
+                    ->insert($result->data->get($this->serviceModelCollectionClass::getClassName()))
+            );
         });
     }
 
@@ -336,11 +319,6 @@ class Service
      * @return Result
      */
     protected function actionByIds(string $methodName, $elements){
-        return $this->actionByProperty(
-            $methodName,
-            $elements,
-            'id',
-            'Ids'
-        );
+        return $this->actionByProperty($methodName, $elements, 'id', 'Ids');
     }
 }

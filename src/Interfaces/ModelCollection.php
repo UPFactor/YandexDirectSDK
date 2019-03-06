@@ -282,8 +282,6 @@ interface ModelCollection extends ModelCommon
      */
     public function sort(Closure $callback = null);
 
-
-
     /**
      * Retrieve instance of compatible models.
      *

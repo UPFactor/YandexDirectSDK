@@ -20,14 +20,6 @@ interface Model extends ModelCommon
     public static function make($properties = null);
 
     /**
-     * Insert properties in the model.
-     *
-     * @param array $properties
-     * @return $this
-     */
-    public function insert($properties);
-
-    /**
      * Retrieve instance of compatible collection.
      *
      * @return ModelCollectionInterface

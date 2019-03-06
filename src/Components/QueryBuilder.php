@@ -73,7 +73,7 @@ class QueryBuilder
 
         foreach ($fields as $k => $field){
             if (!is_string($field)){
-                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type [".gettype($fields)."]. Expected [string|string[]].");
+                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type. Expected [string|string[]].");
             }
 
             $this->selection[] = trim($field);
@@ -179,7 +179,7 @@ class QueryBuilder
      * Run an API request.
      * Available if the [$this->getter] parameter is set.
      *
-     * @return Result|null|mixed
+     * @return Result
      */
     public function get()
     {

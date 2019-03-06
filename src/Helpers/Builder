@@ -11,6 +11,10 @@ class Builder extends ConsoleLauncher
     protected $modelDir;
     protected $collectionDir;
 
+    /**
+     * Builder constructor.
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->rootDir = Dir::bind(__DIR__.'/../');

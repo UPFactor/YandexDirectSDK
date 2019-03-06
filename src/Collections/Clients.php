@@ -3,9 +3,8 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\ModelCollection; 
 use YandexDirectSDK\Models\Client;
-use YandexDirectSDK\Services\AgencyClientsService;
 
-/**  
+/** 
  * Class Clients 
  * 
  * @package YandexDirectSDK\Collections 
@@ -22,9 +21,5 @@ class Clients extends ModelCollection
      */ 
     protected $compatibleModel = Client::class;
 
-    protected $serviceProvidersMethods = [
-        'add' => AgencyClientsService::class,
-        'query' => AgencyClientsService::class,
-        'update' => AgencyClientsService::class
-    ];
+    protected $serviceProvidersMethods = [];
 }
