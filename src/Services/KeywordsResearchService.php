@@ -92,7 +92,7 @@ class KeywordsResearchService extends Service
                 }
             }
         } elseif ($keywords instanceof Keywords){
-            $params['SelectionCriteria']['Keywords'][] = $keywords->pluck('keyword');
+            $params['SelectionCriteria']['Keywords'][] = array_values($keywords->pluck('keyword'));
         } else {
             throw new InvalidArgumentException(static::class.". Failed method [hasSearchVolume]. Invalid keywords type. Expected [string[]|".Keyword::class."[]|".Keywords::class."].");
         }
