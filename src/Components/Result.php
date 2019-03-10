@@ -190,8 +190,13 @@ class Result
                     throw new Exception("Bad request. Server response could not be read. Server response content: {$this->response}");
                 }
 
-                $error = $this->parseError($error['error']);
-                throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+                if (array_key_exists('error', $error)){
+                    $error = $this->parseError($error['error']);
+                    throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+                } else {
+                    throw new Exception("Bad request. Unknown error. Server response content: {$this->response}");
+                }
+
         }
 
         $contentType = explode(';', $this->header['Content-Type'], 2);
@@ -223,6 +228,9 @@ class Result
 
         if (array_key_exists('result', $result)){
             $result = $result['result'];
+        } elseif(array_key_exists('error', $result)) {
+            $error = $this->parseError($result['error']);
+            throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
         }
 
         foreach ($result as $resultItemKey => $resultItemValue){
