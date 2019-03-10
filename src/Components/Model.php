@@ -473,15 +473,15 @@ class Model implements ModelInterface
         $property = $this->properties[$property] ?? null;
 
         if (is_null($property)){
-            throw new InvalidArgumentException(static::class.". Property [{$property}] does not exist.");
+            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] does not exist.");
         }
 
         if ($property['write'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$property}] is not writable.");
+            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] is not writable.");
         }
 
         if ($this->propertyValidation($property, $value) === false){
-            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$property}]. Expected value [{$this->properties[$property]['type']}].");
+            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$property['name']}]. Expected value [{$property['type']}].");
         }
 
         $this->modelData[$property['name']] = $value;
@@ -499,11 +499,11 @@ class Model implements ModelInterface
         $property = $this->properties[$property] ?? null;
 
         if (is_null($property)){
-            throw new InvalidArgumentException(static::class.". Property [{$property}] does not exist.");
+            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] does not exist.");
         }
 
         if ($property['read'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$property}] is not readable.");
+            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] is not readable.");
         }
 
         return $this->modelData[$property['name']] ?? null;
