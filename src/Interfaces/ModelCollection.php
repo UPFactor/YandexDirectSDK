@@ -30,13 +30,6 @@ interface ModelCollection extends ModelCommon
     public static function wrap($value);
 
     /**
-     * Retrieve a new collection with items from the current collection.
-     *
-     * @return static
-     */
-    public function copy();
-
-    /**
      * Re-declares the current collection with a new set of elements.
      *
      * @param ModelInterface[]|ModelCollectionInterface $value

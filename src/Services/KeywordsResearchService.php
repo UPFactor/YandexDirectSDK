@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
+use Exception;
 use InvalidArgumentException;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Common\Arr;
@@ -28,9 +29,13 @@ class KeywordsResearchService extends Service
     protected $serviceMethods = [];
 
     /**
+     * Pre-processing of keywords.
+     * Available operations: MERGE_DUPLICATES, ELIMINATE_OVERLAPPING
+     *
      * @param array|string[]|Keyword[]|Keywords $keywords
      * @param string ...$operation
      * @return Result
+     * @throws Exception
      */
     public function deduplicate($keywords, ...$operation)
     {
@@ -66,10 +71,14 @@ class KeywordsResearchService extends Service
     }
 
     /**
+     * Get a preliminary forecast of the availability of impressions
+     * for given keywords by type of device.
+     *
      * @param string|string[] $fields
      * @param string[]|Keyword[]|Keywords $keywords
      * @param string|string[] $regionIds
      * @return Result
+     * @throws Exception
      */
     public function hasSearchVolume($fields, $keywords, $regionIds)
     {

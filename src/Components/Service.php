@@ -2,8 +2,10 @@
 
 namespace YandexDirectSDK\Components;
 
+use Exception;
 use BadMethodCallException;
 use InvalidArgumentException;
+use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Session;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
@@ -14,14 +16,9 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  *
  * @package YandexDirectSDK\Services
  */
-class Service
+abstract class Service
 {
-    /**
-     * Session instance.
-     *
-     * @var Session
-     */
-    protected $session;
+    use SessionTrait;
 
     /**
      * Service name.
@@ -50,6 +47,17 @@ class Service
      * @var array
      */
     protected $serviceMethods = [];
+
+    /**
+     * Create Service instance.
+     *
+     * @param Session $session
+     * @param mixed ...$arguments
+     * @return static
+     */
+    public static function make(Session $session, ...$arguments){
+        return new static($session, ...$arguments);
+    }
 
     /**
      * Create Service instance.
@@ -102,20 +110,11 @@ class Service
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
+     * @throws Exception
      */
     public function call($method, $params = array())
     {
         return $this->session->call($this->serviceName, $method, $params);
-    }
-
-    /**
-     * Retrieve the session used by the service.
-     *
-     * @return null|Session
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 
     /**
@@ -167,11 +166,81 @@ class Service
     protected function initialize(...$arguments){}
 
     /**
+     * Gets an array of identifiers from the passed source.
+     *
+     * @param string|string[]|integer|integer[]|ModelCommonInterface $source
+     * @param string $container
+     * @return array
+     */
+    protected function extractIds($source, $container = 'id'){
+        if ($source instanceof ModelInterface){
+            $keys = [$source->{$container}];
+        } elseif ($source instanceof ModelCollectionInterface) {
+            $keys = $source->pluck($container);
+        } else {
+            $keys = is_array($source) ? array_values($source) : [$source];
+        }
+
+        return $keys;
+    }
+
+    /**
+     * Binds the [$owner] model/collection to the [$related] model/collection
+     * using the [$foreignKey] and [$ownerKey].
+     * As a result, the [$related] collection will be returned, which contains the
+     * models for each [$owner] item associated with it.
+     *
+     * @param string|string[]|integer|integer[]|ModelCommonInterface $owner
+     * @param ModelCommonInterface $related
+     * @param string $foreignKey
+     * @param string $ownerKey
+     * @return ModelCollectionInterface
+     */
+    protected function bind($owner, $related, $foreignKey, $ownerKey = 'id')
+    {
+        $keys = $this->extractIds($owner, $ownerKey);
+        $elements = [];
+
+        if (empty($keys)){
+            throw new InvalidArgumentException(static::class.". Failed bind model. Missing IDs for binding");
+        }
+
+        if ($related instanceof ModelInterface){
+
+            foreach ($keys as $key){
+                $elements[] = array_merge($related->unwrap(), [$foreignKey => $key]);
+            }
+
+            if (is_null($related = $related->getCompatibleCollection())){
+                throw new InvalidArgumentException(static::class.". Failed bind model. Model [".get_class($related)."] does not support this operation.");
+            }
+
+        } elseif ($related instanceof ModelCollectionInterface){
+
+            foreach ($keys as $key){
+                foreach ($related->unwrap() as $item){
+                    $elements[] = array_merge($item, [$foreignKey => $key]);
+                }
+            }
+
+            $related = $related::make();
+
+        } else {
+            throw new InvalidArgumentException(static::class.". Failed bind model. Invalid object type to bind. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
+        }
+
+        return $related
+            ->setSession($this->session)
+            ->insert($elements);
+    }
+
+    /**
      * Typical method for adding model data.
      *
      * @param string $methodName
      * @param ModelInterface $model
      * @return Result
+     * @throws Exception
      */
     protected function addModel(string $methodName, ModelInterface $model)
     {
@@ -189,6 +258,7 @@ class Service
      * @param string $methodName
      * @param ModelCommonInterface $collection
      * @return Result
+     * @throws Exception
      */
     protected function addCollection(string $methodName, ModelCommonInterface $collection)
     {
@@ -215,6 +285,7 @@ class Service
      * @param string $methodName
      * @param ModelInterface $model
      * @return Result
+     * @throws Exception
      */
     protected function updateModel(string $methodName, ModelInterface $model){
         $result = $this->call($methodName, $model->toArray());
@@ -231,6 +302,7 @@ class Service
      * @param string $methodName
      * @param ModelCommonInterface $collection
      * @return Result
+     * @throws Exception
      */
     protected function updateCollection(string $methodName, ModelCommonInterface $collection){
         if ($collection instanceof ModelInterface){
@@ -255,6 +327,7 @@ class Service
      *
      * @param string $methodName
      * @return QueryBuilder
+     * @throws Exception
      */
     protected function selectionElements(string $methodName){
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
@@ -276,10 +349,11 @@ class Service
      * Typical method for action based on object property values.
      *
      * @param string $methodName
-     * @param ModelCommonInterface|array $elements
+     * @param ModelCommonInterface|string[]|integer[]|string|integer $elements
      * @param string $modelProperty
      * @param string $actionProperty
      * @return Result
+     * @throws Exception
      */
     protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty){
         if ($elements instanceof ModelCommonInterface){
@@ -317,8 +391,11 @@ class Service
      * @param string $methodName
      * @param ModelCommonInterface|integer[]|integer $elements
      * @return Result
+     * @throws Exception
      */
     protected function actionByIds(string $methodName, $elements){
         return $this->actionByProperty($methodName, $elements, 'id', 'Ids');
     }
+
+
 }

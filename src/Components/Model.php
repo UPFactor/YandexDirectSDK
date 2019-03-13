@@ -6,7 +6,7 @@ use ReflectionClass;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
-use YandexDirectSDK\Session;
+use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -16,8 +16,10 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * Class Model
  * @package YandexDirectSDK\Components
  */
-class Model implements ModelInterface
+abstract class Model implements ModelInterface
 {
+    use SessionTrait;
+
     /**
      * Model data.
      *
@@ -66,13 +68,6 @@ class Model implements ModelInterface
      * @var Service[]
      */
     protected $serviceProvidersMethods = [];
-
-    /**
-     * Session instance.
-     *
-     * @var Session|null
-     */
-    protected $session;
 
     /**
      * Create a new model instance.
@@ -226,6 +221,15 @@ class Model implements ModelInterface
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    /**
+     * Retrieve a shallow copy of the object.
+     *
+     * @return static
+     */
+    public function copy(){
+        return (new static())->insert($this->unwrap());
     }
 
     /**
@@ -403,35 +407,13 @@ class Model implements ModelInterface
     }
 
     /**
-     * Binds the model to a session.
-     *
-     * @param Session $session
-     * @return $this
-     */
-    public function setSession(Session $session)
-    {
-        $this->session = $session;
-        return $this;
-    }
-
-    /**
-     * Retrieve the session used by the model.
-     *
-     * @return null|Session
-     */
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    /**
      * Retrieve instance of compatible collection.
      *
-     * @return ModelCollectionInterface
+     * @return ModelCollectionInterface|null
      */
     public function getCompatibleCollection()
     {
-        return $this->compatibleCollection::make();
+        return is_null($this->compatibleCollection) ? null : $this->compatibleCollection::make();
     }
 
     /**

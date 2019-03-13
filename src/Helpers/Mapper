@@ -176,9 +176,10 @@ class Mapper extends ConsoleLauncher{
             }
 
             /** @var Service $provider */
-            $provider = new $provider(new \YandexDirectSDK\Session([]));
+            $provider = new $provider(new \YandexDirectSDK\Session(''));
             $providerMeta = $provider->getMethodsMeta();
             $providerResultType = null;
+            $providerParameters = null;
 
             if ($provider->getServiceModelClass() !== $this->objectReflection->name){
                 $this->notice("Service provider [".get_class($provider)."] is not associated with the model [{$this->objectReflection->name}].");
@@ -213,6 +214,7 @@ class Mapper extends ConsoleLauncher{
                     }
 
                     $methodResultType = $method->getReturnType();
+                    $methodParameters = $method->getParameters();
 
                     if (is_null($methodResultType)){
                         $providerResultType = $this->classNameNormalization(Result::class, $modelFileContent);
@@ -225,6 +227,30 @@ class Mapper extends ConsoleLauncher{
                         }
                     }
 
+                    if (!is_null($methodParameters)){
+                        $providerParameters = [];
+
+                        foreach ($methodParameters as $k => $methodParameter){
+                            if ($k === 0){
+                                continue;
+                            }
+
+                            $methodParameterName = $methodParameter->getName();
+                            $methodParameterType = $methodParameter->getType();
+
+                            if (is_null($methodParameterType)) {
+                                $methodParameterType = '';
+                            } else {
+                                $methodParameterType = $this->classNameNormalization($methodParameterType->getName(), $modelFileContent);
+                                $methodParameterType .= ' ';
+                            }
+
+                            $providerParameters[] = "{$methodParameterType}\${$methodParameterName}";
+                        }
+
+                        $providerParameters = implode(', ', $providerParameters);
+                    }
+
                     break;
                 }
 
@@ -235,7 +261,7 @@ class Mapper extends ConsoleLauncher{
                 continue;
             }
 
-            $modelLexemes['method'][] = ['@method', $providerResultType, $alias."()"];
+            $modelLexemes['method'][] = ['@method', $providerResultType, "{$alias}({$providerParameters})"];
         }
 
         foreach ($modelPropertiesMeta as $property){
@@ -323,9 +349,10 @@ class Mapper extends ConsoleLauncher{
             }
 
             /** @var Service $provider */
-            $provider = new $provider(new \YandexDirectSDK\Session([]));
+            $provider = new $provider(new \YandexDirectSDK\Session(''));
             $providerMeta = $provider->getMethodsMeta();
             $providerResultType = null;
+            $providerParameters = null;
 
             if ($provider->getServiceModelCollectionClass() !== $this->objectReflection->name){
                 $this->notice("Service provider [".get_class($provider)."] is not associated with the collection [{$this->objectReflection->name}].");
@@ -357,6 +384,7 @@ class Mapper extends ConsoleLauncher{
                     }
 
                     $methodResultType = $method->getReturnType();
+                    $methodParameters = $method->getParameters();
 
                     if (is_null($methodResultType)){
                         $providerResultType = $this->classNameNormalization(Result::class, $collectionFileContent);
@@ -369,9 +397,32 @@ class Mapper extends ConsoleLauncher{
                         }
                     }
 
+                    if (!is_null($methodParameters)){
+                        $providerParameters = [];
+
+                        foreach ($methodParameters as $k => $methodParameter){
+                            if ($k === 0){
+                                continue;
+                            }
+
+                            $methodParameterName = $methodParameter->getName();
+                            $methodParameterType = $methodParameter->getType();
+
+                            if (is_null($methodParameterType)) {
+                                $methodParameterType = '';
+                            } else {
+                                $methodParameterType = $this->classNameNormalization($methodParameterType->getName(), $collectionFileContent);
+                                $methodParameterType .= ' ';
+                            }
+
+                            $providerParameters[] = "{$methodParameterType}\${$methodParameterName}";
+                        }
+
+                        $providerParameters = implode(', ', $providerParameters);
+                    }
+
                     break;
                 }
-
             }
 
             if (is_null($providerResultType)){
@@ -379,7 +430,7 @@ class Mapper extends ConsoleLauncher{
                 continue;
             }
 
-            $collectionLexemes['method'][] = ['@method', $providerResultType, $alias."()"];
+            $collectionLexemes['method'][] = ['@method', $providerResultType, "{$alias}({$providerParameters})"];
         }
 
         return $collectionLexemes;
@@ -404,7 +455,7 @@ class Mapper extends ConsoleLauncher{
         /** @var string $serviceModelClass */
         /** @var string $serviceModelCollectionClass */
 
-        $serviceObject = new $this->objectClass(new \YandexDirectSDK\Session([]));
+        $serviceObject = new $this->objectClass(new \YandexDirectSDK\Session(''));
         $serviceFileContent = $file->content();
         $serviceName = $serviceObject->getServiceName();
         $serviceModelClass = $serviceObject->getServiceModelClass();
@@ -587,7 +638,8 @@ class Mapper extends ConsoleLauncher{
             }
             return (new ReflectionClass($class))->getShortName();
         }
-        return '\\' . $class;
+
+        return (strpos($class, '\\') === false) ? $class : '\\' . $class;
     }
 }
 

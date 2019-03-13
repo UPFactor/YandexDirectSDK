@@ -22,7 +22,7 @@ interface Model extends ModelCommon
     /**
      * Retrieve instance of compatible collection.
      *
-     * @return ModelCollectionInterface
+     * @return ModelCollectionInterface|null
      */
     public function getCompatibleCollection();
 

@@ -20,6 +20,13 @@ interface ModelCommon
     public static function getClassName();
 
     /**
+     * Retrieve a shallow copy of the object.
+     *
+     * @return static
+     */
+    public function copy();
+
+    /**
      * Get the object as a plain array.
      *
      * @return array

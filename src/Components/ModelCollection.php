@@ -8,6 +8,7 @@ use BadMethodCallException;
 use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Common\CollectionBaseTrait;
+use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Session;
@@ -17,9 +18,10 @@ use YandexDirectSDK\Session;
  *
  * @package YandexDirectSDK\Components
  */
-class ModelCollection implements ModelCollectionInterface
+abstract class ModelCollection implements ModelCollectionInterface
 {
     use CollectionBaseTrait;
+    use SessionTrait;
 
     /**
      * The models contained in the collection.
@@ -41,13 +43,6 @@ class ModelCollection implements ModelCollectionInterface
      * @var Service[]
      */
     protected $serviceProvidersMethods = [];
-
-    /**
-     * Session instance.
-     *
-     * @var Session|null
-     */
-    protected $session;
 
     /**
      * Returns the short class name.
@@ -92,7 +87,7 @@ class ModelCollection implements ModelCollectionInterface
     {
         if (array_key_exists($method, $this->serviceProvidersMethods)){
             if (!is_null($this->session)){
-                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this);
+                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this, ...$arguments);
             }
 
             throw new BadMethodCallException(static::class.". Failed method [{$method}]. No session to connect.");
@@ -132,7 +127,12 @@ class ModelCollection implements ModelCollectionInterface
     public function push($value)
     {
         $value = $this->dataItemController($value);
-        array_push($this->items, $value->setSession($this->session));
+
+        if (!is_null($this->session)){
+            $value->setSession($this->session);
+        }
+
+        array_push($this->items, $value);
         return $this;
     }
 
@@ -160,9 +160,13 @@ class ModelCollection implements ModelCollectionInterface
             if (array_key_exists($index, $this->items)){
                 $this->items[$index]->insert($model);
             } else {
-                $this->push(
-                    $this->compatibleModel::make($model)->setSession($this->session)
-                );
+                $model = $this->compatibleModel::make($model);
+
+                if (!is_null($this->session)){
+                    $model->setSession($this->session);
+                }
+
+                $this->push($model);
             }
         }
 
@@ -244,16 +248,6 @@ class ModelCollection implements ModelCollectionInterface
             $model->setSession($session);
         }
         return $this;
-    }
-
-    /**
-     * Retrieve the session used by the collection.
-     *
-     * @return null|Session
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK;
 
-use Exception;
+use Exception as ExceptionAlias;
 use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
@@ -108,27 +108,32 @@ class Session
     /**
      * Create Session instance.
      *
-     * @param array $params
+     * @param string $token
+     * @param array $options
      * @return Session
-     * @throws Exception
+     * @throws ExceptionAlias
      */
-    public static function make(array $params){
-        return new static($params);
+    public static function make(string $token, array $options = []){
+        return new static($token, $options);
     }
 
     /**
      * Create Session instance.
      *
-     * @param array $params
-     * @throws Exception
+     * @param string $token
+     * @param array $options
+     * @throws ExceptionAlias
      */
-    public function __construct(array $params){
-        if (!empty($params['token'])) $this->setToken($params['token']);
-        if (!empty($params['client'])) $this->setClient($params['client']);
-        if (!empty($params['language'])) $this->setLanguage($params['language']);
-        if (!empty($params['sandbox'])) $this->useSandbox($params['sandbox']);
-        if (!empty($params['operatorUnits'])) $this->useOperatorUnits($params['operatorUnits']);
-        if (!empty($params['logFile'])) $this->useLogFile(true, $params['logFile']);
+    public function __construct(string $token, array $options = []){
+        $this->setToken($token);
+
+        if (!empty($options)){
+            if (!empty($params['client'])) $this->setClient($params['client']);
+            if (!empty($params['language'])) $this->setLanguage($params['language']);
+            if (!empty($params['sandbox'])) $this->useSandbox($params['sandbox']);
+            if (!empty($params['operatorUnits'])) $this->useOperatorUnits($params['operatorUnits']);
+            if (!empty($params['logFile'])) $this->useLogFile(true, $params['logFile']);
+        }
     }
 
     /**
@@ -253,7 +258,7 @@ class Session
      * @param bool $switch
      * @param string|null $pathToFile
      * @return $this
-     * @throws Exception
+     * @throws ExceptionAlias
      */
     public function useLogFile(bool $switch, string $pathToFile = null){
         if ($switch){
@@ -287,7 +292,7 @@ class Session
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
-     * @throws Exception
+     * @throws ExceptionAlias
      */
     public function call($service, $method, $params = array()){
 
@@ -318,7 +323,7 @@ class Session
 
         try {
             $result = new Result($curl);
-        } catch (Exception $exception){
+        } catch (ExceptionAlias $exception){
             $this->exceptionLogging($exception);
             throw $exception;
         }
@@ -334,7 +339,7 @@ class Session
      *
      * @param string $url
      * @param string $params
-     * @throws Exception
+     * @throws ExceptionAlias
      */
     protected function requestLogging($url, $params)
     {
@@ -355,10 +360,10 @@ class Session
     /**
      * Logging information about fatal errors.
      *
-     * @param Exception $exception
-     * @throws Exception
+     * @param ExceptionAlias $exception
+     * @throws ExceptionAlias
      */
-    protected function exceptionLogging(Exception $exception)
+    protected function exceptionLogging(ExceptionAlias $exception)
     {
         if (is_null($this->logFile)){
             return;
@@ -377,7 +382,7 @@ class Session
      * Logging error information when executing a request.
      *
      * @param Data $error
-     * @throws Exception
+     * @throws ExceptionAlias
      */
     protected function errorLogging(Data $error)
     {
@@ -401,7 +406,7 @@ class Session
      * Logging warning information when executing a request.
      *
      * @param Data $warning
-     * @throws Exception
+     * @throws ExceptionAlias
      */
     protected function warningLogging(Data $warning){
         if (is_null($this->logFile) or $warning->isEmpty()){
