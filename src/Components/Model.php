@@ -504,6 +504,10 @@ abstract class Model implements ModelInterface
             return false;
         }
 
+        if ($property['require'] === false and is_null($value)){
+            return true;
+        }
+
         switch ($property['type']){
             case 'mixed':   return true;                break;
             case 'string':  return is_string($value);   break;
