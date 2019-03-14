@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Result;
  * @property-read \YandexDirectSDK\Services\AudienceTargetsService       audienceTargetsService
  * @property-read \YandexDirectSDK\Services\RetargetingListsService      retargetingListsService
  * @property-read \YandexDirectSDK\Services\VCardsService                vCardsService
- * @property-read \YandexDirectSDK\Services\SitelinksService             siteLinksService
+ * @property-read \YandexDirectSDK\Services\SitelinksService             sitelinksService
  * @property-read \YandexDirectSDK\Services\AdImagesService              adImagesService
  * @property-read \YandexDirectSDK\Services\AdExtensionsService          adExtensionsService
  * @property-read \YandexDirectSDK\Services\DynamicTextAdTargetsService  dynamicTextAdTargetsService
