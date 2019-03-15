@@ -42,11 +42,25 @@ abstract class Model implements ModelInterface
     protected $nonWritableProperties = [];
 
     /**
-     * Non-readable properties
+     * Non-readable properties.
      *
      * @var array
      */
     protected $nonReadableProperties = [];
+
+    /**
+     * Non-updateable properties.
+     *
+     * @var array
+     */
+    protected $nonUpdateableProperties = [];
+
+    /**
+     * Non-addable properties.
+     *
+     * @var array
+     */
+    protected $nonAddableProperties = [];
 
     /**
      * Required model properties.
