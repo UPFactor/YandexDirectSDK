@@ -18,7 +18,7 @@ class ConsoleLauncher
             'cyan' => "\033[1;36m",
             'white' => "\033[1;37m"
         );
-        $style = (isset($styles[$style])) ? $styles[$style] : $styles['default'];
+        $style = array_key_exists($style, $styles) ? $styles[$style] : $styles['default'];
         echo $style;
     }
 
