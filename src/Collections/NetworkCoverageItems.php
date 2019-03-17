@@ -19,7 +19,5 @@ class NetworkCoverageItems extends ModelCollection
     /** 
      * @var NetworkCoverageItem
      */ 
-    protected $compatibleModel = NetworkCoverageItem::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = NetworkCoverageItem::class;
 }

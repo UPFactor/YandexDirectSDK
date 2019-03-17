@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\SearchPrices;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -16,6 +17,8 @@ use YandexDirectSDK\Components\Model;
  */ 
 class SearchPrice extends Model 
 {
+    protected $compatibleCollection = SearchPrices::class;
+
     protected $properties = [
         'position' => 'string',
         'price' => 'integer'

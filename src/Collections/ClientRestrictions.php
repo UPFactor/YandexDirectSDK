@@ -19,7 +19,5 @@ class ClientRestrictions extends ModelCollection
     /** 
      * @var ClientRestriction 
      */ 
-    protected $compatibleModel = ClientRestriction::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = ClientRestriction::class;
 }

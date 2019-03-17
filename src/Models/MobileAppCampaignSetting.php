@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Collections\MobileAppCampaignSettings;
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class MobileAppCampaignSetting 
@@ -25,6 +26,8 @@ class MobileAppCampaignSetting extends Model
     const REQUIRE_SERVICING = 'REQUIRE_SERVICING';
     const YES = 'YES';
     const NO = 'NO';
+
+    protected $compatibleCollection = MobileAppCampaignSettings::class;
 
     protected function initialize(...$arguments)
     {

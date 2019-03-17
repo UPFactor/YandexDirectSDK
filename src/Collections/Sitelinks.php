@@ -19,7 +19,5 @@ class Sitelinks extends ModelCollection
     /** 
      * @var Sitelink[] 
      */ 
-    protected $compatibleModel = Sitelink::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = Sitelink::class;
 }

@@ -19,7 +19,5 @@ class DemographicsAdjustments extends ModelCollection
     /** 
      * @var DemographicsAdjustment 
      */ 
-    protected $compatibleModel = DemographicsAdjustment::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = DemographicsAdjustment::class;
 }

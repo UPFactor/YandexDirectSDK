@@ -19,7 +19,5 @@ class RetargetingAdjustments extends ModelCollection
     /** 
      * @var RetargetingAdjustment 
      */ 
-    protected $compatibleModel = RetargetingAdjustment::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = RetargetingAdjustment::class;
 }

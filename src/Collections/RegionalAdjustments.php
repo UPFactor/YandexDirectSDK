@@ -19,7 +19,5 @@ class RegionalAdjustments extends ModelCollection
     /** 
      * @var RegionalAdjustment 
      */ 
-    protected $compatibleModel = RegionalAdjustment::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = RegionalAdjustment::class;
 }

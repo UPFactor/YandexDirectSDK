@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\Sitelinks;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -21,7 +22,9 @@ use YandexDirectSDK\Components\Model;
  * @package YandexDirectSDK\Models 
  */ 
 class Sitelink extends Model 
-{ 
+{
+    protected $compatibleCollection = Sitelinks::class;
+
     protected $properties = [
         'title' => 'string',
         'href' => 'string',

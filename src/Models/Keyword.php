@@ -73,7 +73,7 @@ class Keyword extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection=Keywords::class;
+    protected $compatibleCollection = Keywords::class;
 
     protected $serviceProvidersMethods = [
         'add' => KeywordsService::class,

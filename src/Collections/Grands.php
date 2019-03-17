@@ -19,7 +19,5 @@ class Grands extends ModelCollection
     /** 
      * @var Grand 
      */ 
-    protected $compatibleModel = Grand::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = Grand::class;
 }

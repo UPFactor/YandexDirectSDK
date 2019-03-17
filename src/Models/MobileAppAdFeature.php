@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Collections\MobileAppAdFeatures;
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class MobileAppAdFeature 
@@ -26,7 +27,7 @@ class MobileAppAdFeature extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleCollection = MobileAppAdFeatures::class;
 
     protected $properties = [
         'feature' => 'enum:' . self::PRICE.','.self::ICON.','.self::CUSTOMER_RATING.','.self::RATINGS,

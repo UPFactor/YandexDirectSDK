@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\NetworkCoverageItems;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -15,7 +16,9 @@ use YandexDirectSDK\Components\Model;
  * @package YandexDirectSDK\Models 
  */ 
 class NetworkCoverageItem extends Model 
-{ 
+{
+    protected $compatibleCollection = NetworkCoverageItems::class;
+
     protected $properties = [
         'probability' => 'integer',
         'bid' => 'integer'

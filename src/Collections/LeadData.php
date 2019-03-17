@@ -19,7 +19,5 @@ class LeadData extends ModelCollection
     /** 
      * @var LeadDataItem 
      */ 
-    protected $compatibleModel = LeadDataItem::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = LeadDataItem::class;
 }

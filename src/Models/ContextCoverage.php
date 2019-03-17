@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\ContextCoverages;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -16,6 +17,8 @@ use YandexDirectSDK\Components\Model;
  */ 
 class ContextCoverage extends Model 
 { 
+    protected $compatibleCollection = ContextCoverages::class;
+
     protected $properties = [
         'probability' => 'integer',
         'price' => 'integer'

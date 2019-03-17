@@ -16,7 +16,5 @@ class AdExtensionsAd extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = AdExtensionAd::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = AdExtensionAd::class;
 }

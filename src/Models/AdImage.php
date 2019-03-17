@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model; 
+use YandexDirectSDK\Collections\AdImages;
+use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Services\AdImagesService;
@@ -38,7 +39,7 @@ use YandexDirectSDK\Services\AdImagesService;
  */ 
 class AdImage extends Model 
 { 
-    protected $compatibleCollection;
+    protected $compatibleCollection = AdImages::class;
 
     protected $serviceProvidersMethods = [
         'query' => AdImagesService::class,

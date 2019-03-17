@@ -19,7 +19,5 @@ class SearchPrices extends ModelCollection
     /** 
      * @var SearchPrice[] 
      */ 
-    protected $compatibleModel = SearchPrice::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = SearchPrice::class;
 }

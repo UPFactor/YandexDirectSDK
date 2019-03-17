@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\WebpageConditions;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -32,6 +33,8 @@ class WebpageCondition extends Model
     const NOT_EQUALS_ALL = 'NOT_EQUALS_ALL';
     const CONTAINS_ANY = 'CONTAINS_ANY';
     const NOT_CONTAINS_ALL = 'NOT_CONTAINS_ALL';
+
+    protected $compatibleCollection = WebpageConditions::class;
 
     protected $properties = [
         'operand' => 'enum:' . self::DOMAIN . ',' . self::OFFERS_LIST_URL . ',' . self::PAGE_CONTENT . ',' . self::PAGE_TITLE . ',' . self::URL,

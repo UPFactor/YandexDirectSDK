@@ -16,7 +16,5 @@ class MobileAppAdFeatures extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = MobileAppAdFeature::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = MobileAppAdFeature::class;
 }

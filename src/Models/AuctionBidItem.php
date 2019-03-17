@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\AuctionBidItems;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -18,6 +19,8 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AuctionBidItem extends Model 
 { 
+    protected $compatibleCollection = AuctionBidItems::class;
+
     protected $properties = [
         'trafficVolume' => 'integer',
         'bid' => 'integer',

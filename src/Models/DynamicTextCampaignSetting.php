@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Collections\DynamicTextCampaignSettings;
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class DynamicTextCampaignSetting 
@@ -29,6 +30,8 @@ class DynamicTextCampaignSetting extends Model
     const REQUIRE_SERVICING = 'REQUIRE_SERVICING';
     const YES = 'YES';
     const NO = 'NO';
+
+    protected $compatibleCollection = DynamicTextCampaignSettings::class;
 
     protected function initialize(...$arguments)
     {

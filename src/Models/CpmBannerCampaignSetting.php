@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Collections\CpmBannerCampaignSettings;
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class CpmBannerCampaignSetting 
@@ -27,6 +28,8 @@ class CpmBannerCampaignSetting extends Model
     const REQUIRE_SERVICING = 'REQUIRE_SERVICING';
     const YES = 'YES';
     const NO = 'NO';
+
+    protected $compatibleCollection = CpmBannerCampaignSettings::class;
 
     /**
      * Model Initialization Handler.

@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Models;
 
+use YandexDirectSDK\Collections\PriorityGoals;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -21,6 +22,8 @@ use YandexDirectSDK\Components\Model;
 class PriorityGoal extends Model
 {
     const SET = 'SET';
+
+    protected $compatibleCollection = PriorityGoals::class;
 
     protected $properties = [
         'goalId' => 'integer',

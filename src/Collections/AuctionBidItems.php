@@ -19,7 +19,5 @@ class AuctionBidItems extends ModelCollection
     /** 
      * @var AuctionBidItem[] 
      */ 
-    protected $compatibleModel = AuctionBidItem::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = AuctionBidItem::class;
 }

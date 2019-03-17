@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Models;
 
+use YandexDirectSDK\Collections\TextCampaignSettings;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -32,6 +33,8 @@ class TextCampaignSetting extends Model
     const REQUIRE_SERVICING = 'REQUIRE_SERVICING';
     const YES = 'YES';
     const NO = 'NO';
+
+    protected $compatibleCollection = TextCampaignSettings::class;
 
     protected function initialize(...$arguments)
     {

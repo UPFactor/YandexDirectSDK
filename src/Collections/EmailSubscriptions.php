@@ -19,7 +19,5 @@ class EmailSubscriptions extends ModelCollection
     /** 
      * @var EmailSubscription 
      */ 
-    protected $compatibleModel = EmailSubscription::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = EmailSubscription::class;
 }

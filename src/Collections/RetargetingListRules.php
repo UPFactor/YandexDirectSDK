@@ -19,7 +19,5 @@ class RetargetingListRules extends ModelCollection
     /** 
      * @var RetargetingListRule 
      */ 
-    protected $compatibleModel = RetargetingListRule::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = RetargetingListRule::class;
 }

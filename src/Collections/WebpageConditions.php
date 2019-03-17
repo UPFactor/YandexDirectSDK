@@ -19,7 +19,5 @@ class WebpageConditions extends ModelCollection
     /** 
      * @var WebpageCondition 
      */ 
-    protected $compatibleModel = WebpageCondition::class; 
-
-    protected $serviceProvidersMethods = []; 
+    protected $compatibleModel = WebpageCondition::class;
 }
