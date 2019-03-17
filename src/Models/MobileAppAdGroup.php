@@ -36,8 +36,6 @@ class MobileAppAdGroup extends Model
     const WI_FI_ONLY = 'WI_FI_ONLY';
     const WI_FI_AND_CELLULAR = 'WI_FI_AND_CELLULAR';
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'storeUrl' => 'string',
         'targetDeviceType' => 'set:' . self::DEVICE_TYPE_MOBILE . ',' . self::DEVICE_TYPE_TABLET,
@@ -54,12 +52,7 @@ class MobileAppAdGroup extends Model
         'appAvailabilityStatus'
     ];
 
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'storeUrl',
-        'targetDeviceType',
-        'targetCarrier',
-        'targetOperatingSystemVersion'
+    protected $nonUpdatableProperties = [
+        'storeUrl'
     ];
 }

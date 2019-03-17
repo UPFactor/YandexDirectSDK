@@ -27,16 +27,10 @@ class ClientSetting extends Model
 
     protected $compatibleCollection = ClientSettings::class;
 
-    protected $serviceProvidersMethods = [];
-
     protected $properties = [
         'option' => 'enum:' . self::CORRECT_TYPOS_AUTOMATICALLY . ',' . self::DISPLAY_STORE_RATING,
         'value' => 'enum:' . self::YES . ',' . self::NO
     ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = [];
 
     protected $requiredProperties = [
         'option',

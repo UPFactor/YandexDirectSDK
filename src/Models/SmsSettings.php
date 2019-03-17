@@ -34,10 +34,4 @@ class SmsSettings extends Model
         'timeFrom' => 'string',
         'timeTo' => 'string'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [];
 }

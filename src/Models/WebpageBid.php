@@ -24,20 +24,11 @@ class WebpageBid extends Model
 
     protected $properties = [
         'id' => 'integer',
-        'adGroupId' => 'integer',
         'campaignId' => 'integer',
+        'adGroupId' => 'integer',
         'bid' => 'integer',
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'id|adGroupId|campaignId',
-        'bid|strategyPriority'
     ];
 
     public static function getClassName()

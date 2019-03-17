@@ -27,13 +27,4 @@ class DailyBudget extends Model
         'amount' => 'integer',
         'mode' => 'enum:' . self::STANDARD . ',' . self::DISTRIBUTED
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'amount',
-        'mode'
-    ];
 }

@@ -28,20 +28,9 @@ class EmailSubscription extends Model
 
     protected $compatibleCollection = EmailSubscriptions::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'option' => 'enum:' . self::RECEIVE_RECOMMENDATIONS . ',' . self::TRACK_MANAGED_CAMPAIGNS . ',' . self::TRACK_POSITION_CHANGES,
         'value' => 'enum:' . self::YES . ',' . self::NO
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'option',
-        'value'
     ];
 
     /**

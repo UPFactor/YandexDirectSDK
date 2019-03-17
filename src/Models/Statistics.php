@@ -25,8 +25,4 @@ class Statistics extends Model
         'impressions',
         'clicks'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [];
 }

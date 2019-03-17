@@ -40,14 +40,4 @@ class StrategyAverageRoi extends Model
         'bidCeiling' => 'integer',
         'profitability' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'reserveReturn',
-        'roiCoef',
-        'goalId'
-    ];
 }

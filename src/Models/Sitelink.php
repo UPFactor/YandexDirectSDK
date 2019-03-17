@@ -22,22 +22,9 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Sitelink extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'title' => 'string',
         'href' => 'string',
         'description' => 'string'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'title',
-        'href'
     ];
 }

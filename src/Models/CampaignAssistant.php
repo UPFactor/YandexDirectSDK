@@ -20,13 +20,4 @@ class CampaignAssistant extends Model
         'manager' => 'string',
         'agency' => 'string'
     ];
-
-    protected $nonWritableProperties = [
-        'manager',
-        'agency'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

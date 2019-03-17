@@ -47,9 +47,9 @@ class AdImage extends Model
     ];
 
     protected $properties = [
+        'adImageHash' => 'string',
         'imageData' => 'string',
         'name' => 'string',
-        'adImageHash' => 'string',
         'associated' => 'string',
         'type' => 'string',
         'subtype' => 'string',
@@ -57,8 +57,12 @@ class AdImage extends Model
         'previewUrl' => 'string'
     ];
 
+    protected $nonUpdatableProperties = [
+        'imageData',
+        'name'
+    ];
+
     protected $nonWritableProperties = [
-        'adImageHash',
         'associated',
         'type',
         'subtype',
@@ -66,10 +70,4 @@ class AdImage extends Model
         'previewUrl'
     ];
 
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'imageData',
-        'name'
-    ];
 }

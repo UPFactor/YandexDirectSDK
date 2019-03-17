@@ -40,20 +40,12 @@ class MobileAppCampaignSearchStrategy extends Model
     const SERVING_OFF = 'SERVING_OFF';
 
     protected $properties = [
-        'biddingStrategyType' => 'string',
+        'biddingStrategyType' => 'enum:',
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumAppInstalls' => 'object:' . StrategyMaximumAppInstalls::class,
         'averageCpc' => 'object:' . StrategyAverageCpc::class,
         'averageCpi' => 'object:' . StrategyAverageCpi::class,
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
-    ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategyType'
     ];
 
     protected function initialize(...$arguments)

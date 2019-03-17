@@ -42,13 +42,22 @@ class DynamicTextAd extends Model
     protected $properties = [
         'text' => 'string',
         'vCardId' => 'integer',
-        'adImageHash' => 'string',
-        'sitelinkSetId' => 'integer',
-        'adExtensionIds' => 'stack:integer',
         'vCardModeration' => 'object:' . ExtensionModeration::class,
-        'sitelinksModeration' => 'object:' . ExtensionModeration::class,
+        'adImageHash' => 'string',
         'adImageModeration' => 'object:' . ExtensionModeration::class,
+        'sitelinkSetId' => 'integer',
+        'sitelinksModeration' => 'object:' . ExtensionModeration::class,
+        'calloutSetting' => 'object:' . AdExtensionSetting::class,
+        'adExtensionIds' => 'stack:integer',
         'adExtensions' => 'object:' . AdExtensionsAd::class
+    ];
+
+    protected $nonAddableProperties = [
+        'calloutSetting'
+    ];
+
+    protected $nonUpdatableProperties = [
+        'adExtensionIds'
     ];
 
     protected $nonWritableProperties = [
@@ -56,11 +65,5 @@ class DynamicTextAd extends Model
         'sitelinksModeration',
         'adImageModeration',
         'adExtensions'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'text'
     ];
 }

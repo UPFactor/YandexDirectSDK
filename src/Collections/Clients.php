@@ -20,6 +20,4 @@ class Clients extends ModelCollection
      * @var Client 
      */ 
     protected $compatibleModel = Client::class;
-
-    protected $serviceProvidersMethods = [];
 }

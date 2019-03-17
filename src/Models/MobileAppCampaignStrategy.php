@@ -23,13 +23,4 @@ class MobileAppCampaignStrategy extends Model
         'search' => 'object:' . MobileAppCampaignSearchStrategy::class,
         'network' => 'object:' . MobileAppCampaignNetworkStrategy::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'search',
-        'network'
-    ];
 }

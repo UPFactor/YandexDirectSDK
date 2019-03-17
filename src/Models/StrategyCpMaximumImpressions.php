@@ -38,16 +38,4 @@ class StrategyCpMaximumImpressions extends Model
         'endDate' => 'string',
         'autoContinue' => 'enum:' . self::YES . ',' .self::NO
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'averageCpm',
-        'spendLimit',
-        'startDate',
-        'endDate',
-        'autoContinue'
-    ];
 }

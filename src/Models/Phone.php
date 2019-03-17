@@ -25,24 +25,10 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Phone extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'countryCode' => 'string',
         'cityCode' => 'string',
         'phoneNumber' => 'string',
         'extension' => 'string'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'countryCode',
-        'cityCode',
-        'phoneNumber'
     ];
 }

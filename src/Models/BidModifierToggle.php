@@ -48,14 +48,4 @@ class BidModifierToggle extends Model
         'type' => 'enum:' . self::DEMOGRAPHICS_ADJUSTMENT . ',' . self::RETARGETING_ADJUSTMENT . ',' . self::REGIONAL_ADJUSTMENT,
         'enabled' => 'enum:' . self::YES . ',' . self::NO
     ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId',
-        'type',
-        'enabled'
-    ];
 }

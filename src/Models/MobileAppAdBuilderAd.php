@@ -19,29 +19,8 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class MobileAppAdBuilderAd extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'creative' => 'object:' . AdBuilderAd::class,
         'trackingUrl' => 'string'
     ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'creative'
-    ];
-
-    /**
-     * @param $creativeId
-     * @return $this
-     */
-    public function setCreativeId($creativeId){
-        $this->setCreative(
-            AdBuilderAd::make()->setCreativeId($creativeId)
-        );
-        return $this;
-    }
 }

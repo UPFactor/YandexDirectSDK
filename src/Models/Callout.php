@@ -16,17 +16,11 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Callout extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'calloutText' => 'string'
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [];
+    protected $nonUpdatableProperties = [
+        'calloutText'
+    ];
 }

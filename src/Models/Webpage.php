@@ -65,6 +65,7 @@ class Webpage extends Model
     ];
 
     protected $properties = [
+        'id' => 'integer',
         'name' => 'string',
         'adGroupId' => 'integer',
         'campaignId' => 'integer',
@@ -79,15 +80,8 @@ class Webpage extends Model
 
     protected $nonWritableProperties = [
         'campaignId',
+        'conditionType',
         'state',
-        'statusClarification',
-        'conditionType'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'name',
-        'adGroupId'
+        'statusClarification'
     ];
 }

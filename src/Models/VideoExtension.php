@@ -9,14 +9,17 @@ use YandexDirectSDK\Components\Model as Model;
  * @package YandexDirectSDK\Models 
  */ 
 class VideoExtension extends Model 
-{ 
-    protected $serviceProvidersMethods = []; 
+{
+    protected $properties = [
+        'creativeId' => 'integer',
+        'status' => 'string',
+        'thumbnailUrl' => 'string',
+        'previewUrl' => 'string'
+    ];
 
-    protected $properties = []; 
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
+    protected $nonWritableProperties = [
+        'status',
+        'thumbnailUrl',
+        'previewUrl'
+    ];
 }

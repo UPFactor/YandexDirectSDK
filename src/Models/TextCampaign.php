@@ -38,12 +38,4 @@ class TextCampaign extends Model
         'relevantKeywords' => 'object:' . RelevantKeywordsSetting::class,
         'priorityGoals' => 'arrayOfObject:' . PriorityGoals::class,
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategy'
-    ];
 }

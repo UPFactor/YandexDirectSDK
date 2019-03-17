@@ -24,10 +24,4 @@ class StrategyNetworkDefault extends Model
         'limitPercent' => 'integer',
         'bidPercent' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [];
 }

@@ -22,18 +22,8 @@ class RetargetingListRuleArgument extends Model
 { 
     protected $compatibleCollection = RetargetingListRuleArguments::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'membershipLifeSpan' => 'integer',
         'externalId' => 'integer'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'externalId'
     ];
 }

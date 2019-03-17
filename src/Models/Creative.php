@@ -68,8 +68,4 @@ class Creative extends Model
         'videoExtensionCreative',
         'cpcVideoCreative'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

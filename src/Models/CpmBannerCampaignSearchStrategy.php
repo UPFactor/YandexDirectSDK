@@ -21,12 +21,4 @@ class CpmBannerCampaignSearchStrategy extends Model
     protected $properties = [
         'biddingStrategyType' => 'enum:' . self::SERVING_OFF
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategyType'
-    ];
 }

@@ -16,8 +16,6 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class ExtensionModeration extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'status' => 'string',
         'statusClarification' => 'string'
@@ -27,8 +25,4 @@ class ExtensionModeration extends Model
         'status',
         'statusClarification'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

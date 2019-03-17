@@ -30,8 +30,6 @@ class Grand extends Model
 
     protected $compatibleCollection = Grands::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'privilege' => 'enum:' . self::EDIT_CAMPAIGNS . ',' . self::IMPORT_XLS . ',' . self::TRANSFER_MONEY,
         'value' => 'enum:' . self::YES . ',' . self::NO,
@@ -40,13 +38,6 @@ class Grand extends Model
 
     protected $nonWritableProperties = [
         'agency'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'privilege',
-        'value'
     ];
 
     /**

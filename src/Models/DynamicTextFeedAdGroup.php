@@ -18,8 +18,6 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextFeedAdGroup extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'source' => 'string',
         'sourceType' => 'string',
@@ -31,8 +29,4 @@ class DynamicTextFeedAdGroup extends Model
         'sourceType',
         'sourceProcessingStatus'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

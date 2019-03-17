@@ -23,13 +23,4 @@ class FrequencyCapSetting extends Model
         'impressions' => 'integer',
         'periodDays' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'impressions',
-        'periodDays'
-    ];
 }

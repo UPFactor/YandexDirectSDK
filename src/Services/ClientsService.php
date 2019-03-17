@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
+use Exception;
 use InvalidArgumentException;
 use YandexDirectSDK\Interfaces\ModelCommon;
 use YandexDirectSDK\Collections\Clients;
@@ -54,6 +55,7 @@ class ClientsService extends Service
      *
      * @param string|string[] ...$fields
      * @return Result
+     * @throws Exception
      */
     public function get(...$fields){
         if (empty($fields)){

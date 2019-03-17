@@ -103,17 +103,4 @@ class VCard extends Model
         'pointOnMap' => 'object:' . MapPoint::class,
         'contactPerson' => 'string'
     ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId',
-        'country',
-        'city',
-        'companyName',
-        'workTime',
-        'phone'
-    ];
 }

@@ -16,10 +16,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Search extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'bid' => 'integer',
         'auctionBids' => 'object:' . AuctionBids::class
@@ -29,8 +25,4 @@ class Search extends Model
         'bid',
         'auctionBids'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

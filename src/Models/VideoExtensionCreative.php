@@ -16,8 +16,6 @@ class VideoExtensionCreative extends Model
 { 
     protected $compatibleCollection; 
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'duration' => 'integer'
     ];
@@ -25,8 +23,4 @@ class VideoExtensionCreative extends Model
     protected $nonWritableProperties = [
         'duration'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

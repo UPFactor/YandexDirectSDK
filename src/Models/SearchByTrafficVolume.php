@@ -22,21 +22,9 @@ use YandexDirectSDK\Components\Model;
  */ 
 class SearchByTrafficVolume extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'targetTrafficVolume' => 'integer',
         'IncreasePercent' => 'integer',
         'BidCeiling' => 'integer'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'targetTrafficVolume'
     ];
 }

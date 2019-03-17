@@ -23,13 +23,4 @@ class CpmBannerCampaignStrategy extends Model
         'search' => 'object:' . CpmBannerCampaignSearchStrategy::class,
         'network' => 'object:' . CpmBannerCampaignNetworkStrategy::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'search',
-        'network'
-    ];
 }

@@ -16,10 +16,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class NetworkCoverageItem extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'probability' => 'integer',
         'bid' => 'integer'
@@ -29,8 +25,4 @@ class NetworkCoverageItem extends Model
         'probability',
         'bid'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

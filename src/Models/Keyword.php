@@ -95,18 +95,25 @@ class Keyword extends Model
     protected $properties = [
         'id' => 'integer',
         'adGroupId' => 'integer',
+        'campaignId' => 'integer',
         'keyword' => 'string',
         'bid' => 'integer',
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
         'userParam1' => 'string',
         'userParam2' => 'string',
-        'campaignId' => 'integer',
         'status' => 'string',
         'servingStatus' => 'string',
         'state' => 'string',
         'statisticsSearch' => 'object:' . Statistics::class,
         'statisticsNetwork' => 'object:' . Statistics::class
+    ];
+
+    protected $nonUpdatableProperties = [
+        'adGroupId',
+        'bid',
+        'contextBid',
+        'strategyPriority'
     ];
 
     protected $nonWritableProperties = [
@@ -116,12 +123,5 @@ class Keyword extends Model
         'state',
         'statisticsSearch',
         'statisticsNetwork'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'adGroupId',
-        'keyword'
     ];
 }

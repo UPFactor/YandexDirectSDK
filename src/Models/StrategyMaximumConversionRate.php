@@ -28,13 +28,4 @@ class StrategyMaximumConversionRate extends Model
         'bidCeiling' => 'integer',
         'goalId' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'weeklySpendLimit',
-        'goalId'
-    ];
 }

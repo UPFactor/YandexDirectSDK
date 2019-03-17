@@ -33,24 +33,10 @@ class WebpageCondition extends Model
     const CONTAINS_ANY = 'CONTAINS_ANY';
     const NOT_CONTAINS_ALL = 'NOT_CONTAINS_ALL';
 
-    protected $compatibleCollection;
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'operand' => 'enum:' . self::DOMAIN . ',' . self::OFFERS_LIST_URL . ',' . self::PAGE_CONTENT . ',' . self::PAGE_TITLE . ',' . self::URL,
         'operator' => 'enum:' . self::EQUALS_ANY . ',' . self::NOT_EQUALS_ALL . ',' . self::CONTAINS_ANY . ',' . self::NOT_CONTAINS_ALL,
         'arguments' => 'stack:string'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'operand',
-        'operator',
-        'arguments'
     ];
 
     /**

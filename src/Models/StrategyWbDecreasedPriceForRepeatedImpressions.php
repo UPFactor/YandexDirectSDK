@@ -23,13 +23,4 @@ class StrategyWbDecreasedPriceForRepeatedImpressions extends Model
         'averageCpm' => 'integer',
         'spendLimit' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'averageCpm',
-        'spendLimit'
-    ];
 }

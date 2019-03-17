@@ -77,8 +77,6 @@ class Client extends Model
 
     protected $compatibleCollection = Clients::class;
 
-    protected $serviceProvidersMethods = [];
-
     protected $properties = [
         'accountQuality' => 'float',
         'archived' => 'string',
@@ -92,13 +90,25 @@ class Client extends Model
         'currency' => 'enum:' . self::RUB . ',' . self::BYN . ',' . self::CHF . ',' . self::EUR . ',' . self::KZT . ',' . self::TRY . ',' . self::UAH . ',' . self::USD,
         'grants' => 'object:' . Grands::class,
         'notification' => 'object:' . ClientNotification::class,
-        'overdraftSumAvailable' => 'integer',
         'phone' => 'string',
+        'overdraftSumAvailable' => 'integer',
         'representatives' => 'object:' . Representatives::class,
         'restrictions' => 'object:' . ClientRestrictions::class,
         'settings' => 'object:' . ClientSettings::class,
         'type' => 'string',
         'vatRate' => 'float'
+    ];
+
+    protected $nonAddableProperties = [
+        'clientInfo',
+        'phone'
+    ];
+
+    protected $nonUpdatableProperties = [
+        'login',
+        'firstName',
+        'lastName',
+        'currency'
     ];
 
     protected $nonWritableProperties = [
@@ -111,15 +121,5 @@ class Client extends Model
         'restrictions',
         'type',
         'vatRate'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'login',
-        'firstName',
-        'lastName',
-        'currency',
-        'notification'
     ];
 }

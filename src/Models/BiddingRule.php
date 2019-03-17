@@ -27,12 +27,4 @@ class BiddingRule extends Model
         'searchByTrafficVolume' => 'object:' . SearchByTrafficVolume::class,
         'networkByCoverage' => 'object:' . NetworkByCoverage::class
     ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'searchByTrafficVolume|networkByCoverage'
-    ];
 }

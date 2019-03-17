@@ -80,15 +80,6 @@ class BidAuto extends Model
         'contextCoverage' => 'integer'
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId|keywordId',
-        'scope'
-    ];
-
     public static function getClassName()
     {
         return 'Bid';

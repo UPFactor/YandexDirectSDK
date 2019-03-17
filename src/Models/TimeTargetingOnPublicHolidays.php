@@ -34,12 +34,4 @@ class TimeTargetingOnPublicHolidays extends Model
         'startHour' => 'integer',
         'endHour' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'suspendOnHolidays'
-    ];
 }

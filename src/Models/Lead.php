@@ -49,8 +49,4 @@ class Lead extends Model
         'turboPageName',
         'data'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

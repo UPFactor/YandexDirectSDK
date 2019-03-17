@@ -52,14 +52,6 @@ class DynamicTextCampaignSearchStrategy extends Model
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
     ];
 
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategyType'
-    ];
-
     protected function initialize(...$arguments)
     {
         $this->properties['biddingStrategyType'] = 'enum:' . implode(',',[

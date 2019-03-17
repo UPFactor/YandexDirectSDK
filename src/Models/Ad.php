@@ -94,13 +94,6 @@ class Ad extends Model
         'id' => 'integer',
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
-        'status' => 'string',
-        'statusClarification' => 'string',
-        'state' => 'string',
-        'adCategories' => 'array:string',
-        'ageLabel' => 'string',
-        'type' => 'string',
-        'subtype' => 'string',
         'textAd' => 'object:' . TextAd::class,
         'mobileAppAd' => 'object:' . MobileAppAd::class,
         'dynamicTextAd' => 'object:' . DynamicTextAd::class,
@@ -109,7 +102,18 @@ class Ad extends Model
         'textAdBuilderAd' => 'object:' . TextAdBuilderAd::class,
         'mobileAppAdBuilderAd' => 'object:' . MobileAppAdBuilderAd::class,
         'cpcVideoAdBuilderAd' => 'object:' . CpcVideoAdBuilderAd::class,
-        'cpmBannerAdBuilderAd' => 'object:' . CpmBannerAdBuilderAd::class
+        'cpmBannerAdBuilderAd' => 'object:' . CpmBannerAdBuilderAd::class,
+        'status' => 'string',
+        'statusClarification' => 'string',
+        'state' => 'string',
+        'adCategories' => 'array:string',
+        'ageLabel' => 'string',
+        'type' => 'string',
+        'subtype' => 'string'
+    ];
+
+    protected $nonUpdatableProperties = [
+        'adGroupId'
     ];
 
     protected $nonWritableProperties = [
@@ -121,12 +125,5 @@ class Ad extends Model
         'ageLabel',
         'type',
         'subtype'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'AdGroupId',
-        'textAd|mobileAppAd|dynamicTextAd|textImageAd|mobileAppImageAd|textAdBuilderAd|mobileAppAdBuilderAd|cpcVideoAdBuilderAd|cpmBannerAdBuilderAd'
     ];
 }

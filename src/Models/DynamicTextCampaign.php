@@ -28,12 +28,4 @@ class DynamicTextCampaign extends Model
         'settings' => 'object:' . DynamicTextCampaignSettings::class,
         'counterIds' => 'array:integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategy'
-    ];
 }

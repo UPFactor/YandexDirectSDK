@@ -35,15 +35,6 @@ class BidModifierSet extends Model
         'bidModifier' => 'integer'
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'id',
-        'bidModifier'
-    ];
-
     public static function getClassName()
     {
         return 'BidModifiers';

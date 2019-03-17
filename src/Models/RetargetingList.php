@@ -59,20 +59,17 @@ class RetargetingList extends Model
         'type' => 'enum:' . self::RETARGETING . ',' . self::AUDIENCE,
         'name' => 'string',
         'description' => 'string',
-        'rules' => 'object:' .  RetargetingListRules::class,
         'isAvailable' => 'string',
+        'rules' => 'object:' .  RetargetingListRules::class,
         'scope' => 'string'
+    ];
+
+    protected $nonUpdatableProperties = [
+        'type'
     ];
 
     protected $nonWritableProperties = [
         'isAvailable',
         'scope'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'name',
-        'rules'
     ];
 }

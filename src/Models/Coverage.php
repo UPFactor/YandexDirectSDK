@@ -15,10 +15,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Coverage extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'coverageItems' => 'object:' . NetworkCoverageItems::class
     ];
@@ -26,8 +22,4 @@ class Coverage extends Model
     protected $nonWritableProperties = [
         'coverageItems'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

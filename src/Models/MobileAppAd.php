@@ -46,8 +46,6 @@ class MobileAppAd extends Model
     const PLAY = 'PLAY';
     const BUY_AUTODETECT = 'BUY_AUTODETECT';
 
-    protected $serviceProvidersMethods = [];
-
     protected $properties = [
         'title' => 'stack:string',
         'text' => 'string',
@@ -61,13 +59,5 @@ class MobileAppAd extends Model
 
     protected $nonWritableProperties = [
         'adImageModeration'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'title',
-        'text',
-        'action'
     ];
 }

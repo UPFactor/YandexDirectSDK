@@ -29,8 +29,4 @@ class FundsParam extends Model
         'campaignFunds',
         'sharedAccountFunds'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

@@ -19,21 +19,8 @@ use YandexDirectSDK\Components\Model;
  */ 
 class InstantMessenger extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'messengerClient' => 'string',
         'messengerLogin' => 'string'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'messengerClient',
-        'messengerLogin'
     ];
 }

@@ -19,8 +19,6 @@ class ClientRestriction extends Model
 { 
     protected $compatibleCollection = ClientRestrictions::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'element' => 'string',
         'value' => 'string'
@@ -30,8 +28,4 @@ class ClientRestriction extends Model
         'element',
         'value'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

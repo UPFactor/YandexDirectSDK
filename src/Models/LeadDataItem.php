@@ -19,8 +19,6 @@ class LeadDataItem extends Model
 { 
     protected $compatibleCollection = LeadData::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'name' => 'string',
         'value' => 'string'
@@ -30,8 +28,4 @@ class LeadDataItem extends Model
         'name',
         'value'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

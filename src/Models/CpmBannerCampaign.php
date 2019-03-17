@@ -32,12 +32,4 @@ class CpmBannerCampaign extends Model
         'counterIds' => 'array:integer',
         'frequencyCap' => 'object:' . FrequencyCapSetting::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategy'
-    ];
 }

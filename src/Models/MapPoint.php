@@ -31,10 +31,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class MapPoint extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'x' => 'integer',
         'y' => 'integer',
@@ -42,19 +38,6 @@ class MapPoint extends Model
         'y1' => 'integer',
         'x2' => 'integer',
         'y2' => 'integer'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'x',
-        'y',
-        'x1',
-        'y1',
-        'x2',
-        'y2'
     ];
 
     /**

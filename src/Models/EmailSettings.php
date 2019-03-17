@@ -39,10 +39,4 @@ class EmailSettings extends Model
         'sendAccountNews' => 'enum:' . self::YES . ',' . self::NO,
         'sendWarnings' => 'enum:' . self::YES . ',' . self::NO
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [];
 }

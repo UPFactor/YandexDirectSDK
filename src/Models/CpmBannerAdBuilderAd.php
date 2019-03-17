@@ -1,7 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class CpmBannerAdBuilderAd 
@@ -19,30 +19,8 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CpmBannerAdBuilderAd extends Model 
 { 
-    protected $serviceProvidersMethods = [];
-
     protected $properties = [
         'creative' => 'object:' . AdBuilderAd::class,
-        'href' => 'string'
+        'href' => 'string',
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'creative',
-        'href'
-    ];
-
-    /**
-     * @param $creativeId
-     * @return $this
-     */
-    public function setCreativeId($creativeId){
-        $this->setCreative(
-            AdBuilderAd::make()->setCreativeId($creativeId)
-        );
-        return $this;
-    }
 }

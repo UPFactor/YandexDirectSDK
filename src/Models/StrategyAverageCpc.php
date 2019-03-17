@@ -24,12 +24,4 @@ class StrategyAverageCpc extends Model
         'weeklySpendLimit' => 'integer',
         'averageCpc' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'averageCpc'
-    ];
 }

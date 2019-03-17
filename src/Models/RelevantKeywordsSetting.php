@@ -24,12 +24,4 @@ class RelevantKeywordsSetting extends Model
         'budgetPercent' => 'integer',
         'optimizeGoalId' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'budgetPercent'
-    ];
 }

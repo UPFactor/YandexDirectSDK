@@ -24,12 +24,4 @@ class StrategyMaximumClicks extends Model
         'weeklySpendLimit' => 'integer',
         'bidCeiling' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'weeklySpendLimit'
-    ];
 }

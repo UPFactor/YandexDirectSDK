@@ -26,8 +26,6 @@ class RetargetingAdjustment extends Model
 { 
     protected $compatibleCollection = RetargetingAdjustments::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'retargetingConditionId' => 'integer',
         'bidModifier' => 'integer',
@@ -38,12 +36,5 @@ class RetargetingAdjustment extends Model
     protected $nonWritableProperties = [
         'accessible',
         'enabled'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'retargetingConditionId',
-        'bidModifier'
     ];
 }

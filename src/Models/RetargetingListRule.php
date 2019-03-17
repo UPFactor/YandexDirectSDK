@@ -27,19 +27,8 @@ class RetargetingListRule extends Model
 
     protected $compatibleCollection = RetargetingListRules::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'arguments' => 'object:' . RetargetingListRuleArguments::class,
         'operator' => 'enum:' . self::ALL . ',' . self::ANY . ',' . self::NONE,
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'arguments',
-        'operator'
     ];
 }

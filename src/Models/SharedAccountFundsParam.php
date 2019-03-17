@@ -25,8 +25,4 @@ class SharedAccountFundsParam extends Model
         'refund',
         'spend'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

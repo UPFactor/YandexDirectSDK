@@ -36,8 +36,6 @@ class DemographicsAdjustment extends Model
 
     protected $compatibleCollection = DemographicsAdjustments::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'gender' => 'enum:' . self::GENDER_MALE . ',' . self::GENDER_FEMALE,
         'age' => 'enum:' . self::AGE_0_17 . ',' . self::AGE_18_24 . ',' . self::AGE_25_34 . ',' . self::AGE_35_44 . ',' . self::AGE_45_54 . ',' . self::AGE_55,
@@ -47,12 +45,5 @@ class DemographicsAdjustment extends Model
 
     protected $nonWritableProperties = [
         'enabled'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'bidModifier',
-        'gender|age'
     ];
 }

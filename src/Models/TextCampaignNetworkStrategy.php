@@ -58,12 +58,4 @@ class TextCampaignNetworkStrategy extends Model
         'averageRoi' => 'object:' . StrategyAverageRoi::class,
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategyType'
-    ];
 }

@@ -16,8 +16,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class SearchPrice extends Model 
 {
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'position' => 'string',
         'price' => 'integer'
@@ -27,8 +25,4 @@ class SearchPrice extends Model
         'position',
         'price'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

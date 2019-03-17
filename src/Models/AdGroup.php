@@ -116,37 +116,36 @@ class AdGroup extends Model
 
     protected $properties = [
         'id' => 'integer',
-        'restrictedRegionIds' => 'array:integer',
-        'status' => 'string',
-        'servingStatus' => 'string',
-        'type' => 'string',
-        'subtype' => 'string',
         'name' => 'string',
         'campaignId' => 'integer',
         'regionIds' => 'stack:integer',
+        'restrictedRegionIds' => 'array:integer',
         'negativeKeywords' => 'array:string',
         'trackingParams' => 'string',
         'mobileAppAdGroup' => 'object:' . MobileAppAdGroup::class,
         'dynamicTextAdGroup' => 'object:' . DynamicTextAdGroup::class,
         'dynamicTextFeedAdGroup' => 'object:' . DynamicTextFeedAdGroup::class,
         'cpmBannerKeywordsAdGroup' => 'string',
-        'cpmBannerUserProfileAdGroup' => 'string'
+        'cpmBannerUserProfileAdGroup' => 'string',
+        'status' => 'string',
+        'servingStatus' => 'string',
+        'type' => 'string',
+        'subtype' => 'string',
+
+    ];
+
+    protected $nonUpdatableProperties = [
+        'CampaignId',
+        'cpmBannerKeywordsAdGroup',
+        'cpmBannerUserProfileAdGroup'
     ];
 
     protected $nonWritableProperties = [
         'restrictedRegionIds',
+        'dynamicTextFeedAdGroup',
         'status',
         'servingStatus',
         'type',
-        'subtype',
-        'dynamicTextFeedAdGroup'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'name',
-        'campaignId',
-        'regionIds'
+        'subtype'
     ];
 }

@@ -62,23 +62,16 @@ class AudienceTarget extends Model
     protected $properties = [
         'id' => 'integer',
         'adGroupId' => 'integer',
+        'campaignId' => 'integer',
         'retargetingListId' => 'integer',
         'interestId' => 'integer',
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
-        'campaignId' => 'integer',
         'state' => 'string'
     ];
 
     protected $nonWritableProperties = [
         'campaignId',
         'state'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'adGroupId',
-        'retargetingListId|interestId'
     ];
 }

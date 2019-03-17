@@ -51,14 +51,6 @@ class AudienceTargetBid extends Model
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'id|adGroupId|campaignId'
-    ];
-
     public static function getClassName()
     {
         return 'Bid';

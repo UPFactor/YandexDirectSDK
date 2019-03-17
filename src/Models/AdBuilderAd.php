@@ -20,8 +20,6 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class AdBuilderAd extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'creativeId' => 'integer',
         'thumbnailUrl' => 'string',
@@ -31,11 +29,5 @@ class AdBuilderAd extends Model
     protected $nonWritableProperties = [
         'thumbnailUrl',
         'previewUrl'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'creativeId'
     ];
 }

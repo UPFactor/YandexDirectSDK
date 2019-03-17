@@ -70,10 +70,10 @@ class Bid extends Model
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',
+        'servingStatus' => 'string',
         'bid' => 'integer',
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
-        'servingStatus' => 'string',
         'competitorsBids' => 'stack:integer',
         'searchPrices' => 'object:' . SearchPrices::class,
         'contextCoverage' => 'arrayOfObject:' . ContextCoverages::class,
@@ -90,12 +90,5 @@ class Bid extends Model
         'minSearchPrice',
         'currentSearchPrice',
         'auctionBids'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId|keywordId',
-        'bid|contextBid|strategyPriority'
     ];
 }

@@ -53,7 +53,7 @@ abstract class Model implements ModelInterface
      *
      * @var array
      */
-    protected $nonUpdateableProperties = [];
+    protected $nonUpdatableProperties = [];
 
     /**
      * Non-addable properties.
@@ -310,7 +310,7 @@ abstract class Model implements ModelInterface
             }
 
             if ($this->properties[$name]['type'] !== 'object'){
-                $this->modelData[$name] =  $value;
+                $this->modelData[$name] = $value;
                 continue;
             }
 

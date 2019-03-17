@@ -28,12 +28,4 @@ class StrategyWeeklyClickPackage extends Model
         'averageCpc' => 'integer',
         'bidCeiling' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'clicksPerWeek'
-    ];
 }

@@ -60,24 +60,16 @@ class KeywordBid extends Model
         'adGroupId' => 'integer',
         'keywordId' => 'integer',
         'searchBid' => 'integer',
-        'networkBid' => 'integer',
-        'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
-        'servingStatus' => 'string',
         'search' => 'object:' . Search::class,
-        'network' => 'object:' . Network::class
-
+        'networkBid' => 'integer',
+        'network' => 'object:' . Network::class,
+        'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
+        'servingStatus' => 'string'
     ];
 
     protected $nonWritableProperties = [
-        'servingStatus',
         'search',
-        'network'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId|keywordId',
-        'searchBid|networkBid|strategyPriority'
+        'network',
+        'servingStatus'
     ];
 }

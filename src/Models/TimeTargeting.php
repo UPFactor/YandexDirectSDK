@@ -30,12 +30,4 @@ class TimeTargeting extends Model
         'considerWorkingWeekends' => 'enum:' . self::YES . ',' . self::NO,
         'holidaysSchedule' => 'object:' . TimeTargetingOnPublicHolidays::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'considerWorkingWeekends'
-    ];
 }

@@ -16,8 +16,6 @@ class CpcVideoCreative extends Model
 { 
     protected $compatibleCollection; 
 
-    protected $serviceProvidersMethods = [];
-
     protected $properties = [
         'duration' => 'integer'
     ];
@@ -25,8 +23,4 @@ class CpcVideoCreative extends Model
     protected $nonWritableProperties = [
         'duration'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

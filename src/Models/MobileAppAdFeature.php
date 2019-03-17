@@ -30,15 +30,11 @@ class MobileAppAdFeature extends Model
 
     protected $properties = [
         'feature' => 'enum:' . self::PRICE.','.self::ICON.','.self::CUSTOMER_RATING.','.self::RATINGS,
-        'enabled' => 'enum:' . self::YES.','.self::NO
+        'enabled' => 'enum:' . self::YES.','.self::NO,
+        'isAvailable' => 'string'
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'feature',
-        'enabled'
+    protected $nonWritableProperties = [
+        'isAvailable'
     ];
 }

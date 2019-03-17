@@ -152,8 +152,8 @@ class Campaign extends Model
         'timeZone' => 'string',
         'name' => 'string',
         'startDate' => 'string',
-        'endDate' => 'string',
         'dailyBudget' => 'object:' . DailyBudget::class,
+        'endDate' => 'string',
         'negativeKeywords' => 'array:string',
         'blockedIps' => 'array:string',
         'excludedSites' => 'array:string',
@@ -186,13 +186,5 @@ class Campaign extends Model
         'funds',
         'representedBy'
 
-    ];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'name',
-        'startDate',
-        'textCampaign|mobileAppCampaign|dynamicTextCampaign|cpmBannerCampaign'
     ];
 }

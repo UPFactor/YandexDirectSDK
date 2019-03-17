@@ -23,13 +23,4 @@ class DynamicTextCampaignStrategy extends Model
         'search' => 'object:' . DynamicTextCampaignSearchStrategy::class,
         'network' => 'object:' . DynamicTextCampaignNetworkStrategy::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'search',
-        'network'
-    ];
 }

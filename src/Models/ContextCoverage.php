@@ -16,8 +16,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class ContextCoverage extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'probability' => 'integer',
         'price' => 'integer'
@@ -27,8 +25,4 @@ class ContextCoverage extends Model
         'probability',
         'price'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

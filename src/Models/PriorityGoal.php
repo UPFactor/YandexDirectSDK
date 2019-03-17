@@ -20,17 +20,15 @@ use YandexDirectSDK\Components\Model;
  */
 class PriorityGoal extends Model
 {
+    const SET = 'SET';
+
     protected $properties = [
         'goalId' => 'integer',
-        'value' => 'integer'
+        'value' => 'integer',
+        'operation' => 'enum:' . self::SET
     ];
 
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'goalId',
-        'value'
+    protected $nonAddableProperties = [
+        'operation'
     ];
 }

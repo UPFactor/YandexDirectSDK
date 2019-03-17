@@ -24,8 +24,6 @@ class RegionalAdjustment extends Model
 { 
     protected $compatibleCollection = RegionalAdjustments::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'regionId' => 'integer',
         'bidModifier' => 'integer',
@@ -34,12 +32,5 @@ class RegionalAdjustment extends Model
 
     protected $nonWritableProperties = [
         'enabled'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'regionId',
-        'bidModifier'
     ];
 }

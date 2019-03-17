@@ -18,10 +18,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AuctionBidItem extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'trafficVolume' => 'integer',
         'bid' => 'integer',
@@ -33,8 +29,4 @@ class AuctionBidItem extends Model
         'bid',
         'price'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

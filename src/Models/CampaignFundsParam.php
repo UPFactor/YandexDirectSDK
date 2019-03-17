@@ -33,8 +33,4 @@ class CampaignFundsParam extends Model
         'balanceBonus',
         'sumAvailableForTransfer'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

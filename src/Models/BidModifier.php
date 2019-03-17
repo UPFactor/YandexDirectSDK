@@ -67,25 +67,18 @@ class BidModifier extends Model
         'id' => 'integer',
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
-        'level' => 'string',
-        'type' => 'string',
         'mobileAdjustment' => 'object:' . MobileAdjustment::class,
         'desktopAdjustment' => 'object:' . DesktopAdjustment::class,
         'demographicsAdjustments' => 'object:' . DemographicsAdjustments::class,
         'retargetingAdjustments' => 'object:' . RetargetingAdjustments::class,
         'regionalAdjustments' => 'object:' . RegionalAdjustments::class,
-        'videoAdjustment' => 'object:' . VideoAdjustment::class
+        'videoAdjustment' => 'object:' . VideoAdjustment::class,
+        'level' => 'string',
+        'type' => 'string'
     ];
 
     protected $nonWritableProperties = [
         'level',
         'type'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId',
-        'mobileAdjustment|desktopAdjustment|demographicsAdjustments|retargetingAdjustments|regionalAdjustments|videoAdjustment'
     ];
 }

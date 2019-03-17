@@ -47,12 +47,16 @@ class AdExtension extends Model
 
     protected $properties = [
         'id' => 'integer',
-        'callout' => 'object:' . Callout::class,
         'associated' => 'string',
         'type' => 'string',
+        'callout' => 'object:' . Callout::class,
         'state' => 'string',
         'status' => 'string',
         'statusClarification' => 'string'
+    ];
+
+    protected $nonUpdatableProperties = [
+        'callout'
     ];
 
     protected $nonWritableProperties = [
@@ -62,8 +66,4 @@ class AdExtension extends Model
         'status',
         'statusClarification'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [];
 }

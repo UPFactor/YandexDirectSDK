@@ -26,17 +26,6 @@ class MobileAppCampaignSetting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $properties = [];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'option',
-        'value'
-    ];
-
     protected function initialize(...$arguments)
     {
         $this->properties = [

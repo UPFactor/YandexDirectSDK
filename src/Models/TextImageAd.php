@@ -19,19 +19,8 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class TextImageAd extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'href' => 'string',
         'adImageHash' => 'string'
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'href',
-        'adImageHash'
     ];
 }

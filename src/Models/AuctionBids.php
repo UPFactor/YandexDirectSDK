@@ -15,10 +15,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AuctionBids extends Model 
 { 
-    protected $compatibleCollection; 
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'auctionBidItems' => 'object:' . AuctionBidItems::class
     ];
@@ -26,8 +22,4 @@ class AuctionBids extends Model
     protected $nonWritableProperties = [
         'auctionBidItems'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

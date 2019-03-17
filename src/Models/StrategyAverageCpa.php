@@ -32,13 +32,4 @@ class StrategyAverageCpa extends Model
         'goalId' => 'integer',
         'averageCpa' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'goalId',
-        'averageCpa'
-    ];
 }

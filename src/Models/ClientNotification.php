@@ -30,10 +30,6 @@ class ClientNotification extends Model
     const EN = 'EN';
     const TR = 'TR';
 
-    protected $compatibleCollection;
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'lang' => 'enum:' . self::RU . ',' . self::UK . ',' . self::EN . ',' . self::TR,
         'smsPhoneNumber' => 'string',
@@ -43,13 +39,5 @@ class ClientNotification extends Model
 
     protected $nonWritableProperties = [
         'smsPhoneNumber'
-    ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'lang',
-        'email',
-        'emailSubscriptions'
     ];
 }

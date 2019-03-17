@@ -27,12 +27,4 @@ class StrategyAverageCpi extends Model
         'weeklySpendLimit' => 'integer',
         'bidCeiling' => 'integer'
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'averageCpi'
-    ];
 }

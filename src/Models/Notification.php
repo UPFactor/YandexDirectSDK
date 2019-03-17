@@ -24,10 +24,4 @@ class Notification extends Model
         'smsSettings' => 'object:' . SmsSettings::class,
         'emailSettings' => 'object:' . EmailSettings::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [];
 }

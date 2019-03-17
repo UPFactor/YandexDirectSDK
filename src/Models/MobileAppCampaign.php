@@ -21,15 +21,7 @@ use YandexDirectSDK\Components\Model as Model;
 class MobileAppCampaign extends Model 
 {
     protected $properties = [
-        'biddingStrategy' => 'object:' . MobileAppCampaignStrategy::class,
         'settings' => 'object:' . MobileAppCampaignSettings::class,
-    ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategy'
+        'biddingStrategy' => 'object:' . MobileAppCampaignStrategy::class
     ];
 }

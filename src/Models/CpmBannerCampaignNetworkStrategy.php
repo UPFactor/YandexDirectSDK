@@ -41,12 +41,4 @@ class CpmBannerCampaignNetworkStrategy extends Model
         'wbDecreasedPriceForRepeatedImpressions' => 'object:' . StrategyWbDecreasedPriceForRepeatedImpressions::class,
         'cpDecreasedPriceForRepeatedImpressions' => 'object:' . StrategyCpDecreasedPriceForRepeatedImpressions::class
     ];
-
-    protected $nonWritableProperties = [];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = [
-        'biddingStrategyType'
-    ];
 }

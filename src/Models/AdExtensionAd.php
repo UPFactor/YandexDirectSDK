@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Collections\AdExtensionsAd;
+use YandexDirectSDK\Components\Model as Model;
 
 /** 
  * Class AdExtensionAd 
@@ -15,20 +16,24 @@ use YandexDirectSDK\Components\Model as Model;
  * @package YandexDirectSDK\Models 
  */ 
 class AdExtensionAd extends Model 
-{ 
-    protected $serviceProvidersMethods = []; 
+{
+    const ADD = 'ADD';
+    const REMOVE = 'REMOVE';
+    const SET = 'SET';
+
+    protected $compatibleCollection = AdExtensionsAd::class;
 
     protected $properties = [
         'adExtensionId' => 'integer',
-        'type' => 'string'
+        'type' => 'string',
+        'operation' => 'enum:' . self::ADD . ',' . self::REMOVE . ',' . self::SET
+    ];
+
+    protected $nonAddableProperties = [
+        'operation'
     ];
 
     protected $nonWritableProperties = [
-        'adExtensionId',
         'type'
     ];
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = []; 
 }

@@ -25,8 +25,6 @@ class Representative extends Model
 
     protected $compatibleCollection = Representatives::class;
 
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'login' => 'string',
         'email' => 'string',
@@ -38,8 +36,4 @@ class Representative extends Model
         'email',
         'role'
     ];
-
-    protected $nonReadableProperties = [];
-
-    protected $requiredProperties = []; 
 }

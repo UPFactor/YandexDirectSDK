@@ -22,20 +22,8 @@ class MobileAdjustment extends Model
     const IOS = 'IOS';
     const ANDROID = 'ANDROID';
 
-    protected $compatibleCollection;
-
-    protected $serviceProvidersMethods = []; 
-
     protected $properties = [
         'bidModifier' => 'integer',
         'operatingSystemType' => 'enum:' . self::IOS . ',' . self::ANDROID
-    ];
-
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'bidModifier'
     ];
 }

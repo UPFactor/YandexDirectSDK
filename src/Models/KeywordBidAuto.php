@@ -43,15 +43,6 @@ class KeywordBidAuto extends Model
         'biddingRule' => 'object:' . BiddingRule::class
     ];
 
-    protected $nonWritableProperties = []; 
-
-    protected $nonReadableProperties = []; 
-
-    protected $requiredProperties = [
-        'campaignId|adGroupId|keywordId',
-        'biddingRule'
-    ];
-
     public static function getClassName()
     {
         return 'KeywordBid';
