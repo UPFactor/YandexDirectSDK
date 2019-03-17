@@ -12,7 +12,7 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  * @property-read string                                        $response
  * @property-read Data                                          $data
  * @property-read ModelInterface|ModelCollectionInterface       $resource
- * @property-read string                                        $code
+ * @property-read integer                                       $code
  * @property-read array                                         $header
  * @property-read Data                                          $errors
  * @property-read Data                                          $warnings
@@ -101,7 +101,7 @@ class Result
     /**
      * Dynamic call of object properties.
      *
-     * @param $name
+     * @param string $name
      * @return mixed
      */
     public function __get($name)
@@ -126,7 +126,67 @@ class Result
     }
 
     /**
-     * Sets the value [$this->resource].
+     * Returns the original response from the API server.
+     *
+     * @return string
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * Returns the API server response code.
+     *
+     * @return int
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Returns the API response header.
+     *
+     * @return array
+     */
+    public function getHeader()
+    {
+        return $this->header;
+    }
+
+    /**
+     * Returns data from an API response.
+     *
+     * @return Data
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Returns errors from the response of the server API.
+     *
+     * @return Data
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Returns warnings from the response of the server API.
+     *
+     * @return Data
+     */
+    public function getWarnings()
+    {
+        return $this->warnings;
+    }
+
+    /**
+     * Associates [$resource] with the current response of the API server.
      *
      * @param ModelCommonInterface|ModelInterface|ModelCollectionInterface $resource
      * @return $this
@@ -135,6 +195,17 @@ class Result
     {
         $this->resource = $resource;
         return $this;
+    }
+
+    /**
+     * Returns the resource associated with the current response
+     * of the API server.
+     *
+     * @return ModelInterface|ModelCollectionInterface|null
+     */
+    public function getResource()
+    {
+        return $this->resource;
     }
 
     /**

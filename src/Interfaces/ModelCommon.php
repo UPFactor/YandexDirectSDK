@@ -27,32 +27,34 @@ interface ModelCommon
     public function copy();
 
     /**
-     * Get the object as a plain array.
+     * Retrieve the object hash
      *
-     * @return array
+     * @return string
      */
-    public function unwrap();
+    public function hash();
 
     /**
      * Converts to array.
      *
+     * @param int $filters
      * @return array
      */
-    public function toArray();
+    public function toArray($filters = 0);
+
+    /**
+     * Converts to a Data object.
+     *
+     * @return Data
+     */
+    public function toData();
 
     /**
      * Converts to JSON.
      *
+     * @param int $filters
      * @return string
      */
-    public function toJson();
-
-    /**
-     * Sufficiency checking.
-     *
-     * @return $this
-     */
-    public function check();
+    public function toJson($filters = 0);
 
     /**
      * Insert data into the object.

@@ -46,11 +46,11 @@ interface ModelCollection extends ModelCommon
     public function reset($value = []);
 
     /**
-     * Retrieve the collection hash
+     * Get the collection of items as a plain array.
      *
-     * @return string
+     * @return array
      */
-    public function hash();
+    public function unwrap();
 
     /**
      * Get all of the items in the collection.
@@ -131,12 +131,12 @@ interface ModelCollection extends ModelCommon
     public function push($value);
 
     /**
-     * Pluck an array of model property values from the collection.
+     * Extract the array of model property values from the collection.
      *
      * @param string|string[] $properties
      * @return array
      */
-    public function pluck($properties);
+    public function extract($properties);
 
     /**
      * Get and delete the first item from the collection.

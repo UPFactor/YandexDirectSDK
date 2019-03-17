@@ -97,18 +97,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Get the collection of items as a plain array.
-     *
-     * @return array
-     */
-    public function unwrap()
-    {
-        return Arr::map($this->items, function(ModelInterface $item){
-            return $item->unwrap();
-        });
-    }
-
-    /**
      * Retrieve the collection hash.
      *
      * @return string
@@ -174,12 +162,12 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Pluck an array of model property values from the collection.
+     * Extract the array of model property values from the collection.
      *
      * @param string|string[] $properties
      * @return array
      */
-    public function pluck($properties)
+    public function extract($properties)
     {
         if (is_string($properties)){
             return Arr::map($this->items, function($model) use ($properties){
@@ -201,38 +189,36 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Converts current collection to array.
+     * Converts the current collection to array.
      *
+     * @param int $filters
      * @return array
      */
-    public function toArray()
+    public function toArray($filters = 0)
     {
-        return Arr::map($this->items, function(ModelInterface $item){
-            return $item->toArray();
+        return Arr::map($this->items, function(ModelInterface $item) use ($filters){
+            return $item->toArray($filters);
         });
     }
 
     /**
-     * Converts current collection to JSON.
+     * Converts the current collection to a Data object.
      *
+     * @return Data
+     */
+    public function toData(){
+        return new Data($this->toArray());
+    }
+
+    /**
+     * Converts the current collection to JSON.
+     *
+     * @param int $filters
      * @return string
      */
-    public function toJson()
+    public function toJson($filters = 0)
     {
         return Arr::toJson($this->toArray());
-    }
-
-    /**
-     * Models sufficiency checking.
-     *
-     * @return $this
-     */
-    public function check()
-    {
-        Arr::each($this->items, function(ModelInterface $item){
-            return $item->check();
-        });
-        return $this;
     }
 
     /**

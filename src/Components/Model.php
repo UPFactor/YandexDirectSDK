@@ -20,6 +20,11 @@ abstract class Model implements ModelInterface
 {
     use SessionTrait;
 
+    const IS_READABLE = 1 << 0;     // 0001
+    const IS_WRITABLE = 1 << 1;     // 0010
+    const IS_ADDABLE = 1 << 2;      // 0100
+    const IS_UPDATABLE = 1 << 3;    // 1000
+
     /**
      * Model data.
      *
@@ -61,13 +66,6 @@ abstract class Model implements ModelInterface
      * @var array
      */
     protected $nonAddableProperties = [];
-
-    /**
-     * Required model properties.
-     *
-     * @var array
-     */
-    protected $requiredProperties = [];
 
     /**
      * Compatible class of collection.
@@ -113,12 +111,6 @@ abstract class Model implements ModelInterface
         $this->initialize();
 
         $properties = [];
-        $requiredProperties = [];
-
-        foreach ($this->requiredProperties as $key => $requiredProperty){
-            $this->requiredProperties[$key] = explode('|', $requiredProperty);
-            $requiredProperties = array_unique(array_merge($requiredProperties, $this->requiredProperties[$key]));
-        }
 
         foreach ($this->properties as $name => $propertyMeta){
             $propertyMeta = explode(':', $propertyMeta, 2);
@@ -163,9 +155,13 @@ abstract class Model implements ModelInterface
                 'type' => strtolower($propertyType),
                 'meta' => $propertyTypeMeta,
                 'items' => $propertyUseItemsSubarray,
-                'read' => !in_array($name, $this->nonReadableProperties),
-                'write' => !in_array($name, $this->nonWritableProperties),
-                'require' => in_array($name, $requiredProperties)
+                'readable' => !in_array($name, $this->nonReadableProperties),
+                'writable' => !in_array($name, $this->nonWritableProperties)
+            ];
+
+            $properties[$name] = [
+                'addable' => $properties[$name]['writable'] and !in_array($name, $this->nonAddableProperties),
+                'updatable' => $properties[$name]['writable'] and !in_array($name, $this->nonUpdatableProperties)
             ];
         }
 
@@ -243,20 +239,48 @@ abstract class Model implements ModelInterface
      * @return static
      */
     public function copy(){
-        return (new static())->insert($this->unwrap());
+        return (new static())->insert($this->toArray());
     }
 
     /**
-     * Get the model as a plain array.
+     * Retrieve the model hash.
      *
+     * @return string
+     */
+    public function hash()
+    {
+        return Arr::hash($this->toArray());
+    }
+
+    /**
+     * Converts the current model to array.
+     *
+     * @param int $filters
      * @return array
      */
-    public function unwrap()
+    public function toArray($filters = 0)
     {
         $properties = [];
         foreach ($this->modelData as $name => $value){
+
+            if ($filters & self::IS_READABLE and $this->properties[$name]['readable'] === false){
+                continue;
+            }
+
+            if ($filters & self::IS_WRITABLE and $this->properties[$name]['writable'] === false){
+                continue;
+            }
+
+            if ($filters & self::IS_ADDABLE and $this->properties[$name]['addable'] === false){
+                continue;
+            }
+
+            if ($filters & self::IS_UPDATABLE and $this->properties[$name]['updatable'] === false){
+                continue;
+            }
+
             if ($value instanceof ModelCommonInterface){
-                $value = $value->unwrap();
+                $value = $value->toArray($filters);
             }
 
             if (is_numeric($value)){
@@ -276,6 +300,26 @@ abstract class Model implements ModelInterface
             $properties[ucfirst($name)] = $value;
         }
         return $properties;
+    }
+
+    /**
+     * Converts the current model to a Data object.
+     *
+     * @return Data
+     */
+    public function toData(){
+        return new Data($this->toArray());
+    }
+
+    /**
+     * Converts the current model to JSON.
+     *
+     * @param int $filters
+     * @return string
+     */
+    public function toJson($filters = 0)
+    {
+        return Arr::toJson($this->toArray($filters));
     }
 
     /**
@@ -342,85 +386,6 @@ abstract class Model implements ModelInterface
     }
 
     /**
-     * Converts current model to array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $properties = [];
-        foreach ($this->modelData as $name => $value){
-            if ($this->properties[$name]['write'] === false){
-                continue;
-            }
-
-            if ($value instanceof ModelCommonInterface){
-                $value = $value->toArray();
-            }
-
-            if (is_numeric($value)){
-                $properties[ucfirst($name)] = $value;
-                continue;
-            }
-
-            if (empty($value)){
-                $properties[ucfirst($name)] = null;
-                continue;
-            }
-
-            if ($this->properties[$name]['items']){
-                $value = ['Items' => $value];
-            }
-
-            $properties[ucfirst($name)] = $value;
-        }
-        return $properties;
-    }
-
-    /**
-     * Converts current model to JSON.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        return Arr::toJson($this->toArray());
-    }
-
-    /**
-     * Model sufficiency checking.
-     *
-     * @return $this
-     */
-    public function check()
-    {
-        $modelDataKeys = array_keys($this->modelData);
-
-        foreach ($this->requiredProperties as $requiredProperty){
-            $controlProperty = false;
-
-            foreach ($requiredProperty as $requiredPropertyItem){
-                if(in_array($requiredPropertyItem, $modelDataKeys)){
-                    $controlProperty = true;
-                    break;
-                }
-            }
-
-            if ($controlProperty === false){
-                throw new InvalidArgumentException(static::class.". Required property [".implode('|', $requiredProperty)."] is not set.");
-            }
-        }
-
-        foreach ($this->modelData as $value){
-            if ($value instanceof ModelInterface or $value instanceof ModelCollectionInterface){
-                $value->check();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Retrieve instance of compatible collection.
      *
      * @return ModelCollectionInterface|null
@@ -460,69 +425,71 @@ abstract class Model implements ModelInterface
     /**
      * Setting a value for a model property.
      *
-     * @param string $property
+     * @param string $propertyName
      * @param mixed  $value
      * @return $this
      */
-    protected function setPropertyValue($property, $value)
+    protected function setPropertyValue($propertyName, $value)
     {
-        $property = $this->properties[$property] ?? null;
+        $propertyMeta = $this->properties[$propertyName] ?? null;
 
-        if (is_null($property)){
-            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] does not exist.");
+        if (is_null($propertyMeta)){
+            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] does not exist.");
         }
 
-        if ($property['write'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] is not writable.");
+        if ($propertyMeta['writable'] === false){
+            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] is not writable.");
         }
 
-        if ($this->propertyValidation($property, $value) === false){
-            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$property['name']}]. Expected value [{$property['type']}].");
+        if ($this->propertyValidation($propertyName, $value) === false){
+            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$propertyName}]. Expected value [{$propertyMeta['type']}].");
         }
 
-        $this->modelData[$property['name']] = $value;
+        $this->modelData[$propertyName] = $value;
         return $this;
     }
 
     /**
      * Getting the value of the model property.
      *
-     * @param string $property
+     * @param string $propertyName
      * @return mixed|null
      */
-    protected function getPropertyValue($property)
+    protected function getPropertyValue($propertyName)
     {
-        $property = $this->properties[$property] ?? null;
+        $propertyMeta = $this->properties[$propertyName] ?? null;
 
-        if (is_null($property)){
-            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] does not exist.");
+        if (is_null($propertyMeta)){
+            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] does not exist.");
         }
 
-        if ($property['read'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$property['name']}] is not readable.");
+        if ($propertyMeta['readable'] === false){
+            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] is not readable.");
         }
 
-        return $this->modelData[$property['name']] ?? null;
+        return $this->modelData[$propertyName] ?? null;
     }
 
     /**
      * Validation of values.
      *
-     * @param string $property
+     * @param string $propertyName
      * @param mixed  $value
      * @return bool
      */
-    protected function propertyValidation($property, $value)
+    protected function propertyValidation($propertyName, $value)
     {
-        if (!is_array($property)){
+        $propertyMeta = $this->properties[$propertyName] ?? null;
+
+        if (is_null($propertyMeta)){
             return false;
         }
 
-        if ($property['require'] === false and is_null($value)){
+        if (is_null($value)){
             return true;
         }
 
-        switch ($property['type']){
+        switch ($propertyMeta['type']){
             case 'mixed':   return true;                break;
             case 'string':  return is_string($value);   break;
             case 'boolean': return is_bool($value);     break;
@@ -535,9 +502,9 @@ abstract class Model implements ModelInterface
                     return false;
                 }
 
-                if (!is_null($property['meta'])){
+                if (!is_null($propertyMeta['meta'])){
                     foreach ($value as $valueItem){
-                        if (!in_array(gettype($valueItem), $property['meta'])) {
+                        if (!in_array(gettype($valueItem), $propertyMeta['meta'])) {
                             return false;
                         }
                     }
@@ -548,7 +515,7 @@ abstract class Model implements ModelInterface
 
             case 'enum':
 
-                return in_array($value, $property['meta']);
+                return in_array($value, $propertyMeta['meta']);
                 break;
 
             case 'set':
@@ -558,7 +525,7 @@ abstract class Model implements ModelInterface
                 }
 
                 foreach ($value as $item){
-                    if (!in_array($item,  $property['meta'])) {
+                    if (!in_array($item,  $propertyMeta['meta'])) {
                         return false;
                     }
                 }
@@ -572,8 +539,8 @@ abstract class Model implements ModelInterface
                     return false;
                 }
 
-                if (!is_null($property['meta'])){
-                    return $value instanceof $property['meta'];
+                if (!is_null($propertyMeta['meta'])){
+                    return $value instanceof $propertyMeta['meta'];
                 }
 
                 return true;

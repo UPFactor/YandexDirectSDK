@@ -176,7 +176,7 @@ abstract class Service
         if ($source instanceof ModelInterface){
             $keys = [$source->{$container}];
         } elseif ($source instanceof ModelCollectionInterface) {
-            $keys = $source->pluck($container);
+            $keys = $source->extract($container);
         } else {
             $keys = is_array($source) ? array_values($source) : [$source];
         }
@@ -208,7 +208,7 @@ abstract class Service
         if ($related instanceof ModelInterface){
 
             foreach ($keys as $key){
-                $elements[] = array_merge($related->unwrap(), [$foreignKey => $key]);
+                $elements[] = array_merge($related->toArray(), [$foreignKey => $key]);
             }
 
             if (is_null($related = $related->getCompatibleCollection())){
@@ -218,7 +218,7 @@ abstract class Service
         } elseif ($related instanceof ModelCollectionInterface){
 
             foreach ($keys as $key){
-                foreach ($related->unwrap() as $item){
+                foreach ($related->toArray() as $item){
                     $elements[] = array_merge($item, [$foreignKey => $key]);
                 }
             }
@@ -244,7 +244,7 @@ abstract class Service
      */
     protected function addModel(string $methodName, ModelInterface $model)
     {
-        $result = $this->call($methodName, $model->toArray());
+        $result = $this->call($methodName, $model->toArray(Model::IS_ADDABLE));
         return $result->setResource(
             $model
                 ->setSession($this->session)
@@ -270,7 +270,7 @@ abstract class Service
             $collection = $modelCollection::make($collection);
         }
 
-        $result = $this->call($methodName, [$collection::getClassName() => $collection->check()->toArray()]);
+        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray(Model::IS_ADDABLE)]);
 
         return $result->setResource(
             $collection
@@ -288,7 +288,7 @@ abstract class Service
      * @throws Exception
      */
     protected function updateModel(string $methodName, ModelInterface $model){
-        $result = $this->call($methodName, $model->toArray());
+        $result = $this->call($methodName, $model->toArray(Model::IS_UPDATABLE));
         return $result->setResource(
             $model
                 ->setSession($this->session)
@@ -313,7 +313,7 @@ abstract class Service
             $collection = $modelCollection::make($collection);
         }
 
-        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray()]);
+        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray(Model::IS_UPDATABLE)]);
 
         return $result->setResource(
                 $collection
@@ -362,7 +362,7 @@ abstract class Service
 
                 $elements = $elements
                     ->setSession($this->session)
-                    ->pluck($modelProperty);
+                    ->extract($modelProperty);
 
             } elseif ($elements instanceof ModelInterface){
 

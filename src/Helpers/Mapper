@@ -290,23 +290,23 @@ class Mapper extends ConsoleLauncher{
                 default: $resultType = $property['type'];
             }
 
-            if ($property['write'] === false and $property['read'] === false){
+            if ($property['writable'] === false and $property['readable'] === false){
                 continue;
             }
 
-            if ($property['write'] === true and $property['read'] === true) {
+            if ($property['writable'] === true and $property['readable'] === true) {
                 $modelLexemes['property'][] = ['@property', $resultType, "\${$property['name']}"];
-            } elseif ($property['write'] === true){
-                $modelLexemes['property'][] = ['@property-write', $resultType, "\${$property['name']}"];
+            } elseif ($property['writable'] === true){
+                $modelLexemes['property'][] = ['@property-writable', $resultType, "\${$property['name']}"];
             } else {
-                $modelLexemes['property'][] = ['@property-read', $resultType, "\${$property['name']}"];
+                $modelLexemes['property'][] = ['@property-readable', $resultType, "\${$property['name']}"];
             }
 
-            if ($property['write'] === true){
+            if ($property['writable'] === true){
                 $modelLexemes['methodSet'][] = ['@method', '$this', "set".ucfirst($property['name'])."({$resultType} \${$property['name']})"];
             }
 
-            if ($property['read'] === true){
+            if ($property['readable'] === true){
                 $modelLexemes['methodGet'][] = ['@method', $resultType, "get".ucfirst($property['name'])."()"];
             }
         }

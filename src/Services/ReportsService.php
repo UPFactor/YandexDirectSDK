@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
+use Exception;
 use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Service;
@@ -581,6 +582,7 @@ class ReportsService extends Service
      * Run an API request.
      *
      * @return Result
+     * @throws \Exception
      */
     public function get()
     {
@@ -592,6 +594,7 @@ class ReportsService extends Service
      *
      * @param int $attempts Maximum number of calls to the API server
      * @return Result
+     * @throws Exception
      */
     public function getSync($attempts = 4)
     {
