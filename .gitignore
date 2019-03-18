@@ -1,2 +1,4 @@
 /.idea/
 /vendor/
+/tests/Init/
+/tests/Run/

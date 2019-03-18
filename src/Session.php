@@ -2,36 +2,34 @@
 
 namespace YandexDirectSDK;
 
-use Exception as ExceptionAlias;
+use Exception;
 use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\AdExtensionsService;
+use YandexDirectSDK\Services\AdGroupsService;
+use YandexDirectSDK\Services\AdImagesService;
+use YandexDirectSDK\Services\AdsService;
+use YandexDirectSDK\Services\AgencyClientsService;
+use YandexDirectSDK\Services\AudienceTargetsService;
+use YandexDirectSDK\Services\BidModifiersService;
+use YandexDirectSDK\Services\BidsService;
+use YandexDirectSDK\Services\CampaignsService;
+use YandexDirectSDK\Services\ChangesService;
+use YandexDirectSDK\Services\ClientsService;
+use YandexDirectSDK\Services\DictionariesService;
+use YandexDirectSDK\Services\DynamicTextAdTargetsService;
+use YandexDirectSDK\Services\KeywordBidsService;
+use YandexDirectSDK\Services\KeywordsResearchService;
+use YandexDirectSDK\Services\KeywordsService;
+use YandexDirectSDK\Services\LeadsService;
+use YandexDirectSDK\Services\ReportsService;
+use YandexDirectSDK\Services\RetargetingListsService;
+use YandexDirectSDK\Services\SitelinksService;
+use YandexDirectSDK\Services\VCardsService;
 
 /**
  * Class Session
- *
- * @property-read \YandexDirectSDK\Services\CampaignsService             campaignsService
- * @property-read \YandexDirectSDK\Services\AdGroupsService              adGroupsService
- * @property-read \YandexDirectSDK\Services\AdsService                   adsService
- * @property-read \YandexDirectSDK\Services\AdsService                   keywordsService
- * @property-read \YandexDirectSDK\Services\BidsService                  bidsService
- * @property-read \YandexDirectSDK\Services\KeywordBidsService           keywordBidsService
- * @property-read \YandexDirectSDK\Services\BidModifiersService          bidModifiersService
- * @property-read \YandexDirectSDK\Services\AudienceTargetsService       audienceTargetsService
- * @property-read \YandexDirectSDK\Services\RetargetingListsService      retargetingListsService
- * @property-read \YandexDirectSDK\Services\VCardsService                vCardsService
- * @property-read \YandexDirectSDK\Services\SitelinksService             sitelinksService
- * @property-read \YandexDirectSDK\Services\AdImagesService              adImagesService
- * @property-read \YandexDirectSDK\Services\AdExtensionsService          adExtensionsService
- * @property-read \YandexDirectSDK\Services\DynamicTextAdTargetsService  dynamicTextAdTargetsService
- * @property-read \YandexDirectSDK\Services\ChangesService               changesService
- * @property-read \YandexDirectSDK\Services\DictionariesService          dictionariesService
- * @property-read \YandexDirectSDK\Services\ClientsService               clientsService
- * @property-read \YandexDirectSDK\Services\AgencyClientsService         agencyClientsService
- * @property-read \YandexDirectSDK\Services\KeywordsResearchService      keywordsResearchService
- * @property-read \YandexDirectSDK\Services\LeadsService                 leadsService
- *
- * @method \YandexDirectSDK\Services\ReportsService                      reportsService(string $reportName, string $reportType='CUSTOM_REPORT')
  *
  * @package YandexDirectSDK
  */
@@ -111,9 +109,10 @@ class Session
      * @param string $token
      * @param array $options
      * @return Session
-     * @throws ExceptionAlias
+     * @throws Exception
      */
-    public static function make(string $token, array $options = []){
+    public static function make(string $token, array $options = [])
+    {
         return new static($token, $options);
     }
 
@@ -122,51 +121,21 @@ class Session
      *
      * @param string $token
      * @param array $options
-     * @throws ExceptionAlias
+     * @throws Exception
      */
-    public function __construct(string $token, array $options = []){
+    public function __construct(string $token, array $options = [])
+    {
         $this->setToken($token);
 
-        if (!empty($options)){
-            if (!empty($params['client'])) $this->setClient($params['client']);
-            if (!empty($params['language'])) $this->setLanguage($params['language']);
-            if (!empty($params['sandbox'])) $this->useSandbox($params['sandbox']);
-            if (!empty($params['operatorUnits'])) $this->useOperatorUnits($params['operatorUnits']);
-            if (!empty($params['logFile'])) $this->useLogFile(true, $params['logFile']);
+        foreach ($options as $option => $value){
+            switch ($option){
+                case 'client': $this->setClient($value); break;
+                case 'language': $this->setLanguage($value); break;
+                case 'sandbox': $this->useSandbox($value); break;
+                case 'operatorUnits': $this->useOperatorUnits($value); break;
+                case 'logFile': $this->useLogFile(true, $value); break;
+            }
         }
-    }
-
-    /**
-     * Dynamic gets of management objects for API services.
-     *
-     * @param string $serviceName service name
-     * @return null
-     */
-    public function __get($serviceName)
-    {
-        $serviceName = __NAMESPACE__.'\Services\\' . ucfirst($serviceName);
-
-        if (class_exists($serviceName)) {
-            return new $serviceName($this);
-        }
-        return null;
-    }
-
-    /**
-     * Dynamic call of management objects for API services.
-     *
-     * @param string $serviceName service name
-     * @param array $arguments
-     * @return null
-     */
-    public function __call($serviceName, $arguments)
-    {
-        $serviceName = __NAMESPACE__.'\Services\\' . ucfirst($serviceName);
-
-        if (class_exists($serviceName)) {
-            return new $serviceName($this, ...$arguments);
-        }
-        return null;
     }
 
     /**
@@ -175,7 +144,8 @@ class Session
      * @param string $token
      * @return $this
      */
-    public function setToken(string $token){
+    public function setToken(string $token)
+    {
         $this->token = $token;
         return $this;
     }
@@ -186,7 +156,8 @@ class Session
      * @param string $client
      * @return $this
      */
-    public function setClient(string $client){
+    public function setClient(string $client)
+    {
         $this->client = $client;
         return $this;
     }
@@ -197,7 +168,8 @@ class Session
      * @param string $language
      * @return $this
      */
-    public function setLanguage(string $language){
+    public function setLanguage(string $language)
+    {
         $this->language = $language;
         return $this;
     }
@@ -207,7 +179,8 @@ class Session
      *
      * @return string
      */
-    public function getToken(){
+    public function getToken()
+    {
         return $this->token;
     }
 
@@ -216,7 +189,8 @@ class Session
      *
      * @return string
      */
-    public function getClientLogin(){
+    public function getClientLogin()
+    {
         return $this->client;
     }
 
@@ -225,7 +199,8 @@ class Session
      *
      * @return string
      */
-    public function getLanguage(){
+    public function getLanguage()
+    {
         return $this->language;
     }
 
@@ -235,7 +210,8 @@ class Session
      * @param bool $switch
      * @return $this
      */
-    public function useSandbox(bool $switch){
+    public function useSandbox(bool $switch)
+    {
         $this->useSandbox = $switch;
         return $this;
     }
@@ -247,7 +223,8 @@ class Session
      * @param bool $switch
      * @return $this
      */
-    public function useOperatorUnits(bool $switch){
+    public function useOperatorUnits(bool $switch)
+    {
         $this->useOperatorUnits = $switch;
         return $this;
     }
@@ -258,9 +235,10 @@ class Session
      * @param bool $switch
      * @param string|null $pathToFile
      * @return $this
-     * @throws ExceptionAlias
+     * @throws Exception
      */
-    public function useLogFile(bool $switch, string $pathToFile = null){
+    public function useLogFile(bool $switch, string $pathToFile = null)
+    {
         if ($switch){
             $this->logFile = File::bind($pathToFile)->existsOrCreate();
         } else {
@@ -274,7 +252,8 @@ class Session
      *
      * @return array
      */
-    public function fetch(){
+    public function fetch()
+    {
         return [
             'token' => $this->token,
             'language' => $this->language,
@@ -286,13 +265,204 @@ class Session
     }
 
     /**
+     * Returns a new instance of the service-provider [CampaignsService].
+     *
+     * @return CampaignsService
+     */
+    public function getCampaignsService(){
+        return new CampaignsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AdGroupsService].
+     *
+     * @return AdGroupsService
+     */
+    public function getAdGroupsService(){
+        return new AdGroupsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AdsService].
+     *
+     * @return AdsService
+     */
+    public function getAdsService(){
+        return new AdsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [KeywordsService].
+     *
+     * @return KeywordsService
+     */
+    public function getKeywordsService(){
+        return new KeywordsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [BidsService].
+     *
+     * @return BidsService
+     */
+    public function getBidsService(){
+        return new BidsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [KeywordBidsService].
+     *
+     * @return KeywordBidsService
+     */
+    public function getKeywordBidsService(){
+        return new KeywordBidsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [BidModifiersService].
+     *
+     * @return BidModifiersService
+     */
+    public function getBidModifiersService(){
+        return new BidModifiersService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AudienceTargetsService].
+     *
+     * @return AudienceTargetsService
+     */
+    public function getAudienceTargetsService(){
+        return new AudienceTargetsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [RetargetingListsService].
+     *
+     * @return RetargetingListsService
+     */
+    public function getRetargetingListsService(){
+        return new RetargetingListsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [VCardsService].
+     *
+     * @return VCardsService
+     */
+    public function getVCardsService(){
+        return new VCardsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [SitelinksService].
+     *
+     * @return SitelinksService
+     */
+    public function getSitelinksService(){
+        return new SitelinksService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AdImagesService].
+     *
+     * @return AdImagesService
+     */
+    public function getAdImagesService(){
+        return new AdImagesService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AdExtensionsService].
+     *
+     * @return AdExtensionsService
+     */
+    public function getAdExtensionsService(){
+        return new AdExtensionsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [DynamicTextAdTargetsService].
+     *
+     * @return DynamicTextAdTargetsService
+     */
+    public function getDynamicTextAdTargetsService(){
+        return new DynamicTextAdTargetsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [ChangesService].
+     *
+     * @return ChangesService
+     */
+    public function getChangesService(){
+        return new ChangesService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [DictionariesService].
+     *
+     * @return DictionariesService
+     */
+    public function getDictionariesService(){
+        return new DictionariesService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [ClientsService].
+     *
+     * @return ClientsService
+     */
+    public function getClientsService(){
+        return new ClientsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [AgencyClientsService].
+     *
+     * @return AgencyClientsService
+     */
+    public function getAgencyClientsService(){
+        return new AgencyClientsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [KeywordsResearchService].
+     *
+     * @return KeywordsResearchService
+     */
+    public function getKeywordsResearchService(){
+        return new KeywordsResearchService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [LeadsService].
+     *
+     * @return LeadsService
+     */
+    public function getLeadsService(){
+        return new LeadsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [ReportsService].
+     *
+     * @param string $reportName
+     * @param string $reportType
+     * @return ReportsService
+     */
+    public function getReportsService(string $reportName, string $reportType='CUSTOM_REPORT'){
+        return new ReportsService($this, $reportName, $reportType);
+    }
+
+    /**
      * Call to services API.
      *
      * @param string $service API service name
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
-     * @throws ExceptionAlias
+     * @throws Exception
      */
     public function call($service, $method, $params = array()){
 
@@ -323,7 +493,7 @@ class Session
 
         try {
             $result = new Result($curl);
-        } catch (ExceptionAlias $exception){
+        } catch (Exception $exception){
             $this->exceptionLogging($exception);
             throw $exception;
         }
@@ -339,7 +509,7 @@ class Session
      *
      * @param string $url
      * @param string $params
-     * @throws ExceptionAlias
+     * @throws Exception
      */
     protected function requestLogging($url, $params)
     {
@@ -360,10 +530,10 @@ class Session
     /**
      * Logging information about fatal errors.
      *
-     * @param ExceptionAlias $exception
-     * @throws ExceptionAlias
+     * @param Exception $exception
+     * @throws Exception
      */
-    protected function exceptionLogging(ExceptionAlias $exception)
+    protected function exceptionLogging(Exception $exception)
     {
         if (is_null($this->logFile)){
             return;
@@ -382,7 +552,6 @@ class Session
      * Logging error information when executing a request.
      *
      * @param Data $error
-     * @throws ExceptionAlias
      */
     protected function errorLogging(Data $error)
     {
@@ -406,7 +575,6 @@ class Session
      * Logging warning information when executing a request.
      *
      * @param Data $warning
-     * @throws ExceptionAlias
      */
     protected function warningLogging(Data $warning){
         if (is_null($this->logFile) or $warning->isEmpty()){
