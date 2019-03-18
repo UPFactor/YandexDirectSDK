@@ -3,6 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use Exception;
+use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -74,16 +75,16 @@ class Result
      * Create Result instance.
      *
      * @param resource $resource
-     * @throws Exception
+     * @throws RequestException
      */
     public function __construct($resource)
     {
         if (!is_resource($resource)) {
-            throw new Exception('cURL Error.');
+            throw RequestException::unknown('cURL Error.');
         }
 
         if (!($response = curl_exec($resource))) {
-            throw new Exception('cURL Error. ' . curl_error($resource));
+            throw RequestException::unknown("cURL Error. " . curl_error($resource));
         }
 
         $this->response = $response;
@@ -245,27 +246,27 @@ class Result
      * Sets the value [$this->data].
      *
      * @param string $result
-     * @throws Exception
+     * @throws RequestException
      */
     protected function setResult($result):void
     {
         switch ($this->code){
             case 201:
             case 202: return;
-            case 500: throw new Exception('Internal server error.');
-            case 502: throw new Exception('Request timeout.');
+            case 500: throw RequestException::internalServerError();
+            case 502: throw RequestException::requestTimeout();
             case 400:
                 $error = json_decode($result, true);
 
                 if (json_last_error() !== JSON_ERROR_NONE or !isset($error['error'])){
-                    throw new Exception("Bad request. Server response could not be read. Server response content: {$this->response}");
+                    throw RequestException::invalidResponse('The response contains not valid JSON', $this->response);
                 }
 
                 if (array_key_exists('error', $error)){
                     $error = $this->parseError($error['error']);
-                    throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+                    throw RequestException::badRequest("{$error['message']}. {$error['detail']}", $this->response);
                 } else {
-                    throw new Exception("Bad request. Unknown error. Server response content: {$this->response}");
+                    throw RequestException::badRequest('Unknown error', $this->response);
                 }
 
         }
@@ -278,14 +279,14 @@ class Result
             case 'text/tab-separated-values': $this->setTsvResult($result); return; break;
         }
 
-        throw new Exception("Invalid server response format. Server response content: {$this->response}");
+        throw RequestException::invalidResponse('Unknown format', $this->response);
     }
 
     /**
      * Sets the value [$this->data] by JSON data.
      *
      * @param string $result
-     * @throws Exception
+     * @throws RequestException
      */
     protected function setJsonResult($result):void
     {
@@ -294,14 +295,14 @@ class Result
         $errors = [];
 
         if (json_last_error() !== JSON_ERROR_NONE){
-            throw new Exception("Server response could not be read. Server response content: {$this->response}");
+            throw RequestException::invalidResponse('The response contains not valid JSON', $this->response);
         }
 
         if (array_key_exists('result', $result)){
             $result = $result['result'];
         } elseif(array_key_exists('error', $result)) {
             $error = $this->parseError($result['error']);
-            throw new Exception($error['message'] . '. ' . (empty($error['detail']) ? '' : $error['detail'] . '.'), $error['code']);
+            throw RequestException::badRequest("{$error['message']}. {$error['detail']}", $this->response);
         }
 
         foreach ($result as $resultItemKey => $resultItemValue){
@@ -342,14 +343,14 @@ class Result
      * Sets the value [$this->data] by TSV data.
      *
      * @param string $result
-     * @throws Exception
+     * @throws RequestException
      */
     protected function setTsvResult($result):void
     {
         $result = explode("\n", $result);
 
         if (count($result) < 3){
-            throw new Exception("Server response could not be read. Server response content: {$this->response}");
+            throw RequestException::invalidResponse('The response contains not valid TSV. Number of lines < 3.', $this->response);
         }
 
         $result = array_slice($result, 1, -2);
@@ -361,7 +362,7 @@ class Result
                 $data[$key] = array_combine($columnNames, explode("\t", $row));
             }
         } catch (Exception $error){
-            throw new Exception("Server response could not be read. Server response content: {$this->response}");
+            throw RequestException::invalidResponse('The response contains not valid TSV. Not constant number of columns.', $this->response);
         }
 
         $this->data->reset($data);

@@ -6,6 +6,7 @@ use Exception;
 use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Services\AdExtensionsService;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Services\AdImagesService;
@@ -462,7 +463,7 @@ class Session
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
-     * @throws Exception
+     * @throws RequestException
      */
     public function call($service, $method, $params = array()){
 
@@ -493,7 +494,7 @@ class Session
 
         try {
             $result = new Result($curl);
-        } catch (Exception $exception){
+        } catch (RequestException $exception){
             $this->exceptionLogging($exception);
             throw $exception;
         }

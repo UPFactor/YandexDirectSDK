@@ -63,7 +63,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedAds($adGroups, ModelCommonInterface $ads): Result
     {
-        return $this->session->adsService->add(
+        return $this->session->getAdsService()->add(
             $this->bind($adGroups, $ads, 'AdGroupId')
         );
     }
@@ -77,7 +77,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedAds($adGroups, array $fields): Result
     {
-        return $this->session->adsService->query()
+        return $this->session->getAdsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -93,7 +93,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedAudienceTargets($adGroups, ModelCommonInterface $audienceTargets): Result
     {
-        return $this->session->audienceTargetsService->add(
+        return $this->session->getAudienceTargetsService()->add(
             $this->bind($adGroups, $audienceTargets, 'AdGroupId')
         );
     }
@@ -107,7 +107,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedAudienceTargets($adGroups, array $fields): Result
     {
-        return $this->session->audienceTargetsService->query()
+        return $this->session->getAudienceTargetsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -132,7 +132,7 @@ class AdGroupsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->bidsService->set($collection);
+        return $this->session->getBidsService()->set($collection);
     }
 
     /**
@@ -154,7 +154,7 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->bidsService->set($collection);
+        return $this->session->getBidsService()->set($collection);
     }
 
     /**
@@ -166,7 +166,7 @@ class AdGroupsService extends Service
      */
     public function updateBidsAuto($adGroups, ModelCommonInterface $bidsAuto): Result
     {
-        return $this->session->bidsService->setAuto(
+        return $this->session->getBidsService()->setAuto(
             $this->bind($adGroups, $bidsAuto, 'AdGroupId')
         );
     }
@@ -180,7 +180,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedBids($adGroups, array $fields): Result
     {
-        return $this->session->bidsService->query()
+        return $this->session->getBidsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -195,7 +195,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {
-        return $this->session->bidModifiersService->set(
+        return $this->session->getBidModifiersService()->set(
             $this->bind($adGroups, $bidModifiers, 'AdGroupId')
         );
     }
@@ -221,7 +221,7 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->bidModifiersService->toggle($collection);
+        return $this->session->getBidModifiersService()->toggle($collection);
     }
 
     /**
@@ -245,7 +245,7 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->bidModifiersService->toggle($collection);
+        return $this->session->getBidModifiersService()->toggle($collection);
     }
 
     /**
@@ -257,7 +257,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedBidModifiers($adGroups, array $fields): Result
     {
-        return $this->session->bidModifiersService->query()
+        return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -282,7 +282,7 @@ class AdGroupsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->keywordBidsService->set($collection);
+        return $this->session->getKeywordBidsService()->set($collection);
     }
 
     /**
@@ -304,7 +304,7 @@ class AdGroupsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->keywordBidsService->set($collection);
+        return $this->session->getKeywordBidsService()->set($collection);
     }
 
     /**
@@ -316,7 +316,7 @@ class AdGroupsService extends Service
      */
     public function updateKeywordBidsAuto($adGroups, ModelCommonInterface $keywordsBidsAuto): Result
     {
-        return $this->session->keywordBidsService->setAuto(
+        return $this->session->getKeywordBidsService()->setAuto(
             $this->bind($adGroups, $keywordsBidsAuto, 'AdGroupId')
         );
     }
@@ -330,7 +330,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedKeywordBids($adGroups, array $fields): Result
     {
-        return $this->session->keywordBidsService->query()
+        return $this->session->getKeywordBidsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -345,7 +345,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedKeywords($adGroups, ModelCommonInterface $keywords): Result
     {
-        return $this->session->keywordsService->add(
+        return $this->session->getKeywordsService()->add(
             $this->bind($adGroups, $keywords, 'AdGroupId')
         );
     }
@@ -359,7 +359,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedKeywords($adGroups, array $fields): Result
     {
-        return $this->session->keywordsService->query()
+        return $this->session->getKeywordsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -374,7 +374,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedWebpages($adGroups, ModelCommonInterface $webpages): Result
     {
-        return $this->session->dynamicTextAdTargetsService->add(
+        return $this->session->getDynamicTextAdTargetsService()->add(
             $this->bind($adGroups, $webpages, 'AdGroupId')
         );
     }
@@ -388,7 +388,7 @@ class AdGroupsService extends Service
      */
     public function getRelatedWebpages($adGroups, array $fields): Result
     {
-        return $this->session->dynamicTextAdTargetsService->query()
+        return $this->session->getDynamicTextAdTargetsService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
