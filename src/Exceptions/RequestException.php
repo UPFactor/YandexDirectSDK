@@ -7,11 +7,38 @@ use YandexDirectSDK\Common\Str;
 class RequestException extends BaseException
 {
     /**
+     * @param integer $code
+     * @param string $message
+     * @param string $detail
      * @return RequestException
      */
-    public static function internalServerError()
+    public static function badRequest($code, string $message, string $detail = '')
     {
-        return new static('Internal server error.');
+        $code = intval($code);
+        $message = Str::end(trim($message), '.');
+        $detail = trim($detail);
+
+        return new static(
+            empty($detail) ? $message : ("{$message} " . Str::end($detail,'.')),
+            $code
+        );
+    }
+
+    /**
+     * @param integer $code
+     * @param string $message
+     * @param string $response
+     * @return RequestException
+     */
+    public static function badResponse(string $message, string $response = '')
+    {
+        $message = Str::end(trim($message), '.');
+        $response = trim($response);
+
+        return new static(
+            "Unsupported data type. " . (empty($response) ? $message : "{$message} Server response: {$response}"),
+            415
+        );
     }
 
     /**
@@ -19,53 +46,32 @@ class RequestException extends BaseException
      */
     public static function requestTimeout()
     {
-        return new static('Request timeout.');
+        return new static(
+            'Request timeout. Request processing time has exceeded the server limit.',
+            502
+        );
     }
 
     /**
-     * @param string $message
-     * @param string|null $response
      * @return RequestException
      */
-    public static function badRequest(string $message, $response = null)
+    public static function internalApiError()
     {
-        $message = Str::after("Bad request. {$message}", '.');
-
-        if (is_string($response)){
-            $message .= " Server response content: [{$response}].";
-        }
-
-        return new static($message);
+        return new static(
+            'Internal error of the Yandex.Direct API service. Try calling the method later. If the error persists, contact the support service.',
+            500
+        );
     }
 
     /**
-     * @param string $message
-     * @param string|null $response
+     * @param string $response
      * @return RequestException
      */
-    public static function invalidResponse(string $message, $response = null)
+    public static function unknownError(string $response = '')
     {
-        $message = Str::after("Invalid server response. {$message}", '.');
-
-        if (is_string($response)){
-            $message .= " Server response content: [{$response}].";
-        }
-
-        return new static($message);
-    }
-
-    /**
-     * @param string $message
-     * @param string|null $response
-     * @return RequestException
-     */
-    public static function unknown(string $message, $response = null){
-        $message = Str::after("Unknown error. {$message}", '.');
-
-        if (is_string($response)){
-            $message .= " Server response content: [{$response}].";
-        }
-
-        return new static($message);
+        return new static(
+            "Unknown error. " . (empty($response) ? '' : "Server response: {$response}"),
+            520
+        );
     }
 }

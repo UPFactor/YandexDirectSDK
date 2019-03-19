@@ -3,7 +3,9 @@
 namespace YandexDirectSDK\Components;
 
 use Exception;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -75,16 +77,18 @@ class Result
      * Create Result instance.
      *
      * @param resource $resource
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      * @throws RequestException
      */
     public function __construct($resource)
     {
         if (!is_resource($resource)) {
-            throw RequestException::unknown('cURL Error.');
+            throw InvalidArgumentException::invalidType(static::class.'::constructor', 1, 'resource', gettype($resource));
         }
 
         if (!($response = curl_exec($resource))) {
-            throw RequestException::unknown("cURL Error. " . curl_error($resource));
+            throw RuntimeException::make(static::class.'::constructor. CURL error: ' . curl_error($resource));
         }
 
         $this->response = $response;
@@ -253,20 +257,21 @@ class Result
         switch ($this->code){
             case 201:
             case 202: return;
-            case 500: throw RequestException::internalServerError();
+            case 500: throw RequestException::internalApiError();
             case 502: throw RequestException::requestTimeout();
             case 400:
-                $error = json_decode($result, true);
+                $result = json_decode($result, true);
 
-                if (json_last_error() !== JSON_ERROR_NONE or !isset($error['error'])){
-                    throw RequestException::invalidResponse('The response contains not valid JSON', $this->response);
+                if (json_last_error() !== JSON_ERROR_NONE or !isset($result['error'])){
+                    throw RequestException::badResponse('API response contains invalid JSON', $this->response);
                 }
 
-                if (array_key_exists('error', $error)){
-                    $error = $this->parseError($error['error']);
-                    throw RequestException::badRequest("{$error['message']}. {$error['detail']}", $this->response);
+                if (array_key_exists('error', $result)){
+                    $error = $this->parseError($result['error']);
+                    $error = array_values($error);
+                    throw RequestException::badRequest(...$error);
                 } else {
-                    throw RequestException::badRequest('Unknown error', $this->response);
+                    throw RequestException::unknownError($this->response);
                 }
 
         }
@@ -279,7 +284,7 @@ class Result
             case 'text/tab-separated-values': $this->setTsvResult($result); return; break;
         }
 
-        throw RequestException::invalidResponse('Unknown format', $this->response);
+        throw RequestException::badResponse('Expected data formats: JSON, TSV', $this->response);
     }
 
     /**
@@ -295,14 +300,15 @@ class Result
         $errors = [];
 
         if (json_last_error() !== JSON_ERROR_NONE){
-            throw RequestException::invalidResponse('The response contains not valid JSON', $this->response);
+            throw RequestException::badResponse('API response contains invalid JSON', $this->response);
         }
 
         if (array_key_exists('result', $result)){
             $result = $result['result'];
         } elseif(array_key_exists('error', $result)) {
             $error = $this->parseError($result['error']);
-            throw RequestException::badRequest("{$error['message']}. {$error['detail']}", $this->response);
+            $error = array_values($error);
+            throw RequestException::badRequest(...$error);
         }
 
         foreach ($result as $resultItemKey => $resultItemValue){
@@ -350,7 +356,7 @@ class Result
         $result = explode("\n", $result);
 
         if (count($result) < 3){
-            throw RequestException::invalidResponse('The response contains not valid TSV. Number of lines < 3.', $this->response);
+            throw RequestException::badResponse('API response contains invalid TSV. Number of lines < 3.', $this->response);
         }
 
         $result = array_slice($result, 1, -2);
@@ -362,7 +368,7 @@ class Result
                 $data[$key] = array_combine($columnNames, explode("\t", $row));
             }
         } catch (Exception $error){
-            throw RequestException::invalidResponse('The response contains not valid TSV. Not constant number of columns.', $this->response);
+            throw RequestException::badResponse('API response contains invalid TSV. Not constant number of columns.', $this->response);
         }
 
         $this->data->reset($data);
