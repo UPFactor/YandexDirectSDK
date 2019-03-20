@@ -77,9 +77,6 @@ class Result
      * Create Result instance.
      *
      * @param resource $resource
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     * @throws RequestException
      */
     public function __construct($resource)
     {
@@ -250,7 +247,6 @@ class Result
      * Sets the value [$this->data].
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setResult($result):void
     {
@@ -291,7 +287,6 @@ class Result
      * Sets the value [$this->data] by JSON data.
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setJsonResult($result):void
     {
@@ -349,7 +344,6 @@ class Result
      * Sets the value [$this->data] by TSV data.
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setTsvResult($result):void
     {

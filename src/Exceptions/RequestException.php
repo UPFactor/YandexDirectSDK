@@ -10,7 +10,7 @@ class RequestException extends BaseException
      * @param integer $code
      * @param string $message
      * @param string $detail
-     * @return RequestException
+     * @return static
      */
     public static function badRequest($code, string $message, string $detail = '')
     {
@@ -25,10 +25,9 @@ class RequestException extends BaseException
     }
 
     /**
-     * @param integer $code
      * @param string $message
      * @param string $response
-     * @return RequestException
+     * @return static
      */
     public static function badResponse(string $message, string $response = '')
     {
@@ -42,7 +41,7 @@ class RequestException extends BaseException
     }
 
     /**
-     * @return RequestException
+     * @return static
      */
     public static function requestTimeout()
     {
@@ -53,7 +52,7 @@ class RequestException extends BaseException
     }
 
     /**
-     * @return RequestException
+     * @return static
      */
     public static function internalApiError()
     {
@@ -65,7 +64,7 @@ class RequestException extends BaseException
 
     /**
      * @param string $response
-     * @return RequestException
+     * @return static
      */
     public static function unknownError(string $response = '')
     {

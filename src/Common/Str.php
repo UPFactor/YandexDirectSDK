@@ -381,16 +381,12 @@ class Str {
      */
     static public function random($length = 16){
         $string = '';
-        try {
-            while (($len = strlen($string)) < $length) {
-                $size = $length - $len;
-                $bytes = random_bytes($size);
-                $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
-            }
-            return $string;
-        } catch (Exception $error) {
-            throw new Exception($error->getMessage());
+        while (($len = strlen($string)) < $length) {
+            $size = $length - $len;
+            $bytes = random_bytes($size);
+            $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
         }
+        return $string;
     }
 
     /**

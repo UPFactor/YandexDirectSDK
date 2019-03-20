@@ -9,7 +9,7 @@ class InvalidArgumentException extends BaseException
      * @param string $argument
      * @param array|string|null $expected
      * @param string|null $actual
-     * @return InvalidArgumentException
+     * @return static
      */
     public static function invalidType($function, $argument, $expected = null, string $actual = null){
         $message = "{$function}. Invalid type of argument [$argument].";

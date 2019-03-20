@@ -341,7 +341,7 @@ class File extends FileInfo
      * @throws Exception
      */
     public function put($content){
-        if (file_put_contents($this->path, $content) === false){
+        if (@file_put_contents($this->path, $content) === false){
             throw new Exception("Failed reading file [{$this->path}]");
         }
 
@@ -371,7 +371,7 @@ class File extends FileInfo
      * @throws Exception
      */
     public function append($content){
-        if (file_put_contents($this->path, $content, FILE_APPEND) === false){
+        if (@file_put_contents($this->path, $content, FILE_APPEND) === false){
             throw new Exception("Failed reading file [{$this->path}]");
         }
 

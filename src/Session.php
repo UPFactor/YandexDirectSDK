@@ -6,7 +6,9 @@ use Exception;
 use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Services\AdExtensionsService;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Services\AdImagesService;
@@ -270,7 +272,8 @@ class Session
      *
      * @return CampaignsService
      */
-    public function getCampaignsService(){
+    public function getCampaignsService()
+    {
         return new CampaignsService($this);
     }
 
@@ -279,7 +282,8 @@ class Session
      *
      * @return AdGroupsService
      */
-    public function getAdGroupsService(){
+    public function getAdGroupsService(): AdGroupsService
+    {
         return new AdGroupsService($this);
     }
 
@@ -288,7 +292,8 @@ class Session
      *
      * @return AdsService
      */
-    public function getAdsService(){
+    public function getAdsService(): AdsService
+    {
         return new AdsService($this);
     }
 
@@ -297,7 +302,8 @@ class Session
      *
      * @return KeywordsService
      */
-    public function getKeywordsService(){
+    public function getKeywordsService(): KeywordsService
+    {
         return new KeywordsService($this);
     }
 
@@ -306,7 +312,8 @@ class Session
      *
      * @return BidsService
      */
-    public function getBidsService(){
+    public function getBidsService(): BidsService
+    {
         return new BidsService($this);
     }
 
@@ -315,7 +322,8 @@ class Session
      *
      * @return KeywordBidsService
      */
-    public function getKeywordBidsService(){
+    public function getKeywordBidsService(): KeywordBidsService
+    {
         return new KeywordBidsService($this);
     }
 
@@ -324,7 +332,8 @@ class Session
      *
      * @return BidModifiersService
      */
-    public function getBidModifiersService(){
+    public function getBidModifiersService(): BidModifiersService
+    {
         return new BidModifiersService($this);
     }
 
@@ -333,7 +342,8 @@ class Session
      *
      * @return AudienceTargetsService
      */
-    public function getAudienceTargetsService(){
+    public function getAudienceTargetsService(): AudienceTargetsService
+    {
         return new AudienceTargetsService($this);
     }
 
@@ -342,7 +352,8 @@ class Session
      *
      * @return RetargetingListsService
      */
-    public function getRetargetingListsService(){
+    public function getRetargetingListsService(): RetargetingListsService
+    {
         return new RetargetingListsService($this);
     }
 
@@ -351,7 +362,8 @@ class Session
      *
      * @return VCardsService
      */
-    public function getVCardsService(){
+    public function getVCardsService(): VCardsService
+    {
         return new VCardsService($this);
     }
 
@@ -360,7 +372,8 @@ class Session
      *
      * @return SitelinksService
      */
-    public function getSitelinksService(){
+    public function getSitelinksService(): SitelinksService
+    {
         return new SitelinksService($this);
     }
 
@@ -369,7 +382,8 @@ class Session
      *
      * @return AdImagesService
      */
-    public function getAdImagesService(){
+    public function getAdImagesService(): AdImagesService
+    {
         return new AdImagesService($this);
     }
 
@@ -378,7 +392,8 @@ class Session
      *
      * @return AdExtensionsService
      */
-    public function getAdExtensionsService(){
+    public function getAdExtensionsService(): AdExtensionsService
+    {
         return new AdExtensionsService($this);
     }
 
@@ -387,7 +402,8 @@ class Session
      *
      * @return DynamicTextAdTargetsService
      */
-    public function getDynamicTextAdTargetsService(){
+    public function getDynamicTextAdTargetsService(): DynamicTextAdTargetsService
+    {
         return new DynamicTextAdTargetsService($this);
     }
 
@@ -396,7 +412,8 @@ class Session
      *
      * @return ChangesService
      */
-    public function getChangesService(){
+    public function getChangesService(): ChangesService
+    {
         return new ChangesService($this);
     }
 
@@ -405,7 +422,8 @@ class Session
      *
      * @return DictionariesService
      */
-    public function getDictionariesService(){
+    public function getDictionariesService(): DictionariesService
+    {
         return new DictionariesService($this);
     }
 
@@ -414,7 +432,8 @@ class Session
      *
      * @return ClientsService
      */
-    public function getClientsService(){
+    public function getClientsService(): ClientsService
+    {
         return new ClientsService($this);
     }
 
@@ -423,7 +442,8 @@ class Session
      *
      * @return AgencyClientsService
      */
-    public function getAgencyClientsService(){
+    public function getAgencyClientsService(): AgencyClientsService
+    {
         return new AgencyClientsService($this);
     }
 
@@ -432,7 +452,8 @@ class Session
      *
      * @return KeywordsResearchService
      */
-    public function getKeywordsResearchService(){
+    public function getKeywordsResearchService(): KeywordsResearchService
+    {
         return new KeywordsResearchService($this);
     }
 
@@ -441,7 +462,8 @@ class Session
      *
      * @return LeadsService
      */
-    public function getLeadsService(){
+    public function getLeadsService(): LeadsService
+    {
         return new LeadsService($this);
     }
 
@@ -452,7 +474,8 @@ class Session
      * @param string $reportType
      * @return ReportsService
      */
-    public function getReportsService(string $reportName, string $reportType='CUSTOM_REPORT'){
+    public function getReportsService(string $reportName, string $reportType='CUSTOM_REPORT'): ReportsService
+    {
         return new ReportsService($this, $reportName, $reportType);
     }
 
@@ -465,7 +488,8 @@ class Session
      * @return Result
      * @throws RequestException
      */
-    public function call($service, $method, $params = array()){
+    public function call($service, $method, $params = array()): Result
+    {
 
         if (key_exists('SelectionCriteria', $params)){
             $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
@@ -510,43 +534,36 @@ class Session
      *
      * @param string $url
      * @param string $params
-     * @throws Exception
      */
-    protected function requestLogging($url, $params)
+    protected function requestLogging($url, $params): void
     {
         if (is_null($this->logFile)){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\t";
-        $line .= "request\t";
-        $line .= "sandbox:{$this->useSandbox}\t";
-        $line .= "client:{$this->client}\t";
-        $line .= "url:{$url}\t";
-        $line .= "params:{$params}\n";
-
-        $this->logFile->append($line);
+        try {
+            $this->logFile->append(date('Y-m-d H:i:s') . "\trequest\tsandbox:{$this->useSandbox}\tclient:{$this->client}\turl:{$url}\tparams:{$params}\n");
+        } catch (Exception $error) {
+            throw RuntimeException::make(static::class."::requestLogging. {$error->getMessage()}");
+        }
     }
 
     /**
      * Logging information about fatal errors.
      *
      * @param Exception $exception
-     * @throws Exception
      */
-    protected function exceptionLogging(Exception $exception)
+    protected function exceptionLogging(Exception $exception): void
     {
         if (is_null($this->logFile)){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\t";
-        $line .= "fatal error\t";
-        $line .= "sandbox:{$this->useSandbox}\t";
-        $line .= "client:{$this->client}\t";
-        $line .= "message:{$exception->getMessage()}\n";
-
-        $this->logFile->append($line);
+        try {
+            $this->logFile->append(date('Y-m-d H:i:s') . "\tfatal error\tsandbox:{$this->useSandbox}\tclient:{$this->client}\tmessage:{$exception->getMessage()}\n");
+        } catch (Exception $error) {
+            throw RuntimeException::make(static::class."::exceptionLogging. {$error->getMessage()}");
+        }
     }
 
     /**
@@ -554,22 +571,29 @@ class Session
      *
      * @param Data $error
      */
-    protected function errorLogging(Data $error)
+    protected function errorLogging(Data $error): void
     {
         if (is_null($this->logFile) or $error->isEmpty()){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\t";
-        $line .= "error\t";
-        $line .= "sandbox:{$this->useSandbox}\t";
-        $line .= "client:{$this->client}\t";
+        $line = date('Y-m-d H:i:s') . "\terror\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
+        $content = '';
 
-        $error->each(function($errors) use ($line){
+        $error->each(function($errors) use ($line, &$content){
             foreach ($errors as $error){
-                $this->logFile->append($line."message:{$error['message']}.".(empty($error['detail']) ? "" : "{$error['detail']}.")."\n");
+                $message = "{$error['message']}." . (empty($error['detail']) ? '' : "{$error['detail']}.");
+                $content .= "{$line}\tcode:{$error['code']}\tmessage:{$message}\n";
             }
         });
+
+        try {
+            if (!empty($content)) {
+                $this->logFile->append($content);
+            }
+        } catch (Exception $error) {
+            throw RuntimeException::make(static::class."::errorLogging. {$error->getMessage()}");
+        }
     }
 
     /**
@@ -577,20 +601,28 @@ class Session
      *
      * @param Data $warning
      */
-    protected function warningLogging(Data $warning){
+    protected function warningLogging(Data $warning): void
+    {
         if (is_null($this->logFile) or $warning->isEmpty()){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\t";
-        $line .= "warning\t";
-        $line .= "sandbox:{$this->useSandbox}\t";
-        $line .= "client:{$this->client}\t";
+        $line = date('Y-m-d H:i:s') . "\twarning\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
+        $content = '';
 
-        $warning->each(function($warnings) use ($line){
+        $warning->each(function($warnings) use ($line, &$content){
             foreach ($warnings as $warning){
-                $this->logFile->append($line."message:{$warning['message']}.".(empty($warning['detail']) ? "" : "{$warning['detail']}.")."\n");
+                $message = "{$warning['message']}." . (empty($warning['detail']) ? '' : "{$warning['detail']}.");
+                $content .= "{$line}\tcode:{$warning['code']}\tmessage:{$message}\n";
             }
         });
+
+        try {
+            if (!empty($content)) {
+                $this->logFile->append($content);
+            }
+        } catch (Exception $error) {
+            throw RuntimeException::make(static::class."::warningLogging. {$error->getMessage()}");
+        }
     }
 }
