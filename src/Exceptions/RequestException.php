@@ -62,6 +62,21 @@ class RequestException extends BaseException
         );
     }
 
+    public static function notFound()
+    {
+        return new static(
+            'The requested resource is not found',
+            404
+        );
+    }
+
+    public static function uriTooLong(){
+        return new static(
+            'The server could not process the request because the specified URI was too long.',
+            414
+        );
+    }
+
     /**
      * @param string $response
      * @return static

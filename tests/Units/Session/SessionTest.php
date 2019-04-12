@@ -5,6 +5,9 @@ namespace YandexDirectSDKTest\Unit\Session;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Services\AdExtensionsService;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Services\AdImagesService;
@@ -50,7 +53,6 @@ class SessionTest extends TestCase
             ]
         ];
     }
-
 
     public function setUp(): void
     {
@@ -110,6 +112,8 @@ class SessionTest extends TestCase
     }
 
     /**
+     * Availability of basic services.
+     *
      * @depends testConstruct
      *
      * @return void
@@ -142,6 +146,8 @@ class SessionTest extends TestCase
     }
 
     /**
+     * Calling the Yandex.Direct API method.
+     *
      * @depends testConstruct
      *
      * @return void
@@ -155,4 +161,86 @@ class SessionTest extends TestCase
 
         $this->assertTrue($result instanceof Result);
     }
+
+    /**
+     * Yandex.Direct API method exception: Bad Request.
+     *
+     * @depends testConstruct
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testApiCall_RequestException_BadRequest():void
+    {
+        $this->expectException(RequestException::class);
+        SessionTools::init()->call('dictionaries', 'get', []);
+    }
+
+    /**
+     * Yandex.Direct API method exception: Not Found.
+     *
+     * @depends testConstruct
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testApiCall_RequestException_NotFound():void
+    {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(404);
+        SessionTools::init()->call('', '');
+    }
+
+    /**
+     * Yandex.Direct API method exception: URI Too Long.
+     *
+     * @depends testConstruct
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testApiCall_RequestException_URITooLong():void
+    {
+        $this->expectException(RequestException::class);
+        $this->expectExceptionCode(414);
+        SessionTools::init()->call(str_repeat('dictionaries', 1000), '');
+    }
+
+    /**
+     * Yandex.Direct API method exception: Lack of access to the log file.
+     *
+     * @depends testConstruct
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testApiCall_RuntimeException_LogFileUnavailable():void
+    {
+        $this->expectException(RuntimeException::class);
+
+        $session = SessionTools::init();
+        $file = SessionTools::getInitData()['logFile'];
+
+        $this->assertFileExists($file);
+
+        chmod($file, 000);
+
+        try {
+            $session->call('dictionaries', 'get', [
+                'DictionaryNames' => ['Currencies']
+            ]);
+        } catch (RuntimeException $e){
+            unlink($file);
+            throw $e;
+        }
+    }
+
 }

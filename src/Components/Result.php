@@ -243,12 +243,10 @@ class Result
                 continue;
             }
 
-            if (preg_match('/^HTTP\/\d.\d\s+\d{3}\s+[a-z\s]+$/i', $item)) {
-                continue;
+            if (preg_match('/^[\w-]+:/i', $item)) {
+                $item = explode(":", $item, 2);
+                $this->header[trim($item[0])] = trim($item[1]);
             }
-
-            $item = explode(":", $item, 2);
-            $this->header[trim($item[0])] = trim($item[1]);
         }
     }
 
@@ -263,8 +261,6 @@ class Result
         switch ($this->code){
             case 201:
             case 202: return;
-            case 500: throw RequestException::internalApiError();
-            case 502: throw RequestException::requestTimeout();
             case 400:
                 $result = json_decode($result, true);
 
@@ -279,11 +275,18 @@ class Result
                 } else {
                     throw RequestException::unknownError($this->response);
                 }
-
+            case 404: throw RequestException::notFound();
+            case 414: throw RequestException::uriTooLong();
+            case 500: throw RequestException::internalApiError();
+            case 502: throw RequestException::requestTimeout();
         }
 
-        $contentType = explode(';', $this->header['Content-Type'], 2);
-        $contentType = $contentType[0] ?? '';
+        if (isset($this->header['Content-Type'])){
+            $contentType = explode(';', $this->header['Content-Type'], 2);
+            $contentType = $contentType[0] ?? '';
+        } else {
+            $contentType = '';
+        }
 
         switch ($contentType){
             case 'application/json': $this->setJsonResult($result); return; break;
