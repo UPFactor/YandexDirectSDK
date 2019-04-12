@@ -4,11 +4,11 @@ namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
 use ReflectionException;
-use BadMethodCallException;
-use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Common\CollectionBaseTrait;
 use YandexDirectSDK\Common\SessionTrait;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Session;
@@ -82,6 +82,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param string  $method
      * @param mixed[] $arguments
      * @return $this|mixed|null
+     * @throws ModelCollectionException
      */
     public function __call($method, $arguments)
     {
@@ -90,10 +91,10 @@ abstract class ModelCollection implements ModelCollectionInterface
                 return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this, ...$arguments);
             }
 
-            throw new BadMethodCallException(static::class.". Failed method [{$method}]. No session to connect.");
+            throw ModelCollectionException::make(static::class.". Failed method [{$method}]. No session to connect.");
         }
 
-        throw new BadMethodCallException(static::class.". Method [{$method}] is missing.");
+        throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
     }
 
     /**
@@ -111,6 +112,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param ModelInterface $value
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function push($value)
     {
@@ -129,6 +131,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param Data|array $source
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function insert($source)
     {
@@ -269,16 +272,18 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param mixed $data
      * @return static[]
+     * @throws ModelCollectionException
+     * @throws InvalidArgumentException
      */
     protected function dataFusionController($data)
     {
         if (is_null($this->compatibleModel)){
-            throw new BadMethodCallException(static::class.". Collection is not serviced.");
+            throw ModelCollectionException::make(static::class.". Collection is not serviced.");
         }
 
         if (is_object($data)){
             if (get_class($data) !== static::class) {
-                throw new InvalidArgumentException(static::class.". Invalid collection type [".get_class($data)."]. Expected [".static::class."|array of {$this->compatibleModel}]");
+                throw InvalidArgumentException::invalidType(static::class, 1, static::class."|array of {$this->compatibleModel}", get_class($data));
             }
             return $data->all();
         }
@@ -289,7 +294,7 @@ abstract class ModelCollection implements ModelCollectionInterface
             });
         }
 
-        throw new InvalidArgumentException(static::class.". Invalid data type. Expected [".static::class."|array of {$this->compatibleModel}]");
+        throw InvalidArgumentException::invalidType(static::class, 1, static::class."|array of {$this->compatibleModel}", gettype($data));
     }
 
     /**
@@ -297,12 +302,18 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param mixed $item
      * @return static
+     * @throws InvalidArgumentException
      */
     protected function dataItemController($item)
     {
-        if (!is_object($item) or get_class($item) !== $this->compatibleModel){
-            throw new InvalidArgumentException(static::class.". Invalid model type. Expected [{$this->compatibleModel}]");
+        if (!is_object($item)){
+            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, gettype($item));
         }
+
+        if (get_class($item) !== $this->compatibleModel){
+            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, get_class($item));
+        }
+
         return $item;
     }
 }

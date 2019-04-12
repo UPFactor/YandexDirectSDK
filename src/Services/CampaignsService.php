@@ -12,6 +12,10 @@ use YandexDirectSDK\Collections\KeywordBidsAuto;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Collections\Campaigns;
 use YandexDirectSDK\Models\AdGroup;
@@ -62,10 +66,11 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedAdGroups($campaigns, ModelCommonInterface $adGroups): Result
     {
-        return $this->session->adGroupsService->add(
+        return $this->session->getAdGroupsService()->add(
             $this->bind($campaigns, $adGroups, 'CampaignId')
         );
     }
@@ -76,10 +81,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedAdGroups($campaigns, array $fields): Result
     {
-        return $this->session->adGroupsService->query()
+        return $this->session->getAdGroupsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -92,10 +99,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedAds($campaigns, array $fields): Result
     {
-        return $this->session->adsService->query()
+        return $this->session->getAdsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -108,10 +117,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedAudienceTargets($campaigns, array $fields): Result
     {
-        return $this->session->audienceTargetsService->query()
+        return $this->session->getAudienceTargetsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -124,6 +135,7 @@ class CampaignsService extends Service
      * @param integer $bid
      * @param integer|null $contextBid
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateBids($campaigns, $bid = null, $contextBid = null): Result
     {
@@ -136,7 +148,7 @@ class CampaignsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->bidsService->set($collection);
+        return $this->session->getBidsService()->set($collection);
     }
 
     /**
@@ -145,6 +157,7 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param string $strategyPriority
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateStrategyPriority($campaigns, string $strategyPriority): Result
     {
@@ -158,7 +171,7 @@ class CampaignsService extends Service
             );
         }
 
-        return $this->session->bidsService->set($collection);
+        return $this->session->getBidsService()->set($collection);
     }
 
     /**
@@ -167,10 +180,14 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param BidAuto|BidsAuto|ModelCommonInterface $bidsAuto
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws ServiceException
+     * @throws RequestException
      */
     public function updateBidsAuto($campaigns, ModelCommonInterface $bidsAuto): Result
     {
-        return $this->session->bidsService->setAuto(
+        return $this->session->getBidsService()->setAuto(
             $this->bind($campaigns, $bidsAuto, 'CampaignId')
         );
     }
@@ -181,10 +198,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedBids($campaigns, array $fields): Result
     {
-        return $this->session->bidsService->query()
+        return $this->session->getBidsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -196,10 +215,11 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedBidModifiers($campaigns, ModelCommonInterface $bidModifiers): Result
     {
-        return $this->session->bidModifiersService->set(
+        return $this->session->getBidModifiersService()->set(
             $this->bind($campaigns, $bidModifiers, 'CampaignId')
         );
     }
@@ -210,6 +230,7 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param string $bidModifierType
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function enableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -225,7 +246,7 @@ class CampaignsService extends Service
             );
         }
 
-        return $this->session->bidModifiersService->toggle($collection);
+        return $this->session->getBidModifiersService()->toggle($collection);
     }
 
     /**
@@ -234,6 +255,7 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param string $bidModifierType
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function disableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -249,7 +271,7 @@ class CampaignsService extends Service
             );
         }
 
-        return $this->session->bidModifiersService->toggle($collection);
+        return $this->session->getBidModifiersService()->toggle($collection);
     }
 
     /**
@@ -258,10 +280,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedBidModifiers($campaigns, array $fields): Result
     {
-        return $this->session->bidModifiersService->query()
+        return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -274,6 +298,7 @@ class CampaignsService extends Service
      * @param integer $searchBid
      * @param integer|null $networkBid
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateKeywordBids($campaigns, $searchBid = null, $networkBid = null): Result
     {
@@ -286,7 +311,7 @@ class CampaignsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->keywordBidsService->set($collection);
+        return $this->session->getKeywordBidsService()->set($collection);
     }
 
     /**
@@ -295,6 +320,7 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param string $strategyPriority
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateKeywordStrategyPriority($campaigns, string $strategyPriority): Result
     {
@@ -308,7 +334,7 @@ class CampaignsService extends Service
             $collection->push($model);
         }
 
-        return $this->session->keywordBidsService->set($collection);
+        return $this->session->getKeywordBidsService()->set($collection);
     }
 
     /**
@@ -317,10 +343,14 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param KeywordBidAuto|KeywordBidsAuto|ModelCommonInterface $keywordsBidsAuto
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     public function updateKeywordBidsAuto($campaigns, ModelCommonInterface $keywordsBidsAuto): Result
     {
-        return $this->session->keywordBidsService->setAuto(
+        return $this->session->getKeywordBidsService()->setAuto(
             $this->bind($campaigns, $keywordsBidsAuto, 'CampaignId')
         );
     }
@@ -331,10 +361,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedKeywordBids($campaigns, array $fields): Result
     {
-        return $this->session->keywordBidsService->query()
+        return $this->session->getKeywordBidsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -346,10 +378,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedKeywords($campaigns, array $fields): Result
     {
-        return $this->session->keywordsService->query()
+        return $this->session->getKeywordsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
@@ -361,10 +395,12 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedWebpages($campaigns, array $fields): Result
     {
-        return $this->session->dynamicTextAdTargetsService->query()
+        return $this->session->getDynamicTextAdTargetsService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();

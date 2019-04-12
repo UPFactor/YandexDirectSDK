@@ -2,7 +2,4 @@
 
 namespace YandexDirectSDK\Exceptions;
 
-class ServiceException extends BaseException
-{
-
-}
+class ServiceException extends BaseException {}

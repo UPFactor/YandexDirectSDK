@@ -2,11 +2,12 @@
 
 namespace YandexDirectSDK\Services;
 
-use Exception;
-use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 
 class ReportsService extends Service
 {
@@ -173,16 +174,17 @@ class ReportsService extends Service
      *
      * @param mixed ...$arguments
      * @return void
+     * @throws InvalidArgumentException
      */
     protected function initialize(...$arguments)
     {
         if (!is_string($arguments[0])){
-            throw new InvalidArgumentException(static::class.". Failed method [report]. Invalid report name. Expected [string].");
+            throw InvalidArgumentException::invalidType(static::class.'::report', 1, 'string');
         }
 
         if (isset($arguments[1])){
             if (!in_array($arguments[1], static::$validReportType)){
-                throw new InvalidArgumentException(static::class.". Failed method [report]. Invalid report type. Expected [".implode('|', static::$validReportType)."].");
+                throw InvalidArgumentException::invalidType(static::class.'::report', 1, implode('|', static::$validReportType));
             }
         }
 
@@ -195,6 +197,7 @@ class ReportsService extends Service
      *
      * @param string|string[] $fields
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function select($fields)
     {
@@ -210,7 +213,7 @@ class ReportsService extends Service
 
         foreach ($fields as $k => $field){
             if (!is_string($field)){
-                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type. Expected [string|string[]].");
+                throw InvalidArgumentException::invalidType(static::class.'::select', 1, 'string|string[]');
             }
 
             $this->selection[] = trim($field);
@@ -227,11 +230,12 @@ class ReportsService extends Service
      * @param string $dateFromOrDateRange
      * @param string|null $dateTo
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function dateRange(string $dateFromOrDateRange, string $dateTo = null){
         if (is_null($dateTo)){
             if (!in_array($dateFromOrDateRange, static::$validDateRange)){
-                throw new InvalidArgumentException(static::class.". Failed method [dateRange]. Invalid date range type. Expected [".implode('|', static::$validDateRange)."].");
+                throw InvalidArgumentException::invalidType(static::class.'::dateRange', 1, implode('|', static::$validDateRange));
             }
 
             $this->dateFrom = null;
@@ -255,6 +259,7 @@ class ReportsService extends Service
      * @param string $operator
      * @param mixed $values
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function where(string $field, string $operator, $values)
     {
@@ -267,7 +272,7 @@ class ReportsService extends Service
             case '<>': $operator = 'NOT_EQUALS'; break;
             default:
                 if (!in_array($operator, static::$validOperators)){
-                    throw new InvalidArgumentException(static::class.". Failed method [where]. Invalid operator name. Expected [".implode('|', static::$validOperators)."].");
+                    throw InvalidArgumentException::invalidType(static::class.'::where', 1, implode('|', static::$validOperators));
                 }
         }
 
@@ -394,6 +399,7 @@ class ReportsService extends Service
      * @param string $field
      * @param string|null $sortOrder
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function orderBy(string $field, string $sortOrder = null)
     {
@@ -409,7 +415,7 @@ class ReportsService extends Service
             case 'DESC': $sortOrder = 'DESCENDING'; break;
             default:
                 if (!in_array($sortOrder, static::$validSortingTypes)){
-                    throw new InvalidArgumentException(static::class.". Failed method [where]. Invalid sorting types. Expected [".implode('|', static::$validSortingTypes)."].");
+                    throw InvalidArgumentException::invalidType(static::class.'::orderBy', 2, implode('|', static::$validSortingTypes));
                 }
         }
 
@@ -438,6 +444,7 @@ class ReportsService extends Service
      *
      * @param string|string[] $goals
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function goals($goals)
     {
@@ -453,7 +460,7 @@ class ReportsService extends Service
 
         foreach ($goals as $k => $goal){
             if (!is_string($goal)){
-                throw new InvalidArgumentException(static::class.". Failed method [goals]. Invalid argument type. Expected [string|string[]].");
+                throw InvalidArgumentException::invalidType(static::class.'::goals', 1, 'string|string[]');
             }
 
             $this->goals[] = trim($goal);
@@ -469,6 +476,7 @@ class ReportsService extends Service
      *
      * @param string|string[] $attributionModels
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function attributionModels($attributionModels)
     {
@@ -484,7 +492,7 @@ class ReportsService extends Service
 
         foreach ($attributionModels as $k => $attributionModel){
             if (!is_string($attributionModel)){
-                throw new InvalidArgumentException(static::class.". Failed method [attributionModels]. Invalid argument type. Expected [string|string[]].");
+                throw InvalidArgumentException::invalidType(static::class.'::attributionModels', 1, 'string|string[]');
             }
 
             $this->attributionModels[] = trim($attributionModel);
@@ -594,7 +602,9 @@ class ReportsService extends Service
      *
      * @param int $attempts Maximum number of calls to the API server
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function getSync($attempts = 4)
     {

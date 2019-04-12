@@ -4,10 +4,10 @@ namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
 use ReflectionException;
-use BadMethodCallException;
-use InvalidArgumentException;
 use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Common\Arr;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
@@ -172,8 +172,10 @@ abstract class Model implements ModelInterface
      * Dynamic recording of model property values.
      *
      * @param string $property
-     * @param mixed  $value
+     * @param mixed $value
      * @return mixed
+     * @throws InvalidArgumentException
+     * @throws ModelException
      */
     public function __set($property, $value)
     {
@@ -186,6 +188,7 @@ abstract class Model implements ModelInterface
      *
      * @param string $property
      * @return mixed|null
+     * @throws ModelException
      */
     public function __get($property)
     {
@@ -195,9 +198,11 @@ abstract class Model implements ModelInterface
     /**
      * Implementing dynamic methods.
      *
-     * @param string  $method
+     * @param string $method
      * @param mixed[] $arguments
      * @return $this|mixed|null
+     * @throws InvalidArgumentException
+     * @throws ModelException
      */
     public function __call($method, $arguments)
     {
@@ -206,7 +211,7 @@ abstract class Model implements ModelInterface
                 return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this);
             }
 
-            throw new BadMethodCallException(static::class.". Failed method [{$method}]. No session to connect.");
+            throw ModelException::make(static::class.". Failed method [{$method}]. No session to connect.");
         }
 
         $action = substr($method, 0, 3);
@@ -220,7 +225,7 @@ abstract class Model implements ModelInterface
             return $this->setPropertyValue($property, ...$arguments);
         }
 
-        throw new BadMethodCallException(static::class.". Method [{$method}] is missing.");
+        throw ModelException::make(static::class.". Method [{$method}] is missing.");
     }
 
     /**
@@ -428,21 +433,23 @@ abstract class Model implements ModelInterface
      * @param string $propertyName
      * @param mixed  $value
      * @return $this
+     * @throws ModelException
+     * @throws InvalidArgumentException
      */
     protected function setPropertyValue($propertyName, $value)
     {
         $propertyMeta = $this->properties[$propertyName] ?? null;
 
         if (is_null($propertyMeta)){
-            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] does not exist.");
+            throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
         }
 
         if ($propertyMeta['writable'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] is not writable.");
+            throw ModelException::make(static::class.". Property [{$propertyName}] is not writable.");
         }
 
         if ($this->propertyValidation($propertyName, $value) === false){
-            throw new InvalidArgumentException(static::class.". Failed to write value to property [{$propertyName}]. Expected value [{$propertyMeta['type']}].");
+            throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
         }
 
         $this->modelData[$propertyName] = $value;
@@ -454,17 +461,18 @@ abstract class Model implements ModelInterface
      *
      * @param string $propertyName
      * @return mixed|null
+     * @throws ModelException
      */
     protected function getPropertyValue($propertyName)
     {
         $propertyMeta = $this->properties[$propertyName] ?? null;
 
         if (is_null($propertyMeta)){
-            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] does not exist.");
+            throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
         }
 
         if ($propertyMeta['readable'] === false){
-            throw new InvalidArgumentException(static::class.". Property [{$propertyName}] is not readable.");
+            throw ModelException::make(static::class.". Property [{$propertyName}] is not readable.");
         }
 
         return $this->modelData[$propertyName] ?? null;

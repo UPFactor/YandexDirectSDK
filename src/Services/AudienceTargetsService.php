@@ -6,6 +6,10 @@ use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon;
 use YandexDirectSDK\Models\AudienceTarget;
 
@@ -39,6 +43,10 @@ class AudienceTargetsService extends Service
     /**
      * @param ModelCommon $audienceTargetBids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     public function setBids(ModelCommon $audienceTargetBids):Result
     {

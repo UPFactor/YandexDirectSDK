@@ -2,10 +2,11 @@
 
 namespace YandexDirectSDK\Components;
 
-use Exception;
-use BadMethodCallException;
-use InvalidArgumentException;
 use YandexDirectSDK\Common\SessionTrait;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Session;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
@@ -92,13 +93,14 @@ abstract class Service
      * @param string $method
      * @param array $arguments
      * @return null
+     * @throws ServiceException
      */
     public function __call($method, $arguments)
     {
         $method = $this->serviceMethods[$method] ?? null;
 
         if (is_null($method)){
-            throw new BadMethodCallException(static::class.". Method [{$method}] is missing.");
+            throw ServiceException::make(static::class.". Method [{$method}] is missing.");
         }
 
         return $this->{$method['type']}($method['name'], ...$arguments);
@@ -110,7 +112,9 @@ abstract class Service
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function call($method, $params = array())
     {
@@ -195,6 +199,7 @@ abstract class Service
      * @param string $foreignKey
      * @param string $ownerKey
      * @return ModelCollectionInterface
+     * @throws ServiceException
      */
     protected function bind($owner, $related, $foreignKey, $ownerKey = 'id')
     {
@@ -202,7 +207,7 @@ abstract class Service
         $elements = [];
 
         if (empty($keys)){
-            throw new InvalidArgumentException(static::class.". Failed bind model. Missing IDs for binding");
+            throw ServiceException::make(static::class.". Failed bind model. Missing IDs for binding");
         }
 
         if ($related instanceof ModelInterface){
@@ -212,7 +217,7 @@ abstract class Service
             }
 
             if (is_null($related = $related->getCompatibleCollection())){
-                throw new InvalidArgumentException(static::class.". Failed bind model. Model [".get_class($related)."] does not support this operation.");
+                throw ServiceException::make(static::class.". Failed bind model. Model [".get_class($related)."] does not support this operation.");
             }
 
         } elseif ($related instanceof ModelCollectionInterface){
@@ -226,7 +231,7 @@ abstract class Service
             $related = $related::make();
 
         } else {
-            throw new InvalidArgumentException(static::class.". Failed bind model. Invalid object type to bind. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
+            throw ServiceException::make(static::class.". Failed bind model. Invalid object type to bind. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
         }
 
         return $related
@@ -240,7 +245,9 @@ abstract class Service
      * @param string $methodName
      * @param ModelInterface $model
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     protected function addModel(string $methodName, ModelInterface $model)
     {
@@ -258,13 +265,16 @@ abstract class Service
      * @param string $methodName
      * @param ModelCommonInterface $collection
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     protected function addCollection(string $methodName, ModelCommonInterface $collection)
     {
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
-                throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
+                throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
             $collection = $modelCollection::make($collection);
@@ -285,7 +295,9 @@ abstract class Service
      * @param string $methodName
      * @param ModelInterface $model
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     protected function updateModel(string $methodName, ModelInterface $model){
         $result = $this->call($methodName, $model->toArray(Model::IS_UPDATABLE));
@@ -302,12 +314,15 @@ abstract class Service
      * @param string $methodName
      * @param ModelCommonInterface $collection
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     protected function updateCollection(string $methodName, ModelCommonInterface $collection){
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
-                throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
+                throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
             $collection = $modelCollection::make($collection);
@@ -327,11 +342,11 @@ abstract class Service
      *
      * @param string $methodName
      * @return QueryBuilder
-     * @throws Exception
+     * @throws ServiceException
      */
     protected function selectionElements(string $methodName){
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
-            throw new BadMethodCallException(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
+            throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
         }
 
         return new QueryBuilder(function (QueryBuilder $query) use ($methodName){
@@ -353,7 +368,9 @@ abstract class Service
      * @param string $modelProperty
      * @param string $actionProperty
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty){
         if ($elements instanceof ModelCommonInterface){
@@ -372,7 +389,7 @@ abstract class Service
 
             } else {
 
-                throw new InvalidArgumentException(static::class.". Failed method [{$methodName}]. Invalid object type. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
+                throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
 
             }
 
@@ -391,7 +408,9 @@ abstract class Service
      * @param string $methodName
      * @param ModelCommonInterface|integer[]|integer $elements
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     protected function actionByIds(string $methodName, $elements){
         return $this->actionByProperty($methodName, $elements, 'id', 'Ids');

@@ -112,7 +112,7 @@ class Session
      * @param string $token
      * @param array $options
      * @return Session
-     * @throws Exception
+     * @throws RuntimeException
      */
     public static function make(string $token, array $options = [])
     {
@@ -124,7 +124,7 @@ class Session
      *
      * @param string $token
      * @param array $options
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function __construct(string $token, array $options = [])
     {
@@ -192,7 +192,7 @@ class Session
      *
      * @return string
      */
-    public function getClientLogin()
+    public function getClient()
     {
         return $this->client;
     }
@@ -238,12 +238,16 @@ class Session
      * @param bool $switch
      * @param string|null $pathToFile
      * @return $this
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function useLogFile(bool $switch, string $pathToFile = null)
     {
         if ($switch){
-            $this->logFile = File::bind($pathToFile)->existsOrCreate();
+            try {
+                $this->logFile = File::bind($pathToFile)->existsOrCreate();
+            } catch (Exception $error){
+                throw RuntimeException::make(static::class."::useLogFile. {$error->getMessage()}");
+            }
         } else {
             $this->logFile = null;
         }
@@ -486,7 +490,9 @@ class Session
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
+     * @throws InvalidArgumentException
      * @throws RequestException
+     * @throws RuntimeException
      */
     public function call($service, $method, $params = array()): Result
     {
@@ -534,6 +540,7 @@ class Session
      *
      * @param string $url
      * @param string $params
+     * @throws RuntimeException
      */
     protected function requestLogging($url, $params): void
     {
@@ -552,6 +559,7 @@ class Session
      * Logging information about fatal errors.
      *
      * @param Exception $exception
+     * @throws RuntimeException
      */
     protected function exceptionLogging(Exception $exception): void
     {
@@ -570,6 +578,7 @@ class Session
      * Logging error information when executing a request.
      *
      * @param Data $error
+     * @throws RuntimeException
      */
     protected function errorLogging(Data $error): void
     {
@@ -600,6 +609,7 @@ class Session
      * Logging warning information when executing a request.
      *
      * @param Data $warning
+     * @throws RuntimeException
      */
     protected function warningLogging(Data $warning): void
     {

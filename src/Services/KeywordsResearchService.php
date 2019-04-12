@@ -2,12 +2,13 @@
 
 namespace YandexDirectSDK\Services;
 
-use Exception;
-use InvalidArgumentException;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Models\Keyword;
 
 /** 
@@ -35,7 +36,9 @@ class KeywordsResearchService extends Service
      * @param array|string[]|Keyword[]|Keywords $keywords
      * @param string ...$operation
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function deduplicate($keywords, ...$operation)
     {
@@ -50,7 +53,7 @@ class KeywordsResearchService extends Service
                 } elseif ($keyword instanceof Keyword){
                     $params['Keywords'][] = Arr::only($keyword->toArray(), ['Id','Keyword']);
                 } else {
-                    throw new InvalidArgumentException(static::class.". Failed method [deduplicate]. Invalid keywords type. Expected [array|string[]|".Keyword::class."[]|".Keywords::class."].");
+                    throw InvalidArgumentException::invalidType(static::class . "::deduplicate", 1, "array|string[]|".Keyword::class."[]|".Keywords::class);
                 }
             }
         } elseif ($keywords instanceof Keywords){
@@ -58,7 +61,7 @@ class KeywordsResearchService extends Service
                 $params['Keywords'][] = Arr::only($keyword, ['Id','Keyword']);
             }
         } else {
-            throw new InvalidArgumentException(static::class.". Failed method [deduplicate]. Invalid keywords type. Expected [array|string[]|".Keyword::class."[]|".Keywords::class."].");
+            throw InvalidArgumentException::invalidType(static::class . "::deduplicate", 1, "array|string[]|".Keyword::class."[]|".Keywords::class);
         }
 
         if (empty($operation)){
@@ -78,7 +81,9 @@ class KeywordsResearchService extends Service
      * @param string[]|Keyword[]|Keywords $keywords
      * @param string|string[] $regionIds
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function hasSearchVolume($fields, $keywords, $regionIds)
     {
@@ -97,13 +102,13 @@ class KeywordsResearchService extends Service
                 } elseif ($keyword instanceof Keyword){
                     $params['SelectionCriteria']['Keywords'][] = $keyword->getKeyword();
                 } else {
-                    throw new InvalidArgumentException(static::class.". Failed method [hasSearchVolume]. Invalid keywords type. Expected [string[]|".Keyword::class."[]|".Keywords::class."].");
+                    throw InvalidArgumentException::invalidType(static::class . "::hasSearchVolume", 2, "array|string[]|".Keyword::class."[]|".Keywords::class);
                 }
             }
         } elseif ($keywords instanceof Keywords){
             $params['SelectionCriteria']['Keywords'][] = array_values($keywords->extract('keyword'));
         } else {
-            throw new InvalidArgumentException(static::class.". Failed method [hasSearchVolume]. Invalid keywords type. Expected [string[]|".Keyword::class."[]|".Keywords::class."].");
+            throw InvalidArgumentException::invalidType(static::class . "::hasSearchVolume", 2, "array|string[]|".Keyword::class."[]|".Keywords::class);
         }
 
         return $this->call('hasSearchVolume', $params);

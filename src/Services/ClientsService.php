@@ -2,8 +2,9 @@
 
 namespace YandexDirectSDK\Services;
 
-use Exception;
-use InvalidArgumentException;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon;
 use YandexDirectSDK\Collections\Clients;
 use YandexDirectSDK\Components\Service;
@@ -55,11 +56,13 @@ class ClientsService extends Service
      *
      * @param string|string[] ...$fields
      * @return Result
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     public function get(...$fields){
         if (empty($fields)){
-            throw new InvalidArgumentException(static::class.". Failed method [get]. Field list cannot be empty.");
+            throw InvalidArgumentException::make(static::class."::get. Field list cannot be empty.");
         }
 
         return $this->selectionElements('get')->select($fields)->get();

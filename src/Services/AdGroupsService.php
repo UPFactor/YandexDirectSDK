@@ -16,6 +16,10 @@ use YandexDirectSDK\Collections\AdGroups;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RequestException;
+use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Ad;
 use YandexDirectSDK\Models\AdGroup;
@@ -60,6 +64,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param Ad|Ads|ModelCommonInterface $ads
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedAds($adGroups, ModelCommonInterface $ads): Result
     {
@@ -74,6 +79,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedAds($adGroups, array $fields): Result
     {
@@ -90,6 +97,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedAudienceTargets($adGroups, ModelCommonInterface $audienceTargets): Result
     {
@@ -104,6 +112,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedAudienceTargets($adGroups, array $fields): Result
     {
@@ -120,6 +130,7 @@ class AdGroupsService extends Service
      * @param integer $bid
      * @param integer|null $contextBid
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateBids($adGroups, $bid = null, $contextBid = null): Result
     {
@@ -141,6 +152,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param string $strategyPriority
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateStrategyPriority($adGroups, string $strategyPriority): Result
     {
@@ -163,6 +175,10 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param BidAuto|BidsAuto|ModelCommonInterface $bidsAuto
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws ServiceException
+     * @throws RequestException
      */
     public function updateBidsAuto($adGroups, ModelCommonInterface $bidsAuto): Result
     {
@@ -177,6 +193,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedBids($adGroups, array $fields): Result
     {
@@ -192,6 +210,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {
@@ -206,6 +225,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param string $bidModifierType
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function enableBidModifiers($adGroups, string $bidModifierType): Result
     {
@@ -230,6 +250,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param string $bidModifierType
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function disableBidModifiers($adGroups, string $bidModifierType): Result
     {
@@ -254,6 +275,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedBidModifiers($adGroups, array $fields): Result
     {
@@ -270,6 +293,7 @@ class AdGroupsService extends Service
      * @param integer $searchBid
      * @param integer|null $networkBid
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateKeywordBids($adGroups, $searchBid = null, $networkBid = null): Result
     {
@@ -291,6 +315,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param string $strategyPriority
      * @return Result
+     * @throws InvalidArgumentException
      */
     public function updateKeywordStrategyPriority($adGroups, string $strategyPriority): Result
     {
@@ -313,6 +338,10 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param KeywordBidAuto|KeywordBidsAuto|ModelCommonInterface $keywordsBidsAuto
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
      */
     public function updateKeywordBidsAuto($adGroups, ModelCommonInterface $keywordsBidsAuto): Result
     {
@@ -327,6 +356,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedKeywordBids($adGroups, array $fields): Result
     {
@@ -342,6 +373,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param Keyword|Keywords|ModelCommonInterface $keywords
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedKeywords($adGroups, ModelCommonInterface $keywords): Result
     {
@@ -356,6 +388,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedKeywords($adGroups, array $fields): Result
     {
@@ -371,6 +405,7 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param Webpage|Webpages|ModelCommonInterface $webpages
      * @return Result
+     * @throws ServiceException
      */
     public function addRelatedWebpages($adGroups, ModelCommonInterface $webpages): Result
     {
@@ -385,6 +420,8 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function getRelatedWebpages($adGroups, array $fields): Result
     {

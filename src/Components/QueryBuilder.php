@@ -3,8 +3,9 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
-use InvalidArgumentException;
 use YandexDirectSDK\Common\Arr;
+use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\RuntimeException;
 
 class QueryBuilder
 {
@@ -58,6 +59,7 @@ class QueryBuilder
      *
      * @param string|string[] ...$fields
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function select(...$fields)
     {
@@ -73,7 +75,7 @@ class QueryBuilder
 
         foreach ($fields as $k => $field){
             if (!is_string($field)){
-                throw new InvalidArgumentException(static::class.". Failed method [select]. Invalid argument type. Expected [string|string[]].");
+                throw InvalidArgumentException::invalidType(static::class.'::select', ($k+1), 'string|string[]');
             }
 
             $this->selection[] = trim($field);
@@ -180,13 +182,14 @@ class QueryBuilder
      * Available if the [$this->getter] parameter is set.
      *
      * @return Result
+     * @throws RuntimeException
      */
     public function get()
     {
         $getter = $this->getter;
 
         if (is_null($getter)){
-            throw new InvalidArgumentException(static::class.". Failed method [get]. Undefined Getter for request.");
+            throw RuntimeException::make(static::class.'::get. Undefined Getter for request.');
         }
 
         return $getter($this);

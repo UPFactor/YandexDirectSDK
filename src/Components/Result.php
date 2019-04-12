@@ -78,6 +78,15 @@ class Result
      *
      * @param resource $resource
      */
+
+    /**
+     * Result constructor.
+     *
+     * @param $resource
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws RequestException
+     */
     public function __construct($resource)
     {
         if (!is_resource($resource)) {
@@ -247,6 +256,7 @@ class Result
      * Sets the value [$this->data].
      *
      * @param string $result
+     * @throws RequestException
      */
     protected function setResult($result):void
     {
@@ -287,6 +297,7 @@ class Result
      * Sets the value [$this->data] by JSON data.
      *
      * @param string $result
+     * @throws RequestException
      */
     protected function setJsonResult($result):void
     {
@@ -344,6 +355,7 @@ class Result
      * Sets the value [$this->data] by TSV data.
      *
      * @param string $result
+     * @throws RequestException
      */
     protected function setTsvResult($result):void
     {
