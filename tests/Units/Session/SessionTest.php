@@ -2,7 +2,6 @@
 
 namespace YandexDirectSDKTest\Unit\Session;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
@@ -66,7 +65,7 @@ class SessionTest extends TestCase
      *
      * @param string $token
      * @param array $options
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function testConstruct(string $token, array $options):void
     {
@@ -151,7 +150,9 @@ class SessionTest extends TestCase
      * @depends testConstruct
      *
      * @return void
-     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function testApiCall(): void
     {
@@ -227,18 +228,16 @@ class SessionTest extends TestCase
         $this->expectException(RuntimeException::class);
 
         $session = SessionTools::init();
-        $file = SessionTools::getInitData()['logFile'];
+        $session->useLogFile(true, $this->logFile);
 
-        $this->assertFileExists($file);
-
-        chmod($file, 000);
+        chmod($this->logFile, 000);
 
         try {
             $session->call('dictionaries', 'get', [
                 'DictionaryNames' => ['Currencies']
             ]);
         } catch (RuntimeException $e){
-            unlink($file);
+            unlink($this->logFile);
             throw $e;
         }
     }
