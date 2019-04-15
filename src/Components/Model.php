@@ -206,7 +206,7 @@ abstract class Model implements ModelInterface
     {
         if (array_key_exists($method, $this->serviceProvidersMethods)){
             if (!is_null($this->session)){
-                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this);
+                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this, ...$arguments);
             }
 
             throw ModelException::make(static::class.". Failed method [{$method}]. No session to connect.");
