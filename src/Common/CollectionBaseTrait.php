@@ -51,7 +51,7 @@ trait CollectionBaseTrait {
     /**
      * Retrieve a new collection with items from the current collection.
      *
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function copy(){
         return $this->redeclare($this->items);
@@ -228,7 +228,7 @@ trait CollectionBaseTrait {
      * Get a subset of the items from the given array.
      *
      * @param string|array $keys
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function only($keys){
         return $this->redeclare(Arr::only($this->items, $keys));
@@ -239,7 +239,7 @@ trait CollectionBaseTrait {
      * Pass the "Number" parameter to exclude more elements from the ending of the collection.
      *
      * @param int $count
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function initial($count = 1){
         return $this->redeclare(Arr::initial($this->items, $count));
@@ -250,7 +250,7 @@ trait CollectionBaseTrait {
      * Pass the "Number" parameter to exclude more elements from the beginning of the collection.
      *
      * @param int $count
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function tail($count = 1){
         return $this->redeclare(Arr::tail($this->items, $count));
@@ -262,7 +262,7 @@ trait CollectionBaseTrait {
      *
      * @param Closure $callable
      * @param null $context
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function map(Closure $callable, $context = null){
         return $this->redeclare(Arr::map($this->items, $callable, $context));
@@ -286,7 +286,7 @@ trait CollectionBaseTrait {
      *
      * @param Closure $callable
      * @param null $context
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function filter(Closure $callable, $context = null){
         return $this->redeclare(Arr::filter($this->items, $callable, $context));
@@ -295,7 +295,7 @@ trait CollectionBaseTrait {
     /**
      * Removes duplicate values from a collection.
      *
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function unique(){
         $this->items = Arr::unique($this->items);
@@ -307,7 +307,7 @@ trait CollectionBaseTrait {
      * The order of the elements will be determined by the order of their appearance in the source arrays.
      *
      * @param mixed ...$values
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function union(...$values){
         foreach ($values as $key => $value){
@@ -323,7 +323,7 @@ trait CollectionBaseTrait {
      * Merge the collection with the given items.
      *
      * @param mixed ...$values
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function merge(...$values){
         foreach ($values as $key => $value){
@@ -340,7 +340,7 @@ trait CollectionBaseTrait {
      * in all transferred arrays or collections.
      *
      * @param mixed ...$values
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function diff(...$values){
         foreach ($values as $key => $value){
@@ -355,7 +355,7 @@ trait CollectionBaseTrait {
      * in all transferred arrays or collections.
      *
      * @param mixed ...$values
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function intersect(...$values){
         foreach ($values as $key => $value){
@@ -370,7 +370,7 @@ trait CollectionBaseTrait {
      *
      * @param $offset
      * @param null $length
-     * @return CollectionBaseTrait
+     * @return static
      */
     public function slice($offset, $length = null){
         return $this->redeclare(array_slice($this->items, $offset, $length, true));
