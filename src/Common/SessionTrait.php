@@ -17,10 +17,11 @@ trait SessionTrait
      * Set the session.
      *
      * @param Session $session
-     * @return void
+     * @return $this
      */
     public function setSession(Session $session){
         $this->session = $session;
+        return $this;
     }
 
     /**
