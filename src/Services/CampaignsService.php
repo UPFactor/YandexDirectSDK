@@ -129,50 +129,20 @@ class CampaignsService extends Service
     }
 
     /**
-     * Set bids for all keywords in given campaigns.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param integer $bid
-     * @param integer|null $contextBid
+     * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateBids($campaigns, $bid = null, $contextBid = null): Result
+    public function setRelatedBids($campaigns, ModelCommonInterface $bids): Result
     {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($campaigns) as $id){
-            $model = Bid::make()->setCampaignId($id);
-            if (!is_null($contextBid)) $model->setBid((integer) $bid);
-            if (!is_null($contextBid)) $model->setContextBid((integer) $contextBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getBidsService()->set($collection);
+        return $this->session->getBidsService()->set(
+            $this->bind($campaigns, $bids, 'CampaignId')
+        );
     }
 
-    /**
-     * Set strategy priority for all keywords in given campaigns.
-     *
-     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param string $strategyPriority
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateStrategyPriority($campaigns, string $strategyPriority): Result
-    {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($campaigns) as $id){
-            $collection->push(
-                Bid::make()
-                    ->setCampaignId($id)
-                    ->setStrategyPriority($strategyPriority)
-            );
-        }
-
-        return $this->session->getBidsService()->set($collection);
-    }
 
     /**
      * Sets bid designer options for all keywords in given campaigns.
@@ -185,7 +155,7 @@ class CampaignsService extends Service
      * @throws ServiceException
      * @throws RequestException
      */
-    public function updateBidsAuto($campaigns, ModelCommonInterface $bidsAuto): Result
+    public function setRelatedBidsAuto($campaigns, ModelCommonInterface $bidsAuto): Result
     {
         return $this->session->getBidsService()->setAuto(
             $this->bind($campaigns, $bidsAuto, 'CampaignId')
@@ -219,7 +189,7 @@ class CampaignsService extends Service
      */
     public function addRelatedBidModifiers($campaigns, ModelCommonInterface $bidModifiers): Result
     {
-        return $this->session->getBidModifiersService()->set(
+        return $this->session->getBidModifiersService()->add(
             $this->bind($campaigns, $bidModifiers, 'CampaignId')
         );
     }
@@ -231,6 +201,8 @@ class CampaignsService extends Service
      * @param string $bidModifierType
      * @return Result
      * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function enableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -256,6 +228,8 @@ class CampaignsService extends Service
      * @param string $bidModifierType
      * @return Result
      * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function disableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -279,62 +253,34 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
+     * @param array $levels
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getRelatedBidModifiers($campaigns, array $fields): Result
+    public function getRelatedBidModifiers($campaigns, array $fields, array $levels = ['CAMPAIGN','AD_GROUP']): Result
     {
         return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
+            ->whereIn('Levels', $levels)
             ->get();
     }
 
-    /**
-     * Set keyword bids for given campaigns.
-     *
-     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param integer $searchBid
-     * @param integer|null $networkBid
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateKeywordBids($campaigns, $searchBid = null, $networkBid = null): Result
-    {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($campaigns) as $id){
-            $model = KeywordBid::make()->setCampaignId($id);
-            if (!is_null($searchBid)) $model->setSearchBid((integer) $searchBid);
-            if (!is_null($networkBid)) $model->setNetworkBid((integer) $networkBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
-    }
 
     /**
-     * Set keyword strategy priority for given campaigns.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param string $strategyPriority
+     * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateKeywordStrategyPriority($campaigns, string $strategyPriority): Result
+    public function setRelatedKeywordBids($campaigns, ModelCommonInterface $keywordBids): Result
     {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($campaigns) as $id){
-            $model = KeywordBid::make()
-                ->setCampaignId($id)
-                ->setStrategyPriority($strategyPriority);
-
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
+        return $this->session->getKeywordBidsService()->set(
+            $this->bind($campaigns, $keywordBids, 'CampaignId')
+        );
     }
 
     /**
@@ -348,7 +294,7 @@ class CampaignsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function updateKeywordBidsAuto($campaigns, ModelCommonInterface $keywordsBidsAuto): Result
+    public function setRelatedKeywordBidsAuto($campaigns, ModelCommonInterface $keywordsBidsAuto): Result
     {
         return $this->session->getKeywordBidsService()->setAuto(
             $this->bind($campaigns, $keywordsBidsAuto, 'CampaignId')

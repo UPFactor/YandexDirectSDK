@@ -17,13 +17,11 @@ use YandexDirectSDK\Interfaces\ModelCommon;
  * @method   Result         resume() 
  * @method   Result         suspend() 
  * @method   Result         update() 
- * @method   Result         updateBids($bid, $contextBid) 
- * @method   Result         updateStrategyPriority(string $strategyPriority) 
- * @method   Result         updateBidsAuto(ModelCommon $bidsAuto) 
+ * @method   Result         setRelatedBids(ModelCommon $bids) 
+ * @method   Result         setRelatedBidsAuto(ModelCommon $bidsAuto) 
  * @method   Result         getRelatedBids(array $fields) 
- * @method   Result         updateKeywordBids($searchBid, $networkBid) 
- * @method   Result         updateKeywordStrategyPriority(string $strategyPriority) 
- * @method   Result         updateKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
+ * @method   Result         setRelatedKeywordBids(ModelCommon $keywordBids) 
+ * @method   Result         setRelatedKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
  * @method   Result         getRelatedKeywordBids(array $fields) 
  * 
  * @package YandexDirectSDK\Collections 
@@ -47,13 +45,11 @@ class Keywords extends ModelCollection
         'resume' => KeywordsService::class,
         'suspend' => KeywordsService::class,
         'update' => KeywordsService::class,
-        'updateBids' => KeywordsService::class,
-        'updateStrategyPriority' => KeywordsService::class,
-        'updateBidsAuto' => KeywordsService::class,
+        'setRelatedBids' => KeywordsService::class,
+        'setRelatedBidsAuto' => KeywordsService::class,
         'getRelatedBids' => KeywordsService::class,
-        'updateKeywordBids' => KeywordsService::class,
-        'updateKeywordStrategyPriority' => KeywordsService::class,
-        'updateKeywordBidsAuto' => KeywordsService::class,
+        'setRelatedKeywordBids' => KeywordsService::class,
+        'setRelatedKeywordBidsAuto' => KeywordsService::class,
         'getRelatedKeywordBids' => KeywordsService::class
     ];
 }

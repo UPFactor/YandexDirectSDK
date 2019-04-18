@@ -19,17 +19,15 @@ use YandexDirectSDK\Interfaces\ModelCommon;
  * @method   Result         getRelatedAds(array $fields) 
  * @method   Result         addRelatedAudienceTargets(ModelCommon $audienceTargets) 
  * @method   Result         getRelatedAudienceTargets(array $fields) 
- * @method   Result         updateBids($bid, $contextBid) 
- * @method   Result         updateStrategyPriority(string $strategyPriority) 
- * @method   Result         updateBidsAuto(ModelCommon $bidsAuto) 
+ * @method   Result         setRelatedBids(ModelCommon $bids) 
+ * @method   Result         setRelatedBidsAuto(ModelCommon $bidsAuto) 
  * @method   Result         getRelatedBids(array $fields) 
  * @method   Result         addRelatedBidModifiers(ModelCommon $bidModifiers) 
  * @method   Result         enableBidModifiers(string $bidModifierType) 
  * @method   Result         disableBidModifiers(string $bidModifierType) 
  * @method   Result         getRelatedBidModifiers(array $fields) 
- * @method   Result         updateKeywordBids($searchBid, $networkBid) 
- * @method   Result         updateKeywordStrategyPriority(string $strategyPriority) 
- * @method   Result         updateKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
+ * @method   Result         setRelatedKeywordBids(ModelCommon $keywordBids) 
+ * @method   Result         setRelatedKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
  * @method   Result         getRelatedKeywordBids(array $fields) 
  * @method   Result         addRelatedKeywords(ModelCommon $keywords) 
  * @method   Result         getRelatedKeywords(array $fields) 
@@ -56,17 +54,15 @@ class AdGroups extends ModelCollection
         'getRelatedAds' => AdGroupsService::class,
         'addRelatedAudienceTargets' => AdGroupsService::class,
         'getRelatedAudienceTargets' => AdGroupsService::class,
-        'updateBids' => AdGroupsService::class,
-        'updateStrategyPriority' => AdGroupsService::class,
-        'updateBidsAuto' => AdGroupsService::class,
+        'setRelatedBids' => AdGroupsService::class,
+        'setRelatedBidsAuto' => AdGroupsService::class,
         'getRelatedBids' => AdGroupsService::class,
         'addRelatedBidModifiers' => AdGroupsService::class,
         'enableBidModifiers' => AdGroupsService::class,
         'disableBidModifiers' => AdGroupsService::class,
         'getRelatedBidModifiers' => AdGroupsService::class,
-        'updateKeywordBids' => AdGroupsService::class,
-        'updateKeywordStrategyPriority' => AdGroupsService::class,
-        'updateKeywordBidsAuto' => AdGroupsService::class,
+        'setRelatedKeywordBids' => AdGroupsService::class,
+        'setRelatedKeywordBidsAuto' => AdGroupsService::class,
         'getRelatedKeywordBids' => AdGroupsService::class,
         'addRelatedKeywords' => AdGroupsService::class,
         'getRelatedKeywords' => AdGroupsService::class,

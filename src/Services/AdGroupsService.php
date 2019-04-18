@@ -124,49 +124,18 @@ class AdGroupsService extends Service
     }
 
     /**
-     * Set bids for all keywords in given ad groups.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param integer $bid
-     * @param integer|null $contextBid
+     * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateBids($adGroups, $bid = null, $contextBid = null): Result
+    public function setRelatedBids($adGroups, ModelCommonInterface $bids): Result
     {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($adGroups) as $id){
-            $model = Bid::make()->setAdGroupId($id);
-            if (!is_null($contextBid)) $model->setBid((integer) $bid);
-            if (!is_null($contextBid)) $model->setContextBid((integer) $contextBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getBidsService()->set($collection);
-    }
-
-    /**
-     * Set strategy priority for all keywords in given ad groups.
-     *
-     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param string $strategyPriority
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateStrategyPriority($adGroups, string $strategyPriority): Result
-    {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($adGroups) as $id){
-            $collection->push(
-                Bid::make()
-                    ->setAdGroupId($id)
-                    ->setStrategyPriority($strategyPriority)
-            );
-        }
-
-        return $this->session->getBidsService()->set($collection);
+        return $this->session->getBidsService()->set(
+            $this->bind($adGroups, $bids, 'AdGroupId')
+        );
     }
 
     /**
@@ -180,7 +149,7 @@ class AdGroupsService extends Service
      * @throws ServiceException
      * @throws RequestException
      */
-    public function updateBidsAuto($adGroups, ModelCommonInterface $bidsAuto): Result
+    public function setRelatedBidsAuto($adGroups, ModelCommonInterface $bidsAuto): Result
     {
         return $this->session->getBidsService()->setAuto(
             $this->bind($adGroups, $bidsAuto, 'AdGroupId')
@@ -214,7 +183,7 @@ class AdGroupsService extends Service
      */
     public function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {
-        return $this->session->getBidModifiersService()->set(
+        return $this->session->getBidModifiersService()->add(
             $this->bind($adGroups, $bidModifiers, 'AdGroupId')
         );
     }
@@ -226,6 +195,8 @@ class AdGroupsService extends Service
      * @param string $bidModifierType
      * @return Result
      * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function enableBidModifiers($adGroups, string $bidModifierType): Result
     {
@@ -251,6 +222,8 @@ class AdGroupsService extends Service
      * @param string $bidModifierType
      * @return Result
      * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function disableBidModifiers($adGroups, string $bidModifierType): Result
     {
@@ -283,53 +256,23 @@ class AdGroupsService extends Service
         return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
+            ->whereIn('Levels', 'AD_GROUP')
             ->get();
     }
 
     /**
-     * Set keyword bids for given ad groups.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param integer $searchBid
-     * @param integer|null $networkBid
+     * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateKeywordBids($adGroups, $searchBid = null, $networkBid = null): Result
+    public function setRelatedKeywordBids($adGroups, ModelCommonInterface $keywordBids): Result
     {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($adGroups) as $id){
-            $model = KeywordBid::make()->setAdGroupId($id);
-            if (!is_null($searchBid)) $model->setSearchBid((integer) $searchBid);
-            if (!is_null($networkBid)) $model->setNetworkBid((integer) $networkBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
-    }
-
-    /**
-     * Set keyword strategy priority for given ad groups.
-     *
-     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param string $strategyPriority
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateKeywordStrategyPriority($adGroups, string $strategyPriority): Result
-    {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($adGroups) as $id){
-            $model = KeywordBid::make()
-                ->setAdGroupId($id)
-                ->setStrategyPriority($strategyPriority);
-
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
+        return $this->session->getKeywordBidsService()->set(
+            $this->bind($adGroups, $keywordBids, 'AdGroupId')
+        );
     }
 
     /**
@@ -343,7 +286,7 @@ class AdGroupsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function updateKeywordBidsAuto($adGroups, ModelCommonInterface $keywordsBidsAuto): Result
+    public function setRelatedKeywordBidsAuto($adGroups, ModelCommonInterface $keywordsBidsAuto): Result
     {
         return $this->session->getKeywordBidsService()->setAuto(
             $this->bind($adGroups, $keywordsBidsAuto, 'AdGroupId')

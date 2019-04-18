@@ -1,5 +1,6 @@
 /.idea/
 /vendor/
+/docs/
 /tests/Init/
 /tests/Run/
 *.phpunit.result.cache

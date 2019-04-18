@@ -34,9 +34,4 @@ class BidModifierSet extends Model
         'id' => 'integer',
         'bidModifier' => 'integer'
     ];
-
-    public static function getClassName()
-    {
-        return 'BidModifiers';
-    }
 }

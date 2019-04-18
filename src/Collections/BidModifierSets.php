@@ -28,9 +28,4 @@ class BidModifierSets extends ModelCollection
     protected $serviceProvidersMethods = [
         'set' => BidModifiersService::class
     ];
-
-    public static function getClassName()
-    {
-        return 'BidModifiers';
-    }
 }

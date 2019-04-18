@@ -11,59 +11,57 @@ use YandexDirectSDK\Interfaces\ModelCommon;
 /** 
  * Class Keyword 
  * 
- * @property        integer        $id 
- * @property        integer        $adGroupId 
- * @property        string         $keyword 
- * @property        integer        $bid 
- * @property        integer        $contextBid 
- * @property        string         $strategyPriority 
- * @property        string         $userParam1 
- * @property        string         $userParam2 
- * @property-read   integer        $campaignId 
- * @property-read   string         $status 
- * @property-read   string         $servingStatus 
- * @property-read   string         $state 
- * @property-read   Statistics     $statisticsSearch 
- * @property-read   Statistics     $statisticsNetwork 
+ * @property            integer        $id 
+ * @property            integer        $adGroupId 
+ * @property-readable   integer        $campaignId 
+ * @property            string         $keyword 
+ * @property            integer        $bid 
+ * @property            integer        $contextBid 
+ * @property            string         $strategyPriority 
+ * @property            string         $userParam1 
+ * @property            string         $userParam2 
+ * @property-readable   string         $status 
+ * @property-readable   string         $servingStatus 
+ * @property-readable   string         $state 
+ * @property-readable   Statistics     $statisticsSearch 
+ * @property-readable   Statistics     $statisticsNetwork 
  * 
- * @method          $this          setId(integer $id) 
- * @method          $this          setAdGroupId(integer $adGroupId) 
- * @method          $this          setKeyword(string $keyword) 
- * @method          $this          setBid(integer $bid) 
- * @method          $this          setContextBid(integer $contextBid) 
- * @method          $this          setStrategyPriority(string $strategyPriority) 
- * @method          $this          setUserParam1(string $userParam1) 
- * @method          $this          setUserParam2(string $userParam2) 
+ * @method              $this          setId(integer $id) 
+ * @method              $this          setAdGroupId(integer $adGroupId) 
+ * @method              $this          setKeyword(string $keyword) 
+ * @method              $this          setBid(integer $bid) 
+ * @method              $this          setContextBid(integer $contextBid) 
+ * @method              $this          setStrategyPriority(string $strategyPriority) 
+ * @method              $this          setUserParam1(string $userParam1) 
+ * @method              $this          setUserParam2(string $userParam2) 
  * 
- * @method          integer        getId() 
- * @method          integer        getAdGroupId() 
- * @method          string         getKeyword() 
- * @method          integer        getBid() 
- * @method          integer        getContextBid() 
- * @method          string         getStrategyPriority() 
- * @method          string         getUserParam1() 
- * @method          string         getUserParam2() 
- * @method          integer        getCampaignId() 
- * @method          string         getStatus() 
- * @method          string         getServingStatus() 
- * @method          string         getState() 
- * @method          Statistics     getStatisticsSearch() 
- * @method          Statistics     getStatisticsNetwork() 
+ * @method              integer        getId() 
+ * @method              integer        getAdGroupId() 
+ * @method              integer        getCampaignId() 
+ * @method              string         getKeyword() 
+ * @method              integer        getBid() 
+ * @method              integer        getContextBid() 
+ * @method              string         getStrategyPriority() 
+ * @method              string         getUserParam1() 
+ * @method              string         getUserParam2() 
+ * @method              string         getStatus() 
+ * @method              string         getServingStatus() 
+ * @method              string         getState() 
+ * @method              Statistics     getStatisticsSearch() 
+ * @method              Statistics     getStatisticsNetwork() 
  * 
- * @method          Result         add() 
- * @method          Result         delete() 
- * @method          QueryBuilder   query() 
- * @method          Result         resume() 
- * @method          Result         suspend() 
- * @method          Result         update() 
- * @method          Result         updateBids($bid, $contextBid) 
- * @method          Result         updateStrategyPriority(string $strategyPriority) 
- * @method          Result         updateBidsAuto(ModelCommon $bidsAuto) 
- * @method          Result         getRelatedBids(array $fields) 
- * @method          Result         updateKeywordBids($searchBid, $networkBid) 
- * @method          Result         updateKeywordStrategyPriority(string $strategyPriority) 
- * @method          Result         updateKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
- * @method          Result         getRelatedKeywordBids(array $fields) 
+ * @method              Result         add() 
+ * @method              Result         delete() 
+ * @method              QueryBuilder   query() 
+ * @method              Result         resume() 
+ * @method              Result         suspend() 
+ * @method              Result         update() 
+ * @method              Result         setRelatedBids(ModelCommon $bids) 
+ * @method              Result         setRelatedBidsAuto(ModelCommon $bidsAuto) 
+ * @method              Result         getRelatedBids(array $fields) 
+ * @method              Result         setRelatedKeywordBids(ModelCommon $keywordBids) 
+ * @method              Result         setRelatedKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
+ * @method              Result         getRelatedKeywordBids(array $fields) 
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -82,13 +80,11 @@ class Keyword extends Model
         'resume' => KeywordsService::class,
         'suspend' => KeywordsService::class,
         'update' => KeywordsService::class,
-        'updateBids' => KeywordsService::class,
-        'updateStrategyPriority' => KeywordsService::class,
-        'updateBidsAuto' => KeywordsService::class,
+        'setRelatedBids' => KeywordsService::class,
+        'setRelatedBidsAuto' => KeywordsService::class,
         'getRelatedBids' => KeywordsService::class,
-        'updateKeywordBids' => KeywordsService::class,
-        'updateKeywordStrategyPriority' => KeywordsService::class,
-        'updateKeywordBidsAuto' => KeywordsService::class,
+        'setRelatedKeywordBids' => KeywordsService::class,
+        'setRelatedKeywordBidsAuto' => KeywordsService::class,
         'getRelatedKeywordBids' => KeywordsService::class
     ];
 

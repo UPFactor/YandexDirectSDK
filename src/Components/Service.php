@@ -264,13 +264,14 @@ abstract class Service
      *
      * @param string $methodName
      * @param ModelCommonInterface $collection
+     * @param string|null $addClassName
+     * @param string|null $resultClassName
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
-    protected function addCollection(string $methodName, ModelCommonInterface $collection)
+    protected function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null)
     {
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
@@ -280,12 +281,20 @@ abstract class Service
             $collection = $modelCollection::make($collection);
         }
 
-        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray(Model::IS_ADDABLE)]);
+        if (is_null($addClassName)){
+            $addClassName = $collection::getClassName();
+        }
+
+        if (is_null($resultClassName)){
+            $resultClassName = 'AddResults';
+        }
+
+        $result = $this->call($methodName, [$addClassName => $collection->toArray(Model::IS_ADDABLE)]);
 
         return $result->setResource(
             $collection
                 ->setSession($this->session)
-                ->insert($result->data->get('AddResults'))
+                ->insert($result->data->get($resultClassName))
         );
     }
 
@@ -313,13 +322,14 @@ abstract class Service
      *
      * @param string $methodName
      * @param ModelCommonInterface $collection
+     * @param string|null $updateClassName
+     * @param string|null $resultClassName
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
-    protected function updateCollection(string $methodName, ModelCommonInterface $collection){
+    protected function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null){
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
@@ -328,12 +338,20 @@ abstract class Service
             $collection = $modelCollection::make($collection);
         }
 
-        $result = $this->call($methodName, [$collection::getClassName() => $collection->toArray(Model::IS_UPDATABLE)]);
+        if (is_null($updateClassName)){
+            $updateClassName = $collection::getClassName();
+        }
+
+        if (is_null($resultClassName)){
+            $resultClassName = 'UpdateResults';
+        }
+
+        $result = $this->call($methodName, [$updateClassName => $collection->toArray(Model::IS_UPDATABLE)]);
 
         return $result->setResource(
                 $collection
                     ->setSession($this->session)
-                    ->insert($result->data->get('UpdateResults'))
+                    ->insert($result->data->get($resultClassName))
         );
     }
 

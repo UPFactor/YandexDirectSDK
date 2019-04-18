@@ -51,49 +51,18 @@ class KeywordsService extends Service
     ];
 
     /**
-     * Set bids for given keywords.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
-     * @param integer $bid
-     * @param integer|null $contextBid
+     * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateBids($keywords, $bid = null, $contextBid = null): Result
+    public function setRelatedBids($keywords, ModelCommonInterface $bids): Result
     {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($keywords) as $id){
-            $model = Bid::make()->setKeywordId($id);
-            if (!is_null($contextBid)) $model->setBid((integer) $bid);
-            if (!is_null($contextBid)) $model->setContextBid((integer) $contextBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getBidsService()->set($collection);
-    }
-
-    /**
-     * Set strategy priority for given keywords.
-     *
-     * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
-     * @param string $strategyPriority
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateStrategyPriority($keywords, string $strategyPriority): Result
-    {
-        $collection = new Bids();
-
-        foreach ($this->extractIds($keywords) as $id){
-            $collection->push(
-                Bid::make()
-                    ->setKeywordId($id)
-                    ->setStrategyPriority($strategyPriority)
-            );
-        }
-
-        return $this->session->getBidsService()->set($collection);
+        return $this->session->getBidsService()->set(
+            $this->bind($keywords, $bids, 'KeywordId')
+        );
     }
 
     /**
@@ -107,7 +76,7 @@ class KeywordsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function updateBidsAuto($keywords, ModelCommonInterface $bidsAuto): Result
+    public function setRelatedBidsAuto($keywords, ModelCommonInterface $bidsAuto): Result
     {
         return $this->session->getBidsService()->setAuto(
             $this->bind($keywords, $bidsAuto, 'KeywordId')
@@ -132,49 +101,18 @@ class KeywordsService extends Service
     }
 
     /**
-     * Set keyword bids.
+     * Sets fixed bids and priorities for keyword and auto-targeting.
      *
      * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
-     * @param integer $searchBid
-     * @param integer|null $networkBid
+     * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
-     * @throws InvalidArgumentException
+     * @throws ServiceException
      */
-    public function updateKeywordBids($keywords, $searchBid = null, $networkBid = null): Result
+    public function setRelatedKeywordBids($keywords, ModelCommonInterface $keywordBids): Result
     {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($keywords) as $id){
-            $model = KeywordBid::make()->setKeywordId($id);
-            if (!is_null($networkBid)) $model->setSearchBid((integer) $searchBid);
-            if (!is_null($networkBid)) $model->setNetworkBid((integer) $networkBid);
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
-    }
-
-    /**
-     * Set keyword strategy priority.
-     *
-     * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
-     * @param string $strategyPriority
-     * @return Result
-     * @throws InvalidArgumentException
-     */
-    public function updateKeywordStrategyPriority($keywords, string $strategyPriority): Result
-    {
-        $collection = new KeywordBids();
-
-        foreach ($this->extractIds($keywords) as $id){
-            $model = KeywordBid::make()
-                ->setKeywordId($id)
-                ->setNetworkBid($strategyPriority);
-
-            $collection->push($model);
-        }
-
-        return $this->session->getKeywordBidsService()->set($collection);
+        return $this->session->getKeywordBidsService()->set(
+            $this->bind($keywords, $keywordBids, 'KeywordId')
+        );
     }
 
     /**
@@ -188,7 +126,7 @@ class KeywordsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function updateKeywordBidsAuto($keywords, ModelCommonInterface $keywordsBidsAuto): Result
+    public function setRelatedKeywordBidsAuto($keywords, ModelCommonInterface $keywordsBidsAuto): Result
     {
         return $this->session->getKeywordBidsService()->setAuto(
             $this->bind($keywords, $keywordsBidsAuto, 'KeywordId')
