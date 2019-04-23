@@ -129,6 +129,9 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedBids($adGroups, ModelCommonInterface $bids): Result
@@ -266,6 +269,9 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedKeywordBids($adGroups, ModelCommonInterface $keywordBids): Result

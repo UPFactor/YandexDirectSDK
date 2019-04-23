@@ -28,9 +28,4 @@ class KeywordBidsAuto extends ModelCollection
     protected $serviceProvidersMethods = [
         'setAuto' => KeywordBidsService::class
     ];
-
-    public static function getClassName()
-    {
-        return 'KeywordBids';
-    }
 }

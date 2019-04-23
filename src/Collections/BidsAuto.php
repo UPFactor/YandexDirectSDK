@@ -28,9 +28,4 @@ class BidsAuto extends ModelCollection
     protected $serviceProvidersMethods = [
         'setAuto' => BidsService::class
     ];
-
-    public static function getClassName()
-    {
-        return 'Bids';
-    }
 }

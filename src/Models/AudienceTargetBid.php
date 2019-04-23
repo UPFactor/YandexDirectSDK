@@ -50,9 +50,4 @@ class AudienceTargetBid extends Model
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
     ];
-
-    public static function getClassName()
-    {
-        return 'Bid';
-    }
 }

@@ -16,7 +16,6 @@ use YandexDirectSDK\Models\Bid;
 /** 
  * Class BidsService 
  * 
- * @method   Result         set(ModelCommon $bids) 
  * @method   QueryBuilder   query() 
  * 
  * @package YandexDirectSDK\Services 
@@ -30,9 +29,20 @@ class BidsService extends Service
     protected $serviceModelCollectionClass = Bids::class;
 
     protected $serviceMethods = [
-        'set' => 'set:updateCollection',
         'query' => 'get:selectionElements',
     ];
+
+    /**
+     * @param ModelCommon $bids
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function set(ModelCommon $bids):Result
+    {
+        return $this->updateCollection('set', $bids, 'Bids', 'SetResults');
+    }
 
     /**
      * @param ModelCommon $bidsAuto
@@ -44,6 +54,6 @@ class BidsService extends Service
      */
     public function setAuto(ModelCommon $bidsAuto):Result
     {
-        return $this->updateCollection('setAuto', $bidsAuto);
+        return $this->updateCollection('setAuto', $bidsAuto, 'Bids', 'SetAutoResults');
     }
 }

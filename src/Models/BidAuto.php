@@ -79,9 +79,4 @@ class BidAuto extends Model
         'calculateBy' => 'enum:' . self::VALUE . ',' . self::DIFF,
         'contextCoverage' => 'integer'
     ];
-
-    public static function getClassName()
-    {
-        return 'Bid';
-    }
 }

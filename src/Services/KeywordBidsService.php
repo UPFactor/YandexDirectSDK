@@ -16,7 +16,6 @@ use YandexDirectSDK\Models\KeywordBid;
 /** 
  * Class KeywordBidsService 
  * 
- * @method   Result         set(ModelCommon $keywordBids) 
  * @method   QueryBuilder   query() 
  * 
  * @package YandexDirectSDK\Services 
@@ -30,9 +29,20 @@ class KeywordBidsService extends Service
     protected $serviceModelCollectionClass = KeywordBids::class;
 
     protected $serviceMethods = [
-        'set' => 'set:updateCollection',
         'query' => 'get:selectionElements',
     ];
+
+    /**
+     * @param ModelCommon $keywordBids
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function set(ModelCommon $keywordBids):Result
+    {
+        return $this->updateCollection('set', $keywordBids, 'KeywordBids', 'SetResults');
+    }
 
     /**
      * @param ModelCommon $keywordBidsAuto
@@ -44,6 +54,6 @@ class KeywordBidsService extends Service
      */
     public function setAuto(ModelCommon $keywordBidsAuto):Result
     {
-        return $this->updateCollection('setAuto', $keywordBidsAuto);
+        return $this->updateCollection('setAuto', $keywordBidsAuto, 'KeywordBids', 'SetAutoResults');
     }
 }

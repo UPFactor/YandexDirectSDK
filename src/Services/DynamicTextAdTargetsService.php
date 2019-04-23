@@ -50,6 +50,6 @@ class DynamicTextAdTargetsService extends Service
      */
     public function setBids(ModelCommon $webpageBids):Result
     {
-        return $this->updateCollection('setBids', $webpageBids);
+        return $this->updateCollection('setBids', $webpageBids, 'Bids', 'SetBidsResults');
     }
 }

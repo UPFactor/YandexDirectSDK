@@ -42,9 +42,4 @@ class KeywordBidAuto extends Model
         'keywordId' => 'integer',
         'biddingRule' => 'object:' . BiddingRule::class
     ];
-
-    public static function getClassName()
-    {
-        return 'KeywordBid';
-    }
 }

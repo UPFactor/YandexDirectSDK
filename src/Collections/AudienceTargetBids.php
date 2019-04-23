@@ -28,9 +28,4 @@ class AudienceTargetBids extends ModelCollection
     protected $serviceProvidersMethods = [
         'setBids' => AudienceTargetsService::class
     ];
-
-    public static function getClassName()
-    {
-        return 'Bids';
-    }
 }

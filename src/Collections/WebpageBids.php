@@ -25,9 +25,4 @@ class WebpageBids extends ModelCollection
     protected $serviceProvidersMethods = [
         'setBids' => DynamicTextAdTargetsService::class
     ];
-
-    public static function getClassName()
-    {
-        return 'Bids';
-    }
 }

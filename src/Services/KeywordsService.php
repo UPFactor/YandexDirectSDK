@@ -56,6 +56,9 @@ class KeywordsService extends Service
      * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
      * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedBids($keywords, ModelCommonInterface $bids): Result
@@ -106,6 +109,9 @@ class KeywordsService extends Service
      * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
      * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedKeywordBids($keywords, ModelCommonInterface $keywordBids): Result

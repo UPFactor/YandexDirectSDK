@@ -134,6 +134,9 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedBids($campaigns, ModelCommonInterface $bids): Result
@@ -274,6 +277,9 @@ class CampaignsService extends Service
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
      */
     public function setRelatedKeywordBids($campaigns, ModelCommonInterface $keywordBids): Result

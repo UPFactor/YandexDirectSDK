@@ -50,6 +50,6 @@ class AudienceTargetsService extends Service
      */
     public function setBids(ModelCommon $audienceTargetBids):Result
     {
-        return $this->updateCollection('setBids', $audienceTargetBids);
+        return $this->updateCollection('setBids', $audienceTargetBids, 'Bids', 'SetBidsResults');
     }
 }
