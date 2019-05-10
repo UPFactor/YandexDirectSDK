@@ -15,7 +15,7 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 /**
  * Class Service
  *
- * @package YandexDirectSDK\Services
+ * @package YandexDirectSDK\Components
  */
 abstract class Service
 {

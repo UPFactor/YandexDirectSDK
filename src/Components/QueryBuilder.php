@@ -7,6 +7,10 @@ use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 
+/**
+ * Class QueryBuilder
+ * @package YandexDirectSDK\Components
+ */
 class QueryBuilder
 {
     /**
