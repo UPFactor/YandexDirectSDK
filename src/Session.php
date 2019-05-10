@@ -494,7 +494,7 @@ class Session
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function call($service, $method, $params = array()): Result
+    public function call($service, $method, $params = []): Result
     {
 
         if (key_exists('SelectionCriteria', $params)){
