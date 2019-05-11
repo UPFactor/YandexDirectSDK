@@ -19,6 +19,7 @@ use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Models\AdGroup;
@@ -88,6 +89,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function testCreateCampaignsCollectionByArray(){
         $session = SessionTools::init();
@@ -164,6 +166,7 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @return Campaigns
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function testAddCampaignsByService(){
         $session = SessionTools::init();
@@ -389,6 +392,7 @@ class CampaignsExamplesTest extends TestCase
      *
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelCollectionException
      */
     public function testGetCampaignsByCollection(){
         $session = SessionTools::init();
@@ -586,6 +590,8 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      * @return AdGroups
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function testAddRelatedAdGroup($campaigns){
         /**
@@ -626,6 +632,8 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      * @return AdGroups
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function testAddRelatedAdGroups($campaigns){
 
@@ -689,6 +697,8 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      * @return BidModifiers
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function testAddRelatedBidModifier($campaigns){
 
@@ -1121,25 +1131,4 @@ class CampaignsExamplesTest extends TestCase
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
     }
-
-
-
-    //getRelatedAds
-    //addRelatedAudienceTargets
-    //getRelatedAudienceTargets
-    //setRelatedBids
-    //setRelatedBidsAuto
-    //getRelatedBids
-    //addRelatedBidModifiers
-    //enableBidModifiers
-    //disableBidModifiers
-    //getRelatedBidModifiers
-    //setRelatedKeywordBids
-    //setRelatedKeywordBidsAuto
-    //getRelatedKeywordBids
-    //addRelatedKeywords
-    //getRelatedKeywords
-    //addRelatedWebpages
-    //getRelatedWebpages
-    //
 }

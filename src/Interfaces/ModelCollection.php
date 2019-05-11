@@ -30,27 +30,12 @@ interface ModelCollection extends ModelCommon
     public static function wrap($value);
 
     /**
-     * Re-declares the current collection with a new set of elements.
-     *
-     * @param ModelInterface[]|ModelCollectionInterface $value
-     * @return static
-     */
-    public function redeclare($value);
-
-    /**
      * Reset the collection.
      *
      * @param ModelInterface[]|ModelCollectionInterface $value
      * @return static
      */
     public function reset($value = []);
-
-    /**
-     * Get the collection of items as a plain array.
-     *
-     * @return array
-     */
-    public function unwrap();
 
     /**
      * Get all of the items in the collection.
@@ -81,28 +66,6 @@ interface ModelCollection extends ModelCommon
      * @return bool
      */
     public function isNotEmpty(Closure $callable = null);
-
-    /**
-     * Get the keys of the collection items.
-     *
-     * @return array
-     */
-    public function keys();
-
-    /**
-     * Get the values of the collection items.
-     *
-     * @return ModelInterface[]
-     */
-    public function values();
-
-    /**
-     * Divide the collection into two arrays. One with keys,
-     * and the other with values.
-     *
-     * @return array
-     */
-    public function divide();
 
     /**
      * Return the first item in the collection that passed a given truth test.
@@ -155,14 +118,6 @@ interface ModelCollection extends ModelCommon
     public function pop($default = null);
 
     /**
-     * Get a subset of the items from the given array.
-     *
-     * @param string|array $keys
-     * @return static
-     */
-    public function only($keys);
-
-    /**
      * Returns all elements of the collection except the last.
      * Pass the "Number" parameter to exclude more elements from the ending of the collection.
      *
@@ -210,48 +165,6 @@ interface ModelCollection extends ModelCommon
     public function filter(Closure $callable, $context = null);
 
     /**
-     * Removes duplicate values from a collection.
-     *
-     * @return $this
-     */
-    public function unique();
-
-    /**
-     * Retrieve a new collection with unique elements of all transferred arrays or collections.
-     * The order of the elements will be determined by the order of their appearance in the source arrays.
-     *
-     * @param ModelInterface[]|ModelCollectionInterface ...$values
-     * @return $this
-     */
-    public function union(...$values);
-
-    /**
-     * Merge the collection with the given items.
-     *
-     * @param ModelInterface[]|ModelCollectionInterface ...$values
-     * @return $this
-     */
-    public function merge(...$values);
-
-    /**
-     * Returns a new collection containing all the values of the current collection that are missing
-     * in all transferred arrays or collections.
-     *
-     * @param ModelInterface[]|ModelCollectionInterface ...$values
-     * @return static
-     */
-    public function diff(...$values);
-
-    /**
-     * Returns a new collection containing all the values of the current collection that are present
-     * in all transferred arrays or collections.
-     *
-     * @param ModelInterface[]|ModelCollectionInterface ...$values
-     * @return static
-     */
-    public function intersect(...$values);
-
-    /**
      * Slice the collection.
      *
      * @param $offset
@@ -259,21 +172,6 @@ interface ModelCollection extends ModelCommon
      * @return static
      */
     public function slice($offset, $length = null);
-
-    /**
-     * Reverse items order.
-     *
-     * @return $this
-     */
-    public function reverse();
-
-    /**
-     * Sort through each item with a callback.
-     *
-     * @param Closure|null $callback
-     * @return $this
-     */
-    public function sort(Closure $callback = null);
 
     /**
      * Retrieve instance of compatible models.

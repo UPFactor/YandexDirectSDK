@@ -2,10 +2,10 @@
 
 namespace YandexDirectSDK\Components;
 
+use Closure;
 use ReflectionClass;
 use ReflectionException;
 use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\CollectionBaseTrait;
 use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
@@ -20,7 +20,6 @@ use YandexDirectSDK\Session;
  */
 abstract class ModelCollection implements ModelCollectionInterface
 {
-    use CollectionBaseTrait;
     use SessionTrait;
 
     /**
@@ -58,7 +57,21 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Create a new collection instance.
      *
+     * @param mixed ...$values
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public static function make(...$values){
+        return (new static())->reset($values);
+    }
+
+    /**
+     * Create a new collection instance.
+     *
      * @param ModelCollectionInterface|ModelInterface[] $models
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function __construct($models = null)
     {
@@ -98,6 +111,31 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
+     * Reset the collection.
+     *
+     * @param mixed $value
+     * @return $this
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function reset($value = []){
+        $this->items = $this->dataFusionController($value);
+        return $this;
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param mixed $value
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public static function wrap($value){
+        return (new static())->reset($value);
+    }
+
+    /**
      * Retrieve the collection hash.
      *
      * @return string
@@ -111,6 +149,8 @@ abstract class ModelCollection implements ModelCollectionInterface
      * Retrieve copy of the object.
      *
      * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      */
     public function copy(){
         $copy = Arr::map($this->items, function(ModelInterface $item){
@@ -118,6 +158,167 @@ abstract class ModelCollection implements ModelCollectionInterface
         });
 
         return new static($copy);
+    }
+
+    /**
+     * Get all of the items in the collection.
+     *
+     * @return ModelInterface[]
+     */
+    public function all()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Count the number of items in the collection.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->items);
+    }
+
+    /**
+     * Determine if the collection is empty.
+     *
+     * @param Closure|null $callable
+     * @return bool
+     */
+    public function isEmpty(Closure $callable = null)
+    {
+        if (empty($this->items)){
+            if (!is_null($callable)){
+                $callable($this);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determine if the collection is not empty.
+     *
+     * @param Closure|null $callable
+     * @return bool
+     */
+    public function isNotEmpty(Closure $callable = null)
+    {
+        if (!empty($this->items)){
+            if (!is_null($callable)){
+                $callable($this);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Extract the array of model property values from the collection.
+     *
+     * @param string|string[] $properties
+     * @return array
+     */
+    public function extract($properties)
+    {
+        if (is_string($properties)){
+            return Arr::map($this->items, function($model) use ($properties){
+                return $model->{$properties};
+            });
+        }
+
+        if (is_array($properties)){
+            return Arr::map($this->items, function($model) use ($properties){
+                $result = [];
+                foreach ($properties as $property){
+                    $result[$property] = $model->{$property};
+                }
+                return $result;
+            });
+        }
+
+        return [];
+    }
+
+    /**
+     * Return the first item in the collection that passed a given truth test.
+     *
+     * @param  mixed  $default
+     * @param  Closure $callback
+     * @return ModelInterface|null
+     */
+    public function first($default = null, $callback = null)
+    {
+        return Arr::first($this->items, ...func_get_args());
+    }
+
+    /**
+     * Return the last item in the collection that passed a given truth test.
+     *
+     * @param  ModelInterface $default
+     * @param  Closure $callback
+     * @return ModelInterface|null
+     */
+    public function last($default = null, $callback = null)
+    {
+        return Arr::last($this->items, ...func_get_args());
+    }
+
+    /**
+     * Get and delete the first item from the collection.
+     *
+     * @param mixed|null $default
+     * @return ModelInterface|null
+     */
+    public function shift($default = null)
+    {
+        if (count($this->items) > 0){
+            return array_shift($this->items);
+        }
+        return $default;
+    }
+
+    /**
+     * Get and delete the last item from the collection.
+     *
+     * @param mixed|null $default
+     * @return ModelInterface|null
+     */
+    public function pop($default = null)
+    {
+        if (count($this->items) > 0){
+            return array_pop($this->items);
+        }
+        return $default;
+    }
+
+    /**
+     * Returns all elements of the collection except the last.
+     * Pass the "Number" parameter to exclude more elements from the ending of the collection.
+     *
+     * @param int $count
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function initial($count = 1)
+    {
+        return $this->redeclare(array_values(Arr::initial($this->items, $count)));
+    }
+
+    /**
+     * Returns all elements of the collection except the first.
+     * Pass the "Number" parameter to exclude more elements from the beginning of the collection.
+     *
+     * @param int $count
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function tail($count = 1)
+    {
+        return $this->redeclare(array_values(Arr::tail($this->items, $count)));
     }
 
     /**
@@ -137,6 +338,63 @@ abstract class ModelCollection implements ModelCollectionInterface
 
         array_push($this->items, $value);
         return $this;
+    }
+
+    /**
+     * Retrieve a new collection with the results of calling a provided function
+     * on every element in the current collection.
+     *
+     * @param Closure $callable
+     * @param null $context
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function map(Closure $callable, $context = null)
+    {
+        return $this->redeclare(array_values(Arr::map($this->items, $callable, $context)));
+    }
+
+    /**
+     * Executes a provided function once for each collection  element.
+     *
+     * @param Closure $callable
+     * @param null $context
+     * @return $this
+     */
+    public function each(Closure $callable, $context = null)
+    {
+        Arr::each($this->items, $callable, $context);
+        return $this;
+    }
+
+    /**
+     * Retrieve a new collection with all the elements that pass the test
+     * implemented by the provided function.
+     *
+     * @param Closure $callable
+     * @param null $context
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function filter(Closure $callable, $context = null)
+    {
+        return $this->redeclare(array_values(Arr::filter($this->items, $callable, $context)));
+    }
+
+
+    /**
+     * Slice the collection.
+     *
+     * @param $offset
+     * @param null $length
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function slice($offset, $length = null){
+        return $this->redeclare(array_slice($this->items, $offset, $length));
     }
 
     /**
@@ -175,33 +433,6 @@ abstract class ModelCollection implements ModelCollectionInterface
         }
 
         return $this;
-    }
-
-    /**
-     * Extract the array of model property values from the collection.
-     *
-     * @param string|string[] $properties
-     * @return array
-     */
-    public function extract($properties)
-    {
-        if (is_string($properties)){
-            return Arr::map($this->items, function($model) use ($properties){
-                return $model->{$properties};
-            });
-        }
-
-        if (is_array($properties)){
-            return Arr::map($this->items, function($model) use ($properties){
-                $result = [];
-                foreach ($properties as $property){
-                    $result[$property] = $model->{$property};
-                }
-                return $result;
-            });
-        }
-
-        return [];
     }
 
     /**
@@ -280,6 +511,18 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @return void
      */
     protected function initialize($models){}
+
+    /**
+     * Re-declares the current collection with a new set of elements.
+     *
+     * @param mixed $value
+     * @return static
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    protected function redeclare($value){
+        return (new static())->reset($value);
+    }
 
     /**
      * Preprocessor combining collections with data.
