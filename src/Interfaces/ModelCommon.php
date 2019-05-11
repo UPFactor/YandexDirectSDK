@@ -44,9 +44,10 @@ interface ModelCommon
     /**
      * Converts to a Data object.
      *
+     * @param int $filters
      * @return Data
      */
-    public function toData();
+    public function toData($filters = 0);
 
     /**
      * Converts to JSON.
