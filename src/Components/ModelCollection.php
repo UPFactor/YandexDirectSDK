@@ -108,6 +108,19 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
+     * Retrieve copy of the object.
+     *
+     * @return static
+     */
+    public function copy(){
+        $copy = Arr::map($this->items, function(ModelInterface $item){
+            return $item->copy();
+        });
+
+        return new static($copy);
+    }
+
+    /**
      * Push an item onto the end of the collection.
      *
      * @param ModelInterface $value
