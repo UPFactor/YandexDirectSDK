@@ -308,9 +308,10 @@ abstract class Model implements ModelInterface
     /**
      * Converts the current model to a Data object.
      *
+     * @param int $filters
      * @return Data
      */
-    public function toData(){
+    public function toData($filters = 0){
         return new Data($this->toArray());
     }
 
