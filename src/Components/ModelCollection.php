@@ -57,13 +57,13 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Create a new collection instance.
      *
-     * @param mixed ...$values
+     * @param mixed ...$models
      * @return static
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public static function make(...$values){
-        return (new static())->reset($values);
+    public static function make(...$models){
+        return (new static())->reset($models);
     }
 
     /**
@@ -126,13 +126,13 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Create a new collection instance.
      *
-     * @param mixed $value
+     * @param mixed $models
      * @return static
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public static function wrap($value){
-        return (new static())->reset($value);
+    public static function wrap($models){
+        return (new static())->reset($models);
     }
 
     /**
