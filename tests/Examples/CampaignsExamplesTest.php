@@ -310,7 +310,13 @@ class CampaignsExamplesTest extends TestCase
          * @var Result $result
          */
         $result = $session->getCampaignsService()->query()
-            ->select('Id','Name','State','TextCampaign.BiddingStrategy', 'TextCampaign.Settings')
+            ->select(
+                'Id',
+                'Name',
+                'State',
+                'TextCampaign.BiddingStrategy',
+                'TextCampaign.Settings'
+            )
             ->whereIn('States', ['SUSPENDED', 'OFF', 'ARCHIVED'])
             ->limit(10)
             ->offset(5)
