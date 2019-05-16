@@ -684,7 +684,7 @@ class CampaignsExamplesTest extends TestCase
          * @var Campaigns $campaigns
          */
 
-        $result = $campaigns->getRelatedAdGroups(['Id','CampaignId','Name']);
+        $result = $campaigns->getRelatedAdGroups(['Id','Name']);
 
         /**
          * Convert result to adGroups collection.
