@@ -22,6 +22,7 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Models\AdGroup;
 use YandexDirectSDK\Models\Bid;
 use YandexDirectSDK\Models\BidAuto;
@@ -598,9 +599,95 @@ class CampaignsExamplesTest extends TestCase
      * @return AdGroups
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
+     * @throws ServiceException
      */
-    public function testAddRelatedAdGroup($campaigns){
+    public function testAddRelatedAdGroup_byService($campaigns){
+        $session = SessionTools::init();
+
         /**
+         * @var Campaigns $campaigns
+         */
+        $campaignIds = $campaigns->extract('id');
+
+        /**
+         * Create AdGroup model.
+         * @var AdGroup $adGroup
+         */
+        $adGroup = AdGroup::make()
+            ->setName('MyAdGroup')
+            ->setRegionIds([225]);
+
+        /**
+         * Create a new AdGroup for campaigns with id [$campaignIds].
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->addRelatedAdGroups($campaignIds, $adGroup);
+
+        /**
+         * Convert result to adGroups collection.
+         * @var AdGroups $adGroups
+         */
+        $adGroups = $result->getResource();
+
+        $this->assertIsArray($campaignIds);
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(AdGroups::class, $adGroups);
+
+        return $adGroups;
+    }
+
+    /**
+     * @depends testAddCampaignsByService
+     *
+     * @param $campaigns
+     * @return AdGroups
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function testAddRelatedAdGroup_byModel($campaigns){
+        /**
+         * @var Campaigns $campaigns
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * Create a new AdGroup for campaign [$campaign].
+         * @var Campaign $campaign
+         */
+        $result = $campaign->addRelatedAdGroups(
+            AdGroup::make()
+                ->setName('MyAdGroup')
+                ->setRegionIds([225])
+        );
+
+        /**
+         * Convert result to adGroups collection.
+         * @var AdGroups $adGroups
+         */
+        $adGroups = $result->getResource();
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(AdGroups::class, $adGroups);
+
+        return $adGroups;
+    }
+
+    /**
+     * @depends testAddCampaignsByService
+     *
+     * @param $campaigns
+     * @return AdGroups
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function testAddRelatedAdGroup_byCollection($campaigns){
+
+        /**
+         * Create a AdGroup for each campaign in the collection [$campaigns].
          * @var Campaigns $campaigns
          */
         $result = $campaigns->addRelatedAdGroups(
@@ -625,7 +712,6 @@ class CampaignsExamplesTest extends TestCase
             )
         );
 
-
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertInstanceOf(AdGroups::class, $adGroups);
@@ -641,7 +727,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public function testAddRelatedAdGroups($campaigns){
+    public function testAddRelatedAdGroups_byCollection($campaigns){
 
         /**
          * @var Campaigns $campaigns
@@ -823,13 +909,76 @@ class CampaignsExamplesTest extends TestCase
      * @depends testAddRelatedAdGroups
      *
      * @param $campaigns
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
-    public function testGetRelatedAds($campaigns){
+    public function testGetRelatedAds_byService($campaigns){
+        $session = SessionTools::init();
 
         /**
          * @var Campaigns $campaigns
          */
+        $campaignIds = $campaigns->extract('id');
 
+        /**
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->getRelatedAds($campaignIds, ['Id','TextAd.Title']);
+
+        /**
+         * Convert result to Ads collection.
+         * @var Ads $ads
+         */
+        $ads = $result->getResource();
+
+        $this->assertIsArray($campaignIds);
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Ads::class, $ads);
+    }
+
+    /**
+     * @depends testAddCampaignsByService
+     * @depends testAddRelatedAdGroups
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedAds_byModel($campaigns){
+
+        /**
+         * @var Campaigns $campaigns
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * @var Campaign $campaign
+         */
+        $result = $campaign->getRelatedAds(['Id','TextAd.Title']);
+
+        /**
+         * Convert result to Ads collection.
+         * @var Ads $ads
+         */
+        $ads = $result->getResource();
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Ads::class, $ads);
+    }
+
+    /**
+     * @depends testAddCampaignsByService
+     * @depends testAddRelatedAdGroups
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedAds_byCollection($campaigns){
+
+        /**
+         * @var Campaigns $campaigns
+         */
         $result = $campaigns->getRelatedAds(['Id','TextAd.Title']);
 
         /**
