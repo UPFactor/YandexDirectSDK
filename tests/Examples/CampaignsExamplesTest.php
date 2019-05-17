@@ -44,6 +44,14 @@ use YandexDirectSDKTest\Helpers\SessionTools;
 
 class CampaignsExamplesTest extends TestCase
 {
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Creating model and collection
+     |
+     |-------------------------------------------------------------------------------
+    */
+
     public function testCreateCampaignModel_byArray(){
         $session = SessionTools::init();
 
@@ -163,6 +171,14 @@ class CampaignsExamplesTest extends TestCase
         $this->assertInstanceOf(Campaigns::class, $campaigns);
         $this->assertEquals($campaignsRaw, $campaigns->toArray());
     }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Add campaigns
+     |
+     |-------------------------------------------------------------------------------
+    */
 
     /**
      * @return Campaigns
@@ -296,6 +312,14 @@ class CampaignsExamplesTest extends TestCase
             $session->getCampaignsService()->delete($campaign['Id']);
         });
     }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Get campaigns
+     |
+     |-------------------------------------------------------------------------------
+    */
 
     /**
      * @depends testAddCampaigns_byService
@@ -439,6 +463,14 @@ class CampaignsExamplesTest extends TestCase
         $this->assertInstanceOf(Data::class, $data);
         $this->assertInstanceOf(Campaigns::class, $campaigns);
     }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Actions of campaign
+     |
+     |-------------------------------------------------------------------------------
+    */
 
     /**
      * @depends testGetCampaigns_byService
@@ -1860,20 +1892,142 @@ class CampaignsExamplesTest extends TestCase
      * @depends testAddCampaigns_byService
      * @depends testAddRelatedAdGroup_byCollection
      *
-     * @param $campaigns
+     * @param Campaigns $campaigns
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
-    public function testGetRelatedKeywordBids(Campaigns $campaigns){
+    public function testGetRelatedKeywordBids_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+        $campaignIds = $campaigns->extract('id');
+
+        // Demo =====================================================================
 
         /**
+         * Get Bids by campaign ids [$campaignIds]
+         * @var Result $result
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->getRelatedKeywordBids($campaignIds, ['KeywordId','AdGroupId','CampaignId']);
+
+        /**
+         * Convert result to Bids collection.
+         * @var KeywordBids $keywordBid
+         */
+        $keywordBid = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertIsArray($campaignIds);
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBids::class, $keywordBid);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedKeywordBids_byModel(Campaigns $campaigns){
+        $campaign = $campaigns->first();
+
+        // Demo =====================================================================
+
+        /**
+         * Get Bids by campaign model [$campaign]
+         * @var Result $result
+         * @var Campaign $campaign
+         */
+        $result = $campaign->getRelatedKeywordBids(['KeywordId','AdGroupId','CampaignId']);
+
+        /**
+         * Convert result to Bids collection.
+         * @var KeywordBids $keywordBid
+         */
+        $keywordBid = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBids::class, $keywordBid);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedKeywordBids_byCollection(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Get Bids for all campaigns in the collection [$campaigns]
+         * @var Result $result
          * @var Campaigns $campaigns
          */
         $result = $campaigns->getRelatedKeywordBids(['KeywordId','AdGroupId','CampaignId']);
 
         /**
          * Convert result to Bids collection.
+         * @var KeywordBids $keywordBid
+         */
+        $keywordBid = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBids::class, $keywordBid);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
+     * @param Campaigns $campaigns
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
+     */
+    public function testSetRelatedKeywordBids_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+        $campaignIds = $campaigns->extract('id');
+
+        // Demo =====================================================================
+
+        /**
+         * Create Bid model
+         * @var KeywordBid $keywordBid
+         */
+        $keywordBid = KeywordBid::make()
+            ->setSearchBid(30000000)
+            ->setNetworkBid(10000000);
+
+
+        /**
+         * Sets the bid and priority for the key phrases of each
+         * campaign with ids. [$campaignIds]
+         * @var Result $result
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->setRelatedKeywordBids($campaignIds, $keywordBid);
+
+        /**
+         * Convert result to Bids collection.
          * @var KeywordBids $keywordBids
          */
         $keywordBids = $result->getResource();
+
+        // End Demo =====================================================================
 
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
@@ -1886,9 +2040,49 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      */
-    public function testSetRelatedKeywordBids(Campaigns $campaigns){
+    public function testSetRelatedKeywordBids_byModel(Campaigns $campaigns){
+        $campaign = $campaigns->first();
+
+        // Demo =====================================================================
 
         /**
+         * Sets the bid and priority for the campaign model. [$campaign]
+         * @var Result $result
+         * @var Campaign $campaign
+         */
+        $result = $campaign->setRelatedKeywordBids(
+            KeywordBid::make()
+                ->setSearchBid(30000000)
+                ->setNetworkBid(10000000)
+        );
+
+        /**
+         * Convert result to Bids collection.
+         * @var KeywordBids $keywordBids
+         */
+        $keywordBids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBids::class, $keywordBids);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
+     * @param $campaigns
+     */
+    public function testSetRelatedKeywordBids_byCollection(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Sets the bid and priority for the key phrases of each campaign
+         * in the collection. [$campaigns]
+         * @var Result $result
          * @var Campaigns $campaigns
          */
         $result = $campaigns->setRelatedKeywordBids(
@@ -1903,6 +2097,8 @@ class CampaignsExamplesTest extends TestCase
          */
         $keywordBids = $result->getResource();
 
+        // End Demo =====================================================================
+
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertInstanceOf(KeywordBids::class, $keywordBids);
@@ -1912,10 +2108,108 @@ class CampaignsExamplesTest extends TestCase
      * @depends testAddCampaigns_byService
      * @depends testAddRelatedAdGroup_byCollection
      *
+     * @param Campaigns $campaigns
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
+     * @throws ServiceException
+     */
+    public function testSetRelatedKeywordBidsAuto_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+        $campaignIds = $campaigns->extract('id');
+
+        // Demo =====================================================================
+
+        /**
+         * Create the bid constructor options model.
+         * @var KeywordBidAuto $keywordBidAuto
+         */
+        $keywordBidAuto = KeywordBidAuto::make()
+            ->setBiddingRule(
+                BiddingRule::make()
+                    ->setSearchByTrafficVolume(
+                        SearchByTrafficVolume::make()
+                            ->setTargetTrafficVolume(10)
+                    )
+            );
+
+        /**
+         * Sets the bid constructor options for the keywords of
+         * each campaign with ids [$campaignIds].
+         * @var Result $result
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->setRelatedKeywordBidsAuto($campaignIds, $keywordBidAuto);
+
+        /**
+         * Convert result to Bids collection.
+         * @var KeywordBidsAuto $bids
+         */
+        $keywordBidsAuto = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBidsAuto::class, $keywordBidsAuto);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
      * @param $campaigns
      */
-    public function testSetRelatedKeywordBidsAuto(Campaigns $campaigns){
+    public function testSetRelatedKeywordBidsAuto_byModel(Campaigns $campaigns){
+        $campaign = $campaigns->first();
+
+        // Demo =====================================================================
+
         /**
+         * Sets the bid constructor options for the campaign model. [$campaign]
+         * @var Result $result
+         * @var Campaign $campaign
+         */
+        $result = $campaign->setRelatedKeywordBidsAuto(
+            KeywordBidAuto::make()
+                ->setBiddingRule(
+                    BiddingRule::make()
+                        ->setSearchByTrafficVolume(
+                            SearchByTrafficVolume::make()
+                                ->setTargetTrafficVolume(10)
+                        )
+                )
+        );
+
+        /**
+         * Convert result to Bids collection.
+         * @var KeywordBidsAuto $keywordBidAuto
+         */
+        $keywordBidsAuto = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(KeywordBidsAuto::class, $keywordBidsAuto);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     * @depends testAddRelatedAdGroup_byCollection
+     *
+     * @param $campaigns
+     */
+    public function testSetRelatedKeywordBidsAuto_byCollection(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Sets the bid constructor options for the keywords of
+         * each campaign in the collection [$campaigns].
+         * @var Result $result
          * @var Campaigns $campaigns
          */
         $result = $campaigns->setRelatedKeywordBidsAuto(
@@ -1931,31 +2225,46 @@ class CampaignsExamplesTest extends TestCase
 
         /**
          * Convert result to Bids collection.
-         * @var KeywordBidsAuto $keywordBids
+         * @var KeywordBidsAuto $bids
          */
-        $keywordBids = $result->getResource();
+        $keywordBidsAuto = $result->getResource();
+
+        // End Demo =====================================================================
 
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
-        $this->assertInstanceOf(KeywordBidsAuto::class, $keywordBids);
+        $this->assertInstanceOf(KeywordBidsAuto::class, $keywordBidsAuto);
     }
 
     /**
      * @depends testAddCampaigns_byService
      *
-     * @param $campaigns
+     * @param Campaigns $campaigns
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
-    public function testGetRelatedKeywords(Campaigns $campaigns){
+    public function testGetRelatedKeywords_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+        $campaignIds = $campaigns->extract('id');
+
+        // Demo =====================================================================
+
         /**
-         * @var Campaigns $campaigns
+         * Get Keywords by campaign ids [$campaignIds]
+         * @var Result $result
+         * @var array $campaignIds
          */
-        $result = $campaigns->getRelatedKeywords(['Id','Keyword','Status']);
+        $result = $session
+            ->getCampaignsService()
+            ->getRelatedKeywords($campaignIds, ['Id','Keyword','Status']);
 
         /**
          * Convert result to Keywords collection.
-         * @var Keywords $adGroups
+         * @var Keywords $keywords
          */
         $keywords = $result->getResource();
+
+        // End Demo =====================================================================
 
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
@@ -1967,8 +2276,140 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      */
-    public function testGetRelatedWebpages(Campaigns $campaigns){
+    public function testGetRelatedKeywords_byModel(Campaigns $campaigns){
+        $campaign = $campaigns->first();
+
+        // Demo =====================================================================
+
         /**
+         * Get Keywords by campaign model [$campaign]
+         * @var Result $result
+         * @var Campaign $campaign
+         */
+        $result = $campaign->getRelatedKeywords(['Id','Keyword','Status']);
+
+        /**
+         * Convert result to Keywords collection.
+         * @var Keywords $keywords
+         */
+        $keywords = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Keywords::class, $keywords);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedKeywords_byCollection(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Get Keywords for all campaigns in the collection [$campaigns]
+         * @var Result $result
+         * @var Campaigns $campaigns
+         */
+        $result = $campaigns->getRelatedKeywords(['Id','Keyword','Status']);
+
+        /**
+         * Convert result to Keywords collection.
+         * @var Keywords $keywords
+         */
+        $keywords = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Keywords::class, $keywords);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param Campaigns $campaigns
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function testGetRelatedWebpages_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+        $campaignIds = $campaigns->extract('id');
+
+        // Demo =====================================================================
+
+        /**
+         * Get parameters targeting dynamic ads for all
+         * campaigns with ids [$campaignIds].
+         * @var Result $result
+         * @var array $campaignIds
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->getRelatedWebpages($campaignIds, ['AdGroupId','Bid','CampaignId']);
+
+        /**
+         * Convert result to Webpages collection.
+         * @var Webpages $webpages
+         */
+        $webpages = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertIsArray($campaignIds);
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Webpages::class, $webpages);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedWebpages_byModel(Campaigns $campaigns){
+        $campaign = $campaigns->first();
+
+        // Demo =====================================================================
+
+        /**
+         * Get parameters targeting dynamic ads for campaign model [$campaign].
+         * @var Result $result
+         * @var Campaign $campaign
+         */
+        $result = $campaign->getRelatedWebpages(['AdGroupId','Bid','CampaignId']);
+
+        /**
+         * Convert result to Webpages collection.
+         * @var Webpages $webpages
+         */
+        $webpages = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Webpages::class, $webpages);
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testGetRelatedWebpages_byCollection(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Get parameters targeting dynamic ads for all
+         * campaigns in the collection [$campaigns].
+         * @var Result $result
          * @var Campaigns $campaigns
          */
         $result = $campaigns->getRelatedWebpages(['AdGroupId','Bid','CampaignId']);
@@ -1979,10 +2420,20 @@ class CampaignsExamplesTest extends TestCase
          */
         $webpages = $result->getResource();
 
+        // End Demo =====================================================================
+
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertInstanceOf(Webpages::class, $webpages);
     }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Update and Delete
+     |
+     |-------------------------------------------------------------------------------
+    */
 
     /**
      * @depends testAddCampaigns_byService
