@@ -1827,7 +1827,7 @@ class CampaignsExamplesTest extends TestCase
      *
      * @param $campaigns
      */
-    public function testSetRelatedBidsAuto(Campaigns $campaigns){
+    public function testSetRelatedBidsAuto_byCollection(Campaigns $campaigns){
 
         // Demo =====================================================================
 
