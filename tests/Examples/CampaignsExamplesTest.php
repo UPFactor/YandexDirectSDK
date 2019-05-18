@@ -637,121 +637,6 @@ class CampaignsExamplesTest extends TestCase
     /*
      |-------------------------------------------------------------------------------
      |
-     | Update campaigns
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAddCampaigns_byService
-     *
-     * @param $campaigns
-     */
-    public function testUpdateCampaigns_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
-
-        // Demo =====================================================================
-
-        /**
-         * Get the first campaign from the collection.
-         * @var Campaigns $campaign - Campaign collection
-         * @var Campaign $campaign - Campaign model
-         */
-        $campaign = $campaigns->first();
-
-        /**
-         * Changing impression strategy parameters for a campaign.
-         * @var Campaign $campaign
-         */
-        $campaign->textCampaign->biddingStrategy
-            ->setSearch(
-                TextCampaignSearchStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
-                    ->setWbMaximumClicks(
-                        StrategyMaximumClicks::make()
-                            ->setWeeklySpendLimit(300000000)
-                            ->setBidCeiling(2000000)
-                    )
-            )
-            ->setNetwork(
-                TextCampaignNetworkStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
-                    ->setNetworkDefault(
-                        StrategyNetworkDefault::make()
-                            ->setLimitPercent(30)
-                            ->setBidPercent(10)
-                    )
-            );
-
-        /**
-         * Saving changes to Yandex.Direct.
-         * @var Result $result
-         */
-        $result = $session
-            ->getCampaignsService()
-            ->update($campaign);
-
-        // End Demo =====================================================================
-
-        $this->assertTrue($result->errors->isEmpty());
-        $this->assertTrue($result->warnings->isEmpty());
-    }
-
-    /**
-     * @depends testAddCampaigns_byService
-     *
-     * @param $campaigns
-     */
-    public function testUpdateCampaigns_byModel(Campaigns $campaigns){
-
-        // Demo =====================================================================
-
-        /**
-         * Get the first campaign from the collection.
-         * @var Campaigns $campaign - Campaign collection
-         * @var Campaign $campaign - Campaign model
-         */
-        $campaign = $campaigns->first();
-
-        /**
-         * Changing impression strategy parameters for a campaign.
-         * @var Campaign $campaign
-         */
-        $campaign->textCampaign->biddingStrategy
-            ->setSearch(
-                TextCampaignSearchStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
-                    ->setWbMaximumClicks(
-                        StrategyMaximumClicks::make()
-                            ->setWeeklySpendLimit(300000000)
-                            ->setBidCeiling(2000000)
-                    )
-            )
-            ->setNetwork(
-                TextCampaignNetworkStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
-                    ->setNetworkDefault(
-                        StrategyNetworkDefault::make()
-                            ->setLimitPercent(30)
-                            ->setBidPercent(10)
-                    )
-            );
-
-        /**
-         * Saving changes to Yandex.Direct.
-         * @var Result $result
-         */
-        $result = $campaign->update();
-
-        // End Demo =====================================================================
-
-        $this->assertTrue($result->errors->isEmpty());
-        $this->assertTrue($result->warnings->isEmpty());
-    }
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
      | Actions of campaign
      |
      |-------------------------------------------------------------------------------
@@ -2719,7 +2604,122 @@ class CampaignsExamplesTest extends TestCase
     /*
      |-------------------------------------------------------------------------------
      |
-     | Update and Delete
+     | Update campaigns
+     |
+     |-------------------------------------------------------------------------------
+    */
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testUpdateCampaigns_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+
+        // Demo =====================================================================
+
+        /**
+         * Get the first campaign from the collection.
+         * @var Campaigns $campaign - Campaign collection
+         * @var Campaign $campaign - Campaign model
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * Changing impression strategy parameters for a campaign.
+         * @var Campaign $campaign
+         */
+        $campaign->textCampaign->biddingStrategy
+            ->setSearch(
+                TextCampaignSearchStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
+                    ->setWbMaximumClicks(
+                        StrategyMaximumClicks::make()
+                            ->setWeeklySpendLimit(300000000)
+                            ->setBidCeiling(2000000)
+                    )
+            )
+            ->setNetwork(
+                TextCampaignNetworkStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
+                    ->setNetworkDefault(
+                        StrategyNetworkDefault::make()
+                            ->setLimitPercent(30)
+                            ->setBidPercent(10)
+                    )
+            );
+
+        /**
+         * Saving changes to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->update($campaign);
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testUpdateCampaigns_byModel(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Get the first campaign from the collection.
+         * @var Campaigns $campaign - Campaign collection
+         * @var Campaign $campaign - Campaign model
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * Changing impression strategy parameters for a campaign.
+         * @var Campaign $campaign
+         */
+        $campaign->textCampaign->biddingStrategy
+            ->setSearch(
+                TextCampaignSearchStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
+                    ->setWbMaximumClicks(
+                        StrategyMaximumClicks::make()
+                            ->setWeeklySpendLimit(300000000)
+                            ->setBidCeiling(2000000)
+                    )
+            )
+            ->setNetwork(
+                TextCampaignNetworkStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
+                    ->setNetworkDefault(
+                        StrategyNetworkDefault::make()
+                            ->setLimitPercent(30)
+                            ->setBidPercent(10)
+                    )
+            );
+
+        /**
+         * Saving changes to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $campaign->update();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+    }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Delete
      |
      |-------------------------------------------------------------------------------
     */
