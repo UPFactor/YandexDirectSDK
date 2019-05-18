@@ -235,6 +235,7 @@ class CampaignsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelCollectionException
      */
     public function disableBidModifiers($campaigns, string $bidModifierType): Result
     {

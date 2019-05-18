@@ -29,6 +29,10 @@ use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\BiddingRule;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\Campaign;
+use YandexDirectSDK\Models\DynamicTextCampaign;
+use YandexDirectSDK\Models\DynamicTextCampaignNetworkStrategy;
+use YandexDirectSDK\Models\DynamicTextCampaignSearchStrategy;
+use YandexDirectSDK\Models\DynamicTextCampaignStrategy;
 use YandexDirectSDK\Models\Keyword;
 use YandexDirectSDK\Models\KeywordBid;
 use YandexDirectSDK\Models\KeywordBidAuto;
@@ -40,6 +44,7 @@ use YandexDirectSDK\Models\TextCampaign;
 use YandexDirectSDK\Models\TextCampaignNetworkStrategy;
 use YandexDirectSDK\Models\TextCampaignSearchStrategy;
 use YandexDirectSDK\Models\TextCampaignStrategy;
+use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
 
 class CampaignsExamplesTest extends TestCase
@@ -188,14 +193,18 @@ class CampaignsExamplesTest extends TestCase
     public function testAddCampaigns_byService(){
         $session = SessionTools::init();
 
+        // Demo =====================================================================
+
         /**
-         * Creating a new campaign.
+         * Add a campaign to Yandex.Direct.
          * @var Result $result
          */
         $result = $session->getCampaignsService()->add(
+            //Creating a campaign collection and adding a campaign model to it.
             Campaigns::make()->push(
+                //Creating a campaign model and setting its properties.
                 Campaign::make()
-                    ->setName('MyCampaign')
+                    ->setName('MyTextCampaign')
                     ->setStartDate('2019-10-01')
                     ->setEndDate('2019-10-10')
                     ->setTextCampaign(
@@ -204,16 +213,18 @@ class CampaignsExamplesTest extends TestCase
                                 TextCampaignStrategy::make()
                                     ->setSearch(
                                         TextCampaignSearchStrategy::make()
-                                            ->setBiddingStrategyType(TextCampaignSearchStrategy::HIGHEST_POSITION)
+                                            ->setBiddingStrategyType('HIGHEST_POSITION')
                                     )
                                     ->setNetwork(
                                         TextCampaignNetworkStrategy::make()
-                                            ->setBiddingStrategyType(TextCampaignNetworkStrategy::MAXIMUM_COVERAGE)
+                                            ->setBiddingStrategyType('MAXIMUM_COVERAGE')
                                     )
                             )
                     )
                     ->setNegativeKeywords(['set','negative','keywords'])
             )
+            //You can add more campaigns to the collection.
+            //Just continue this chain using the "push" method.
         );
 
         /**
@@ -234,6 +245,8 @@ class CampaignsExamplesTest extends TestCase
          */
         $campaigns = $result->getResource();
 
+        // End Demo =====================================================================
+
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertIsArray($array);
@@ -241,6 +254,151 @@ class CampaignsExamplesTest extends TestCase
         $this->assertInstanceOf(Campaigns::class, $campaigns);
 
         return $campaigns;
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @return void
+     */
+    public function testAddCampaigns_byModel(){
+        $session = SessionTools::init();
+
+        // Demo =====================================================================
+
+        /**
+         * Create a campaign model.
+         * @var Campaign $campaign
+         */
+        $campaign = Campaign::make()
+            ->setSession($session)
+            ->setName('MyTextCampaign')
+            ->setStartDate('2019-10-01')
+            ->setEndDate('2019-10-10')
+            ->setTextCampaign(
+                TextCampaign::make()
+                    ->setBiddingStrategy(
+                        TextCampaignStrategy::make()
+                            ->setSearch(
+                                TextCampaignSearchStrategy::make()
+                                    ->setBiddingStrategyType('HIGHEST_POSITION')
+                            )
+                            ->setNetwork(
+                                TextCampaignNetworkStrategy::make()
+                                    ->setBiddingStrategyType('MAXIMUM_COVERAGE')
+                            )
+                    )
+            )
+            ->setNegativeKeywords(['set','negative','keywords']);
+
+        /**
+         * Add a campaign to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $campaign->add();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Campaign::class, $campaign);
+        $this->assertNotNull($campaign->id);
+
+        $result = $campaign->delete();
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function testAddCampaigns_byCollection(){
+        $session = SessionTools::init();
+
+        // Demo =====================================================================
+
+        /**
+         * Create an empty collection and connect session.
+         * @var Session $session
+         * @var Campaigns $campaigns.
+         */
+        $campaigns = Campaigns::make()->setSession($session);
+
+        /**
+         * Add campaigns to the collection.
+         */
+        $campaigns->push(
+            Campaign::make()
+                ->setName('MyTextCampaign')
+                ->setStartDate('2019-10-01')
+                ->setEndDate('2019-10-10')
+                ->setTextCampaign(
+                    TextCampaign::make()
+                        ->setBiddingStrategy(
+                            TextCampaignStrategy::make()
+                                ->setSearch(
+                                    TextCampaignSearchStrategy::make()
+                                        ->setBiddingStrategyType('HIGHEST_POSITION')
+                                )
+                                ->setNetwork(
+                                    TextCampaignNetworkStrategy::make()
+                                        ->setBiddingStrategyType('MAXIMUM_COVERAGE')
+                                )
+                        )
+                )
+                ->setNegativeKeywords(['set','negative','keywords'])
+        );
+
+        $campaigns->push(
+            Campaign::make()
+                ->setName('MyDynamicTextCampaign')
+                ->setStartDate('2019-10-01')
+                ->setEndDate('2019-10-10')
+                ->setDynamicTextCampaign(
+                    DynamicTextCampaign::make()
+                        ->setBiddingStrategy(
+                            DynamicTextCampaignStrategy::make()
+                                ->setSearch(
+                                    DynamicTextCampaignSearchStrategy::make()
+                                        ->setBiddingStrategyType('WB_MAXIMUM_CLICKS')
+                                        ->setWbMaximumClicks(
+                                            StrategyMaximumClicks::make()
+                                                ->setWeeklySpendLimit(300000000)
+                                                ->setBidCeiling(3000000)
+                                        )
+                                )
+                                ->setNetwork(
+                                    DynamicTextCampaignNetworkStrategy::make()
+                                        ->setBiddingStrategyType('SERVING_OFF')
+                                )
+                        )
+                )
+                ->setNegativeKeywords(['set','negative','keywords'])
+        );
+
+        /**
+         * Add campaigns to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $campaigns->add();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Campaigns::class, $campaigns);
+        $this->assertNotNull($campaigns->first()->{'id'});
+        $this->assertNotNull($campaigns->last()->{'id'});
+
+        $result = $campaigns->delete();
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
     }
 
     /**
@@ -253,8 +411,10 @@ class CampaignsExamplesTest extends TestCase
     public function testAddCampaigns_byArray(){
         $session = SessionTools::init();
 
+        // Demo =====================================================================
+
         /**
-         * Creating a new campaign.
+         * Add a campaign to Yandex.Direct.
          * @var Result $result
          */
         $result = $session->getCampaignsService()->call('add', [
@@ -300,6 +460,8 @@ class CampaignsExamplesTest extends TestCase
          */
         $data = $result->getData();
 
+        // End Demo =====================================================================
+
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertIsArray($array);
@@ -324,6 +486,7 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @depends testAddCampaigns_byService
      *
+     * @return Campaigns
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -370,11 +533,14 @@ class CampaignsExamplesTest extends TestCase
         $this->assertIsArray($array);
         $this->assertInstanceOf(Data::class, $data);
         $this->assertInstanceOf(Campaigns::class, $campaigns);
+
+        return $campaigns;
     }
 
     /**
      * @depends testAddCampaigns_byService
      *
+     * @return Campaigns
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -416,11 +582,13 @@ class CampaignsExamplesTest extends TestCase
         $this->assertInstanceOf(Data::class, $data);
         $this->assertInstanceOf(Campaigns::class, $campaigns);
 
+        return $campaigns;
     }
 
     /**
      * @depends testAddCampaigns_byService
      *
+     * @return Campaigns
      * @throws InvalidArgumentException
      * @throws RuntimeException
      * @throws ModelCollectionException
@@ -462,6 +630,123 @@ class CampaignsExamplesTest extends TestCase
         $this->assertIsArray($array);
         $this->assertInstanceOf(Data::class, $data);
         $this->assertInstanceOf(Campaigns::class, $campaigns);
+
+        return $campaigns;
+    }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
+     | Update campaigns
+     |
+     |-------------------------------------------------------------------------------
+    */
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testUpdateCampaigns_byService(Campaigns $campaigns){
+        $session = SessionTools::init();
+
+        // Demo =====================================================================
+
+        /**
+         * Get the first campaign from the collection.
+         * @var Campaigns $campaign - Campaign collection
+         * @var Campaign $campaign - Campaign model
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * Changing impression strategy parameters for a campaign.
+         * @var Campaign $campaign
+         */
+        $campaign->textCampaign->biddingStrategy
+            ->setSearch(
+                TextCampaignSearchStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
+                    ->setWbMaximumClicks(
+                        StrategyMaximumClicks::make()
+                            ->setWeeklySpendLimit(300000000)
+                            ->setBidCeiling(2000000)
+                    )
+            )
+            ->setNetwork(
+                TextCampaignNetworkStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
+                    ->setNetworkDefault(
+                        StrategyNetworkDefault::make()
+                            ->setLimitPercent(30)
+                            ->setBidPercent(10)
+                    )
+            );
+
+        /**
+         * Saving changes to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $session
+            ->getCampaignsService()
+            ->update($campaign);
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+    }
+
+    /**
+     * @depends testAddCampaigns_byService
+     *
+     * @param $campaigns
+     */
+    public function testUpdateCampaigns_byModel(Campaigns $campaigns){
+
+        // Demo =====================================================================
+
+        /**
+         * Get the first campaign from the collection.
+         * @var Campaigns $campaign - Campaign collection
+         * @var Campaign $campaign - Campaign model
+         */
+        $campaign = $campaigns->first();
+
+        /**
+         * Changing impression strategy parameters for a campaign.
+         * @var Campaign $campaign
+         */
+        $campaign->textCampaign->biddingStrategy
+            ->setSearch(
+                TextCampaignSearchStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
+                    ->setWbMaximumClicks(
+                        StrategyMaximumClicks::make()
+                            ->setWeeklySpendLimit(300000000)
+                            ->setBidCeiling(2000000)
+                    )
+            )
+            ->setNetwork(
+                TextCampaignNetworkStrategy::make()
+                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
+                    ->setNetworkDefault(
+                        StrategyNetworkDefault::make()
+                            ->setLimitPercent(30)
+                            ->setBidPercent(10)
+                    )
+            );
+
+        /**
+         * Saving changes to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $campaign->update();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
     }
 
     /*
@@ -1171,6 +1456,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelCollectionException
      */
     public function testDisableBidModifiers_byService(Campaigns $campaigns){
         $session = SessionTools::init();
@@ -2437,53 +2723,6 @@ class CampaignsExamplesTest extends TestCase
      |
      |-------------------------------------------------------------------------------
     */
-
-    /**
-     * @depends testAddCampaigns_byService
-     *
-     * @param $campaigns
-     */
-    public function testUpdateCampaigns(Campaigns $campaigns){
-
-        /**
-         * @var Campaigns $campaigns
-         */
-
-        $campaign = $campaigns->first();
-
-        /**
-         * @var Campaign $campaign
-         */
-        $campaign
-            ->textCampaign
-            ->biddingStrategy
-            ->setSearch(
-                TextCampaignSearchStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignSearchStrategy::WB_MAXIMUM_CLICKS)
-                    ->setWbMaximumClicks(
-                        StrategyMaximumClicks::make()
-                            ->setWeeklySpendLimit(300000000)
-                            ->setBidCeiling(2000000)
-                    )
-            )
-            ->setNetwork(
-                TextCampaignNetworkStrategy::make()
-                    ->setBiddingStrategyType(TextCampaignNetworkStrategy::NETWORK_DEFAULT)
-                    ->setNetworkDefault(
-                        StrategyNetworkDefault::make()
-                            ->setLimitPercent(30)
-                            ->setBidPercent(10)
-                    )
-            );
-
-        /**
-         * @var Result $result
-         */
-        $result = $campaign->update();
-
-        $this->assertTrue($result->errors->isEmpty());
-        $this->assertTrue($result->warnings->isEmpty());
-    }
 
     /**
      * @depends testAddCampaigns_byService
