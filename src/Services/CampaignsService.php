@@ -13,6 +13,7 @@ use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -206,6 +207,7 @@ class CampaignsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelCollectionException
      */
     public function enableBidModifiers($campaigns, string $bidModifierType): Result
     {

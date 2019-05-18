@@ -748,6 +748,8 @@ class CampaignsExamplesTest extends TestCase
          */
         $adGroups = $result->getResource();
 
+        // End Demo =====================================================================
+
         /**
          * Adding keywords to ad group.
          */
@@ -757,8 +759,6 @@ class CampaignsExamplesTest extends TestCase
                 Keyword::make()->setKeyword('yandex direct')
             )
         );
-
-        // End Demo =====================================================================
 
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
@@ -985,10 +985,10 @@ class CampaignsExamplesTest extends TestCase
             BidModifier::make()->setRegionalAdjustments(
                 RegionalAdjustments::make(
                     RegionalAdjustment::make()
-                        ->setRegionId(225)
+                        ->setRegionId(10231)
                         ->setBidModifier(50),
                     RegionalAdjustment::make()
-                        ->setRegionId(1)
+                        ->setRegionId(10176)
                         ->setBidModifier(50)
                 )
 
@@ -1031,10 +1031,10 @@ class CampaignsExamplesTest extends TestCase
             BidModifier::make()->setRegionalAdjustments(
                 RegionalAdjustments::make(
                     RegionalAdjustment::make()
-                        ->setRegionId(225)
+                        ->setRegionId(10174)
                         ->setBidModifier(50),
                     RegionalAdjustment::make()
-                        ->setRegionId(1)
+                        ->setRegionId(10083)
                         ->setBidModifier(50)
                 )
 
@@ -1264,11 +1264,13 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @depends testAddCampaigns_byService
      * @depends testAddRelatedBidModifier_byCollection
+     * @depends testDisableBidModifiers_byService
      *
      * @param Campaigns $campaigns
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelCollectionException
      */
     public function testEnableBidModifiers_byService(Campaigns $campaigns){
         $session = SessionTools::init();
@@ -1301,6 +1303,7 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @depends testAddCampaigns_byService
      * @depends testAddRelatedBidModifier_byCollection
+     * @depends testDisableBidModifiers_byModel
      *
      * @param $campaigns
      */
@@ -1332,7 +1335,7 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @depends testAddCampaigns_byService
      * @depends testAddRelatedBidModifier_byCollection
-     * @depends testDisableBidModifiers
+     * @depends testDisableBidModifiers_byCollection
      *
      * @param $campaigns
      */
