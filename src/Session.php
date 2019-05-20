@@ -568,7 +568,7 @@ class Session
         }
 
         try {
-            $this->logFile->append(date('Y-m-d H:i:s') . "\tfatal error\tsandbox:{$this->useSandbox}\tclient:{$this->client}\tmessage:{$exception->getMessage()}\n");
+            $this->logFile->append(date('Y-m-d H:i:s') . "\tfatal error\tsandbox:{$this->useSandbox}\tclient:{$this->client}\tcode:{$exception->getCode()}\tmessage:{$exception->getMessage()}\n");
         } catch (Exception $error) {
             throw RuntimeException::make(static::class."::exceptionLogging. {$error->getMessage()}");
         }

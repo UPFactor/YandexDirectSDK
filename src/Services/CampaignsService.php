@@ -264,12 +264,12 @@ class CampaignsService extends Service
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getRelatedBidModifiers($campaigns, array $fields, array $levels = ['CAMPAIGN','AD_GROUP']): Result
+    public function getRelatedBidModifiers($campaigns, array $fields): Result
     {
         return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
-            ->whereIn('Levels', $levels)
+            ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
             ->get();
     }
 

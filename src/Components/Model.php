@@ -159,8 +159,8 @@ abstract class Model implements ModelInterface
                 'writable' => !in_array($name, $this->nonWritableProperties)
             ];
 
-            $properties[$name]['addable'] = $properties[$name]['writable'] and !in_array($name, $this->nonAddableProperties);
-            $properties[$name]['updatable'] = $properties[$name]['writable'] and !in_array($name, $this->nonUpdatableProperties);
+            $properties[$name]['addable'] = ($properties[$name]['writable'] and !in_array($name, $this->nonAddableProperties));
+            $properties[$name]['updatable'] = ($properties[$name]['writable'] and !in_array($name, $this->nonUpdatableProperties));
         }
 
         $this->properties = $properties;

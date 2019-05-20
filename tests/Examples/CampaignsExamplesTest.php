@@ -257,6 +257,75 @@ class CampaignsExamplesTest extends TestCase
     }
 
     /**
+     * @return Campaigns
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function testAddDynamicTextCampaigns_byService(){
+        $session = SessionTools::init();
+
+        // Demo =====================================================================
+
+        /**
+         * Add DynamicTextCampaign to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $session->getCampaignsService()->add(
+            Campaigns::make()->push(
+                Campaign::make()
+                    ->setName('DynamicTextCampaign')
+                    ->setStartDate('2019-10-01')
+                    ->setDynamicTextCampaign(
+                        DynamicTextCampaign::make()
+                            ->setBiddingStrategy(
+                                DynamicTextCampaignStrategy::make()
+                                    ->setSearch(
+                                        DynamicTextCampaignSearchStrategy::make()
+                                            ->setBiddingStrategyType('WB_MAXIMUM_CLICKS')
+                                            ->setWbMaximumClicks(
+                                                StrategyMaximumClicks::make()
+                                                    ->setWeeklySpendLimit(300000000)
+                                            )
+                                    )
+                                    ->setNetwork(
+                                        DynamicTextCampaignNetworkStrategy::make()
+                                            ->setBiddingStrategyType('SERVING_OFF')
+                                    )
+                            )
+                    )
+            )
+        );
+
+        /**
+         * Convert result to array.
+         * @var array $array
+         */
+        $array = $result->getData()->all();
+
+        /**
+         * Convert result to data object.
+         * @var Data $data
+         */
+        $data = $result->getData();
+
+        /**
+         * Convert result to campaigns collection.
+         * @var Campaigns $campaigns
+         */
+        $campaigns = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertIsArray($array);
+        $this->assertInstanceOf(Data::class, $data);
+        $this->assertInstanceOf(Campaigns::class, $campaigns);
+
+        return $campaigns;
+    }
+
+    /**
      * @depends testAddCampaigns_byService
      *
      * @return void
@@ -1088,7 +1157,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      * @throws ServiceException
      */
-    public function testAddRelatedBidModifier_byService(Campaigns $campaigns){
+    public function testAddRelatedBidModifiers_byService(Campaigns $campaigns){
         $session = SessionTools::init();
         $campaignIds = $campaigns->extract('id');
 
@@ -1141,7 +1210,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public function testAddRelatedBidModifier_byModel(Campaigns $campaigns){
+    public function testAddRelatedBidModifiers_byModel(Campaigns $campaigns){
         $campaign = $campaigns->first();
 
         // Demo =====================================================================
@@ -1188,7 +1257,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public function testAddRelatedBidModifier_byCollection(Campaigns $campaigns){
+    public function testAddRelatedBidModifiers_byCollection(Campaigns $campaigns){
 
         // Demo =====================================================================
 
@@ -1228,7 +1297,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param Campaigns $campaigns
      * @return BidModifiers
@@ -1268,7 +1337,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param $campaigns
      * @return BidModifiers
@@ -1283,7 +1352,7 @@ class CampaignsExamplesTest extends TestCase
          * @var Result $result
          * @var Campaign $campaign
          */
-        $result = $campaign->getRelatedBidModifiers(['Id','CampaignId','AdGroupId'], ['CAMPAIGN']);
+        $result = $campaign->getRelatedBidModifiers(['Id','CampaignId','AdGroupId']);
 
         /**
          * Convert result to BidModifiers collection.
@@ -1302,7 +1371,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param $campaigns
      * @return BidModifiers
@@ -1316,7 +1385,7 @@ class CampaignsExamplesTest extends TestCase
          * @var Result $result
          * @var Campaigns $campaigns
          */
-        $result = $campaigns->getRelatedBidModifiers(['Id','CampaignId','AdGroupId'], ['CAMPAIGN']);
+        $result = $campaigns->getRelatedBidModifiers(['Id','CampaignId','AdGroupId']);
 
         /**
          * Convert result to BidModifiers collection.
@@ -1335,7 +1404,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param Campaigns $campaigns
      * @throws InvalidArgumentException
@@ -1373,7 +1442,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param $campaigns
      */
@@ -1404,7 +1473,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      *
      * @param $campaigns
      */
@@ -1434,7 +1503,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      * @depends testDisableBidModifiers_byService
      *
      * @param Campaigns $campaigns
@@ -1473,7 +1542,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      * @depends testDisableBidModifiers_byModel
      *
      * @param $campaigns
@@ -1505,7 +1574,7 @@ class CampaignsExamplesTest extends TestCase
 
     /**
      * @depends testAddCampaigns_byService
-     * @depends testAddRelatedBidModifier_byCollection
+     * @depends testAddRelatedBidModifiers_byCollection
      * @depends testDisableBidModifiers_byCollection
      *
      * @param $campaigns
@@ -2730,6 +2799,22 @@ class CampaignsExamplesTest extends TestCase
      * @param $campaigns
      */
     public function testDeleteCampaigns(Campaigns $campaigns){
+
+        /**
+         * @var Campaigns $campaigns
+         */
+        $result = $campaigns->delete();
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+    }
+
+    /**
+     * @depends testAddDynamicTextCampaigns_byService
+     *
+     * @param Campaigns $campaigns
+     */
+    public function testDeleteDynamicTextCampaigns(Campaigns $campaigns){
 
         /**
          * @var Campaigns $campaigns

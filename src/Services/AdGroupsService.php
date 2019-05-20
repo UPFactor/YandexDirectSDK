@@ -262,7 +262,7 @@ class AdGroupsService extends Service
         return $this->session->getBidModifiersService()->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
-            ->whereIn('Levels', 'AD_GROUP')
+            ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
             ->get();
     }
 

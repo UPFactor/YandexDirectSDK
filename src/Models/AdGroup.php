@@ -8,7 +8,7 @@ use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Interfaces\ModelCommon;
 
-/** 
+/**
  * Class AdGroup 
  * 
  * @property            integer                  $id 
@@ -80,7 +80,7 @@ use YandexDirectSDK\Interfaces\ModelCommon;
  * @method              Result                   getRelatedWebpages(array $fields) 
  * 
  * @package YandexDirectSDK\Models 
- */ 
+ */
 class AdGroup extends Model 
 { 
     protected $compatibleCollection = AdGroups::class;
@@ -131,7 +131,7 @@ class AdGroup extends Model
     ];
 
     protected $nonUpdatableProperties = [
-        'CampaignId',
+        'campaignId',
         'cpmBannerKeywordsAdGroup',
         'cpmBannerUserProfileAdGroup'
     ];

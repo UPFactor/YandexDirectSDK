@@ -31,7 +31,7 @@ use YandexDirectSDK\Interfaces\ModelCommon;
  * @method   Result         addRelatedBidModifiers(ModelCommon $bidModifiers) 
  * @method   Result         enableBidModifiers(string $bidModifierType) 
  * @method   Result         disableBidModifiers(string $bidModifierType) 
- * @method   Result         getRelatedBidModifiers(array $fields, array $levels) 
+ * @method   Result         getRelatedBidModifiers(array $fields) 
  * @method   Result         setRelatedKeywordBids(ModelCommon $keywordBids) 
  * @method   Result         setRelatedKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
  * @method   Result         getRelatedKeywordBids(array $fields) 
