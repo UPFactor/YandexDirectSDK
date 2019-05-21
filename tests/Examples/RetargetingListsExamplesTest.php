@@ -393,6 +393,24 @@ class RetargetingListsExamplesTest extends TestCase
      |-------------------------------------------------------------------------------
     */
 
+    /**
+     * @depends testAddRetargetingLists_byService
+     *
+     * @param RetargetingLists $retargetingLists
+     */
+    public function testUpdateRetargetingLists_byService(RetargetingLists $retargetingLists){
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * @depends testAddRetargetingLists_byService
+     *
+     * @param RetargetingLists $retargetingLists
+     */
+    public function testUpdateRetargetingLists_byModel(RetargetingLists $retargetingLists){
+        $this->markTestIncomplete('Not implemented');
+    }
+
     /*
      |-------------------------------------------------------------------------------
      |
@@ -400,5 +418,14 @@ class RetargetingListsExamplesTest extends TestCase
      |
      |-------------------------------------------------------------------------------
     */
+
+    /**
+     * @depends testAddRetargetingLists_byService
+     *
+     * @param RetargetingLists $retargetingLists
+     */
+    public function testDeleteRetargetingLists(RetargetingLists $retargetingLists){
+        $this->markTestIncomplete('Not implemented');
+    }
 
 }

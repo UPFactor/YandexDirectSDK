@@ -46,9 +46,23 @@ use YandexDirectSDK\Models\TextCampaignSearchStrategy;
 use YandexDirectSDK\Models\TextCampaignStrategy;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
-
 class CampaignsExamplesTest extends TestCase
 {
+    /**
+     * @var Session
+     */
+    public static $session;
+
+    public static function setUpBeforeClass():void
+    {
+        self::$session = SessionTools::init();
+    }
+
+    public static function tearDownAfterClass():void
+    {
+        self::$session = null;
+    }
+
     /*
      |-------------------------------------------------------------------------------
      |
@@ -58,7 +72,7 @@ class CampaignsExamplesTest extends TestCase
     */
 
     public function testCreateCampaignModel_byArray(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Campaign properties array.
@@ -106,7 +120,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testCreateCampaignsCollection_byArray(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Campaigns properties array.
@@ -191,7 +205,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testAddCampaigns_byService(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 
@@ -262,7 +276,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testAddDynamicTextCampaigns_byService(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 
@@ -331,7 +345,7 @@ class CampaignsExamplesTest extends TestCase
      * @return void
      */
     public function testAddCampaigns_byModel(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 
@@ -387,7 +401,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testAddCampaigns_byCollection(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 
@@ -478,7 +492,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RequestException
      */
     public function testAddCampaigns_byArray(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 
@@ -560,7 +574,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetCampaigns_byService(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -614,7 +628,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetCampaigns_byModel(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -663,7 +677,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testGetCampaigns_byCollection(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -718,7 +732,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testArchiveCampaigns(){
-        $session = $result = SessionTools::init();
+        $session = $result = self::$session;
 
         /**
          * Getting a list of result.
@@ -756,7 +770,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testUnarchiveCampaigns(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -794,7 +808,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testSuspendCampaigns(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -832,7 +846,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testResumeCampaigns(){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         /**
          * Getting a list of result.
@@ -881,7 +895,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testAddRelatedAdGroup_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1058,7 +1072,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedAdGroups_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1158,7 +1172,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testAddRelatedBidModifiers_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1305,7 +1319,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedBidModifiers_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1413,7 +1427,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testDisableBidModifiers_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1513,7 +1527,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ModelCollectionException
      */
     public function testEnableBidModifiers_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1612,7 +1626,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedAds_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1710,7 +1724,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedAudienceTargets_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1807,7 +1821,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedBids_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -1907,7 +1921,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testSetRelatedBids_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2025,7 +2039,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testSetRelatedBidsAuto_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2140,7 +2154,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedKeywordBids_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2240,7 +2254,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testSetRelatedKeywordBids_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2358,7 +2372,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws ServiceException
      */
     public function testSetRelatedKeywordBidsAuto_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2487,7 +2501,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedKeywords_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2581,7 +2595,7 @@ class CampaignsExamplesTest extends TestCase
      * @throws RuntimeException
      */
     public function testGetRelatedWebpages_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
         $campaignIds = $campaigns->extract('id');
 
         // Demo =====================================================================
@@ -2684,7 +2698,7 @@ class CampaignsExamplesTest extends TestCase
      * @param $campaigns
      */
     public function testUpdateCampaigns_byService(Campaigns $campaigns){
-        $session = SessionTools::init();
+        $session = self::$session;
 
         // Demo =====================================================================
 

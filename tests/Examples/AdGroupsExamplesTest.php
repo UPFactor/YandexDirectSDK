@@ -38,52 +38,74 @@ use YandexDirectSDK\Models\WebpageCondition;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
 
+/**
+ * Class AdGroupsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class AdGroupsExamplesTest extends TestCase
 {
     /**
+     * @var CampaignsExamplesTest
+     */
+    protected static $campaignsExTest;
+
+    /**
      * @var Session
      */
-    protected static $session;
+    public static $session;
 
     /**
      * @var Campaigns
      */
-    protected static $campaigns;
+    public static $textCampaigns;
 
     /**
      * @var Campaign
      */
-    protected static $campaign;
+    public static $textCampaign;
 
     /**
      * @var Campaigns
      */
-    protected static $dynamicTextCampaigns;
+    public static $dynamicTextCampaigns;
 
     /**
      * @var Campaign
      */
-    protected static $dynamicTextCampaign;
+    public static $dynamicTextCampaign;
 
     /**
+     * @return void
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
     public static function setUpBeforeClass():void
     {
-        $campaignsExamplesTest = new CampaignsExamplesTest();
+        $campaignsExTest = new CampaignsExamplesTest();
+        $campaignsExTest::setUpBeforeClass();
 
-        self::$session = SessionTools::init();
-        self::$campaigns = $campaignsExamplesTest->testAddCampaigns_byService();
-        self::$campaign = self::$campaigns->first();
-        self::$dynamicTextCampaigns = $campaignsExamplesTest->testAddDynamicTextCampaigns_byService();
+        self::$campaignsExTest = $campaignsExTest;
+        self::$session = $campaignsExTest::$session;
+        self::$textCampaigns = $campaignsExTest->testAddCampaigns_byService();
+        self::$textCampaign = self::$textCampaigns->first();
+        self::$dynamicTextCampaigns = $campaignsExTest->testAddDynamicTextCampaigns_byService();
         self::$dynamicTextCampaign = self::$dynamicTextCampaigns->first();
     }
 
+    /**
+     * @return void
+     */
     public static function tearDownAfterClass():void
     {
-        self::$campaigns->delete();
+        self::$campaignsExTest::tearDownAfterClass();
+        self::$textCampaigns->delete();
         self::$dynamicTextCampaigns->delete();
+
+        self::$session = null;
+        self::$textCampaigns = null;
+        self::$textCampaign = null;
+        self::$dynamicTextCampaigns = null;
+        self::$dynamicTextCampaign = null;
     }
 
     /*
@@ -102,7 +124,7 @@ class AdGroupsExamplesTest extends TestCase
     public function testAddAdGroup_byService(){
 
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -229,7 +251,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testAddAdGroup_byModel(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -273,7 +295,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testAddAdGroup_byCollection(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -327,7 +349,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testAddAdGroup_byArray(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -387,7 +409,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testGetAdGroup_byService(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -446,7 +468,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testGetAdGroup_byModel(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
@@ -500,7 +522,7 @@ class AdGroupsExamplesTest extends TestCase
      */
     public function testGetAdGroup_byCollection(){
         $session = self::$session;
-        $campaign = self::$campaign;
+        $campaign = self::$textCampaign;
 
         // Demo =====================================================================
 
