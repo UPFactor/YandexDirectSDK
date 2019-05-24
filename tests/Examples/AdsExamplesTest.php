@@ -585,6 +585,7 @@ class AdsExamplesTest extends TestCase
          */
         if ($ads->isNotEmpty()){
             $ads->unarchive();
+            $ads->resume();
         }
 
         // End Demo =====================================================================
