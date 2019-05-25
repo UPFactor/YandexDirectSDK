@@ -13,8 +13,7 @@ use YandexDirectSDK\Models\SitelinksSet;
  * Class SitelinksService 
  * 
  * @method   Result         add(ModelCommon $sitelinksSets) 
- * @method   QueryBuilder   query() 
- * @method   Result         delete(ModelCommon|integer[]|integer $sitelinksSets) 
+ * @method   Result         delete(ModelCommon|integer[]|integer $sitelinksSets)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -28,7 +27,19 @@ class SitelinksService extends Service
 
     protected $serviceMethods = [
         'add' => 'add:addCollection',
-        'query' => 'get:selectionElements',
         'delete' => 'delete:actionByIds'
     ];
+
+    /**
+     * @return QueryBuilder
+     */
+    public function query() : QueryBuilder
+    {
+        return $this->selectionElements('get', function($query){
+            if (empty($query['SelectionCriteria'])){
+                unset($query['SelectionCriteria']);
+            }
+            return $query;
+        });
+    }
 }

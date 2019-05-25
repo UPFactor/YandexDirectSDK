@@ -157,7 +157,7 @@ abstract class ModelCollection implements ModelCollectionInterface
             return $item->copy();
         });
 
-        return new static($copy);
+        return $this->redeclare($copy);
     }
 
     /**
@@ -393,7 +393,8 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public function slice($offset, $length = null){
+    public function slice($offset, $length = null)
+    {
         return $this->redeclare(array_slice($this->items, $offset, $length));
     }
 
@@ -521,7 +522,9 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @throws ModelCollectionException
      */
     protected function redeclare($value){
-        return (new static())->reset($value);
+        return (new static())
+            ->reset($value)
+            ->setSession($this->session);
     }
 
     /**

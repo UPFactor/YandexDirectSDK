@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Components;
 
+use Closure;
 use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
@@ -359,16 +360,16 @@ abstract class Service
      * Typical data selection method.
      *
      * @param string $methodName
+     * @param Closure|null $queryHandler
      * @return QueryBuilder
-     * @throws ServiceException
      */
-    protected function selectionElements(string $methodName){
+    protected function selectionElements(string $methodName, Closure $queryHandler = null){
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
         }
 
-        return new QueryBuilder(function (QueryBuilder $query) use ($methodName){
-            $result = $this->call($methodName, $query->toArray());
+        return new QueryBuilder(function (QueryBuilder $query) use ($methodName, $queryHandler){
+            $result = $this->call($methodName, is_null($queryHandler) ? $query->toArray() : $queryHandler($query->toArray()));
 
             return $result->setResource(
                 $this->serviceModelCollectionClass::make()
