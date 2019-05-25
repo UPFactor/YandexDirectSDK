@@ -4,7 +4,7 @@ namespace YandexDirectSDK\Collections;
 use YandexDirectSDK\Components\ModelCollection; 
 use YandexDirectSDK\Models\Representative; 
 
-/**  
+/** 
  * Class Representatives 
  * 
  * @package YandexDirectSDK\Collections 

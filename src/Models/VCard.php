@@ -103,4 +103,8 @@ class VCard extends Model
         'pointOnMap' => 'object:' . MapPoint::class,
         'contactPerson' => 'string'
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class ContextCoverage 
  * 
- * @property-read   integer   $probability 
- * @property-read   integer   $price 
+ * @property-readable   integer   $probability 
+ * @property-readable   integer   $price 
  * 
- * @method          integer   getProbability() 
- * @method          integer   getPrice() 
+ * @method              integer   getProbability() 
+ * @method              integer   getPrice() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

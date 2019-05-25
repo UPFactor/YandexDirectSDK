@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class ExtensionModeration 
  * 
- * @property-read   string   $status 
- * @property-read   string   $statusClarification 
+ * @property-readable   string   $status 
+ * @property-readable   string   $statusClarification 
  * 
- * @method          string   getStatus() 
- * @method          string   getStatusClarification() 
+ * @method              string   getStatus() 
+ * @method              string   getStatusClarification() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

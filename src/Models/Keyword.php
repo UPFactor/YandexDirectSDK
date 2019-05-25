@@ -120,4 +120,8 @@ class Keyword extends Model
         'statisticsSearch',
         'statisticsNetwork'
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

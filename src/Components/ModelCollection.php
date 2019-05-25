@@ -522,9 +522,13 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @throws ModelCollectionException
      */
     protected function redeclare($value){
-        return (new static())
-            ->reset($value)
-            ->setSession($this->session);
+        $collection = (new static())->reset($value);
+
+        if (!is_null($this->session)){
+            $collection->setSession($this->session);
+        }
+
+        return $collection;
     }
 
     /**

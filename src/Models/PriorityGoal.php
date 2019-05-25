@@ -10,12 +10,15 @@ use YandexDirectSDK\Components\Model;
  * 
  * @property   integer   $goalId 
  * @property   integer   $value 
+ * @property   string    $operation 
  * 
  * @method     $this     setGoalId(integer $goalId) 
  * @method     $this     setValue(integer $value) 
+ * @method     $this     setOperation(string $operation) 
  * 
  * @method     integer   getGoalId() 
  * @method     integer   getValue() 
+ * @method     string    getOperation() 
  * 
  * @package YandexDirectSDK\Models 
  */

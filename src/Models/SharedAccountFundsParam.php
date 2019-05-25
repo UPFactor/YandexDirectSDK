@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class SharedAccountFundsParam 
  * 
- * @property-read   integer   $refund 
- * @property-read   integer   $spend 
+ * @property-readable   integer   $refund 
+ * @property-readable   integer   $spend 
  * 
- * @method          integer   getRefund() 
- * @method          integer   getSpend() 
+ * @method              integer   getRefund() 
+ * @method              integer   getSpend() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

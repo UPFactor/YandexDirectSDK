@@ -7,31 +7,31 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAd 
  * 
- * @property        string[]              $title 
- * @property        string                $text 
- * @property        string                $trackingUrl 
- * @property        MobileAppAdFeatures   $features 
- * @property        string                $ageLabel 
- * @property        string                $action 
- * @property        string                $adImageHash 
- * @property-read   ExtensionModeration   $adImageModeration 
+ * @property            string[]              $title 
+ * @property            string                $text 
+ * @property            string                $trackingUrl 
+ * @property            MobileAppAdFeatures   $features 
+ * @property            string                $ageLabel 
+ * @property            string                $action 
+ * @property            string                $adImageHash 
+ * @property-readable   ExtensionModeration   $adImageModeration 
  * 
- * @method          $this                 setTitle(string[] $title) 
- * @method          $this                 setText(string $text) 
- * @method          $this                 setTrackingUrl(string $trackingUrl) 
- * @method          $this                 setFeatures(MobileAppAdFeatures $features) 
- * @method          $this                 setAgeLabel(string $ageLabel) 
- * @method          $this                 setAction(string $action) 
- * @method          $this                 setAdImageHash(string $adImageHash) 
+ * @method              $this                 setTitle(string[] $title) 
+ * @method              $this                 setText(string $text) 
+ * @method              $this                 setTrackingUrl(string $trackingUrl) 
+ * @method              $this                 setFeatures(MobileAppAdFeatures $features) 
+ * @method              $this                 setAgeLabel(string $ageLabel) 
+ * @method              $this                 setAction(string $action) 
+ * @method              $this                 setAdImageHash(string $adImageHash) 
  * 
- * @method          string[]              getTitle() 
- * @method          string                getText() 
- * @method          string                getTrackingUrl() 
- * @method          MobileAppAdFeatures   getFeatures() 
- * @method          string                getAgeLabel() 
- * @method          string                getAction() 
- * @method          string                getAdImageHash() 
- * @method          ExtensionModeration   getAdImageModeration() 
+ * @method              string[]              getTitle() 
+ * @method              string                getText() 
+ * @method              string                getTrackingUrl() 
+ * @method              MobileAppAdFeatures   getFeatures() 
+ * @method              string                getAgeLabel() 
+ * @method              string                getAction() 
+ * @method              string                getAdImageHash() 
+ * @method              ExtensionModeration   getAdImageModeration() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

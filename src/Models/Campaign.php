@@ -182,4 +182,8 @@ class Campaign extends Model
         'funds',
         'representedBy'
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

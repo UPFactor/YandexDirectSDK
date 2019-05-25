@@ -40,4 +40,8 @@ class SitelinksSet extends Model
         'id' => 'integer',
         'sitelinks' => 'object:' . Sitelinks::class
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

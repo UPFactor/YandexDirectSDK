@@ -6,11 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class CampaignAssistant 
  * 
- * @property-read   string   $manager 
- * @property-read   string   $agency 
+ * @property   string   $manager 
+ * @property   string   $agency 
  * 
- * @method          string   getManager() 
- * @method          string   getAgency() 
+ * @method     $this    setManager(string $manager) 
+ * @method     $this    setAgency(string $agency) 
+ * 
+ * @method     string   getManager() 
+ * @method     string   getAgency() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

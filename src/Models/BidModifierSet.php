@@ -34,4 +34,8 @@ class BidModifierSet extends Model
         'id' => 'integer',
         'bidModifier' => 'integer'
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

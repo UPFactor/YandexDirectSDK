@@ -10,30 +10,31 @@ use YandexDirectSDK\Services\AdImagesService;
 /** 
  * Class AdImage 
  * 
- * @property        string         $imageData 
- * @property        string         $name 
- * @property-read   string         $adImageHash 
- * @property-read   string         $associated 
- * @property-read   string         $type 
- * @property-read   string         $subtype 
- * @property-read   string         $originalUrl 
- * @property-read   string         $previewUrl 
+ * @property            string         $adImageHash 
+ * @property            string         $imageData 
+ * @property            string         $name 
+ * @property-readable   string         $associated 
+ * @property-readable   string         $type 
+ * @property-readable   string         $subtype 
+ * @property-readable   string         $originalUrl 
+ * @property-readable   string         $previewUrl 
  * 
- * @method          $this          setImageData(string $imageData) 
- * @method          $this          setName(string $name) 
+ * @method              $this          setAdImageHash(string $adImageHash) 
+ * @method              $this          setImageData(string $imageData) 
+ * @method              $this          setName(string $name) 
  * 
- * @method          string         getImageData() 
- * @method          string         getName() 
- * @method          string         getAdImageHash() 
- * @method          string         getAssociated() 
- * @method          string         getType() 
- * @method          string         getSubtype() 
- * @method          string         getOriginalUrl() 
- * @method          string         getPreviewUrl() 
+ * @method              string         getAdImageHash() 
+ * @method              string         getImageData() 
+ * @method              string         getName() 
+ * @method              string         getAssociated() 
+ * @method              string         getType() 
+ * @method              string         getSubtype() 
+ * @method              string         getOriginalUrl() 
+ * @method              string         getPreviewUrl() 
  * 
- * @method          QueryBuilder   query() 
- * @method          Result         add() 
- * @method          Result         delete() 
+ * @method              QueryBuilder   query() 
+ * @method              Result         add() 
+ * @method              Result         delete() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

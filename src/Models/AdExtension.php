@@ -10,28 +10,28 @@ use YandexDirectSDK\Services\AdExtensionsService;
 /** 
  * Class AdExtension 
  * 
- * @property        integer        $id 
- * @property        Callout        $callout 
- * @property-read   string         $associated 
- * @property-read   string         $type 
- * @property-read   string         $state 
- * @property-read   string         $status 
- * @property-read   string         $statusClarification 
+ * @property            integer        $id 
+ * @property-readable   string         $associated 
+ * @property-readable   string         $type 
+ * @property            Callout        $callout 
+ * @property-readable   string         $state 
+ * @property-readable   string         $status 
+ * @property-readable   string         $statusClarification 
  * 
- * @method          $this          setId(integer $id) 
- * @method          $this          setCallout(Callout $callout) 
+ * @method              $this          setId(integer $id) 
+ * @method              $this          setCallout(Callout $callout) 
  * 
- * @method          integer        getId() 
- * @method          Callout        getCallout() 
- * @method          string         getAssociated() 
- * @method          string         getType() 
- * @method          string         getState() 
- * @method          string         getStatus() 
- * @method          string         getStatusClarification() 
+ * @method              integer        getId() 
+ * @method              string         getAssociated() 
+ * @method              string         getType() 
+ * @method              Callout        getCallout() 
+ * @method              string         getState() 
+ * @method              string         getStatus() 
+ * @method              string         getStatusClarification() 
  * 
- * @method          QueryBuilder   query() 
- * @method          Result         add() 
- * @method          Result         delete() 
+ * @method              QueryBuilder   query() 
+ * @method              Result         add() 
+ * @method              Result         delete() 
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -65,5 +65,9 @@ class AdExtension extends Model
         'state',
         'status',
         'statusClarification'
+    ];
+
+    protected $nonAddableProperties = [
+        'id'
     ];
 }

@@ -13,43 +13,43 @@ use YandexDirectSDK\Services\BidModifiersService;
 /** 
  * Class BidModifier 
  * 
- * @property        integer                   $id 
- * @property        integer                   $campaignId 
- * @property        integer                   $adGroupId 
- * @property-read   string                    $level 
- * @property-read   string                    $type 
- * @property        MobileAdjustment          $mobileAdjustment 
- * @property        DesktopAdjustment         $desktopAdjustment 
- * @property        DemographicsAdjustments   $demographicsAdjustments 
- * @property        RetargetingAdjustments    $retargetingAdjustments 
- * @property        RegionalAdjustments       $regionalAdjustments 
- * @property        VideoAdjustment           $videoAdjustment 
+ * @property            integer                   $id 
+ * @property            integer                   $campaignId 
+ * @property            integer                   $adGroupId 
+ * @property            MobileAdjustment          $mobileAdjustment 
+ * @property            DesktopAdjustment         $desktopAdjustment 
+ * @property            DemographicsAdjustments   $demographicsAdjustments 
+ * @property            RetargetingAdjustments    $retargetingAdjustments 
+ * @property            RegionalAdjustments       $regionalAdjustments 
+ * @property            VideoAdjustment           $videoAdjustment 
+ * @property-readable   string                    $level 
+ * @property-readable   string                    $type 
  * 
- * @method          $this                     setId(integer $id) 
- * @method          $this                     setCampaignId(integer $campaignId) 
- * @method          $this                     setAdGroupId(integer $adGroupId) 
- * @method          $this                     setMobileAdjustment(MobileAdjustment $mobileAdjustment) 
- * @method          $this                     setDesktopAdjustment(DesktopAdjustment $desktopAdjustment) 
- * @method          $this                     setDemographicsAdjustments(DemographicsAdjustments $demographicsAdjustments) 
- * @method          $this                     setRetargetingAdjustments(RetargetingAdjustments $retargetingAdjustments) 
- * @method          $this                     setRegionalAdjustments(RegionalAdjustments $regionalAdjustments) 
- * @method          $this                     setVideoAdjustment(VideoAdjustment $videoAdjustment) 
+ * @method              $this                     setId(integer $id) 
+ * @method              $this                     setCampaignId(integer $campaignId) 
+ * @method              $this                     setAdGroupId(integer $adGroupId) 
+ * @method              $this                     setMobileAdjustment(MobileAdjustment $mobileAdjustment) 
+ * @method              $this                     setDesktopAdjustment(DesktopAdjustment $desktopAdjustment) 
+ * @method              $this                     setDemographicsAdjustments(DemographicsAdjustments $demographicsAdjustments) 
+ * @method              $this                     setRetargetingAdjustments(RetargetingAdjustments $retargetingAdjustments) 
+ * @method              $this                     setRegionalAdjustments(RegionalAdjustments $regionalAdjustments) 
+ * @method              $this                     setVideoAdjustment(VideoAdjustment $videoAdjustment) 
  * 
- * @method          integer                   getId() 
- * @method          integer                   getCampaignId() 
- * @method          integer                   getAdGroupId() 
- * @method          string                    getLevel() 
- * @method          string                    getType() 
- * @method          MobileAdjustment          getMobileAdjustment() 
- * @method          DesktopAdjustment         getDesktopAdjustment() 
- * @method          DemographicsAdjustments   getDemographicsAdjustments() 
- * @method          RetargetingAdjustments    getRetargetingAdjustments() 
- * @method          RegionalAdjustments       getRegionalAdjustments() 
- * @method          VideoAdjustment           getVideoAdjustment() 
+ * @method              integer                   getId() 
+ * @method              integer                   getCampaignId() 
+ * @method              integer                   getAdGroupId() 
+ * @method              MobileAdjustment          getMobileAdjustment() 
+ * @method              DesktopAdjustment         getDesktopAdjustment() 
+ * @method              DemographicsAdjustments   getDemographicsAdjustments() 
+ * @method              RetargetingAdjustments    getRetargetingAdjustments() 
+ * @method              RegionalAdjustments       getRegionalAdjustments() 
+ * @method              VideoAdjustment           getVideoAdjustment() 
+ * @method              string                    getLevel() 
+ * @method              string                    getType() 
  * 
- * @method          Result                    add() 
- * @method          Result                    delete() 
- * @method          QueryBuilder              query() 
+ * @method              Result                    add() 
+ * @method              Result                    delete() 
+ * @method              QueryBuilder              query() 
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -80,5 +80,9 @@ class BidModifier extends Model
     protected $nonWritableProperties = [
         'level',
         'type'
+    ];
+
+    protected $nonAddableProperties = [
+        'id'
     ];
 }

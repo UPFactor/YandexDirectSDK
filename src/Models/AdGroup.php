@@ -8,7 +8,7 @@ use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Interfaces\ModelCommon;
 
-/**
+/** 
  * Class AdGroup 
  * 
  * @property            integer                  $id 
@@ -143,5 +143,9 @@ class AdGroup extends Model
         'servingStatus',
         'type',
         'subtype'
+    ];
+
+    protected $nonAddableProperties = [
+        'id'
     ];
 }

@@ -6,13 +6,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class FundsParam 
  * 
- * @property-read   string                    $mode 
- * @property-read   CampaignFundsParam        $campaignFunds 
- * @property-read   SharedAccountFundsParam   $sharedAccountFunds 
+ * @property-readable   string                    $mode 
+ * @property-readable   CampaignFundsParam        $campaignFunds 
+ * @property-readable   SharedAccountFundsParam   $sharedAccountFunds 
  * 
- * @method          string                    getMode() 
- * @method          CampaignFundsParam        getCampaignFunds() 
- * @method          SharedAccountFundsParam   getSharedAccountFunds() 
+ * @method              string                    getMode() 
+ * @method              CampaignFundsParam        getCampaignFunds() 
+ * @method              SharedAccountFundsParam   getSharedAccountFunds() 
  * 
  * @package YandexDirectSDK\Models 
  */

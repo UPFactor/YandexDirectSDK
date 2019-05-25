@@ -242,7 +242,13 @@ abstract class Model implements ModelInterface
      * @return static
      */
     public function copy(){
-        return (new static())->insert($this->toArray());
+        $model = (new static())->insert($this->toArray());
+
+        if (!is_null($this->session)){
+            $model->setSession($this->session);
+        }
+
+        return $model;
     }
 
     /**

@@ -50,4 +50,8 @@ class AudienceTargetBid extends Model
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
     ];
+
+    protected $nonAddableProperties = [
+        'id'
+    ];
 }

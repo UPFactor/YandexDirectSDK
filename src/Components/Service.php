@@ -363,9 +363,14 @@ abstract class Service
      * @param Closure|null $queryHandler
      * @return QueryBuilder
      */
-    protected function selectionElements(string $methodName, Closure $queryHandler = null){
+    protected function selectionElements(string $methodName, $queryHandler = null){
+
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
+        }
+
+        if (!($queryHandler instanceof Closure)){
+            $queryHandler = null;
         }
 
         return new QueryBuilder(function (QueryBuilder $query) use ($methodName, $queryHandler){
@@ -425,7 +430,7 @@ abstract class Service
      * Typical method for action based on object ids.
      *
      * @param string $methodName
-     * @param ModelCommonInterface|integer[]|integer $elements
+     * @param ModelCommonInterface|string[]|integer[]|string|integer $elements
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException

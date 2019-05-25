@@ -7,9 +7,9 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Coverage 
  * 
- * @property-read   NetworkCoverageItems   $coverageItems 
+ * @property-readable   NetworkCoverageItems   $coverageItems 
  * 
- * @method          NetworkCoverageItems   getCoverageItems() 
+ * @method              NetworkCoverageItems   getCoverageItems() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -1,12 +1,15 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Models\WebpageBid;
 use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 
-/**  
+/** 
  * Class WebpageBids 
+ * 
+ * @method   Result   setBids() 
  * 
  * @package YandexDirectSDK\Collections 
  */ 

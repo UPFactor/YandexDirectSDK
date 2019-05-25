@@ -50,6 +50,11 @@ class SitelinksExamplesTest extends TestCase
         });
     }
 
+    public static function tearDownAfterClass():void
+    {
+        self::$session = null;
+    }
+
     /*
      |-------------------------------------------------------------------------------
      |
@@ -246,6 +251,8 @@ class SitelinksExamplesTest extends TestCase
     */
 
     /**
+     * @depends testAddSitelinks_byService
+     *
      * @return SitelinksSets
      * @throws InvalidArgumentException
      * @throws RuntimeException
@@ -418,5 +425,4 @@ class SitelinksExamplesTest extends TestCase
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
     }
-
 }

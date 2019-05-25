@@ -7,53 +7,59 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TextAd 
  * 
- * @property        string                $title 
- * @property        string                $title2 
- * @property        string                $text 
- * @property        string                $mobile 
- * @property        string                $href 
- * @property        integer               $vCardId 
- * @property        string                $adImageHash 
- * @property        integer               $sitelinkSetId 
- * @property        string                $displayUrlPath 
- * @property        integer[]             $adExtensionIds 
- * @property        VideoExtension        $videoExtension 
- * @property-read   string                $displayDomain 
- * @property-read   string                $displayUrlPathModeration 
- * @property-read   ExtensionModeration   $vCardModeration 
- * @property-read   ExtensionModeration   $sitelinksModeration 
- * @property-read   ExtensionModeration   $adImageModeration 
- * @property-read   AdExtensionsAd        $adExtensions 
+ * @property            string                $title 
+ * @property            string                $title2 
+ * @property            string                $text 
+ * @property            string                $mobile 
+ * @property            string                $href 
+ * @property-readable   string                $displayDomain 
+ * @property            string                $ageLabel 
+ * @property            integer               $vCardId 
+ * @property-readable   ExtensionModeration   $vCardModeration 
+ * @property            string                $adImageHash 
+ * @property-readable   ExtensionModeration   $adImageModeration 
+ * @property            integer               $sitelinkSetId 
+ * @property-readable   ExtensionModeration   $sitelinksModeration 
+ * @property            AdExtensionSetting    $calloutSetting 
+ * @property            string                $displayUrlPath 
+ * @property-readable   ExtensionModeration   $displayUrlPathModeration 
+ * @property            integer[]             $adExtensionIds 
+ * @property-readable   AdExtensionsAd        $adExtensions 
+ * @property            VideoExtension        $videoExtension 
  * 
- * @method          $this                 setTitle(string $title) 
- * @method          $this                 setTitle2(string $title2) 
- * @method          $this                 setText(string $text) 
- * @method          $this                 setMobile(string $mobile) 
- * @method          $this                 setHref(string $href) 
- * @method          $this                 setVCardId(integer $vCardId) 
- * @method          $this                 setAdImageHash(string $adImageHash) 
- * @method          $this                 setSitelinkSetId(integer $sitelinkSetId) 
- * @method          $this                 setDisplayUrlPath(string $displayUrlPath) 
- * @method          $this                 setAdExtensionIds(integer[] $adExtensionIds) 
- * @method          $this                 setVideoExtension(VideoExtension $videoExtension) 
+ * @method              $this                 setTitle(string $title) 
+ * @method              $this                 setTitle2(string $title2) 
+ * @method              $this                 setText(string $text) 
+ * @method              $this                 setMobile(string $mobile) 
+ * @method              $this                 setHref(string $href) 
+ * @method              $this                 setAgeLabel(string $ageLabel) 
+ * @method              $this                 setVCardId(integer $vCardId) 
+ * @method              $this                 setAdImageHash(string $adImageHash) 
+ * @method              $this                 setSitelinkSetId(integer $sitelinkSetId) 
+ * @method              $this                 setCalloutSetting(AdExtensionSetting $calloutSetting) 
+ * @method              $this                 setDisplayUrlPath(string $displayUrlPath) 
+ * @method              $this                 setAdExtensionIds(integer[] $adExtensionIds) 
+ * @method              $this                 setVideoExtension(VideoExtension $videoExtension) 
  * 
- * @method          string                getTitle() 
- * @method          string                getTitle2() 
- * @method          string                getText() 
- * @method          string                getMobile() 
- * @method          string                getHref() 
- * @method          integer               getVCardId() 
- * @method          string                getAdImageHash() 
- * @method          integer               getSitelinkSetId() 
- * @method          string                getDisplayUrlPath() 
- * @method          integer[]             getAdExtensionIds() 
- * @method          VideoExtension        getVideoExtension() 
- * @method          string                getDisplayDomain() 
- * @method          string                getDisplayUrlPathModeration() 
- * @method          ExtensionModeration   getVCardModeration() 
- * @method          ExtensionModeration   getSitelinksModeration() 
- * @method          ExtensionModeration   getAdImageModeration() 
- * @method          AdExtensionsAd        getAdExtensions() 
+ * @method              string                getTitle() 
+ * @method              string                getTitle2() 
+ * @method              string                getText() 
+ * @method              string                getMobile() 
+ * @method              string                getHref() 
+ * @method              string                getDisplayDomain() 
+ * @method              string                getAgeLabel() 
+ * @method              integer               getVCardId() 
+ * @method              ExtensionModeration   getVCardModeration() 
+ * @method              string                getAdImageHash() 
+ * @method              ExtensionModeration   getAdImageModeration() 
+ * @method              integer               getSitelinkSetId() 
+ * @method              ExtensionModeration   getSitelinksModeration() 
+ * @method              AdExtensionSetting    getCalloutSetting() 
+ * @method              string                getDisplayUrlPath() 
+ * @method              ExtensionModeration   getDisplayUrlPathModeration() 
+ * @method              integer[]             getAdExtensionIds() 
+ * @method              AdExtensionsAd        getAdExtensions() 
+ * @method              VideoExtension        getVideoExtension() 
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -11,32 +11,32 @@ use YandexDirectSDK\Services\RetargetingListsService;
 /** 
  * Class RetargetingList 
  * 
- * @property        integer                $id 
- * @property        string                 $type 
- * @property        string                 $name 
- * @property        string                 $description 
- * @property        RetargetingListRules   $rules 
- * @property-read   string                 $isAvailable 
- * @property-read   string                 $scope 
+ * @property            integer                $id 
+ * @property            string                 $type 
+ * @property            string                 $name 
+ * @property            string                 $description 
+ * @property-readable   string                 $isAvailable 
+ * @property            RetargetingListRules   $rules 
+ * @property-readable   string                 $scope 
  * 
- * @method          $this                  setId(integer $id) 
- * @method          $this                  setType(string $type) 
- * @method          $this                  setName(string $name) 
- * @method          $this                  setDescription(string $description) 
- * @method          $this                  setRules(RetargetingListRules $rules) 
+ * @method              $this                  setId(integer $id) 
+ * @method              $this                  setType(string $type) 
+ * @method              $this                  setName(string $name) 
+ * @method              $this                  setDescription(string $description) 
+ * @method              $this                  setRules(RetargetingListRules $rules) 
  * 
- * @method          integer                getId() 
- * @method          string                 getType() 
- * @method          string                 getName() 
- * @method          string                 getDescription() 
- * @method          RetargetingListRules   getRules() 
- * @method          string                 getIsAvailable() 
- * @method          string                 getScope() 
+ * @method              integer                getId() 
+ * @method              string                 getType() 
+ * @method              string                 getName() 
+ * @method              string                 getDescription() 
+ * @method              string                 getIsAvailable() 
+ * @method              RetargetingListRules   getRules() 
+ * @method              string                 getScope() 
  * 
- * @method          Result                 add() 
- * @method          Result                 delete() 
- * @method          QueryBuilder           query() 
- * @method          Result                 update() 
+ * @method              Result                 add() 
+ * @method              Result                 delete() 
+ * @method              QueryBuilder           query() 
+ * @method              Result                 update() 
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -71,5 +71,9 @@ class RetargetingList extends Model
     protected $nonWritableProperties = [
         'isAvailable',
         'scope'
+    ];
+
+    protected $nonAddableProperties = [
+        'id'
     ];
 }
