@@ -3,6 +3,7 @@
 namespace YandexDirectSDKTest\Examples;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use YandexDirectSDK\Collections\AdGroups;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Collections\AudienceTargets;
@@ -14,7 +15,6 @@ use YandexDirectSDK\Collections\Campaigns;
 use YandexDirectSDK\Collections\KeywordBids;
 use YandexDirectSDK\Collections\KeywordBidsAuto;
 use YandexDirectSDK\Collections\Keywords;
-use YandexDirectSDK\Collections\RegionalAdjustments;
 use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
@@ -46,6 +46,11 @@ use YandexDirectSDK\Models\TextCampaignSearchStrategy;
 use YandexDirectSDK\Models\TextCampaignStrategy;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
+
+/**
+ * Class CampaignsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class CampaignsExamplesTest extends TestCase
 {
     /**
@@ -1165,11 +1170,14 @@ class CampaignsExamplesTest extends TestCase
     /**
      * @depends testAddCampaigns_byService
      *
-     * @param $campaigns
+     * @param Campaigns $campaigns
      * @return BidModifiers
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
+     * @throws ReflectionException
      */
     public function testAddRelatedBidModifiers_byService(Campaigns $campaigns){
         $session = self::$session;
@@ -1181,15 +1189,19 @@ class CampaignsExamplesTest extends TestCase
          * Create BidModifier Model.
          * @var BidModifier $bidModifier
          */
-        $bidModifier = BidModifier::make()->setRegionalAdjustments(
-            RegionalAdjustments::make(
-                RegionalAdjustment::make()
-                    ->setRegionId(225)
-                    ->setBidModifier(50),
-                RegionalAdjustment::make()
-                    ->setRegionId(1)
-                    ->setBidModifier(50)
-            )
+        $bidModifier = BidModifiers::make(
+            BidModifier::make()
+                ->setRegionalAdjustment(
+                    RegionalAdjustment::make()
+                        ->setRegionId(225)
+                        ->setBidModifier(50)
+                ),
+            BidModifier::make()
+                ->setRegionalAdjustment(
+                    RegionalAdjustment::make()
+                        ->setRegionId(1)
+                        ->setBidModifier(50)
+                )
         );
 
         /**
@@ -1235,16 +1247,19 @@ class CampaignsExamplesTest extends TestCase
          * @var Result $result
          */
         $result = $campaign->addRelatedBidModifiers(
-            BidModifier::make()->setRegionalAdjustments(
-                RegionalAdjustments::make(
-                    RegionalAdjustment::make()
-                        ->setRegionId(10231)
-                        ->setBidModifier(50),
-                    RegionalAdjustment::make()
-                        ->setRegionId(10176)
-                        ->setBidModifier(50)
-                )
-
+            BidModifiers::make(
+                BidModifier::make()
+                    ->setRegionalAdjustment(
+                        RegionalAdjustment::make()
+                            ->setRegionId(2)
+                            ->setBidModifier(50)
+                    ),
+                BidModifier::make()
+                    ->setRegionalAdjustment(
+                        RegionalAdjustment::make()
+                            ->setRegionId(3)
+                            ->setBidModifier(50)
+                    )
             )
         );
 
@@ -1281,16 +1296,19 @@ class CampaignsExamplesTest extends TestCase
          * @var Result $result
          */
         $result = $campaigns->addRelatedBidModifiers(
-            BidModifier::make()->setRegionalAdjustments(
-                RegionalAdjustments::make(
-                    RegionalAdjustment::make()
-                        ->setRegionId(10174)
-                        ->setBidModifier(50),
-                    RegionalAdjustment::make()
-                        ->setRegionId(10083)
-                        ->setBidModifier(50)
-                )
-
+            BidModifiers::make(
+                BidModifier::make()
+                    ->setRegionalAdjustment(
+                        RegionalAdjustment::make()
+                            ->setRegionId(4)
+                            ->setBidModifier(50)
+                    ),
+                BidModifier::make()
+                    ->setRegionalAdjustment(
+                        RegionalAdjustment::make()
+                            ->setRegionId(5)
+                            ->setBidModifier(50)
+                    )
             )
         );
 

@@ -1,7 +1,6 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Collections\DemographicsAdjustments;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -33,8 +32,6 @@ class DemographicsAdjustment extends Model
     const AGE_35_44 = 'AGE_35_44';
     const AGE_45_54 = 'AGE_45_54';
     const AGE_55 = 'AGE_55';
-
-    protected $compatibleCollection = DemographicsAdjustments::class;
 
     protected $properties = [
         'gender' => 'enum:' . self::GENDER_MALE . ',' . self::GENDER_FEMALE,

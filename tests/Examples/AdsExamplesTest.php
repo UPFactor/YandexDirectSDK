@@ -19,6 +19,10 @@ use YandexDirectSDK\Models\Campaign;
 use YandexDirectSDK\Models\TextAd;
 use YandexDirectSDK\Session;
 
+/**
+ * Class AdsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class AdsExamplesTest extends TestCase
 {
     /**

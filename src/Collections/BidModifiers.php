@@ -11,6 +11,7 @@ use YandexDirectSDK\Services\BidModifiersService;
  * Class BidModifiers 
  * 
  * @method   Result         add() 
+ * @method   Result         set(int $value) 
  * @method   Result         delete() 
  * @method   QueryBuilder   query() 
  * 
@@ -30,6 +31,7 @@ class BidModifiers extends ModelCollection
 
     protected $serviceProvidersMethods = [
         'add' => BidModifiersService::class,
+        'set' => BidModifiersService::class,
         'delete' => BidModifiersService::class,
         'query' => BidModifiersService::class
     ];

@@ -1,7 +1,6 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Collections\RegionalAdjustments;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -22,8 +21,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class RegionalAdjustment extends Model 
 { 
-    protected $compatibleCollection = RegionalAdjustments::class;
-
     protected $properties = [
         'regionId' => 'integer',
         'bidModifier' => 'integer',

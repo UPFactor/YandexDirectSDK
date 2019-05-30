@@ -17,6 +17,10 @@ use YandexDirectSDK\Models\SitelinksSet;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
 
+/**
+ * Class SitelinksExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class SitelinksExamplesTest extends TestCase
 {
     /**

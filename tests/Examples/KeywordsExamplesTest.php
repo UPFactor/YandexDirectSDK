@@ -24,6 +24,10 @@ use YandexDirectSDK\Models\Campaign;
 use YandexDirectSDK\Models\Keyword;
 use YandexDirectSDK\Session;
 
+/**
+ * Class KeywordsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class KeywordsExamplesTest extends TestCase
 {
     /**

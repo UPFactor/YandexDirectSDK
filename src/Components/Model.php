@@ -441,7 +441,7 @@ abstract class Model implements ModelInterface
      * @throws ModelException
      * @throws InvalidArgumentException
      */
-    protected function setPropertyValue($propertyName, $value)
+    public function setPropertyValue($propertyName, $value)
     {
         $propertyMeta = $this->properties[$propertyName] ?? null;
 
@@ -453,8 +453,88 @@ abstract class Model implements ModelInterface
             throw ModelException::make(static::class.". Property [{$propertyName}] is not writable.");
         }
 
-        if ($this->propertyValidation($propertyName, $value) === false){
-            throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
+        if (is_null($value) or $propertyMeta['type'] === 'mixed'){
+            $this->modelData[$propertyName] = $value;
+            return $this;
+        }
+
+        switch ($propertyMeta['type']){
+            case 'string':
+            case 'boolean':
+            case 'double':
+            case 'integer':
+                if (gettype($value) !== $propertyMeta['type']){
+                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
+                }
+                break;
+
+            case 'numeric':
+                if (!is_numeric($value)){
+                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
+                }
+                break;
+
+            case 'array':
+                if (!is_array($value)) {
+                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
+                }
+
+                if (!is_null($propertyMeta['meta'])){
+                    foreach ($value as $index => $valueItem){
+                        if (!in_array(gettype($valueItem), $propertyMeta['meta'])) {
+                            throw InvalidArgumentException::invalidType(
+                                static::class."::{$propertyName}",
+                                1,
+                                'array of ' . implode(', ', $propertyMeta['meta']),
+                                $index . ' => ' . gettype($valueItem)
+                            );
+                        }
+                    }
+                }
+                break;
+
+            case 'enum':
+                if (!in_array($value, $propertyMeta['meta'])){
+                    throw InvalidArgumentException::invalidType(
+                        static::class."::{$propertyName}",
+                        1,
+                        'enum of ' . implode(', ', $propertyMeta['meta']),
+                        $value
+                    );
+                }
+                break;
+
+            case 'set':
+                if (!is_array($value)) {
+                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, 'array', gettype($value));
+                }
+
+                foreach ($value as $index => $valueItem){
+                    if (!in_array($valueItem,  $propertyMeta['meta'])) {
+                        throw InvalidArgumentException::invalidType(
+                            static::class."::{$propertyName}",
+                            1,
+                            'array contain ' . implode(', ', $propertyMeta['meta']),
+                            $index . ' => ' . $valueItem
+                        );
+                    }
+                }
+                break;
+
+            case 'object':
+                if (!is_object($value)) {
+                    throw InvalidArgumentException::invalidType(
+                        static::class."::{$propertyName}",
+                        1,
+                        is_null($propertyMeta['meta']) ? 'object' : $propertyMeta['meta'],
+                        gettype($value)
+                    );
+                }
+
+                if (!is_null($propertyMeta['meta']) and !($value instanceof $propertyMeta['meta'])){
+                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['meta'], get_class($value));
+                }
+                break;
         }
 
         $this->modelData[$propertyName] = $value;
@@ -468,7 +548,7 @@ abstract class Model implements ModelInterface
      * @return mixed|null
      * @throws ModelException
      */
-    protected function getPropertyValue($propertyName)
+    public function getPropertyValue($propertyName)
     {
         $propertyMeta = $this->properties[$propertyName] ?? null;
 
@@ -481,85 +561,5 @@ abstract class Model implements ModelInterface
         }
 
         return $this->modelData[$propertyName] ?? null;
-    }
-
-    /**
-     * Validation of values.
-     *
-     * @param string $propertyName
-     * @param mixed  $value
-     * @return bool
-     */
-    protected function propertyValidation($propertyName, $value)
-    {
-        $propertyMeta = $this->properties[$propertyName] ?? null;
-
-        if (is_null($propertyMeta)){
-            return false;
-        }
-
-        if (is_null($value)){
-            return true;
-        }
-
-        switch ($propertyMeta['type']){
-            case 'mixed':   return true;                break;
-            case 'string':  return is_string($value);   break;
-            case 'boolean': return is_bool($value);     break;
-            case 'double':  return is_float($value);    break;
-            case 'integer': return is_integer($value);  break;
-            case 'numeric': return is_numeric($value);  break;
-            case 'array':
-
-                if (!is_array($value)) {
-                    return false;
-                }
-
-                if (!is_null($propertyMeta['meta'])){
-                    foreach ($value as $valueItem){
-                        if (!in_array(gettype($valueItem), $propertyMeta['meta'])) {
-                            return false;
-                        }
-                    }
-                }
-
-                return true;
-                break;
-
-            case 'enum':
-
-                return in_array($value, $propertyMeta['meta']);
-                break;
-
-            case 'set':
-
-                if (!is_array($value)) {
-                    return false;
-                }
-
-                foreach ($value as $item){
-                    if (!in_array($item,  $propertyMeta['meta'])) {
-                        return false;
-                    }
-                }
-
-                return true;
-                break;
-
-            case 'object':
-
-                if (!is_object($value)) {
-                    return false;
-                }
-
-                if (!is_null($propertyMeta['meta'])){
-                    return $value instanceof $propertyMeta['meta'];
-                }
-
-                return true;
-                break;
-        }
-
-        return false;
     }
 }

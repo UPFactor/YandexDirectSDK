@@ -4,6 +4,7 @@
 namespace YandexDirectSDKTest\Examples;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use YandexDirectSDK\Collections\AdGroups;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Collections\AudienceTargets;
@@ -12,7 +13,6 @@ use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Collections\Bids;
 use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Collections\Campaigns;
-use YandexDirectSDK\Collections\DemographicsAdjustments;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Collections\WebpageConditions;
 use YandexDirectSDK\Collections\Webpages;
@@ -47,7 +47,7 @@ class AdGroupsExamplesTest extends TestCase
     /**
      * @var CampaignsExamplesTest
      */
-    protected static $campaignsExTest;
+    public static $campaignsExTest;
 
     /**
      * @var Session
@@ -257,7 +257,7 @@ class AdGroupsExamplesTest extends TestCase
 
         /**
          * Create a AdGroup model.
-         * @var Campaign $adGroup
+         * @var AdGroup $adGroup
          */
         $adGroup = AdGroup::make()
             ->setName('MyAdGroup')
@@ -1258,7 +1258,10 @@ class AdGroupsExamplesTest extends TestCase
      * @param AdGroups $adGroups
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
+     * @throws ReflectionException
      */
     public function testAddRelatedBidModifiers_byService(AdGroups $adGroups){
         $session = self::$session;
@@ -1270,13 +1273,11 @@ class AdGroupsExamplesTest extends TestCase
          * Create BidModifier Model.
          * @var BidModifier $bidModifier
          */
-        $bidModifier = BidModifier::make()->setDemographicsAdjustments(
-            DemographicsAdjustments::make(
-                DemographicsAdjustment::make()
-                    ->setAge('AGE_18_24')
-                    ->setGender('GENDER_FEMALE')
-                    ->setBidModifier(50)
-            )
+        $bidModifier = BidModifier::make()->setDemographicsAdjustment(
+            DemographicsAdjustment::make()
+                ->setAge('AGE_18_24')
+                ->setGender('GENDER_FEMALE')
+                ->setBidModifier(50)
         );
 
         /**
@@ -1319,13 +1320,11 @@ class AdGroupsExamplesTest extends TestCase
          * @var Result $result
          */
         $result = $adGroup->addRelatedBidModifiers(
-            BidModifier::make()->setDemographicsAdjustments(
-                DemographicsAdjustments::make(
-                    DemographicsAdjustment::make()
-                        ->setAge('AGE_0_17')
-                        ->setGender('GENDER_FEMALE')
-                        ->setBidModifier(50)
-                )
+            BidModifier::make()->setDemographicsAdjustment(
+                DemographicsAdjustment::make()
+                    ->setAge('AGE_0_17')
+                    ->setGender('GENDER_FEMALE')
+                    ->setBidModifier(50)
             )
         );
 
@@ -1359,13 +1358,11 @@ class AdGroupsExamplesTest extends TestCase
          * @var Result $result
          */
         $result = $adGroups->addRelatedBidModifiers(
-            BidModifier::make()->setDemographicsAdjustments(
-                DemographicsAdjustments::make(
-                    DemographicsAdjustment::make()
-                        ->setAge('AGE_35_44')
-                        ->setGender('GENDER_FEMALE')
-                        ->setBidModifier(50)
-                )
+            BidModifier::make()->setDemographicsAdjustment(
+                DemographicsAdjustment::make()
+                    ->setAge('AGE_35_44')
+                    ->setGender('GENDER_FEMALE')
+                    ->setBidModifier(50)
             )
         );
 

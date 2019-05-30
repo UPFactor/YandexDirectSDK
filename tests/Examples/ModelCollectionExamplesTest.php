@@ -9,6 +9,10 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Models\AdGroup;
 
+/**
+ * Class ModelCollectionExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class ModelCollectionExamplesTest extends TestCase
 {
 

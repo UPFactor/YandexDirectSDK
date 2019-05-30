@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
+use ReflectionException;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Collections\BidModifiers;
@@ -183,7 +184,12 @@ class AdGroupsService extends Service
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
      * @throws ServiceException
+     * @throws ReflectionException
      */
     public function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {

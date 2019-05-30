@@ -1,7 +1,6 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Collections\RetargetingAdjustments;
 use YandexDirectSDK\Components\Model;
 
 /** 
@@ -24,8 +23,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class RetargetingAdjustment extends Model 
 { 
-    protected $compatibleCollection = RetargetingAdjustments::class;
-
     protected $properties = [
         'retargetingConditionId' => 'integer',
         'bidModifier' => 'integer',

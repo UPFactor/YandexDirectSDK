@@ -3,8 +3,6 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifierToggle 
@@ -24,8 +22,6 @@ use YandexDirectSDK\Services\BidModifiersService;
  * @method     string    getType() 
  * @method     string    getEnabled() 
  * 
- * @method     Result    toggle() 
- * 
  * @package YandexDirectSDK\Models 
  */ 
 class BidModifierToggle extends Model 
@@ -37,10 +33,6 @@ class BidModifierToggle extends Model
     const NO = 'NO';
 
     protected $compatibleCollection = BidModifierToggles::class;
-
-    protected $serviceProvidersMethods = [
-        'toggle' => BidModifiersService::class
-    ];
 
     protected $properties = [
         'campaignId' => 'integer',

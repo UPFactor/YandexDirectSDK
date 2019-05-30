@@ -19,6 +19,10 @@ use YandexDirectSDK\Models\RetargetingListRuleArgument;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
 
+/**
+ * Class RetargetingListsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class RetargetingListsExamplesTest extends TestCase
 {
     /**

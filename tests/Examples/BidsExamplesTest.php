@@ -22,6 +22,10 @@ use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\Campaign;
 use YandexDirectSDK\Session;
 
+/**
+ * Class BidsExamplesTest
+ * @package YandexDirectSDKTest\Examples
+ */
 class BidsExamplesTest extends TestCase
 {
     /**
