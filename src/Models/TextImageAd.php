@@ -20,7 +20,13 @@ use YandexDirectSDK\Components\Model as Model;
 class TextImageAd extends Model 
 { 
     protected $properties = [
+        'turboPageId' => 'integer',
+        'turboPageModeration' => 'object:' . TurboPageModeration::class,
         'href' => 'string',
         'adImageHash' => 'string'
+    ];
+
+    protected $nonWritableProperties = [
+        'turboPageModeration'
     ];
 }

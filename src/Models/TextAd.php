@@ -95,6 +95,8 @@ class TextAd extends Model
         'title2' => 'string',
         'text' => 'string',
         'mobile' => 'enum:' . self::YES . ',' . self::NO,
+        'turboPageId' => 'integer',
+        'turboPageModeration' => 'object:' . TurboPageModeration::class,
         'href' => 'string',
         'displayDomain' => 'string',
         'ageLabel' => 'enum:' . self::AGE_0 . ',' . self::AGE_6 . ',' . self::AGE_12 . ',' . self::AGE_16 . ',' . self::AGE_18 . ',' . self::MONTHS_0 . ',' . self::MONTHS_1 . ',' . self::MONTHS_2 . ',' . self::MONTHS_3 . ',' . self::MONTHS_4 . ',' . self::MONTHS_5 . ',' . self::MONTHS_6 . ',' . self::MONTHS_7 . ',' . self::MONTHS_8 . ',' . self::MONTHS_9 . ',' . self::MONTHS_10 . ',' . self::MONTHS_11 . ',' . self::MONTHS_12,
@@ -123,6 +125,7 @@ class TextAd extends Model
     ];
 
     protected $nonWritableProperties = [
+        'turboPageModeration',
         'displayDomain',
         'vCardModeration',
         'adImageModeration',

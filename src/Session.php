@@ -29,6 +29,7 @@ use YandexDirectSDK\Services\LeadsService;
 use YandexDirectSDK\Services\ReportsService;
 use YandexDirectSDK\Services\RetargetingListsService;
 use YandexDirectSDK\Services\SitelinksService;
+use YandexDirectSDK\Services\TurboPagesService;
 use YandexDirectSDK\Services\VCardsService;
 
 /**
@@ -469,6 +470,16 @@ class Session
     public function getLeadsService(): LeadsService
     {
         return new LeadsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [TurboPagesService].
+     *
+     * @return TurboPagesService
+     */
+    public function getTurboPagesService(): TurboPagesService
+    {
+        return new TurboPagesService($this);
     }
 
     /**

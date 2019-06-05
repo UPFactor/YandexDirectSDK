@@ -22,5 +22,11 @@ class CpmBannerAdBuilderAd extends Model
     protected $properties = [
         'creative' => 'object:' . AdBuilderAd::class,
         'href' => 'string',
+        'turboPageId' => 'integer',
+        'turboPageModeration' => 'object:' . TurboPageModeration::class
+    ];
+
+    protected $nonWritableProperties = [
+        'turboPageModeration'
     ];
 }

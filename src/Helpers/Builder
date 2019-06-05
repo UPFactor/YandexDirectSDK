@@ -8,6 +8,7 @@ use YandexDirectSDK\Common\File;
 class Builder extends ConsoleLauncher
 {
     protected $rootDir;
+    protected $serviceDir;
     protected $modelDir;
     protected $collectionDir;
 
@@ -18,6 +19,7 @@ class Builder extends ConsoleLauncher
     public function __construct()
     {
         $this->rootDir = Dir::bind(__DIR__.'/../');
+        $this->serviceDir =  Dir::bind($this->rootDir->realPath)->change('Services');
         $this->modelDir =  Dir::bind($this->rootDir->realPath)->change('Models');
         $this->collectionDir =  Dir::bind($this->rootDir->realPath)->change('Collections');
     }
@@ -107,6 +109,41 @@ class Builder extends ConsoleLauncher
 
             $file->create($content);
             $this->message("{$collectionClass}: OK");
+        });
+
+        $this->bind('service', function($options){
+            $file = File::bind($this->serviceDir->path.DIRECTORY_SEPARATOR.$options['service'].'Service.php');
+            $class = 'YandexDirectSDK\Services\\'.$options['service'].'Service';
+            $className = $options['service'].'Service';
+
+            if ($file->exists()) {
+                $this->error("Service file [{$file->realPath}] already exists");
+            }
+
+            if (class_exists($class)){
+                $this->error("Service class [{$class}] already exists");
+            }
+
+            $content = "<?php \n";
+            $content .= "namespace YandexDirectSDK\Services; \n\n";
+            $content .= "use YandexDirectSDK\Components\Result; \n";
+            $content .= "use YandexDirectSDK\Components\Service; \n";
+            $content .= "use YandexDirectSDK\Components\QueryBuilder; \n\n";
+            $content .= "/**  \n";
+            $content .= " * Class {$className} \n";
+            $content .= " * \n";
+            $content .= " * @package YandexDirectSDK\Services \n";
+            $content .= " */ \n";
+            $content .= "class {$className} extends Service \n";
+            $content .= "{ \n";
+            $content .= "    protected \$serviceName = ''; \n\n";
+            $content .= "    protected \$serviceModelClass = ''; \n\n";
+            $content .= "    protected \$serviceModelCollectionClass = ''; \n\n";
+            $content .= "    protected \$serviceMethods = []; \n";
+            $content .= "}";
+
+            $file->create($content);
+            $this->message("{$class}: OK");
         });
 
         $this->start();

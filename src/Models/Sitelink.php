@@ -7,17 +7,20 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Sitelink 
  * 
- * @property          string   $title
- * @property          string   $href
- * @property          string   $description
+ * @property          string    $title
+ * @property          string    $href
+ * @property          string    $description
+ * @property          integer   $turboPageId
  * 
- * @method            $this    setTitle(string $title)
- * @method            $this    setHref(string $href)
- * @method            $this    setDescription(string $description)
+ * @method            $this     setTitle(string $title)
+ * @method            $this     setHref(string $href)
+ * @method            $this     setDescription(string $description)
+ * @method            $this     setTurboPageId(integer $turboPageId)
  * 
- * @method            string   getTitle()
- * @method            string   getHref()
- * @method            string   getDescription()
+ * @method            string    getTitle()
+ * @method            string    getHref()
+ * @method            string    getDescription()
+ * @method            integer   getTurboPageId()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -28,6 +31,7 @@ class Sitelink extends Model
     protected $properties = [
         'title' => 'string',
         'href' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'turboPageId' => 'integer'
     ];
 }

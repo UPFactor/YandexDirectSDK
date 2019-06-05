@@ -21,6 +21,12 @@ class TextAdBuilderAd extends Model
 { 
     protected $properties = [
         'creative' => 'object:' . AdBuilderAd::class,
-        'href' => 'string'
+        'href' => 'string',
+        'turboPageId' => 'integer',
+        'turboPageModeration' => 'object:' . TurboPageModeration::class
+    ];
+
+    protected $nonWritableProperties = [
+        'turboPageModeration'
     ];
 }
