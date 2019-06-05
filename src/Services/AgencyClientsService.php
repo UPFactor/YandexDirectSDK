@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Services;
 
 use YandexDirectSDK\Interfaces\Model;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Collections\Clients;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
@@ -13,9 +13,9 @@ use YandexDirectSDK\Models\Client;
 /** 
  * Class AgencyClientsService 
  * 
- * @method   Result         add(Model $client) 
- * @method   Result         update(ModelCommon $clients) 
- * @method   QueryBuilder   query() 
+ * @method   Result         add(Client|Model $client)
+ * @method   Result         update(Client|Clients|ModelCommonInterface $clients)
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */

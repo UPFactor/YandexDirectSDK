@@ -25,7 +25,6 @@ use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Models\Ad;
 use YandexDirectSDK\Models\AdGroup;
-use YandexDirectSDK\Models\Bid;
 use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\Campaign;
@@ -807,30 +806,15 @@ class AdGroupsExamplesTest extends TestCase
         $this->assertInstanceOf(Ads::class, $ads);
     }
 
-    /**
-     * @depends testAddAdGroup_byService
-     *
-     * @param $adGroups
-     */
-    public function testAddRelatedAudienceTargets_byService(AdGroups $adGroups){
+    public function testAddRelatedAudienceTargets_byService(){
         $this->markTestIncomplete('Not implemented');
     }
 
-    /**
-     * @depends testAddAdGroup_byService
-     *
-     * @param $adGroups
-     */
-    public function testAddRelatedAudienceTargets_byModel(AdGroups $adGroups){
+    public function testAddRelatedAudienceTargets_byModel(){
         $this->markTestIncomplete('Not implemented');
     }
 
-    /**
-     * @depends testAddAdGroup_byService
-     *
-     * @param $adGroups
-     */
-    public function testAddRelatedAudienceTargets_byCollection(AdGroups $adGroups){
+    public function testAddRelatedAudienceTargets_byCollection(){
         $this->markTestIncomplete('Not implemented');
     }
 
@@ -933,9 +917,9 @@ class AdGroupsExamplesTest extends TestCase
      *
      * @param AdGroups $adGroups
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function testSetRelatedBids_byService(AdGroups $adGroups){
         $session = self::$session;
@@ -944,26 +928,19 @@ class AdGroupsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Create Bid model
-         * @var Bid $bid
-         */
-        $bid = Bid::make()
-            ->setBid(30000000)
-            ->setContextBid(10000000);
-
-
-        /**
-         * Sets the bid and priority for the key phrases of each
-         * ad group with ids. [$adGroupsIds]
+         * Sets bids for the key phrases of each ad group
+         * with ids. [$adGroupsIds]
+         *
          * @var Result $result
          * @var array $adGroupsIds
          */
         $result = $session
             ->getAdGroupsService()
-            ->setRelatedBids($adGroupsIds, $bid);
+            ->setRelatedBids($adGroupsIds, 10000000);
 
         /**
          * Convert result to Bids collection.
+         *
          * @var Bids $bids
          */
         $bids = $result->getResource();
@@ -986,18 +963,16 @@ class AdGroupsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Sets the bid and priority for the adGroup model. [$adGroup]
+         * Sets bids for the adGroup model [$adGroup].
+         *
          * @var Result $result
          * @var AdGroup $adGroup
          */
-        $result = $adGroup->setRelatedBids(
-            Bid::make()
-                ->setBid(30000000)
-                ->setContextBid(10000000)
-        );
+        $result = $adGroup->setRelatedBids(30000000, 10000000);
 
         /**
          * Convert result to Bids collection.
+         *
          * @var Bids $bids
          */
         $bids = $result->getResource();
@@ -1019,19 +994,17 @@ class AdGroupsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Sets the bid and priority for the key phrases of each ad group
-         * in the collection. [$adGroups]
+         * Sets bids for the key phrases of each ad group
+         * in the collection [$adGroups].
+         *
          * @var Result $result
          * @var AdGroups $adGroups
          */
-        $result = $adGroups->setRelatedBids(
-            Bid::make()
-                ->setBid(30000000)
-                ->setContextBid(10000000)
-        );
+        $result = $adGroups->setRelatedBids(30000000, 10000000);
 
         /**
          * Convert result to Bids collection.
+         *
          * @var Bids $bids
          */
         $bids = $result->getResource();
@@ -1041,6 +1014,122 @@ class AdGroupsExamplesTest extends TestCase
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddAdGroup_byService
+     *
+     * @param AdGroups $adGroups
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testSetRelatedContextBids_byService(AdGroups $adGroups){
+        $session = self::$session;
+        $adGroupsIds = $adGroups->extract('id');
+
+        // Demo =====================================================================
+
+        /**
+         * Sets context bids for the key phrases of each ad group
+         * with ids. [$adGroupsIds]
+         *
+         * @var Result $result
+         * @var array $adGroupsIds
+         */
+        $result = $session
+            ->getAdGroupsService()
+            ->setRelatedContextBids($adGroupsIds, 10000000);
+
+        /**
+         * Convert result to Bids collection.
+         *
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddAdGroup_byService
+     *
+     * @param $adGroups
+     */
+    public function testSetRelatedContextBids_byModel(AdGroups $adGroups){
+        $adGroup = $adGroups->first();
+
+        // Demo =====================================================================
+
+        /**
+         * Sets context bids for the adGroup model [$adGroup].
+         *
+         * @var Result $result
+         * @var AdGroup $adGroup
+         */
+        $result = $adGroup->setRelatedContextBids(10000000);
+
+        /**
+         * Convert result to Bids collection.
+         *
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddAdGroup_byService
+     *
+     * @param $adGroups
+     */
+    public function testSetRelatedContextBids_byCollection(AdGroups $adGroups){
+
+        // Demo =====================================================================
+
+        /**
+         * Sets context bids for the key phrases of each ad group
+         * in the collection [$adGroups].
+         *
+         * @var Result $result
+         * @var AdGroups $adGroups
+         */
+        $result = $adGroups->setRelatedContextBids(10000000);
+
+        /**
+         * Convert result to Bids collection.
+         *
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    public function testSetRelatedStrategyPriority_byService(){
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    public function testSetRelatedStrategyPriority_byModel(){
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    public function testSetRelatedStrategyPriority_byCollection(){
+        $this->markTestIncomplete('Not implemented');
     }
 
     /**

@@ -10,10 +10,10 @@ use YandexDirectSDK\Services\BidModifiersService;
 /** 
  * Class BidModifiers 
  * 
- * @method   Result         add() 
- * @method   Result         set(int $value) 
- * @method   Result         delete() 
- * @method   QueryBuilder   query() 
+ * @method   Result         add()
+ * @method   Result         set(int $value = null)
+ * @method   Result         delete()
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

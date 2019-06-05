@@ -12,18 +12,18 @@ use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Webpage;
 use YandexDirectSDK\Models\WebpageBid;
 
 /** 
  * Class DynamicTextAdTargetsService 
  * 
- * @method   Result         add(Webpage|Webpages|ModelCommon $webpages)
+ * @method   Result         add(Webpage|Webpages|ModelCommonInterface $webpages)
  * @method   QueryBuilder   query()
- * @method   Result         delete(integer|integer[]|Webpage|Webpages|ModelCommon $webpages)
- * @method   Result         resume(integer|integer[]|Webpage|Webpages|ModelCommon $webpages)
- * @method   Result         suspend(integer|integer[]|Webpage|Webpages|ModelCommon $webpages)
+ * @method   Result         delete(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   Result         resume(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   Result         suspend(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -46,7 +46,7 @@ class DynamicTextAdTargetsService extends Service
     /**
      * Sets bids for targeting conditions for dynamic ads.
      *
-     * @param integer|integer[]|Webpage|Webpages|ModelCommon $webpages
+     * @param integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages
      * @param integer $bid
      * @param integer|null $contextBid
      * @return Result
@@ -73,7 +73,7 @@ class DynamicTextAdTargetsService extends Service
         } else {
             foreach ($webpageIds as $id){
                 $webpageBids->push(
-                    $webpageBid = WebpageBid::make()
+                    WebpageBid::make()
                         ->setId($id)
                         ->setBid($bid)
                 );
@@ -86,7 +86,7 @@ class DynamicTextAdTargetsService extends Service
     /**
      * Sets context bids for targeting conditions for dynamic ads.
      *
-     * @param integer|integer[]|Webpage|Webpages|ModelCommon $webpages
+     * @param integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages
      * @param integer $contextBid
      * @return Result
      * @throws InvalidArgumentException
@@ -102,7 +102,7 @@ class DynamicTextAdTargetsService extends Service
 
         foreach ($webpageIds as $id){
             $webpageBids->push(
-                $webpageBid = WebpageBid::make()
+                WebpageBid::make()
                     ->setId($id)
                     ->setContextBid($contextBid)
             );
@@ -114,7 +114,7 @@ class DynamicTextAdTargetsService extends Service
     /**
      * Sets priorities for targeting conditions for dynamic ads.
      *
-     * @param integer|integer[]|Webpage|Webpages|ModelCommon $webpages
+     * @param integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages
      * @param string $strategyPriority
      * @return Result
      * @throws InvalidArgumentException
@@ -130,7 +130,7 @@ class DynamicTextAdTargetsService extends Service
 
         foreach ($webpageIds as $id){
             $webpageBids->push(
-                $webpageBid = WebpageBid::make()
+                WebpageBid::make()
                     ->setId($id)
                     ->setStrategyPriority($strategyPriority)
             );
@@ -142,14 +142,14 @@ class DynamicTextAdTargetsService extends Service
     /**
      * Sets bids and priorities for targeting conditions for dynamic ads.
      *
-     * @param integer|integer[]|WebpageBid|WebpageBids|ModelCommon $webpageBids
+     * @param integer|integer[]|WebpageBid|WebpageBids|ModelCommonInterface $webpageBids
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function setBids(ModelCommon $webpageBids):Result
+    public function setBids(ModelCommonInterface $webpageBids):Result
     {
         return $this->updateCollection('setBids', $webpageBids, 'Bids', 'SetBidsResults');
     }

@@ -10,28 +10,29 @@ use YandexDirectSDK\Services\AdExtensionsService;
 /** 
  * Class AdExtension 
  * 
- * @property            integer        $id 
- * @property-readable   string         $associated 
- * @property-readable   string         $type 
- * @property            Callout        $callout 
- * @property-readable   string         $state 
- * @property-readable   string         $status 
- * @property-readable   string         $statusClarification 
+ * @property            integer        $id
+ * @property            Callout        $callout
  * 
- * @method              $this          setId(integer $id) 
- * @method              $this          setCallout(Callout $callout) 
+ * @property-readable   string         $associated
+ * @property-readable   string         $type
+ * @property-readable   string         $state
+ * @property-readable   string         $status
+ * @property-readable   string         $statusClarification
  * 
- * @method              integer        getId() 
- * @method              string         getAssociated() 
- * @method              string         getType() 
- * @method              Callout        getCallout() 
- * @method              string         getState() 
- * @method              string         getStatus() 
- * @method              string         getStatusClarification() 
+ * @method              QueryBuilder   query()
+ * @method              Result         add()
+ * @method              Result         delete()
  * 
- * @method              QueryBuilder   query() 
- * @method              Result         add() 
- * @method              Result         delete() 
+ * @method              $this          setId(integer $id)
+ * @method              $this          setCallout(Callout $callout)
+ * 
+ * @method              integer        getId()
+ * @method              string         getAssociated()
+ * @method              string         getType()
+ * @method              Callout        getCallout()
+ * @method              string         getState()
+ * @method              string         getStatus()
+ * @method              string         getStatusClarification()
  * 
  * @package YandexDirectSDK\Models 
  */ 

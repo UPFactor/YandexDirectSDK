@@ -18,7 +18,6 @@ use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Models\AdGroup;
-use YandexDirectSDK\Models\Bid;
 use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\Campaign;
 use YandexDirectSDK\Models\Keyword;
@@ -498,9 +497,9 @@ class KeywordsExamplesTest extends TestCase
      *
      * @param Keywords $keywords
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function testSetRelatedBids_byService(Keywords $keywords){
         $session = self::$session;
@@ -509,23 +508,14 @@ class KeywordsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Create Bid model
-         * @var Bid $bid
-         */
-        $bid = Bid::make()
-            ->setBid(30000000)
-            ->setContextBid(10000000);
-
-
-        /**
-         * Set bid for each keyword with ids [$keywordsIds].
+         * Set bids for each keyword with ids [$keywordsIds].
          *
          * @var Result $result
          * @var array $keywordsIds
          */
         $result = $session
             ->getKeywordsService()
-            ->setRelatedBids($keywordsIds, $bid);
+            ->setRelatedBids($keywordsIds, 30000000, 10000000);
 
         /**
          * Convert result to Bids collection.
@@ -551,15 +541,11 @@ class KeywordsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Sets bid for the keyword model [$keyword].
+         * Sets bids for the keyword model [$keyword].
          * @var Result $result
          * @var Keyword $keyword
          */
-        $result = $keyword->setRelatedBids(
-            Bid::make()
-                ->setBid(30000000)
-                ->setContextBid(10000000)
-        );
+        $result = $keyword->setRelatedBids(30000000);
 
         /**
          * Convert result to Bids collection.
@@ -584,16 +570,51 @@ class KeywordsExamplesTest extends TestCase
         // Demo =====================================================================
 
         /**
-         * Set a bid for each keyword in the collection [$keywords].
+         * Set bids for each keyword in the collection [$keywords].
          *
          * @var Result $result
          * @var Keywords $keywords
          */
-        $result = $keywords->setRelatedBids(
-            Bid::make()
-                ->setBid(30000000)
-                ->setContextBid(10000000)
-        );
+        $result = $keywords->setRelatedBids(30000000, 10000000);
+
+        /**
+         * Convert result to Bids collection.
+         *
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddKeywords_byService
+     *
+     * @param Keywords $keywords
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function testSetRelatedContextBids_byService(Keywords $keywords){
+        $session = self::$session;
+        $keywordsIds = $keywords->extract('id');
+
+        // Demo =====================================================================
+
+        /**
+         * Set context bids for each keyword with ids [$keywordsIds].
+         *
+         * @var Result $result
+         * @var array $keywordsIds
+         */
+        $result = $session
+            ->getKeywordsService()
+            ->setRelatedContextBids($keywordsIds,10000000);
 
         /**
          * Convert result to Bids collection.
@@ -606,6 +627,79 @@ class KeywordsExamplesTest extends TestCase
         $this->assertTrue($result->errors->isEmpty());
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddKeywords_byService
+     *
+     * @param Keywords $keywords
+     */
+    public function testSetRelatedContextBids_byModel(Keywords $keywords){
+        $keyword = $keywords->first();
+
+        // Demo =====================================================================
+
+        /**
+         * Sets context bids for the keyword model [$keyword].
+         * @var Result $result
+         * @var Keyword $keyword
+         */
+        $result = $keyword->setRelatedContextBids(30000000);
+
+        /**
+         * Convert result to Bids collection.
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    /**
+     * @depends testAddKeywords_byService
+     *
+     * @param Keywords $keywords
+     */
+    public function testSetRelatedContextBids_byCollection(Keywords $keywords){
+
+        // Demo =====================================================================
+
+        /**
+         * Set context bids for each keyword in the collection [$keywords].
+         *
+         * @var Result $result
+         * @var Keywords $keywords
+         */
+        $result = $keywords->setRelatedContextBids(10000000);
+
+        /**
+         * Convert result to Bids collection.
+         *
+         * @var Bids $bids
+         */
+        $bids = $result->getResource();
+
+        // End Demo =====================================================================
+
+        $this->assertTrue($result->errors->isEmpty());
+        $this->assertTrue($result->warnings->isEmpty());
+        $this->assertInstanceOf(Bids::class, $bids);
+    }
+
+    public function testSetRelatedStrategyPriority_byService(){
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    public function testSetRelatedStrategyPriority_byModel(){
+        $this->markTestIncomplete('Not implemented');
+    }
+
+    public function testSetRelatedStrategyPriority_byCollection(){
+        $this->markTestIncomplete('Not implemented');
     }
 
     /**

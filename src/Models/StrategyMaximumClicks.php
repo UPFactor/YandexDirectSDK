@@ -7,14 +7,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class StrategyMaximumClicks 
  * 
- * @property   integer   $weeklySpendLimit 
- * @property   integer   $bidCeiling 
+ * @property          integer   $weeklySpendLimit
+ * @property          integer   $bidCeiling
  * 
- * @method     $this     setWeeklySpendLimit(integer $weeklySpendLimit) 
- * @method     $this     setBidCeiling(integer $bidCeiling) 
+ * @method            $this     setWeeklySpendLimit(integer $weeklySpendLimit)
+ * @method            $this     setBidCeiling(integer $bidCeiling)
  * 
- * @method     integer   getWeeklySpendLimit() 
- * @method     integer   getBidCeiling() 
+ * @method            integer   getWeeklySpendLimit()
+ * @method            integer   getBidCeiling()
  * 
  * @package YandexDirectSDK\Models 
  */

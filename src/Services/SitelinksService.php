@@ -6,14 +6,14 @@ use YandexDirectSDK\Collections\SitelinksSets;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\SitelinksSet;
 
 /** 
  * Class SitelinksService 
  * 
- * @method   Result         add(ModelCommon $sitelinksSets) 
- * @method   Result         delete(ModelCommon|integer[]|integer $sitelinksSets)
+ * @method   Result   add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method   Result   delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
  * 
  * @package YandexDirectSDK\Services 
  */

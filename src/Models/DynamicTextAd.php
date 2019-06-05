@@ -7,34 +7,35 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextAd 
  * 
- * @property            string                $text 
- * @property            integer               $vCardId 
- * @property-readable   ExtensionModeration   $vCardModeration 
- * @property            string                $adImageHash 
- * @property-readable   ExtensionModeration   $adImageModeration 
- * @property            integer               $sitelinkSetId 
- * @property-readable   ExtensionModeration   $sitelinksModeration 
- * @property            AdExtensionSetting    $calloutSetting 
- * @property            integer[]             $adExtensionIds 
- * @property-readable   AdExtensionsAd        $adExtensions 
+ * @property            string                $text
+ * @property            integer               $vCardId
+ * @property            string                $adImageHash
+ * @property            integer               $sitelinkSetId
+ * @property            AdExtensionSetting    $calloutSetting
+ * @property            integer[]             $adExtensionIds
  * 
- * @method              $this                 setText(string $text) 
- * @method              $this                 setVCardId(integer $vCardId) 
- * @method              $this                 setAdImageHash(string $adImageHash) 
- * @method              $this                 setSitelinkSetId(integer $sitelinkSetId) 
- * @method              $this                 setCalloutSetting(AdExtensionSetting $calloutSetting) 
- * @method              $this                 setAdExtensionIds(integer[] $adExtensionIds) 
+ * @property-readable   ExtensionModeration   $vCardModeration
+ * @property-readable   ExtensionModeration   $adImageModeration
+ * @property-readable   ExtensionModeration   $sitelinksModeration
+ * @property-readable   AdExtensionsAd        $adExtensions
  * 
- * @method              string                getText() 
- * @method              integer               getVCardId() 
- * @method              ExtensionModeration   getVCardModeration() 
- * @method              string                getAdImageHash() 
- * @method              ExtensionModeration   getAdImageModeration() 
- * @method              integer               getSitelinkSetId() 
- * @method              ExtensionModeration   getSitelinksModeration() 
- * @method              AdExtensionSetting    getCalloutSetting() 
- * @method              integer[]             getAdExtensionIds() 
- * @method              AdExtensionsAd        getAdExtensions() 
+ * @method              $this                 setText(string $text)
+ * @method              $this                 setVCardId(integer $vCardId)
+ * @method              $this                 setAdImageHash(string $adImageHash)
+ * @method              $this                 setSitelinkSetId(integer $sitelinkSetId)
+ * @method              $this                 setCalloutSetting(AdExtensionSetting $calloutSetting)
+ * @method              $this                 setAdExtensionIds(integer[] $adExtensionIds)
+ * 
+ * @method              string                getText()
+ * @method              integer               getVCardId()
+ * @method              ExtensionModeration   getVCardModeration()
+ * @method              string                getAdImageHash()
+ * @method              ExtensionModeration   getAdImageModeration()
+ * @method              integer               getSitelinkSetId()
+ * @method              ExtensionModeration   getSitelinksModeration()
+ * @method              AdExtensionSetting    getCalloutSetting()
+ * @method              integer[]             getAdExtensionIds()
+ * @method              AdExtensionsAd        getAdExtensions()
  * 
  * @package YandexDirectSDK\Models 
  */ 

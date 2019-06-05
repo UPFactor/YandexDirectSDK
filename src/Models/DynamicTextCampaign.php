@@ -7,17 +7,17 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextCampaign 
  * 
- * @property   DynamicTextCampaignStrategy   $biddingStrategy 
- * @property   DynamicTextCampaignSettings   $settings 
- * @property   integer[]                     $counterIds 
+ * @property          DynamicTextCampaignStrategy   $biddingStrategy
+ * @property          DynamicTextCampaignSettings   $settings
+ * @property          integer[]                     $counterIds
  * 
- * @method     $this                         setBiddingStrategy(DynamicTextCampaignStrategy $biddingStrategy) 
- * @method     $this                         setSettings(DynamicTextCampaignSettings $settings) 
- * @method     $this                         setCounterIds(integer[] $counterIds) 
+ * @method            $this                         setBiddingStrategy(DynamicTextCampaignStrategy $biddingStrategy)
+ * @method            $this                         setSettings(DynamicTextCampaignSettings $settings)
+ * @method            $this                         setCounterIds(integer[] $counterIds)
  * 
- * @method     DynamicTextCampaignStrategy   getBiddingStrategy() 
- * @method     DynamicTextCampaignSettings   getSettings() 
- * @method     integer[]                     getCounterIds() 
+ * @method            DynamicTextCampaignStrategy   getBiddingStrategy()
+ * @method            DynamicTextCampaignSettings   getSettings()
+ * @method            integer[]                     getCounterIds()
  * 
  * @package YandexDirectSDK\Models 
  */ 

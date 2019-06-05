@@ -302,6 +302,9 @@ class Mapper extends ConsoleLauncher{
         }
 
         foreach ($modelPropertiesMeta as $property){
+
+            $resultType = '';
+
             switch ($property['type']){
                 case 'numeric': $resultType = 'integer'; break;
                 case 'enum': $resultType = 'string'; break;
@@ -720,6 +723,8 @@ class Mapper extends ConsoleLauncher{
      * @throws ReflectionException
      */
     protected function classNameNormalization(string $class, string $content){
+        $class = trim($class);
+
         if (empty($class) or empty($content)){
             return $class;
         }
@@ -731,7 +736,15 @@ class Mapper extends ConsoleLauncher{
             return (new ReflectionClass($class))->getShortName();
         }
 
-        return (strpos($class, '\\') === false) ? $class : '\\' . $class;
+        if (strpos($class, '\\') === false){
+            return $class;
+        }
+
+        if (strpos($class, $this->objectReflection->getNamespaceName()) === 0){
+            return str_replace($this->objectReflection->getNamespaceName().'\\', '', $class);
+        }
+
+        return '\\' . $class;
     }
 }
 

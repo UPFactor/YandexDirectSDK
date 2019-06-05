@@ -7,26 +7,26 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class WebpageBid 
  * 
- * @property   integer   $id 
- * @property   integer   $campaignId 
- * @property   integer   $adGroupId 
- * @property   integer   $bid 
- * @property   integer   $contextBid 
- * @property   string    $strategyPriority 
+ * @property          integer   $id
+ * @property          integer   $campaignId
+ * @property          integer   $adGroupId
+ * @property          integer   $bid
+ * @property          integer   $contextBid
+ * @property          string    $strategyPriority
  * 
- * @method     $this     setId(integer $id) 
- * @method     $this     setCampaignId(integer $campaignId) 
- * @method     $this     setAdGroupId(integer $adGroupId) 
- * @method     $this     setBid(integer $bid) 
- * @method     $this     setContextBid(integer $contextBid) 
- * @method     $this     setStrategyPriority(string $strategyPriority) 
+ * @method            $this     setId(integer $id)
+ * @method            $this     setCampaignId(integer $campaignId)
+ * @method            $this     setAdGroupId(integer $adGroupId)
+ * @method            $this     setBid(integer $bid)
+ * @method            $this     setContextBid(integer $contextBid)
+ * @method            $this     setStrategyPriority(string $strategyPriority)
  * 
- * @method     integer   getId() 
- * @method     integer   getCampaignId() 
- * @method     integer   getAdGroupId() 
- * @method     integer   getBid() 
- * @method     integer   getContextBid() 
- * @method     string    getStrategyPriority() 
+ * @method            integer   getId()
+ * @method            integer   getCampaignId()
+ * @method            integer   getAdGroupId()
+ * @method            integer   getBid()
+ * @method            integer   getContextBid()
+ * @method            string    getStrategyPriority()
  * 
  * @package YandexDirectSDK\Models 
  */ 

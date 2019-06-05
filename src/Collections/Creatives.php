@@ -9,7 +9,7 @@ use YandexDirectSDK\Services\CreativesService;
 /** 
  * Class Creatives 
  * 
- * @method   QueryBuilder   query() 
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

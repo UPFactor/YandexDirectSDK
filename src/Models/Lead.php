@@ -10,19 +10,19 @@ use YandexDirectSDK\Services\LeadsService;
 /** 
  * Class Lead 
  * 
- * @property-readable   integer        $id 
- * @property-readable   string         $submittedAt 
- * @property-readable   integer        $turboPageId 
- * @property-readable   string         $turboPageName 
- * @property-readable   LeadData       $data 
+ * @property-readable   integer        $id
+ * @property-readable   string         $submittedAt
+ * @property-readable   integer        $turboPageId
+ * @property-readable   string         $turboPageName
+ * @property-readable   LeadData       $data
  * 
- * @method              integer        getId() 
- * @method              string         getSubmittedAt() 
- * @method              integer        getTurboPageId() 
- * @method              string         getTurboPageName() 
- * @method              LeadData       getData() 
+ * @method              QueryBuilder   query()
  * 
- * @method              QueryBuilder   query() 
+ * @method              integer        getId()
+ * @method              string         getSubmittedAt()
+ * @method              integer        getTurboPageId()
+ * @method              string         getTurboPageName()
+ * @method              LeadData       getData()
  * 
  * @package YandexDirectSDK\Models 
  */ 

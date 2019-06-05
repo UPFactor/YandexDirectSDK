@@ -8,14 +8,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class TextCampaignSetting 
  * 
- * @property   string   $option 
- * @property   string   $value 
+ * @property          string   $option
+ * @property          string   $value
  * 
- * @method     $this    setOption(string $option) 
- * @method     $this    setValue(string $value) 
+ * @method            $this    setOption(string $option)
+ * @method            $this    setValue(string $value)
  * 
- * @method     string   getOption() 
- * @method     string   getValue() 
+ * @method            string   getOption()
+ * @method            string   getValue()
  * 
  * @package YandexDirectSDK\Models 
  */

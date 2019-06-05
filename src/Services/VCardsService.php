@@ -6,15 +6,15 @@ use YandexDirectSDK\Collections\VCards;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\VCard;
 
 /** 
  * Class VCardsService 
  * 
- * @method   Result         add(ModelCommon $vCards) 
- * @method   QueryBuilder   query() 
- * @method   Result         delete(ModelCommon|integer[]|integer $vCards) 
+ * @method   Result         add(VCard|VCards|ModelCommonInterface $vCards)
+ * @method   QueryBuilder   query()
+ * @method   Result         delete(integer|integer[]|VCard|VCards|ModelCommonInterface $vCards)
  * 
  * @package YandexDirectSDK\Services 
  */

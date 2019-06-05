@@ -6,13 +6,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextFeedAdGroup 
  * 
- * @property-readable   string   $source 
- * @property-readable   string   $sourceType 
- * @property-readable   string   $sourceProcessingStatus 
+ * @property-readable   string   $source
+ * @property-readable   string   $sourceType
+ * @property-readable   string   $sourceProcessingStatus
  * 
- * @method              string   getSource() 
- * @method              string   getSourceType() 
- * @method              string   getSourceProcessingStatus() 
+ * @method              string   getSource()
+ * @method              string   getSourceType()
+ * @method              string   getSourceProcessingStatus()
  * 
  * @package YandexDirectSDK\Models 
  */ 

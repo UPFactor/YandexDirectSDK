@@ -10,17 +10,17 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AudienceTarget;
 
 /** 
  * Class AudienceTargetsService 
  * 
- * @method   Result         add(ModelCommon $audienceTargets) 
- * @method   QueryBuilder   query() 
- * @method   Result         delete(ModelCommon|integer[]|integer $audienceTargets) 
- * @method   Result         resume(ModelCommon|integer[]|integer $audienceTargets) 
- * @method   Result         suspend(ModelCommon|integer[]|integer $audienceTargets) 
+ * @method   Result         add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   QueryBuilder   query()
+ * @method   Result         delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   Result         resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   Result         suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -41,14 +41,14 @@ class AudienceTargetsService extends Service
     ];
 
     /**
-     * @param ModelCommon $audienceTargetBids
+     * @param ModelCommonInterface $audienceTargetBids
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function setBids(ModelCommon $audienceTargetBids):Result
+    public function setBids(ModelCommonInterface $audienceTargetBids):Result
     {
         return $this->updateCollection('setBids', $audienceTargetBids, 'Bids', 'SetBidsResults');
     }

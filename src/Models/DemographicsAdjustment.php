@@ -6,19 +6,20 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class DemographicsAdjustment 
  * 
- * @property            string    $gender 
- * @property            string    $age 
- * @property            integer   $bidModifier 
- * @property-readable   string    $enabled 
+ * @property            string    $gender
+ * @property            string    $age
+ * @property            integer   $bidModifier
  * 
- * @method              $this     setGender(string $gender) 
- * @method              $this     setAge(string $age) 
- * @method              $this     setBidModifier(integer $bidModifier) 
+ * @property-readable   string    $enabled
  * 
- * @method              string    getGender() 
- * @method              string    getAge() 
- * @method              integer   getBidModifier() 
- * @method              string    getEnabled() 
+ * @method              $this     setGender(string $gender)
+ * @method              $this     setAge(string $age)
+ * @method              $this     setBidModifier(integer $bidModifier)
+ * 
+ * @method              string    getGender()
+ * @method              string    getAge()
+ * @method              integer   getBidModifier()
+ * @method              string    getEnabled()
  * 
  * @package YandexDirectSDK\Models 
  */ 

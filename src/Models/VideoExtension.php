@@ -6,17 +6,18 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class VideoExtension 
  * 
- * @property            integer   $creativeId 
- * @property-readable   string    $status 
- * @property-readable   string    $thumbnailUrl 
- * @property-readable   string    $previewUrl 
+ * @property            integer   $creativeId
  * 
- * @method              $this     setCreativeId(integer $creativeId) 
+ * @property-readable   string    $status
+ * @property-readable   string    $thumbnailUrl
+ * @property-readable   string    $previewUrl
  * 
- * @method              integer   getCreativeId() 
- * @method              string    getStatus() 
- * @method              string    getThumbnailUrl() 
- * @method              string    getPreviewUrl() 
+ * @method              $this     setCreativeId(integer $creativeId)
+ * 
+ * @method              integer   getCreativeId()
+ * @method              string    getStatus()
+ * @method              string    getThumbnailUrl()
+ * @method              string    getPreviewUrl()
  * 
  * @package YandexDirectSDK\Models 
  */ 

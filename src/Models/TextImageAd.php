@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TextImageAd 
  * 
- * @property   string   $href 
- * @property   string   $adImageHash 
+ * @property          string   $href
+ * @property          string   $adImageHash
  * 
- * @method     $this    setHref(string $href) 
- * @method     $this    setAdImageHash(string $adImageHash) 
+ * @method            $this    setHref(string $href)
+ * @method            $this    setAdImageHash(string $adImageHash)
  * 
- * @method     string   getHref() 
- * @method     string   getAdImageHash() 
+ * @method            string   getHref()
+ * @method            string   getAdImageHash()
  * 
  * @package YandexDirectSDK\Models 
  */ 

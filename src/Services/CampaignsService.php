@@ -8,8 +8,6 @@ use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Collections\Bids;
 use YandexDirectSDK\Collections\BidsAuto;
-use YandexDirectSDK\Collections\KeywordBids;
-use YandexDirectSDK\Collections\KeywordBidsAuto;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
@@ -26,20 +24,18 @@ use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\BidModifierToggle;
 use YandexDirectSDK\Models\Campaign;
-use YandexDirectSDK\Models\KeywordBid;
-use YandexDirectSDK\Models\KeywordBidAuto;
 
 /** 
  * Class CampaignsService 
  * 
- * @method   Result         add(ModelCommonInterface $campaigns)
- * @method   QueryBuilder   query() 
- * @method   Result         update(ModelCommonInterface $campaigns)
- * @method   Result         archive(ModelCommonInterface|integer[]|integer $campaigns)
- * @method   Result         delete(ModelCommonInterface|integer[]|integer $campaigns)
- * @method   Result         resume(ModelCommonInterface|integer[]|integer $campaigns)
- * @method   Result         suspend(ModelCommonInterface|integer[]|integer $campaigns)
- * @method   Result         unarchive(ModelCommonInterface|integer[]|integer $campaigns)
+ * @method   Result         add(Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   QueryBuilder   query()
+ * @method   Result         update(Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result         archive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result         delete(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result         resume(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result         suspend(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result         unarchive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -131,23 +127,97 @@ class CampaignsService extends Service
     }
 
     /**
-     * Sets fixed bids and priorities for keyword and auto-targeting.
+     * Sets bids for given campaigns.
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param Bid|Bids|ModelCommonInterface $bids
+     * @param integer $bid
+     * @param integer|null $contextBid
      * @return Result
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
-    public function setRelatedBids($campaigns, ModelCommonInterface $bids): Result
+    public function setRelatedBids($campaigns, $bid, $contextBid = null):Result
     {
-        return $this->session->getBidsService()->set(
-            $this->bind($campaigns, $bids, 'CampaignId')
-        );
+        $campaignIds = $this->extractIds($campaigns);
+        $bids = new Bids();
+
+        if (func_num_args() > 2){
+            foreach ($campaignIds as $id){
+                $bids->push(
+                    Bid::make()
+                        ->setCampaignId($id)
+                        ->setBid($bid)
+                        ->setContextBid( $contextBid)
+                );
+            }
+        } else {
+            foreach ($campaignIds as $id){
+                $bids->push(
+                    Bid::make()
+                        ->setCampaignId($id)
+                        ->setBid($bid)
+                );
+            }
+        }
+
+        return $this->session->getBidsService()->set($bids);
     }
 
+    /**
+     * Sets context bids for given campaigns.
+     *
+     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
+     * @param integer $contextBid
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function setRelatedContextBids($campaigns, $contextBid):Result
+    {
+        $campaignIds = $this->extractIds($campaigns);
+        $bids = new Bids();
+
+        foreach ($campaignIds as $id){
+            $bids->push(
+                Bid::make()
+                    ->setCampaignId($id)
+                    ->setContextBid($contextBid)
+            );
+        }
+
+        return $this->session->getBidsService()->set($bids);
+    }
+
+    /**
+     * Sets strategy priority for given campaigns.
+     *
+     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
+     * @param string $strategyPriority
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function setRelatedStrategyPriority($campaigns, string $strategyPriority):Result
+    {
+        $campaignIds = $this->extractIds($campaigns);
+        $bids = new Bids();
+
+        foreach ($campaignIds as $id){
+            $bids->push(
+                Bid::make()
+                    ->setCampaignId($id)
+                    ->setStrategyPriority($strategyPriority)
+            );
+        }
+
+        return $this->session->getBidsService()->set($bids);
+    }
 
     /**
      * Sets bid designer options for all keywords in given campaigns.
@@ -276,60 +346,6 @@ class CampaignsService extends Service
             ->select($fields)
             ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
-            ->get();
-    }
-
-
-    /**
-     * Sets fixed bids and priorities for keyword and auto-targeting.
-     *
-     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ServiceException
-     */
-    public function setRelatedKeywordBids($campaigns, ModelCommonInterface $keywordBids): Result
-    {
-        return $this->session->getKeywordBidsService()->set(
-            $this->bind($campaigns, $keywordBids, 'CampaignId')
-        );
-    }
-
-    /**
-     * Set keyword bid designer options for in given campaigns.
-     *
-     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param KeywordBidAuto|KeywordBidsAuto|ModelCommonInterface $keywordsBidsAuto
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ServiceException
-     */
-    public function setRelatedKeywordBidsAuto($campaigns, ModelCommonInterface $keywordsBidsAuto): Result
-    {
-        return $this->session->getKeywordBidsService()->setAuto(
-            $this->bind($campaigns, $keywordsBidsAuto, 'CampaignId')
-        );
-    }
-
-    /**
-     * Gets keyword bids for given campaigns.
-     *
-     * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
-     * @param array $fields
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
-    public function getRelatedKeywordBids($campaigns, array $fields): Result
-    {
-        return $this->session->getKeywordBidsService()->query()
-            ->select($fields)
-            ->whereIn('CampaignIds', $this->extractIds($campaigns))
             ->get();
     }
 

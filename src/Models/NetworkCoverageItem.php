@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class NetworkCoverageItem 
  * 
- * @property-readable   integer   $probability 
- * @property-readable   integer   $bid 
+ * @property-readable   integer   $probability
+ * @property-readable   integer   $bid
  * 
- * @method              integer   getProbability() 
- * @method              integer   getBid() 
+ * @method              integer   getProbability()
+ * @method              integer   getBid()
  * 
  * @package YandexDirectSDK\Models 
  */ 

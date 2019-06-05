@@ -9,29 +9,29 @@ use YandexDirectSDK\Services\CreativesService;
 /** 
  * Class Creative 
  * 
- * @property-readable   integer                  $id 
- * @property-readable   string                   $type 
- * @property-readable   string                   $name 
- * @property-readable   string                   $previewUrl 
- * @property-readable   integer                  $width 
- * @property-readable   integer                  $height 
- * @property-readable   string                   $thumbnailUrl 
- * @property-readable   string                   $associated 
- * @property-readable   VideoExtensionCreative   $videoExtensionCreative 
- * @property-readable   CpcVideoCreative         $cpcVideoCreative 
+ * @property-readable   integer                  $id
+ * @property-readable   string                   $type
+ * @property-readable   string                   $name
+ * @property-readable   string                   $previewUrl
+ * @property-readable   integer                  $width
+ * @property-readable   integer                  $height
+ * @property-readable   string                   $thumbnailUrl
+ * @property-readable   string                   $associated
+ * @property-readable   VideoExtensionCreative   $videoExtensionCreative
+ * @property-readable   CpcVideoCreative         $cpcVideoCreative
  * 
- * @method              integer                  getId() 
- * @method              string                   getType() 
- * @method              string                   getName() 
- * @method              string                   getPreviewUrl() 
- * @method              integer                  getWidth() 
- * @method              integer                  getHeight() 
- * @method              string                   getThumbnailUrl() 
- * @method              string                   getAssociated() 
- * @method              VideoExtensionCreative   getVideoExtensionCreative() 
- * @method              CpcVideoCreative         getCpcVideoCreative() 
+ * @method              QueryBuilder             query()
  * 
- * @method              QueryBuilder             query() 
+ * @method              integer                  getId()
+ * @method              string                   getType()
+ * @method              string                   getName()
+ * @method              string                   getPreviewUrl()
+ * @method              integer                  getWidth()
+ * @method              integer                  getHeight()
+ * @method              string                   getThumbnailUrl()
+ * @method              string                   getAssociated()
+ * @method              VideoExtensionCreative   getVideoExtensionCreative()
+ * @method              CpcVideoCreative         getCpcVideoCreative()
  * 
  * @package YandexDirectSDK\Models 
  */ 

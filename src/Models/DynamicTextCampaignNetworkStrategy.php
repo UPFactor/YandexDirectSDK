@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextCampaignNetworkStrategy 
  * 
- * @property   string   $biddingStrategyType 
+ * @property          string   $biddingStrategyType
  * 
- * @method     $this    setBiddingStrategyType(string $biddingStrategyType) 
+ * @method            $this    setBiddingStrategyType(string $biddingStrategyType)
  * 
- * @method     string   getBiddingStrategyType() 
+ * @method            string   getBiddingStrategyType()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Callout 
  * 
- * @property   string   $calloutText 
+ * @property          string   $calloutText
  * 
- * @method     $this    setCalloutText(string $calloutText) 
+ * @method            $this    setCalloutText(string $calloutText)
  * 
- * @method     string   getCalloutText() 
+ * @method            string   getCalloutText()
  * 
  * @package YandexDirectSDK\Models 
  */ 

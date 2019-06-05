@@ -7,14 +7,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Notification 
  * 
- * @property   SmsSettings     $smsSettings 
- * @property   EmailSettings   $emailSettings 
+ * @property          SmsSettings     $smsSettings
+ * @property          EmailSettings   $emailSettings
  * 
- * @method     $this           setSmsSettings(SmsSettings $smsSettings) 
- * @method     $this           setEmailSettings(EmailSettings $emailSettings) 
+ * @method            $this           setSmsSettings(SmsSettings $smsSettings)
+ * @method            $this           setEmailSettings(EmailSettings $emailSettings)
  * 
- * @method     SmsSettings     getSmsSettings() 
- * @method     EmailSettings   getEmailSettings() 
+ * @method            SmsSettings     getSmsSettings()
+ * @method            EmailSettings   getEmailSettings()
  * 
  * @package YandexDirectSDK\Models 
  */

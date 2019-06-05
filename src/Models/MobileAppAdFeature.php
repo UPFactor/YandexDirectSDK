@@ -7,16 +7,17 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAdFeature 
  * 
- * @property            string   $feature 
- * @property            string   $enabled 
- * @property-readable   string   $isAvailable 
+ * @property            string   $feature
+ * @property            string   $enabled
  * 
- * @method              $this    setFeature(string $feature) 
- * @method              $this    setEnabled(string $enabled) 
+ * @property-readable   string   $isAvailable
  * 
- * @method              string   getFeature() 
- * @method              string   getEnabled() 
- * @method              string   getIsAvailable() 
+ * @method              $this    setFeature(string $feature)
+ * @method              $this    setEnabled(string $enabled)
+ * 
+ * @method              string   getFeature()
+ * @method              string   getEnabled()
+ * @method              string   getIsAvailable()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -9,7 +9,7 @@ use YandexDirectSDK\Services\AudienceTargetsService;
 /** 
  * Class AudienceTargetBids 
  * 
- * @method   Result   setBids() 
+ * @method   Result   setBids()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

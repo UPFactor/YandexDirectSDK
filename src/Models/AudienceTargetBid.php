@@ -9,25 +9,25 @@ use YandexDirectSDK\Services\AudienceTargetsService;
 /** 
  * Class AudienceTargetBid 
  * 
- * @property   integer   $id 
- * @property   integer   $adGroupId 
- * @property   integer   $campaignId 
- * @property   integer   $contextBid 
- * @property   string    $strategyPriority 
+ * @property          integer   $id
+ * @property          integer   $adGroupId
+ * @property          integer   $campaignId
+ * @property          integer   $contextBid
+ * @property          string    $strategyPriority
  * 
- * @method     $this     setId(integer $id) 
- * @method     $this     setAdGroupId(integer $adGroupId) 
- * @method     $this     setCampaignId(integer $campaignId) 
- * @method     $this     setContextBid(integer $contextBid) 
- * @method     $this     setStrategyPriority(string $strategyPriority) 
+ * @method            Result    setBids()
  * 
- * @method     integer   getId() 
- * @method     integer   getAdGroupId() 
- * @method     integer   getCampaignId() 
- * @method     integer   getContextBid() 
- * @method     string    getStrategyPriority() 
+ * @method            $this     setId(integer $id)
+ * @method            $this     setAdGroupId(integer $adGroupId)
+ * @method            $this     setCampaignId(integer $campaignId)
+ * @method            $this     setContextBid(integer $contextBid)
+ * @method            $this     setStrategyPriority(string $strategyPriority)
  * 
- * @method     Result    setBids() 
+ * @method            integer   getId()
+ * @method            integer   getAdGroupId()
+ * @method            integer   getCampaignId()
+ * @method            integer   getContextBid()
+ * @method            string    getStrategyPriority()
  * 
  * @package YandexDirectSDK\Models 
  */ 

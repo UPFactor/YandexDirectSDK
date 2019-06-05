@@ -9,6 +9,11 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 
+/** 
+ * Class ReportsService 
+ * 
+ * @package YandexDirectSDK\Services 
+ */
 class ReportsService extends Service
 {
     const ACCOUNT_PERFORMANCE_REPORT = 'ACCOUNT_PERFORMANCE_REPORT';
@@ -176,9 +181,9 @@ class ReportsService extends Service
      * @return void
      * @throws InvalidArgumentException
      */
-    protected function initialize(...$arguments)
+    protected function initialize(...$arguments): void
     {
-        if (!is_string($arguments[0])){
+        if (isset($arguments[0]) and !is_string($arguments[0])){
             throw InvalidArgumentException::invalidType(static::class.'::report', 1, 'string');
         }
 
@@ -188,7 +193,7 @@ class ReportsService extends Service
             }
         }
 
-        $this->reportName = $arguments[0];
+        $this->reportName = $arguments[0] ?? date("Y-m-d H:i:s");
         $this->reportType = $arguments[1] ?? 'CUSTOM_REPORT';
     }
 

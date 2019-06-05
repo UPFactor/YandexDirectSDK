@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class CpmBannerCampaignStrategy 
  * 
- * @property   CpmBannerCampaignSearchStrategy    $search 
- * @property   CpmBannerCampaignNetworkStrategy   $network 
+ * @property          CpmBannerCampaignSearchStrategy    $search
+ * @property          CpmBannerCampaignNetworkStrategy   $network
  * 
- * @method     $this                              setSearch(CpmBannerCampaignSearchStrategy $search) 
- * @method     $this                              setNetwork(CpmBannerCampaignNetworkStrategy $network) 
+ * @method            $this                              setSearch(CpmBannerCampaignSearchStrategy $search)
+ * @method            $this                              setNetwork(CpmBannerCampaignNetworkStrategy $network)
  * 
- * @method     CpmBannerCampaignSearchStrategy    getSearch() 
- * @method     CpmBannerCampaignNetworkStrategy   getNetwork() 
+ * @method            CpmBannerCampaignSearchStrategy    getSearch()
+ * @method            CpmBannerCampaignNetworkStrategy   getNetwork()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -10,13 +10,13 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Bid;
 
 /** 
  * Class BidsService 
  * 
- * @method   QueryBuilder   query() 
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -33,26 +33,26 @@ class BidsService extends Service
     ];
 
     /**
-     * @param ModelCommon $bids
+     * @param ModelCommonInterface $bids
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function set(ModelCommon $bids):Result
+    public function set(ModelCommonInterface $bids):Result
     {
         return $this->updateCollection('set', $bids, 'Bids', 'SetResults');
     }
 
     /**
-     * @param ModelCommon $bidsAuto
+     * @param ModelCommonInterface $bidsAuto
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function setAuto(ModelCommon $bidsAuto):Result
+    public function setAuto(ModelCommonInterface $bidsAuto):Result
     {
         return $this->updateCollection('setAuto', $bidsAuto, 'Bids', 'SetAutoResults');
     }

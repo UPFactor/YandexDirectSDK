@@ -10,7 +10,7 @@ use YandexDirectSDK\Models\Creative;
 /** 
  * Class CreativesService 
  * 
- * @method   QueryBuilder   query() 
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */

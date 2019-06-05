@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
@@ -13,15 +13,15 @@ use YandexDirectSDK\Models\Ad;
 /** 
  * Class AdsService 
  * 
- * @method   Result         add(ModelCommon $ads) 
- * @method   QueryBuilder   query() 
- * @method   Result         update(ModelCommon $ads) 
- * @method   Result         archive(ModelCommon|integer[]|integer $ads) 
- * @method   Result         delete(ModelCommon|integer[]|integer $ads) 
- * @method   Result         resume(ModelCommon|integer[]|integer $ads) 
- * @method   Result         suspend(ModelCommon|integer[]|integer $ads) 
- * @method   Result         unarchive(ModelCommon|integer[]|integer $ads) 
- * @method   Result         moderate(ModelCommon|integer[]|integer $ads) 
+ * @method   Result         add(Ad|Ads|ModelCommonInterface $ads)
+ * @method   QueryBuilder   query()
+ * @method   Result         update(Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         archive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         delete(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         resume(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         suspend(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         unarchive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method   Result         moderate(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
  * 
  * @package YandexDirectSDK\Services 
  */

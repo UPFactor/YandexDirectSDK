@@ -10,10 +10,10 @@ use YandexDirectSDK\Services\RetargetingListsService;
 /** 
  * Class RetargetingLists 
  * 
- * @method   Result         add() 
- * @method   Result         delete() 
- * @method   QueryBuilder   query() 
- * @method   Result         update() 
+ * @method   Result         add()
+ * @method   Result         delete()
+ * @method   QueryBuilder   query()
+ * @method   Result         update()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

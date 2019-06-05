@@ -6,23 +6,23 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class CpmBannerCampaignNetworkStrategy 
  * 
- * @property   string                                           $biddingStrategyType 
- * @property   StrategyWbMaximumImpressions                     $wbMaximumImpressions 
- * @property   StrategyCpMaximumImpressions                     $cpMaximumImpressions 
- * @property   StrategyWbDecreasedPriceForRepeatedImpressions   $wbDecreasedPriceForRepeatedImpressions 
- * @property   StrategyCpDecreasedPriceForRepeatedImpressions   $cpDecreasedPriceForRepeatedImpressions 
+ * @property          string                                           $biddingStrategyType
+ * @property          StrategyWbMaximumImpressions                     $wbMaximumImpressions
+ * @property          StrategyCpMaximumImpressions                     $cpMaximumImpressions
+ * @property          StrategyWbDecreasedPriceForRepeatedImpressions   $wbDecreasedPriceForRepeatedImpressions
+ * @property          StrategyCpDecreasedPriceForRepeatedImpressions   $cpDecreasedPriceForRepeatedImpressions
  * 
- * @method     $this                                            setBiddingStrategyType(string $biddingStrategyType) 
- * @method     $this                                            setWbMaximumImpressions(StrategyWbMaximumImpressions $wbMaximumImpressions) 
- * @method     $this                                            setCpMaximumImpressions(StrategyCpMaximumImpressions $cpMaximumImpressions) 
- * @method     $this                                            setWbDecreasedPriceForRepeatedImpressions(StrategyWbDecreasedPriceForRepeatedImpressions $wbDecreasedPriceForRepeatedImpressions) 
- * @method     $this                                            setCpDecreasedPriceForRepeatedImpressions(StrategyCpDecreasedPriceForRepeatedImpressions $cpDecreasedPriceForRepeatedImpressions) 
+ * @method            $this                                            setBiddingStrategyType(string $biddingStrategyType)
+ * @method            $this                                            setWbMaximumImpressions(StrategyWbMaximumImpressions $wbMaximumImpressions)
+ * @method            $this                                            setCpMaximumImpressions(StrategyCpMaximumImpressions $cpMaximumImpressions)
+ * @method            $this                                            setWbDecreasedPriceForRepeatedImpressions(StrategyWbDecreasedPriceForRepeatedImpressions $wbDecreasedPriceForRepeatedImpressions)
+ * @method            $this                                            setCpDecreasedPriceForRepeatedImpressions(StrategyCpDecreasedPriceForRepeatedImpressions $cpDecreasedPriceForRepeatedImpressions)
  * 
- * @method     string                                           getBiddingStrategyType() 
- * @method     StrategyWbMaximumImpressions                     getWbMaximumImpressions() 
- * @method     StrategyCpMaximumImpressions                     getCpMaximumImpressions() 
- * @method     StrategyWbDecreasedPriceForRepeatedImpressions   getWbDecreasedPriceForRepeatedImpressions() 
- * @method     StrategyCpDecreasedPriceForRepeatedImpressions   getCpDecreasedPriceForRepeatedImpressions() 
+ * @method            string                                           getBiddingStrategyType()
+ * @method            StrategyWbMaximumImpressions                     getWbMaximumImpressions()
+ * @method            StrategyCpMaximumImpressions                     getCpMaximumImpressions()
+ * @method            StrategyWbDecreasedPriceForRepeatedImpressions   getWbDecreasedPriceForRepeatedImpressions()
+ * @method            StrategyCpDecreasedPriceForRepeatedImpressions   getCpDecreasedPriceForRepeatedImpressions()
  * 
  * @package YandexDirectSDK\Models 
  */ 

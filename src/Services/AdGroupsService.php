@@ -9,8 +9,6 @@ use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Collections\Bids;
 use YandexDirectSDK\Collections\BidsAuto;
-use YandexDirectSDK\Collections\KeywordBids;
-use YandexDirectSDK\Collections\KeywordBidsAuto;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Collections\AdGroups;
@@ -31,17 +29,15 @@ use YandexDirectSDK\Models\BidAuto;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\BidModifierToggle;
 use YandexDirectSDK\Models\Keyword;
-use YandexDirectSDK\Models\KeywordBid;
-use YandexDirectSDK\Models\KeywordBidAuto;
 use YandexDirectSDK\Models\Webpage;
 
 /** 
  * Class AdGroupsService 
  * 
- * @method   Result         add(ModelCommonInterface $adGroups)
- * @method   Result         update(ModelCommonInterface $adGroups)
- * @method   QueryBuilder   query() 
- * @method   Result         delete(ModelCommonInterface|integer[]|integer $adGroups)
+ * @method   Result         add(AdGroup|AdGroups|ModelCommonInterface $adGroups)
+ * @method   Result         update(AdGroup|AdGroups|ModelCommonInterface $adGroups)
+ * @method   QueryBuilder   query()
+ * @method   Result         delete(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -126,21 +122,96 @@ class AdGroupsService extends Service
     }
 
     /**
-     * Sets fixed bids and priorities for keyword and auto-targeting.
+     * Sets bids for given ad groups.
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param Bid|Bids|ModelCommonInterface $bids
+     * @param integer $bid
+     * @param integer|null $contextBid
      * @return Result
      * @throws InvalidArgumentException
+     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
-    public function setRelatedBids($adGroups, ModelCommonInterface $bids): Result
+    public function setRelatedBids($adGroups, $bid, $contextBid = null):Result
     {
-        return $this->session->getBidsService()->set(
-            $this->bind($adGroups, $bids, 'AdGroupId')
-        );
+        $adGroupIds = $this->extractIds($adGroups);
+        $bids = new Bids();
+
+        if (func_num_args() > 2){
+            foreach ($adGroupIds as $id){
+                $bids->push(
+                    Bid::make()
+                        ->setAdGroupId($id)
+                        ->setBid($bid)
+                        ->setContextBid( $contextBid)
+                );
+            }
+        } else {
+            foreach ($adGroupIds as $id){
+                $bids->push(
+                    Bid::make()
+                        ->setAdGroupId($id)
+                        ->setBid($bid)
+                );
+            }
+        }
+
+        return $this->session->getBidsService()->set($bids);
+    }
+
+    /**
+     * Sets context bids for given ad groups.
+     *
+     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
+     * @param integer $contextBid
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function setRelatedContextBids($adGroups, $contextBid):Result
+    {
+        $adGroupIds = $this->extractIds($adGroups);
+        $bids = new Bids();
+
+        foreach ($adGroupIds as $id){
+            $bids->push(
+                Bid::make()
+                    ->setAdGroupId($id)
+                    ->setContextBid($contextBid)
+            );
+        }
+
+        return $this->session->getBidsService()->set($bids);
+    }
+
+    /**
+     * Sets strategy priority for given ad groups.
+     *
+     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
+     * @param string $strategyPriority
+     * @return Result
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     * @throws RequestException
+     * @throws RuntimeException
+     */
+    public function setRelatedStrategyPriority($adGroups, string $strategyPriority):Result
+    {
+        $adGroupIds = $this->extractIds($adGroups);
+        $bids = new Bids();
+
+        foreach ($adGroupIds as $id){
+            $bids->push(
+                Bid::make()
+                    ->setAdGroupId($id)
+                    ->setStrategyPriority($strategyPriority)
+            );
+        }
+
+        return $this->session->getBidsService()->set($bids);
     }
 
     /**
@@ -269,59 +340,6 @@ class AdGroupsService extends Service
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
-            ->get();
-    }
-
-    /**
-     * Sets fixed bids and priorities for keyword and auto-targeting.
-     *
-     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param KeywordBid|KeywordBids|ModelCommonInterface $keywordBids
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ServiceException
-     */
-    public function setRelatedKeywordBids($adGroups, ModelCommonInterface $keywordBids): Result
-    {
-        return $this->session->getKeywordBidsService()->set(
-            $this->bind($adGroups, $keywordBids, 'AdGroupId')
-        );
-    }
-
-    /**
-     * Set keyword bid designer options for in given ad groups.
-     *
-     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param KeywordBidAuto|KeywordBidsAuto|ModelCommonInterface $keywordsBidsAuto
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ServiceException
-     */
-    public function setRelatedKeywordBidsAuto($adGroups, ModelCommonInterface $keywordsBidsAuto): Result
-    {
-        return $this->session->getKeywordBidsService()->setAuto(
-            $this->bind($adGroups, $keywordsBidsAuto, 'AdGroupId')
-        );
-    }
-
-    /**
-     * Gets keyword bids for given ad groups.
-     *
-     * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param array $fields
-     * @return Result
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
-    public function getRelatedKeywordBids($adGroups, array $fields): Result
-    {
-        return $this->session->getKeywordBidsService()->query()
-            ->select($fields)
-            ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
     }
 

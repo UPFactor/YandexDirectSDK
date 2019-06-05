@@ -10,13 +10,13 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\KeywordBid;
 
 /** 
  * Class KeywordBidsService 
  * 
- * @method   QueryBuilder   query() 
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -33,26 +33,26 @@ class KeywordBidsService extends Service
     ];
 
     /**
-     * @param ModelCommon $keywordBids
+     * @param ModelCommonInterface $keywordBids
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function set(ModelCommon $keywordBids):Result
+    public function set(ModelCommonInterface $keywordBids):Result
     {
         return $this->updateCollection('set', $keywordBids, 'KeywordBids', 'SetResults');
     }
 
     /**
-     * @param ModelCommon $keywordBidsAuto
+     * @param ModelCommonInterface $keywordBidsAuto
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
      */
-    public function setAuto(ModelCommon $keywordBidsAuto):Result
+    public function setAuto(ModelCommonInterface $keywordBidsAuto):Result
     {
         return $this->updateCollection('setAuto', $keywordBidsAuto, 'KeywordBids', 'SetAutoResults');
     }

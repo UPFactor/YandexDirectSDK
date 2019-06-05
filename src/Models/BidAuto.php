@@ -9,37 +9,37 @@ use YandexDirectSDK\Services\BidsService;
 /** 
  * Class BidAuto 
  * 
- * @property   integer    $campaignId 
- * @property   integer    $adGroupId 
- * @property   integer    $keywordId 
- * @property   string[]   $scope 
- * @property   integer    $maxBid 
- * @property   string     $position 
- * @property   integer    $increasePercent 
- * @property   string     $calculateBy 
- * @property   integer    $contextCoverage 
+ * @property          integer    $campaignId
+ * @property          integer    $adGroupId
+ * @property          integer    $keywordId
+ * @property          string[]   $scope
+ * @property          integer    $maxBid
+ * @property          string     $position
+ * @property          integer    $increasePercent
+ * @property          string     $calculateBy
+ * @property          integer    $contextCoverage
  * 
- * @method     $this      setCampaignId(integer $campaignId) 
- * @method     $this      setAdGroupId(integer $adGroupId) 
- * @method     $this      setKeywordId(integer $keywordId) 
- * @method     $this      setScope(string[] $scope) 
- * @method     $this      setMaxBid(integer $maxBid) 
- * @method     $this      setPosition(string $position) 
- * @method     $this      setIncreasePercent(integer $increasePercent) 
- * @method     $this      setCalculateBy(string $calculateBy) 
- * @method     $this      setContextCoverage(integer $contextCoverage) 
+ * @method            Result     setAuto()
  * 
- * @method     integer    getCampaignId() 
- * @method     integer    getAdGroupId() 
- * @method     integer    getKeywordId() 
- * @method     string[]   getScope() 
- * @method     integer    getMaxBid() 
- * @method     string     getPosition() 
- * @method     integer    getIncreasePercent() 
- * @method     string     getCalculateBy() 
- * @method     integer    getContextCoverage() 
+ * @method            $this      setCampaignId(integer $campaignId)
+ * @method            $this      setAdGroupId(integer $adGroupId)
+ * @method            $this      setKeywordId(integer $keywordId)
+ * @method            $this      setScope(string[] $scope)
+ * @method            $this      setMaxBid(integer $maxBid)
+ * @method            $this      setPosition(string $position)
+ * @method            $this      setIncreasePercent(integer $increasePercent)
+ * @method            $this      setCalculateBy(string $calculateBy)
+ * @method            $this      setContextCoverage(integer $contextCoverage)
  * 
- * @method     Result     setAuto() 
+ * @method            integer    getCampaignId()
+ * @method            integer    getAdGroupId()
+ * @method            integer    getKeywordId()
+ * @method            string[]   getScope()
+ * @method            integer    getMaxBid()
+ * @method            string     getPosition()
+ * @method            integer    getIncreasePercent()
+ * @method            string     getCalculateBy()
+ * @method            integer    getContextCoverage()
  * 
  * @package YandexDirectSDK\Models 
  */

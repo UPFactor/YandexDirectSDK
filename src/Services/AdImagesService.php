@@ -9,14 +9,14 @@ use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AdImage;
 
 /** 
  * Class AdImagesService 
  * 
- * @method   Result         add(ModelCommon $adImages) 
- * @method   QueryBuilder   query() 
+ * @method   Result         add(AdImage|AdImages|ModelCommonInterface $adImages)
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -34,7 +34,7 @@ class AdImagesService extends Service
     ];
 
     /**
-     * @param ModelCommon|string[]|string $adImages
+     * @param ModelCommonInterface|string[]|string $adImages
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException

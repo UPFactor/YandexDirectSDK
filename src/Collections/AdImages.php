@@ -10,9 +10,9 @@ use YandexDirectSDK\Services\AdImagesService;
 /** 
  * Class AdImages 
  * 
- * @method   QueryBuilder   query() 
- * @method   Result         add() 
- * @method   Result         delete() 
+ * @method   QueryBuilder   query()
+ * @method   Result         add()
+ * @method   Result         delete()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

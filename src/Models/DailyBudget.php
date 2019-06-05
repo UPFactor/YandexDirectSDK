@@ -7,14 +7,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class DailyBudget 
  * 
- * @property   integer   $amount 
- * @property   string    $mode 
+ * @property          integer   $amount
+ * @property          string    $mode
  * 
- * @method     $this     setAmount(integer $amount) 
- * @method     $this     setMode(string $mode) 
+ * @method            $this     setAmount(integer $amount)
+ * @method            $this     setMode(string $mode)
  * 
- * @method     integer   getAmount() 
- * @method     string    getMode() 
+ * @method            integer   getAmount()
+ * @method            string    getMode()
  * 
  * @package YandexDirectSDK\Models 
  */

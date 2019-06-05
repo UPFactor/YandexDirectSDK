@@ -9,7 +9,7 @@ use YandexDirectSDK\Services\BidsService;
 /** 
  * Class BidsAuto 
  * 
- * @method   Result   setAuto() 
+ * @method   Result   setAuto()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

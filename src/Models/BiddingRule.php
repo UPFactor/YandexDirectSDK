@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class BiddingRule 
  * 
- * @property   SearchByTrafficVolume   $searchByTrafficVolume 
- * @property   NetworkByCoverage       $networkByCoverage 
+ * @property          SearchByTrafficVolume   $searchByTrafficVolume
+ * @property          NetworkByCoverage       $networkByCoverage
  * 
- * @method     $this                   setSearchByTrafficVolume(SearchByTrafficVolume $searchByTrafficVolume) 
- * @method     $this                   setNetworkByCoverage(NetworkByCoverage $networkByCoverage) 
+ * @method            $this                   setSearchByTrafficVolume(SearchByTrafficVolume $searchByTrafficVolume)
+ * @method            $this                   setNetworkByCoverage(NetworkByCoverage $networkByCoverage)
  * 
- * @method     SearchByTrafficVolume   getSearchByTrafficVolume() 
- * @method     NetworkByCoverage       getNetworkByCoverage() 
+ * @method            SearchByTrafficVolume   getSearchByTrafficVolume()
+ * @method            NetworkByCoverage       getNetworkByCoverage()
  * 
  * @package YandexDirectSDK\Models 
  */ 

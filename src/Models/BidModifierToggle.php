@@ -7,20 +7,20 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class BidModifierToggle 
  * 
- * @property   integer   $campaignId 
- * @property   integer   $adGroupId 
- * @property   string    $type 
- * @property   string    $enabled 
+ * @property          integer   $campaignId
+ * @property          integer   $adGroupId
+ * @property          string    $type
+ * @property          string    $enabled
  * 
- * @method     $this     setCampaignId(integer $campaignId) 
- * @method     $this     setAdGroupId(integer $adGroupId) 
- * @method     $this     setType(string $type) 
- * @method     $this     setEnabled(string $enabled) 
+ * @method            $this     setCampaignId(integer $campaignId)
+ * @method            $this     setAdGroupId(integer $adGroupId)
+ * @method            $this     setType(string $type)
+ * @method            $this     setEnabled(string $enabled)
  * 
- * @method     integer   getCampaignId() 
- * @method     integer   getAdGroupId() 
- * @method     string    getType() 
- * @method     string    getEnabled() 
+ * @method            integer   getCampaignId()
+ * @method            integer   getAdGroupId()
+ * @method            string    getType()
+ * @method            string    getEnabled()
  * 
  * @package YandexDirectSDK\Models 
  */ 

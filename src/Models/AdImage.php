@@ -10,31 +10,32 @@ use YandexDirectSDK\Services\AdImagesService;
 /** 
  * Class AdImage 
  * 
- * @property            string         $adImageHash 
- * @property            string         $imageData 
- * @property            string         $name 
- * @property-readable   string         $associated 
- * @property-readable   string         $type 
- * @property-readable   string         $subtype 
- * @property-readable   string         $originalUrl 
- * @property-readable   string         $previewUrl 
+ * @property            string         $adImageHash
+ * @property            string         $imageData
+ * @property            string         $name
  * 
- * @method              $this          setAdImageHash(string $adImageHash) 
- * @method              $this          setImageData(string $imageData) 
- * @method              $this          setName(string $name) 
+ * @property-readable   string         $associated
+ * @property-readable   string         $type
+ * @property-readable   string         $subtype
+ * @property-readable   string         $originalUrl
+ * @property-readable   string         $previewUrl
  * 
- * @method              string         getAdImageHash() 
- * @method              string         getImageData() 
- * @method              string         getName() 
- * @method              string         getAssociated() 
- * @method              string         getType() 
- * @method              string         getSubtype() 
- * @method              string         getOriginalUrl() 
- * @method              string         getPreviewUrl() 
+ * @method              QueryBuilder   query()
+ * @method              Result         add()
+ * @method              Result         delete()
  * 
- * @method              QueryBuilder   query() 
- * @method              Result         add() 
- * @method              Result         delete() 
+ * @method              $this          setAdImageHash(string $adImageHash)
+ * @method              $this          setImageData(string $imageData)
+ * @method              $this          setName(string $name)
+ * 
+ * @method              string         getAdImageHash()
+ * @method              string         getImageData()
+ * @method              string         getName()
+ * @method              string         getAssociated()
+ * @method              string         getType()
+ * @method              string         getSubtype()
+ * @method              string         getOriginalUrl()
+ * @method              string         getPreviewUrl()
  * 
  * @package YandexDirectSDK\Models 
  */ 

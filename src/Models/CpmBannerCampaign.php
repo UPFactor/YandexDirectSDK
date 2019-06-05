@@ -7,20 +7,20 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class CpmBannerCampaign 
  * 
- * @property   CpmBannerCampaignStrategy   $biddingStrategy 
- * @property   CpmBannerCampaignSettings   $settings 
- * @property   integer[]                   $counterIds 
- * @property   FrequencyCapSetting         $frequencyCap 
+ * @property          CpmBannerCampaignStrategy   $biddingStrategy
+ * @property          CpmBannerCampaignSettings   $settings
+ * @property          integer[]                   $counterIds
+ * @property          FrequencyCapSetting         $frequencyCap
  * 
- * @method     $this                       setBiddingStrategy(CpmBannerCampaignStrategy $biddingStrategy) 
- * @method     $this                       setSettings(CpmBannerCampaignSettings $settings) 
- * @method     $this                       setCounterIds(integer[] $counterIds) 
- * @method     $this                       setFrequencyCap(FrequencyCapSetting $frequencyCap) 
+ * @method            $this                       setBiddingStrategy(CpmBannerCampaignStrategy $biddingStrategy)
+ * @method            $this                       setSettings(CpmBannerCampaignSettings $settings)
+ * @method            $this                       setCounterIds(integer[] $counterIds)
+ * @method            $this                       setFrequencyCap(FrequencyCapSetting $frequencyCap)
  * 
- * @method     CpmBannerCampaignStrategy   getBiddingStrategy() 
- * @method     CpmBannerCampaignSettings   getSettings() 
- * @method     integer[]                   getCounterIds() 
- * @method     FrequencyCapSetting         getFrequencyCap() 
+ * @method            CpmBannerCampaignStrategy   getBiddingStrategy()
+ * @method            CpmBannerCampaignSettings   getSettings()
+ * @method            integer[]                   getCounterIds()
+ * @method            FrequencyCapSetting         getFrequencyCap()
  * 
  * @package YandexDirectSDK\Models 
  */ 

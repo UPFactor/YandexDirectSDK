@@ -10,15 +10,15 @@ use YandexDirectSDK\Services\AdsService;
 /** 
  * Class Ads 
  * 
- * @method   QueryBuilder   query() 
- * @method   Result         add() 
- * @method   Result         update() 
- * @method   Result         delete() 
- * @method   Result         suspend() 
- * @method   Result         resume() 
- * @method   Result         archive() 
- * @method   Result         unarchive() 
- * @method   Result         moderate() 
+ * @method   QueryBuilder   query()
+ * @method   Result         add()
+ * @method   Result         update()
+ * @method   Result         delete()
+ * @method   Result         suspend()
+ * @method   Result         resume()
+ * @method   Result         archive()
+ * @method   Result         unarchive()
+ * @method   Result         moderate()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

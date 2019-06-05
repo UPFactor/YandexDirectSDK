@@ -10,9 +10,9 @@ use YandexDirectSDK\Services\VCardsService;
 /** 
  * Class VCards 
  * 
- * @method   QueryBuilder   query() 
- * @method   Result         add() 
- * @method   Result         delete() 
+ * @method   QueryBuilder   query()
+ * @method   Result         add()
+ * @method   Result         delete()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

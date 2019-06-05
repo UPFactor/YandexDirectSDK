@@ -10,9 +10,9 @@ use YandexDirectSDK\Services\SitelinksService;
 /** 
  * Class SitelinksSets 
  * 
- * @method   Result         add() 
- * @method   Result         delete() 
- * @method   QueryBuilder   query() 
+ * @method   Result         add()
+ * @method   Result         delete()
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

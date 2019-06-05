@@ -13,43 +13,44 @@ use YandexDirectSDK\Services\BidsService;
 /** 
  * Class Bid 
  * 
- * @property            integer            $campaignId 
- * @property            integer            $adGroupId 
- * @property            integer            $keywordId 
- * @property-readable   string             $servingStatus 
- * @property            integer            $bid 
- * @property            integer            $contextBid 
- * @property            string             $strategyPriority 
- * @property-readable   integer[]          $competitorsBids 
- * @property-readable   SearchPrices       $searchPrices 
- * @property-readable   ContextCoverages   $contextCoverage 
- * @property-readable   integer            $minSearchPrice 
- * @property-readable   integer            $currentSearchPrice 
- * @property-readable   AuctionBids        $auctionBids 
+ * @property            integer            $campaignId
+ * @property            integer            $adGroupId
+ * @property            integer            $keywordId
+ * @property            integer            $bid
+ * @property            integer            $contextBid
+ * @property            string             $strategyPriority
  * 
- * @method              $this              setCampaignId(integer $campaignId) 
- * @method              $this              setAdGroupId(integer $adGroupId) 
- * @method              $this              setKeywordId(integer $keywordId) 
- * @method              $this              setBid(integer $bid) 
- * @method              $this              setContextBid(integer $contextBid) 
- * @method              $this              setStrategyPriority(string $strategyPriority) 
+ * @property-readable   string             $servingStatus
+ * @property-readable   integer[]          $competitorsBids
+ * @property-readable   SearchPrices       $searchPrices
+ * @property-readable   ContextCoverages   $contextCoverage
+ * @property-readable   integer            $minSearchPrice
+ * @property-readable   integer            $currentSearchPrice
+ * @property-readable   AuctionBids        $auctionBids
  * 
- * @method              integer            getCampaignId() 
- * @method              integer            getAdGroupId() 
- * @method              integer            getKeywordId() 
- * @method              string             getServingStatus() 
- * @method              integer            getBid() 
- * @method              integer            getContextBid() 
- * @method              string             getStrategyPriority() 
- * @method              integer[]          getCompetitorsBids() 
- * @method              SearchPrices       getSearchPrices() 
- * @method              ContextCoverages   getContextCoverage() 
- * @method              integer            getMinSearchPrice() 
- * @method              integer            getCurrentSearchPrice() 
- * @method              AuctionBids        getAuctionBids() 
+ * @method              QueryBuilder       query()
+ * @method              Result             set()
  * 
- * @method              QueryBuilder       query() 
- * @method              Result             set() 
+ * @method              $this              setCampaignId(integer $campaignId)
+ * @method              $this              setAdGroupId(integer $adGroupId)
+ * @method              $this              setKeywordId(integer $keywordId)
+ * @method              $this              setBid(integer $bid)
+ * @method              $this              setContextBid(integer $contextBid)
+ * @method              $this              setStrategyPriority(string $strategyPriority)
+ * 
+ * @method              integer            getCampaignId()
+ * @method              integer            getAdGroupId()
+ * @method              integer            getKeywordId()
+ * @method              string             getServingStatus()
+ * @method              integer            getBid()
+ * @method              integer            getContextBid()
+ * @method              string             getStrategyPriority()
+ * @method              integer[]          getCompetitorsBids()
+ * @method              SearchPrices       getSearchPrices()
+ * @method              ContextCoverages   getContextCoverage()
+ * @method              integer            getMinSearchPrice()
+ * @method              integer            getCurrentSearchPrice()
+ * @method              AuctionBids        getAuctionBids()
  * 
  * @package YandexDirectSDK\Models 
  */ 

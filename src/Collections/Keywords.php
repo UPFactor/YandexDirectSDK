@@ -6,23 +6,22 @@ use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\ModelCollection; 
 use YandexDirectSDK\Models\Keyword;
 use YandexDirectSDK\Services\KeywordsService;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
 /** 
  * Class Keywords 
  * 
- * @method   Result         add() 
- * @method   Result         delete() 
- * @method   QueryBuilder   query() 
- * @method   Result         resume() 
- * @method   Result         suspend() 
- * @method   Result         update() 
- * @method   Result         setRelatedBids(ModelCommon $bids) 
- * @method   Result         setRelatedBidsAuto(ModelCommon $bidsAuto) 
- * @method   Result         getRelatedBids(array $fields) 
- * @method   Result         setRelatedKeywordBids(ModelCommon $keywordBids) 
- * @method   Result         setRelatedKeywordBidsAuto(ModelCommon $keywordsBidsAuto) 
- * @method   Result         getRelatedKeywordBids(array $fields) 
+ * @method   Result         add()
+ * @method   Result         delete()
+ * @method   QueryBuilder   query()
+ * @method   Result         resume()
+ * @method   Result         suspend()
+ * @method   Result         update()
+ * @method   Result         setRelatedBids($bid, $contextBid = null)
+ * @method   Result         setRelatedContextBids($contextBid)
+ * @method   Result         setRelatedStrategyPriority(string $strategyPriority)
+ * @method   Result         setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
+ * @method   Result         getRelatedBids(array $fields)
  * 
  * @package YandexDirectSDK\Collections 
  */ 
@@ -46,10 +45,9 @@ class Keywords extends ModelCollection
         'suspend' => KeywordsService::class,
         'update' => KeywordsService::class,
         'setRelatedBids' => KeywordsService::class,
+        'setRelatedContextBids' => KeywordsService::class,
+        'setRelatedStrategyPriority' => KeywordsService::class,
         'setRelatedBidsAuto' => KeywordsService::class,
         'getRelatedBids' => KeywordsService::class,
-        'setRelatedKeywordBids' => KeywordsService::class,
-        'setRelatedKeywordBidsAuto' => KeywordsService::class,
-        'getRelatedKeywordBids' => KeywordsService::class
     ];
 }

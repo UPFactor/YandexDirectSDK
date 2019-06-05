@@ -11,18 +11,18 @@ use YandexDirectSDK\Services\SitelinksService;
 /** 
  * Class SitelinksSet 
  * 
- * @property   integer        $id 
- * @property   Sitelinks      $sitelinks 
+ * @property          integer        $id
+ * @property          Sitelinks      $sitelinks
  * 
- * @method     $this          setId(integer $id) 
- * @method     $this          setSitelinks(Sitelinks $sitelinks) 
+ * @method            Result         add()
+ * @method            Result         delete()
+ * @method            QueryBuilder   query()
  * 
- * @method     integer        getId() 
- * @method     Sitelinks      getSitelinks() 
+ * @method            $this          setId(integer $id)
+ * @method            $this          setSitelinks(Sitelinks $sitelinks)
  * 
- * @method     Result         add() 
- * @method     Result         delete() 
- * @method     QueryBuilder   query() 
+ * @method            integer        getId()
+ * @method            Sitelinks      getSitelinks()
  * 
  * @package YandexDirectSDK\Models 
  */ 

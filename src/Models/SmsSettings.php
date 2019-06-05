@@ -7,17 +7,17 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class SmsSettings 
  * 
- * @property   string[]   $events 
- * @property   string     $timeFrom 
- * @property   string     $timeTo 
+ * @property          string[]   $events
+ * @property          string     $timeFrom
+ * @property          string     $timeTo
  * 
- * @method     $this      setEvents(string[] $events) 
- * @method     $this      setTimeFrom(string $timeFrom) 
- * @method     $this      setTimeTo(string $timeTo) 
+ * @method            $this      setEvents(string[] $events)
+ * @method            $this      setTimeFrom(string $timeFrom)
+ * @method            $this      setTimeTo(string $timeTo)
  * 
- * @method     string[]   getEvents() 
- * @method     string     getTimeFrom() 
- * @method     string     getTimeTo() 
+ * @method            string[]   getEvents()
+ * @method            string     getTimeFrom()
+ * @method            string     getTimeTo()
  * 
  * @package YandexDirectSDK\Models 
  */

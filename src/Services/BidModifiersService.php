@@ -17,7 +17,7 @@ use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\BidModifierSet;
 use YandexDirectSDK\Models\BidModifierToggle;
@@ -25,9 +25,9 @@ use YandexDirectSDK\Models\BidModifierToggle;
 /** 
  * Class BidModifiersService 
  * 
- * @method   Result         delete(ModelCommon|integer[]|integer $bidModifiers)
- * @method   QueryBuilder   query() 
- *
+ * @method   Result         delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
+ * @method   QueryBuilder   query()
+ * 
  * @package YandexDirectSDK\Services 
  */
 class BidModifiersService extends Service
@@ -39,16 +39,14 @@ class BidModifiersService extends Service
     protected $serviceModelCollectionClass = BidModifiers::class;
 
     protected $serviceMethods = [
-        'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements'
     ];
 
-
     /**
      * Creates bid modifiers.
      *
-     * @param BidModifier|BidModifiers|ModelCommon $bidModifiers
+     * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
@@ -56,7 +54,7 @@ class BidModifiersService extends Service
      * @throws ReflectionException
      * @throws ModelCollectionException
      */
-    public function add(ModelCommon $bidModifiers) : Result
+    public function add(ModelCommonInterface $bidModifiers) : Result
     {
         //If the model is transferred, it must be converted to
         //the appropriate collection.
@@ -158,7 +156,7 @@ class BidModifiersService extends Service
     /**
      * Changes the values of coefficients in rate adjustments.
      *
-     * @param int|int[]|string|string[]|BidModifier|BidModifiers|BidModifierSet|BidModifierSets|ModelCommon $bidModifiers
+     * @param int|int[]|string|string[]|BidModifier|BidModifiers|BidModifierSet|BidModifierSets|ModelCommonInterface $bidModifiers
      * @param int $value
      * @return Result
      * @throws InvalidArgumentException
@@ -192,7 +190,7 @@ class BidModifiersService extends Service
     /**
      * Enables/disables the set of adjustments.
      *
-     * @param BidModifierToggle|BidModifierToggles|ModelCommon $bidModifiers
+     * @param BidModifierToggle|BidModifierToggles|ModelCommonInterface $bidModifiers
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException

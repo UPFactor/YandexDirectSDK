@@ -10,11 +10,11 @@ use YandexDirectSDK\Services\AudienceTargetsService;
 /** 
  * Class AudienceTargets 
  * 
- * @method   Result         add() 
- * @method   Result         delete() 
- * @method   QueryBuilder   query() 
- * @method   Result         resume() 
- * @method   Result         suspend() 
+ * @method   Result         add()
+ * @method   Result         delete()
+ * @method   QueryBuilder   query()
+ * @method   Result         resume()
+ * @method   Result         suspend()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

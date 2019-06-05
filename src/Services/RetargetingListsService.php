@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
-use YandexDirectSDK\Interfaces\ModelCommon;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Collections\RetargetingLists;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
@@ -12,10 +12,10 @@ use YandexDirectSDK\Models\RetargetingList;
 /** 
  * Class RetargetingListsService 
  * 
- * @method   Result         add(ModelCommon $retargetingLists) 
- * @method   Result         delete(ModelCommon|integer[]|integer $retargetingLists) 
- * @method   QueryBuilder   query() 
- * @method   Result         update(ModelCommon $retargetingLists) 
+ * @method   Result         add(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method   Result         delete(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method   QueryBuilder   query()
+ * @method   Result         update(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * 
  * @package YandexDirectSDK\Services 
  */

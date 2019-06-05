@@ -10,7 +10,7 @@ use YandexDirectSDK\Models\Lead;
 /** 
  * Class LeadsService 
  * 
- * @method   QueryBuilder   query() 
+ * @method   QueryBuilder   query()
  * 
  * @package YandexDirectSDK\Services 
  */

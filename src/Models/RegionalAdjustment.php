@@ -6,16 +6,17 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class RegionalAdjustment 
  * 
- * @property            integer   $regionId 
- * @property            integer   $bidModifier 
- * @property-readable   string    $enabled 
+ * @property            integer   $regionId
+ * @property            integer   $bidModifier
  * 
- * @method              $this     setRegionId(integer $regionId) 
- * @method              $this     setBidModifier(integer $bidModifier) 
+ * @property-readable   string    $enabled
  * 
- * @method              integer   getRegionId() 
- * @method              integer   getBidModifier() 
- * @method              string    getEnabled() 
+ * @method              $this     setRegionId(integer $regionId)
+ * @method              $this     setBidModifier(integer $bidModifier)
+ * 
+ * @method              integer   getRegionId()
+ * @method              integer   getBidModifier()
+ * @method              string    getEnabled()
  * 
  * @package YandexDirectSDK\Models 
  */ 
