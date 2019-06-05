@@ -61,11 +61,6 @@ class BidModifiersExamplesTest extends TestCase
     public static $textAdGroup;
 
     /**
-     * @var AdGroup
-     */
-    public static $textAdGroupAlt;
-
-    /**
      * @var Campaigns
      */
     public static $textCampaigns;
@@ -91,9 +86,6 @@ class BidModifiersExamplesTest extends TestCase
         self::$textCampaign = $adGroupsExTest::$textCampaign;
         self::$textAdGroups = $adGroupsExTest->testAddAdGroup_byService();
         self::$textAdGroup = self::$textAdGroups->first();
-        self::$textAdGroupAlt = self::$textAdGroup->copy();
-        self::$textAdGroupAlt->add();
-        self::$textAdGroupAlt->addRelatedKeywords(self::$textAdGroups->getRelatedKeywords(['Keyword'])->getResource());
     }
 
     public static function tearDownAfterClass():void

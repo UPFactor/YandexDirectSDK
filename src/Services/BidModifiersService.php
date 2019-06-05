@@ -48,7 +48,7 @@ class BidModifiersService extends Service
     /**
      * Creates bid modifiers.
      *
-     * @param $bidModifiers
+     * @param BidModifier|BidModifiers|ModelCommon $bidModifiers
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException
@@ -56,7 +56,7 @@ class BidModifiersService extends Service
      * @throws ReflectionException
      * @throws ModelCollectionException
      */
-    public function add($bidModifiers) : Result
+    public function add(ModelCommon $bidModifiers) : Result
     {
         //If the model is transferred, it must be converted to
         //the appropriate collection.

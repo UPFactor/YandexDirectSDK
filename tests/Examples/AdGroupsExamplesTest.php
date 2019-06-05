@@ -1982,7 +1982,7 @@ class AdGroupsExamplesTest extends TestCase
      * @throws InvalidArgumentException
      * @throws ModelCollectionException
      */
-    public function testAddDynamicTextAdGroup_byService_byCollection(AdGroups $adGroups){
+    public function testAddRelatedWebpages_byCollection(AdGroups $adGroups){
 
         // Demo =====================================================================
 
