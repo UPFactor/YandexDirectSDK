@@ -8,49 +8,54 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 
+
 /** 
  * Class Webpage 
  * 
- * @property            integer             $id 
- * @property            string              $name 
- * @property            integer             $adGroupId 
- * @property-readable   integer             $campaignId 
- * @property            WebpageConditions   $conditions 
- * @property-readable   string              $conditionType 
- * @property            integer             $bid 
- * @property            integer             $contextBid 
- * @property            string              $strategyPriority 
- * @property-readable   string              $state 
- * @property-readable   string              $statusClarification 
+ * @property            integer             $id
+ * @property            string              $name
+ * @property            integer             $adGroupId
+ * @property            WebpageConditions   $conditions
+ * @property            integer             $bid
+ * @property            integer             $contextBid
+ * @property            string              $strategyPriority
  * 
- * @method              $this               setId(integer $id) 
- * @method              $this               setName(string $name) 
- * @method              $this               setAdGroupId(integer $adGroupId) 
- * @method              $this               setConditions(WebpageConditions $conditions) 
- * @method              $this               setBid(integer $bid) 
- * @method              $this               setContextBid(integer $contextBid) 
- * @method              $this               setStrategyPriority(string $strategyPriority) 
+ * @property-readable   integer             $campaignId
+ * @property-readable   string              $conditionType
+ * @property-readable   string              $state
+ * @property-readable   string              $statusClarification
  * 
- * @method              integer             getId() 
- * @method              string              getName() 
- * @method              integer             getAdGroupId() 
- * @method              integer             getCampaignId() 
- * @method              WebpageConditions   getConditions() 
- * @method              string              getConditionType() 
- * @method              integer             getBid() 
- * @method              integer             getContextBid() 
- * @method              string              getStrategyPriority() 
- * @method              string              getState() 
- * @method              string              getStatusClarification() 
+ * @method              Result              add()
+ * @method              Result              delete()
+ * @method              QueryBuilder        query()
+ * @method              Result              resume()
+ * @method              Result              suspend()
+ * @method              Result              setRelatedBids($bid, $contextBid = null)
+ * @method              Result              setRelatedContextBids($contextBid)
+ * @method              Result              setRelatedStrategyPriority(string $strategyPriority)
  * 
- * @method              Result              add() 
- * @method              Result              delete() 
- * @method              QueryBuilder        query() 
- * @method              Result              resume() 
- * @method              Result              suspend() 
+ * @method              $this               setId(integer $id)
+ * @method              $this               setName(string $name)
+ * @method              $this               setAdGroupId(integer $adGroupId)
+ * @method              $this               setConditions(WebpageConditions $conditions)
+ * @method              $this               setBid(integer $bid)
+ * @method              $this               setContextBid(integer $contextBid)
+ * @method              $this               setStrategyPriority(string $strategyPriority)
+ * 
+ * @method              integer             getId()
+ * @method              string              getName()
+ * @method              integer             getAdGroupId()
+ * @method              integer             getCampaignId()
+ * @method              WebpageConditions   getConditions()
+ * @method              string              getConditionType()
+ * @method              integer             getBid()
+ * @method              integer             getContextBid()
+ * @method              string              getStrategyPriority()
+ * @method              string              getState()
+ * @method              string              getStatusClarification()
  * 
  * @package YandexDirectSDK\Models 
- */ 
+ */
 class Webpage extends Model 
 {
     const LOW = 'LOW';
@@ -64,7 +69,10 @@ class Webpage extends Model
         'delete' => DynamicTextAdTargetsService::class,
         'query' => DynamicTextAdTargetsService::class,
         'resume' => DynamicTextAdTargetsService::class,
-        'suspend' => DynamicTextAdTargetsService::class
+        'suspend' => DynamicTextAdTargetsService::class,
+        'setRelatedBids' => DynamicTextAdTargetsService::class,
+        'setRelatedContextBids' => DynamicTextAdTargetsService::class,
+        'setRelatedStrategyPriority' => DynamicTextAdTargetsService::class
     ];
 
     protected $properties = [

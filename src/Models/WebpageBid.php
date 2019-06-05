@@ -3,8 +3,6 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\WebpageBids;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 
 /** 
  * Class WebpageBid 
@@ -30,8 +28,6 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  * @method     integer   getContextBid() 
  * @method     string    getStrategyPriority() 
  * 
- * @method     Result    setBids() 
- * 
  * @package YandexDirectSDK\Models 
  */ 
 class WebpageBid extends Model 
@@ -41,10 +37,6 @@ class WebpageBid extends Model
     const HIGH = 'HIGH';
 
     protected $compatibleCollection = WebpageBids::class;
-
-    protected $serviceProvidersMethods = [
-        'setBids' => DynamicTextAdTargetsService::class
-    ];
 
     protected $properties = [
         'id' => 'integer',

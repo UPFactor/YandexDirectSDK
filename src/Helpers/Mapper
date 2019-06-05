@@ -13,6 +13,7 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Session;
 
 class Mapper extends ConsoleLauncher{
 
@@ -139,7 +140,7 @@ class Mapper extends ConsoleLauncher{
                 $this->objectReflection = new ReflectionClass($this->objectClass);
 
                 foreach ($setting['methods'] as $method){
-                    $lexemes = $this->{'get' . ucfirst($method) . 'Lexemes'}($modelFile);
+                    $lexemes = $this->{'get' . ucfirst($method) . 'Lexemes'}();
                     $this->createDoc($modelFile, $lexemes);
                 }
 
@@ -148,166 +149,226 @@ class Mapper extends ConsoleLauncher{
     }
 
     /**
-     * @param File $file
+     * @param $class
+     * @return array
+     * @throws ReflectionException
+     */
+    protected function getClassLexemes($class){
+        $methods = (new ReflectionClass($class))->getMethods();
+
+        $lexemes = [];
+
+        foreach ($methods as $method){
+            $methodName = $method->getName();
+
+            $methodNative = $method->getDeclaringClass()->getName() === (is_object($class) ? get_class($class) : $class);
+
+            $methodReturnType = (function() use ($method){
+                if (is_null($type = $method->getReturnType())){
+                    return Result::class;
+                }
+
+                if (class_exists($type = $type->getName())){
+                    return $type;
+                } else {
+                    return $type;
+                }
+            })();
+
+            $methodParameters = (function() use ($method){
+                if (is_null($parameters = $method->getParameters())){
+                    return '';
+                }
+
+                $lexemes = [];
+
+                foreach ($parameters as $index => $parameter){
+                    if ($parameter->isVariadic()){
+                        $parameterName = '...$' . $parameter->getName();
+                    } else {
+                        $parameterName = '$'.$parameter->getName();
+                    }
+
+                    if (is_null($parameterType = $parameter->getType())){
+                        $parameterType = '';
+                    } else {
+                        $parameterType = $parameterType . ' ';
+                    }
+
+                    if ($parameter->isDefaultValueAvailable()){
+                        if ($parameter->isDefaultValueConstant()){
+                            $parameterDefaultValue = $parameter->getDefaultValueConstantName();
+                        } else {
+                            $parameterDefaultValue = $parameter->getDefaultValue();
+                            $parameterDefaultValue = json_encode($parameterDefaultValue);
+                            $parameterDefaultValue = str_replace(['{','}','"'], ['[',']','\''], $parameterDefaultValue);
+                        }
+                    } else {
+                        $parameterDefaultValue = '';
+                    }
+
+                    $lexemes[] = [
+                        'type' => $parameterType,
+                        'var' => $parameterName,
+                        'default' => $parameterDefaultValue
+                    ];
+                }
+
+                return $lexemes;
+            })();
+
+            $lexemes[$methodName] = [
+                'native' => $methodNative,
+                'name' => $methodName,
+                'params' => $methodParameters,
+                'return' => $methodReturnType
+            ];
+        }
+
+        return $lexemes;
+    }
+
+    /**
+     * Creates a map of dynamic properties and methods for a model.
+     *
      * @return array
      * @throws ReflectionException
      * @throws Exception
      */
-    protected function getModelLexemes(File $file)
+    protected function getModelLexemes(): array
     {
         $modelLexemes = [
             'property' => [],
-            'methodSet' => [],
-            'methodGet' => []
+            'property-writable' => [],
+            'property-readable' => [],
+            'method' => [],
+            'method-writable' => [],
+            'method-readable' => []
         ];
 
-        /** @var ModelInterface $modelObject */
+        /**
+         * @var ModelInterface $modelObject
+         */
         $modelObject = new $this->objectClass();
-        $modelFileContent = $file->content();
         $modelMethodsMeta = $modelObject->getServiceProvidersMethodsMeta();
         $modelPropertiesMeta = $modelObject->getPropertiesMeta();
 
+        $providers = [];
+
         foreach ($modelMethodsMeta as $alias => $provider){
 
-            /** @var String $provider */
+            /**
+             * @var Service $service
+             * @var string $provider
+             */
+
             if (!class_exists($provider)){
                 $this->warning("Model [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
                 continue;
             }
 
-            /** @var Service $provider */
-            $provider = new $provider(new \YandexDirectSDK\Session(''));
-            $providerMeta = $provider->getMethodsMeta();
-            $providerResultType = null;
-            $providerParameters = null;
-
-            if ($provider->getServiceModelClass() !== $this->objectReflection->name){
-                $this->notice("Service provider [".get_class($provider)."] is not associated with the model [{$this->objectReflection->name}].");
+            if (array_key_exists($provider, $providers)){
+                $service = $providers[$provider]['service'];
+                $methods = $providers[$provider]['methods'];
+            } else {
+                $service = $providers[$provider]['service'] = new $provider(Session::make(''));
+                $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
             }
 
-            if (array_key_exists($alias, $providerMeta)) {
+            if (array_key_exists($alias, $service->getMethodsMeta())){
+                $method = $service->getMethodsMeta()[$alias]['type'];
+            } else {
+                $method = $alias;
+            }
 
-                switch ($providerMeta[$alias]['type']) {
-                    case 'addModel':
-                    case 'addCollection':
-                    case 'updateModel':
-                    case 'updateCollection':
-                    case 'actionByIds':
-                        $providerResultType = $this->classNameNormalization(Result::class, $modelFileContent);
-                        break;
-                    case 'selectionElements':
-                        $providerResultType = $this->classNameNormalization(QueryBuilder::class, $modelFileContent);
-                        break;
+            if (array_key_exists($method, $methods)){
+
+                if ($methods[$method]['native']){
+                    $methods[$method]['params'] = array_slice($methods[$method]['params'], 1);
+                } else {
+                    $methods[$method]['params'] = [];
                 }
 
-                if (is_null($providerResultType)) {
-                    $this->warning("Service provider [" . get_class($provider) . "] declares an unknown type of method [{$providerMeta[$alias]['type']}].");
-                    continue;
-                }
+                $methods[$method]['name'] = $alias;
+
+                $modelLexemes['method'][] = $methods[$method];
+
             } else {
 
-                $providerReflection = new ReflectionClass($provider);
-
-                foreach ($providerReflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
-                    if ($method->getName() !== $alias){
-                        continue;
-                    }
-
-                    $methodResultType = $method->getReturnType();
-                    $methodParameters = $method->getParameters();
-
-                    if (is_null($methodResultType)){
-                        $providerResultType = $this->classNameNormalization(Result::class, $modelFileContent);
-                    } else {
-                        $providerResultType = $method->getReturnType()->getName();
-                        if (class_exists($providerResultType)){
-                            $providerResultType = $this->classNameNormalization($providerResultType, $modelFileContent);
-                        } else {
-                            $providerResultType = str_replace('YandexDirectSDK\Services\\', '', $providerResultType);
-                        }
-                    }
-
-                    if (!is_null($methodParameters)){
-                        $providerParameters = [];
-
-                        foreach ($methodParameters as $k => $methodParameter){
-                            if ($k === 0){
-                                continue;
-                            }
-
-                            $methodParameterName = $methodParameter->getName();
-                            $methodParameterType = $methodParameter->getType();
-
-                            if (is_null($methodParameterType)) {
-                                $methodParameterType = '';
-                            } else {
-                                $methodParameterType = $this->classNameNormalization($methodParameterType->getName(), $modelFileContent);
-                                $methodParameterType .= ' ';
-                            }
-
-                            $providerParameters[] = "{$methodParameterType}\${$methodParameterName}";
-                        }
-
-                        $providerParameters = implode(', ', $providerParameters);
-                    }
-
-                    break;
-                }
-
-            }
-
-            if (is_null($providerResultType)){
-                $this->warning("Service provider [".get_class($provider)."] does not implement method [{$alias}], which is declared in model [{$this->objectReflection->name}].");
+                $this->warning("Service provider [{$provider}] does not implement method [{$alias}], which is declared in model [{$this->objectReflection->name}].");
                 continue;
-            }
 
-            $modelLexemes['method'][] = ['@method', $providerResultType, "{$alias}({$providerParameters})"];
+            }
         }
 
         foreach ($modelPropertiesMeta as $property){
-
-            $resultType = '';
-
             switch ($property['type']){
                 case 'numeric': $resultType = 'integer'; break;
                 case 'enum': $resultType = 'string'; break;
                 case 'set': $resultType = 'string[]'; break;
                 case 'array':
+
                     if (!empty($property['meta']) and is_array($property['meta'])){
-                        $resultType = implode('|[]',$property['meta']).'[]';
+                        $resultType = implode('[]|',$property['meta']).'[]';
                     }
                     break;
+
                 case 'object':
-                    if (is_null($property['meta'])){
-                        $resultType = 'object';
-                    } elseif (strpos($property['meta'], $this->objectReflection->getNamespaceName()) !== false){
-                        $resultType = (new ReflectionClass($property['meta']))->getShortName();
-                    } else {
-                        $resultType = $this->classNameNormalization($property['meta'], $modelFileContent);
-                    }
+                    $resultType = is_null($property['meta']) ? 'object' : $property['meta'];
                     break;
 
                 default: $resultType = $property['type'];
             }
 
-            if ($property['writable'] === false and $property['readable'] === false){
-                continue;
-            }
+            $toCreate = [];
 
             if ($property['writable'] === true and $property['readable'] === true) {
-                $modelLexemes['property'][] = ['@property', $resultType, "\${$property['name']}"];
-            } elseif ($property['writable'] === true){
-                $modelLexemes['property'][] = ['@property-writable', $resultType, "\${$property['name']}"];
-            } else {
-                $modelLexemes['property'][] = ['@property-readable', $resultType, "\${$property['name']}"];
+                $toCreate = ['property', 'method-readable', 'method-writable'];
+            } elseif ($property['writable'] === true) {
+                $toCreate = ['property-writable', 'method-writable'];
+            } elseif ($property['readable'] === true) {
+                $toCreate = ['property-readable', 'method-readable'];
             }
 
-            if ($property['writable'] === true){
-                $modelLexemes['methodSet'][] = ['@method', '$this', "set".ucfirst($property['name'])."({$resultType} \${$property['name']})"];
-            }
+            foreach ($toCreate as $createItemType){
+                switch ($createItemType){
+                    case 'property':
+                    case 'property-writable':
+                    case 'property-readable':
 
-            if ($property['readable'] === true){
-                $modelLexemes['methodGet'][] = ['@method', $resultType, "get".ucfirst($property['name'])."()"];
+                        $modelLexemes[$createItemType][] = [
+                            'type' => $resultType,
+                            'var' => '$'.$property['name'],
+                            'default' => ''
+                        ];
+                        break;
+
+                    case 'method-writable':
+
+                        $modelLexemes[$createItemType][] = [
+                            'native' => false,
+                            'name' => 'set'.ucfirst($property['name']),
+                            'params' => [
+                                [
+                                    'type' => $resultType,
+                                    'var' => '$'.$property['name'],
+                                    'default' => ''
+                                ]
+                            ],
+                            'return' => '$this'
+                        ];
+                        break;
+
+                    case 'method-readable':
+
+                        $modelLexemes[$createItemType][] = [
+                            'native' => false,
+                            'name' => 'get'.ucfirst($property['name']),
+                            'params' => [],
+                            'return' => $resultType
+                        ];
+                        break;
+                }
             }
         }
 
@@ -315,23 +376,25 @@ class Mapper extends ConsoleLauncher{
     }
 
     /**
-     * @param File $file
+     * Creates a map of dynamic properties and methods for a collection.
+     *
      * @return array
      * @throws ReflectionException
      * @throws Exception
      */
-    protected function getCollectionLexemes(File $file)
+    protected function getCollectionLexemes()
     {
         $collectionLexemes = [
             'property' => [],
-            'methodSet' => [],
-            'methodGet' => [],
-            'method' => []
+            'property-writable' => [],
+            'property-readable' => [],
+            'method' => [],
+            'method-writable' => [],
+            'method-readable' => []
         ];
 
         /** @var ModelCollectionInterface $collectionObject */
         $collectionObject = new $this->objectClass();
-        $collectionFileContent = $file->content();
         $collectionCompatibleModel = $collectionObject->getCompatibleModel();
         $collectionMethodsMeta = $collectionObject->getServiceProvidersMethodsMeta();
 
@@ -340,123 +403,80 @@ class Mapper extends ConsoleLauncher{
             return $collectionLexemes;
         }
 
+        $providers = [];
+
         foreach ($collectionMethodsMeta as $alias => $provider){
 
-            /** @var String $provider */
+            /**
+             * @var Service $service
+             * @var string $provider
+             */
+
             if (!class_exists($provider)){
                 $this->warning("Collection [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
                 continue;
             }
 
-            /** @var Service $provider */
-            $provider = new $provider(new \YandexDirectSDK\Session(''));
-            $providerMeta = $provider->getMethodsMeta();
-            $providerResultType = null;
-            $providerParameters = null;
-
-            if ($provider->getServiceModelCollectionClass() !== $this->objectReflection->name){
-                $this->notice("Service provider [".get_class($provider)."] is not associated with the collection [{$this->objectReflection->name}].");
+            if (array_key_exists($provider, $providers)){
+                $service = $providers[$provider]['service'];
+                $methods = $providers[$provider]['methods'];
+            } else {
+                $service = $providers[$provider]['service'] = new $provider(Session::make(''));
+                $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
             }
 
-            if (array_key_exists($alias, $providerMeta)){
+            if (array_key_exists($alias, $service->getMethodsMeta())){
+                $method = $service->getMethodsMeta()[$alias]['type'];
+            } else {
+                $method = $alias;
+            }
 
-                switch ($providerMeta[$alias]['type']){
-                    case 'addModel':
-                    case 'addCollection':
-                    case 'updateModel':
-                    case 'updateCollection':
-                    case 'actionByIds': $providerResultType = $this->classNameNormalization(Result::class, $collectionFileContent); break;
-                    case 'selectionElements': $providerResultType = $this->classNameNormalization(QueryBuilder::class, $collectionFileContent); break;
+            if (array_key_exists($method, $methods)){
+
+                if ($methods[$method]['native']){
+                    $methods[$method]['params'] = array_slice($methods[$method]['params'], 1);
+                } else {
+                    $methods[$method]['params'] = [];
                 }
 
-                if (is_null($providerResultType)){
-                    $this->warning("Service provider [".get_class($provider)."] declares an unknown type of method [{$providerMeta[$alias]['type']}].");
-                    continue;
-                }
+                $methods[$method]['name'] = $alias;
+
+                $collectionLexemes['method'][] = $methods[$method];
 
             } else {
 
-                $providerReflection = new ReflectionClass($provider);
-
-                foreach ($providerReflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
-                    if ($method->getName() !== $alias){
-                        continue;
-                    }
-
-                    $methodResultType = $method->getReturnType();
-                    $methodParameters = $method->getParameters();
-
-                    if (is_null($methodResultType)){
-                        $providerResultType = $this->classNameNormalization(Result::class, $collectionFileContent);
-                    } else {
-                        $providerResultType = $method->getReturnType()->getName();
-                        if (class_exists($providerResultType)){
-                            $providerResultType = $this->classNameNormalization($providerResultType, $collectionFileContent);
-                        } else {
-                            $providerResultType = str_replace('YandexDirectSDK\Services\\', '', $providerResultType);
-                        }
-                    }
-
-                    if (!is_null($methodParameters)){
-                        $providerParameters = [];
-
-                        foreach ($methodParameters as $k => $methodParameter){
-                            if ($k === 0){
-                                continue;
-                            }
-
-                            $methodParameterName = $methodParameter->getName();
-                            $methodParameterType = $methodParameter->getType();
-
-                            if (is_null($methodParameterType)) {
-                                $methodParameterType = '';
-                            } else {
-                                $methodParameterType = $this->classNameNormalization($methodParameterType->getName(), $collectionFileContent);
-                                $methodParameterType .= ' ';
-                            }
-
-                            $providerParameters[] = "{$methodParameterType}\${$methodParameterName}";
-                        }
-
-                        $providerParameters = implode(', ', $providerParameters);
-                    }
-
-                    break;
-                }
-            }
-
-            if (is_null($providerResultType)){
-                $this->warning("Service provider [".get_class($provider)."] does not implement method [{$alias}], which is declared in collection [{$this->objectReflection->name}].");
+                $this->warning("Service provider [{$provider}] does not implement method [{$alias}], which is declared in collection [{$this->objectReflection->name}].");
                 continue;
-            }
 
-            $collectionLexemes['method'][] = ['@method', $providerResultType, "{$alias}({$providerParameters})"];
+            }
         }
 
         return $collectionLexemes;
     }
 
     /**
-     * @param File $file
+     * Creates a map of dynamic properties and methods for a service.
+     *
      * @return array
      * @throws ReflectionException
      * @throws Exception
      */
-    protected function getServiceLexemes(File $file)
+    protected function getServiceLexemes()
     {
         $serviceLexemes = [
             'property' => [],
-            'methodSet' => [],
-            'methodGet' => [],
-            'method' => []
+            'property-writable' => [],
+            'property-readable' => [],
+            'method' => [],
+            'method-writable' => [],
+            'method-readable' => []
         ];
 
         /** @var Service $serviceObject */
         /** @var string $serviceModelClass */
         /** @var string $serviceModelCollectionClass */
 
-        $serviceObject = new $this->objectClass(new \YandexDirectSDK\Session(''));
-        $serviceFileContent = $file->content();
+        $serviceObject = new $this->objectClass(new Session(''));
         $serviceName = $serviceObject->getServiceName();
         $serviceModelClass = $serviceObject->getServiceModelClass();
         $serviceModelCollectionClass = $serviceObject->getServiceModelCollectionClass();
@@ -489,65 +509,105 @@ class Mapper extends ConsoleLauncher{
 
         foreach ($serviceMethodsMeta as $alias => $method){
 
+            $return = null;
             $params = null;
-            $resultType = null;
 
             switch ($method['type']){
                 case 'addCollection':
                 case 'updateCollection':
-                    $paramsName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName());
-                    $paramsType = $this->classNameNormalization(ModelCommonInterface::class, $serviceFileContent);
-                    $params = "{$paramsType} \${$paramsName}";
-                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    $return = Result::class;
+                    $params = [
+                        [
+                            'type' => $serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
+                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
+                            'default' => ''
+                        ]
+                    ];
                     break;
+
                 case 'addModel':
                 case 'updateModel':
-                    $paramsName = lcfirst((new ReflectionClass($serviceModelClass))->getShortName());
-                    $paramsType = $this->classNameNormalization(ModelInterface::class, $serviceFileContent);
-                    $params = "{$paramsType} \${$paramsName}";
-                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    $return = Result::class;
+                    $params = [
+                        [
+                            'type' => $serviceModelClass.'|'.ModelInterface::class,
+                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelClass))->getShortName()),
+                            'default' => ''
+                        ]
+                    ];
                     break;
+
                 case 'actionByIds':
-                    $paramsName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName());
-                    $paramsType = $this->classNameNormalization(ModelCommonInterface::class, $serviceFileContent) . '|integer[]|integer';
-                    $params = "{$paramsType} \${$paramsName}";
-                    $resultType = $this->classNameNormalization(Result::class, $serviceFileContent);
+                    $return = Result::class;
+                    $params = [
+                        [
+                            'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
+                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
+                            'default' => ''
+                        ]
+                    ];
                     break;
+
                 case 'selectionElements':
-                    $params = '';
-                    $resultType = $this->classNameNormalization(QueryBuilder::class, $serviceFileContent);
+                    $return = QueryBuilder::class;
+                    $params = [];
                     break;
+
+                default:
+                    $this->warning("Service provider [{$this->objectReflection->name}] declares an unknown type of method [{$method['type']}].");
+                    continue;
             }
 
-            if (is_null($resultType)){
-                $this->warning("Service provider [{$this->objectReflection->name}] declares an unknown type of method [{$method['type']}].");
-                continue;
-            }
-
-            $serviceLexemes['method'][] = ['@method', $resultType, "{$alias}({$params})"];
+            $serviceLexemes['method'][] = [
+                'native' => false,
+                'name' => $alias,
+                'params' => $params,
+                'return' => $return
+            ];
         }
 
         return $serviceLexemes;
     }
 
     /**
-     * @param File $modelFile
+     * Generates class documentation.
+     *
+     * @param File $sourceCodeFile
      * @param $lexemes
      * @throws Exception
      */
-    protected function createDoc(File $modelFile, $lexemes): void
+    protected function createDoc(File $sourceCodeFile, $lexemes): void
     {
         $doc = '';
+        $sourceCodeContent = $sourceCodeFile->content();
 
         $maxLenTag = 0;
-        $maxLenReturnType = 0;
-        $maxLenOperator = 0;
+        $maxLenType = 0;
 
-        foreach ($lexemes as $lexemeItem){
-            foreach ($lexemeItem as $index => $lexeme){
-                $maxLenTag = max($maxLenTag, strlen($lexeme[0]));
-                $maxLenReturnType = max($maxLenReturnType, strlen($lexeme[1]));
-                $maxLenOperator = max($maxLenOperator, strlen($lexeme[2]));
+        foreach ($lexemes as $lexemeType => $lexemeGroup){
+
+            if (empty($lexemeGroup)){
+                continue;
+            }
+
+            if (strpos($lexemeType, 'method')){
+                $maxLenTag = max($maxLenTag, 7);
+            } else {
+                $maxLenTag = max($maxLenTag, strlen($lexemeType)+1);
+            }
+
+            foreach ($lexemeGroup as $lexemeIndex => $lexeme){
+                if (isset($lexeme['return'])){
+                    $lexeme['return'] = empty($lexeme['return']) ? '' : $this->classNameNormalization($lexeme['return'], $sourceCodeContent);
+                    $lexemes[$lexemeType][$lexemeIndex]['return'] = $lexeme['return'];
+                    $maxLenType = max($maxLenType, strlen($lexeme['return']));
+                }
+
+                if (isset($lexeme['type'])){
+                    $lexeme['type'] = empty($lexeme['type']) ? '' : $this->classNameNormalization($lexeme['type'], $sourceCodeContent);
+                    $lexemes[$lexemeType][$lexemeIndex]['type'] = $lexeme['type'];
+                    $maxLenType = max($maxLenType, strlen($lexeme['type']));
+                }
             }
         }
 
@@ -555,12 +615,42 @@ class Mapper extends ConsoleLauncher{
         $doc .= " * Class ".$this->objectReflection->getShortName()." \n";
         $doc .= " * \n";
 
-        foreach ($lexemes as $lexemeItem) {
-            if (!empty($lexemeItem)){
-                foreach ($lexemeItem as $index => $lexeme) {
-                    $lexeme[0] = str_pad($lexeme[0], $maxLenTag+2, ' ');
-                    $lexeme[1] = str_pad($lexeme[1], $maxLenReturnType+2, ' ');
-                    $doc .= " * {$lexeme[0]} {$lexeme[1]} {$lexeme[2]} \n";
+        foreach ($lexemes as $lexemeType => $lexemeGroup){
+            if (empty($lexemeGroup)){
+                continue;
+            }
+
+            if (in_array($lexemeType, ['property','property-writable','property-readable'])){
+                foreach ($lexemeGroup as $item){
+                    $tag = str_pad('@'.$lexemeType, $maxLenTag, ' ');
+                    $type = str_pad($item['type'], $maxLenType, ' ');
+                    $doc .= " * {$tag}   {$type}   {$item['var']}\n";
+                }
+                $doc .= " * \n";
+            }
+
+            if (in_array($lexemeType, ['method','method-writable','method-readable'])){
+                foreach ($lexemeGroup as $item){
+                    $tag = str_pad('@method', $maxLenTag, ' ');
+                    $result = str_pad($item['return'], $maxLenType, ' ');
+                    $params = '';
+                    foreach ($item['params'] as $param){
+                        if (!empty($param['type'])){
+                            $param['type'] = explode('|', preg_replace('/\|+/', '|', $param['type']));
+                            foreach ($param['type'] as $paramTypeIndex => $paramTypeItem){
+                                $param['type'][$paramTypeIndex] =  $this->classNameNormalization($paramTypeItem, $sourceCodeContent);
+                            }
+                            $param['type'] = implode('|',$param['type']).' ';
+                        } else {
+                            $param['type'] = '';
+                        }
+                        $params .= $param['type'];
+                        $params .= $param['var'];
+                        $params .= empty($param['default']) ? '' : ' = ' . $param['default'];
+                        $params .= ', ';
+                    }
+                    $params = substr($params,0,-2);
+                    $doc .= " * {$tag}   {$result}   {$item['name']}({$params})\n";
                 }
                 $doc .= " * \n";
             }
@@ -569,29 +659,31 @@ class Mapper extends ConsoleLauncher{
         $doc .= " * @package {$this->objectReflection->getNamespaceName()} \n";
         $doc .= " */";
 
-        $this->applyDoc($modelFile, $doc);
+        $this->applyDoc($sourceCodeFile, $doc);
     }
 
     /**
-     * @param File $modelFile
+     * Sets documentation into class source code.
+     *
+     * @param File $sourceCodeFile
      * @param string $doc
      * @throws Exception
      */
-    protected function applyDoc(File $modelFile, $doc = ''): void
+    protected function applyDoc(File $sourceCodeFile, $doc = ''): void
     {
         $class = $this->objectReflection->getShortName();
-        $content = $modelFile->content();
+        $content = $sourceCodeFile->content();
 
         if (preg_match('/(\/\*\*.*?\*\/)\s*class\s+('.$class.')/s', $content, $match)){
             $content = Str::replaceFirst($match[1], $doc, $content);
-            $modelFile->put($content);
+            $sourceCodeFile->put($content);
             $this->message("{$class}: OK");
             return;
         }
 
         if (preg_match('/class\s+'.$class.'/s', $content, $match)){
             $content = Str::replaceFirst($match[0], "{$doc}\n{$match[0]}", $content);
-            $modelFile->put($content);
+            $sourceCodeFile->put($content);
             $this->message("{$class}: OK");
             return;
         }

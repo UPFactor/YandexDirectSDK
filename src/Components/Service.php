@@ -57,7 +57,8 @@ abstract class Service
      * @param mixed ...$arguments
      * @return static
      */
-    public static function make(Session $session, ...$arguments){
+    public static function make(Session $session, ...$arguments)
+    {
         return new static($session, ...$arguments);
     }
 
@@ -93,7 +94,7 @@ abstract class Service
      *
      * @param string $method
      * @param array $arguments
-     * @return null
+     * @return mixed
      * @throws ServiceException
      */
     public function __call($method, $arguments)
@@ -117,7 +118,7 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function call($method, $params = array())
+    public function call($method, $params = array()): Result
     {
         return $this->session->call($this->serviceName, $method, $params);
     }
@@ -127,7 +128,7 @@ abstract class Service
      *
      * @return string
      */
-    public function getServiceName()
+    public function getServiceName(): string
     {
         return $this->serviceName;
     }
@@ -157,7 +158,7 @@ abstract class Service
      *
      * @return array
      */
-    public function getMethodsMeta()
+    public function getMethodsMeta(): array
     {
         return $this->serviceMethods;
     }
@@ -168,7 +169,8 @@ abstract class Service
      * @param mixed ...$arguments
      * @return void
      */
-    protected function initialize(...$arguments){}
+    protected function initialize(...$arguments): void
+    {}
 
     /**
      * Gets an array of identifiers from the passed source.
@@ -177,7 +179,8 @@ abstract class Service
      * @param string $container
      * @return array
      */
-    protected function extractIds($source, $container = 'id'){
+    protected function extractIds($source, $container = 'id'): array
+    {
         if ($source instanceof ModelInterface){
             $keys = [$source->{$container}];
         } elseif ($source instanceof ModelCollectionInterface) {
@@ -202,7 +205,7 @@ abstract class Service
      * @return ModelCollectionInterface
      * @throws ServiceException
      */
-    protected function bind($owner, $related, $foreignKey, $ownerKey = 'id')
+    protected function bind($owner, $related, $foreignKey, $ownerKey = 'id'): ModelCollectionInterface
     {
         $keys = $this->extractIds($owner, $ownerKey);
         $elements = [];
@@ -250,7 +253,7 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function addModel(string $methodName, ModelInterface $model)
+    protected function addModel(string $methodName, ModelInterface $model): Result
     {
         $result = $this->call($methodName, $model->toArray(Model::IS_ADDABLE));
         return $result->setResource(
@@ -272,7 +275,7 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null)
+    protected function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
@@ -309,7 +312,8 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function updateModel(string $methodName, ModelInterface $model){
+    protected function updateModel(string $methodName, ModelInterface $model): Result
+    {
         $result = $this->call($methodName, $model->toArray(Model::IS_UPDATABLE));
         return $result->setResource(
             $model
@@ -330,7 +334,8 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null){
+    protected function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
+    {
         if ($collection instanceof ModelInterface){
             if (is_null($modelCollection = $collection->getCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
@@ -363,7 +368,8 @@ abstract class Service
      * @param Closure|null $queryHandler
      * @return QueryBuilder
      */
-    protected function selectionElements(string $methodName, $queryHandler = null){
+    protected function selectionElements(string $methodName, $queryHandler = null): QueryBuilder
+    {
 
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
@@ -396,7 +402,8 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty){
+    protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
+    {
         if ($elements instanceof ModelCommonInterface){
 
             if ($elements instanceof ModelCollectionInterface){
@@ -436,7 +443,8 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function actionByIds(string $methodName, $elements){
+    protected function actionByIds(string $methodName, $elements): Result
+    {
         return $this->actionByProperty($methodName, $elements, 'id', 'Ids');
     }
 
