@@ -5,23 +5,12 @@ namespace YandexDirectSDKTest\Examples;
 
 
 use PHPUnit\Framework\TestCase;
-use YandexDirectSDK\Collections\AdGroups;
-use YandexDirectSDK\Collections\Bids;
-use YandexDirectSDK\Collections\BidsAuto;
-use YandexDirectSDK\Collections\Campaigns;
-use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Collections\TurboPages;
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
-use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
-use YandexDirectSDK\Models\AdGroup;
-use YandexDirectSDK\Models\BidAuto;
-use YandexDirectSDK\Models\Campaign;
-use YandexDirectSDK\Models\Keyword;
 use YandexDirectSDK\Models\TurboPage;
 use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\SessionTools;
