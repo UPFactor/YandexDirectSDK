@@ -111,7 +111,8 @@ class TextAd extends Model
         'displayUrlPathModeration' => 'object:' . ExtensionModeration::class,
         'adExtensionIds' => 'stack:integer',
         'adExtensions' => 'object:' . AdExtensionsAd::class,
-        'videoExtension' => 'object:' . VideoExtension::class
+        'videoExtension' => 'object:' . VideoExtension::class,
+        'priceExtension' => 'object:' . PriceExtension::class
     ];
 
     protected $nonAddableProperties = [
