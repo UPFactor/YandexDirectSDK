@@ -743,6 +743,7 @@ class BidModifiersExamplesTest extends TestCase
     /**
      * @depends testAddBidModifiers_byService
      *
+     * @param BidModifiers $bidModifiers
      * @return void
      */
     public function testDeleteBidModifiers(BidModifiers $bidModifiers)

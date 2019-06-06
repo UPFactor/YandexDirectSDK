@@ -32,6 +32,7 @@ use YandexDirectSDK\Models\DynamicTextCampaignStrategy;
 use YandexDirectSDK\Models\Keyword;
 use YandexDirectSDK\Models\RegionalAdjustment;
 use YandexDirectSDK\Models\StrategyMaximumClicks;
+use YandexDirectSDK\Models\StrategyMaximumConversionRate;
 use YandexDirectSDK\Models\StrategyNetworkDefault;
 use YandexDirectSDK\Models\TextCampaign;
 use YandexDirectSDK\Models\TextCampaignNetworkStrategy;
@@ -332,6 +333,63 @@ class CampaignsExamplesTest extends TestCase
         $this->assertTrue($result->warnings->isEmpty());
         $this->assertIsArray($array);
         $this->assertInstanceOf(Data::class, $data);
+        $this->assertInstanceOf(Campaigns::class, $campaigns);
+
+        return $campaigns;
+    }
+
+    /**
+     * @return Campaigns
+     * @throws InvalidArgumentException
+     * @throws ModelCollectionException
+     */
+    public function testAddConversionCampaigns_byService(){
+        $session = self::$session;
+
+        // Demo =====================================================================
+
+        /**
+         * Add a campaign to Yandex.Direct.
+         * @var Result $result
+         */
+        $result = $session->getCampaignsService()->add(
+            Campaigns::make()->push(
+                Campaign::make()
+                    ->setName('MyConversionCampaign')
+                    ->setStartDate('2019-10-01')
+                    ->setEndDate('2019-10-10')
+                    ->setTextCampaign(
+                        TextCampaign::make()
+                            ->setBiddingStrategy(
+                                TextCampaignStrategy::make()
+                                    ->setSearch(
+                                        TextCampaignSearchStrategy::make()
+                                            ->setBiddingStrategyType('WB_MAXIMUM_CONVERSION_RATE')
+                                            ->setWbMaximumConversionRate(
+                                                StrategyMaximumConversionRate::make()
+                                                    ->setWeeklySpendLimit(300000000)
+                                                    ->setGoalId(123456789)
+                                            )
+                                    )
+                                    ->setNetwork(
+                                        TextCampaignNetworkStrategy::make()
+                                            ->setBiddingStrategyType('NETWORK_DEFAULT')
+                                            ->setNetworkDefault(StrategyNetworkDefault::make())
+                                    )
+                            )
+                    )
+                    ->setNegativeKeywords(['set','negative','keywords'])
+            )
+        );
+
+        /**
+         * Convert result to campaigns collection.
+         * @var Campaigns $campaigns
+         */
+        $campaigns = $result->getResource();
+
+        // End Demo =====================================================================
+
         $this->assertInstanceOf(Campaigns::class, $campaigns);
 
         return $campaigns;

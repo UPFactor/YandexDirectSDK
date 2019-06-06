@@ -310,14 +310,21 @@ class Mapper extends ConsoleLauncher{
                 case 'enum': $resultType = 'string'; break;
                 case 'set': $resultType = 'string[]'; break;
                 case 'array':
-
                     if (!empty($property['meta']) and is_array($property['meta'])){
                         $resultType = implode('[]|',$property['meta']).'[]';
+                    } else {
+                        $resultType = 'array';
                     }
                     break;
 
                 case 'object':
                     $resultType = is_null($property['meta']) ? 'object' : $property['meta'];
+                    break;
+
+                case 'custom':
+                    if (!empty($property['meta']) and is_array($property['meta'])){
+                        $resultType = implode('|',$property['meta']);
+                    }
                     break;
 
                 default: $resultType = $property['type'];
@@ -587,6 +594,8 @@ class Mapper extends ConsoleLauncher{
         $maxLenTag = 0;
         $maxLenType = 0;
 
+
+
         foreach ($lexemes as $lexemeType => $lexemeGroup){
 
             if (empty($lexemeGroup)){
@@ -638,16 +647,7 @@ class Mapper extends ConsoleLauncher{
                     $result = str_pad($item['return'], $maxLenType, ' ');
                     $params = '';
                     foreach ($item['params'] as $param){
-                        if (!empty($param['type'])){
-                            $param['type'] = explode('|', preg_replace('/\|+/', '|', $param['type']));
-                            foreach ($param['type'] as $paramTypeIndex => $paramTypeItem){
-                                $param['type'][$paramTypeIndex] =  $this->classNameNormalization($paramTypeItem, $sourceCodeContent);
-                            }
-                            $param['type'] = implode('|',$param['type']).' ';
-                        } else {
-                            $param['type'] = '';
-                        }
-                        $params .= $param['type'];
+                        $params .= empty($param['type']) ? '' : $this->classNameNormalization($param['type'], $sourceCodeContent) . ' ';
                         $params .= $param['var'];
                         $params .= empty($param['default']) ? '' : ' = ' . $param['default'];
                         $params .= ', ';
@@ -727,6 +727,15 @@ class Mapper extends ConsoleLauncher{
 
         if (empty($class) or empty($content)){
             return $class;
+        }
+
+        if (strpos($class, '|') !== false){
+            $class = preg_replace('/\|+/', '|', $class);
+            $class = explode('|', $class);
+            foreach ($class as $classIndex => $classItem){
+                $class[$classIndex] = $this->classNameNormalization($classItem, $content);
+            }
+            return implode('|', $class);
         }
 
         if (preg_match('/use.*?' . preg_quote($class) . '\s*(?:as\s+([\w+]+))?;[^\;]/s', $content, $matches)) {

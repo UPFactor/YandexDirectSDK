@@ -142,7 +142,8 @@ class ModelTest extends TestCase
      * @param $expected
      * @throws ModelException
      */
-    public function testInsert($model, $value, $expected){
+    public function testInsert($model, $value, $expected)
+    {
         $model->insert(['test' => $value]);
         $actual = $model->getPropertyValue('test');
 
@@ -165,26 +166,26 @@ class ModelTest extends TestCase
             [ModelTools::create(['properties' => ['test' => 'string']]),   [1,2,3],                [1,2,3]],
             [ModelTools::create(['properties' => ['test' => 'string']]),   ['Items' => [1,2,3]],   ['Items' => [1,2,3]]],
 
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         true,                                       null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         false,                                      null],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         true,                                       'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         false,                                      'object'],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         null,                                       null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         '',                                         null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         'string',                                   null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         0,                                          null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         123,                                        null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         [1,2,3],                                    null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         ['Items' => [1,2,3]],                       null],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         '',                                         'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         'string',                                   'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         0,                                          'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         123,                                        'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         [1,2,3],                                    'object'],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         ['Items' => [1,2,3]],                       'object'],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelTools::class]]),         ['propString' => 'string'],                 ['PropString' => 'string']],
             [ModelTools::create(['properties' => ['test' => 'arrayOfObject:'.ModelTools::class]]),  ['propString' => 'string'],                 null],
             [ModelTools::create(['properties' => ['test' => 'arrayOfObject:'.ModelTools::class]]),  ['Items' => ['propString' => 'string']],    ['Items' => ['PropString' => 'string']]],
 
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           true,                                       null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           false,                                      null],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           true,                                       []],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           false,                                      []],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           null,                                       null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           '',                                         null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           'string',                                   null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           0,                                          null],
-            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           123,                                        null],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           '',                                         []],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           'string',                                   []],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           0,                                          []],
+            [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           123,                                        []],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           [1,2,3],                                    [[],[],[]]],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           ['Items' => [1,2,3]],                       [[]]],
             [ModelTools::create(['properties' => ['test' => 'object:'.ModelCollectionTools::class]]),           ['propString' => 'string'],                 [[]]],
@@ -202,11 +203,16 @@ class ModelTest extends TestCase
      * @param $value
      * @param $expected
      */
-    public function testToArray($model, $value, $expected){
+    public function testToArray($model, $value, $expected)
+    {
         $model->insert(['test' => $value]);
         $actual = $model->toArray()['Test'];
 
-        $this->assertSame($expected, $actual);
+        if (is_object($actual)){
+            $this->assertEquals('object', $expected);
+        } else {
+            $this->assertSame($expected, $actual);
+        }
     }
 
 

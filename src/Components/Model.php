@@ -10,7 +10,6 @@ use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
 /**
  * Class Model
@@ -147,6 +146,9 @@ abstract class Model implements ModelInterface
                     $propertyType = 'object';
                     $propertyUseItemsSubarray = true;
                     $propertyTypeMeta = empty($propertyTypeMeta) ? null : $propertyTypeMeta;
+                    break;
+                case 'custom':
+                    $propertyTypeMeta = empty($propertyTypeMeta) ? [] : explode(',', $propertyTypeMeta);
                     break;
             }
 
@@ -293,13 +295,13 @@ abstract class Model implements ModelInterface
                 continue;
             }
 
-            if ($value instanceof ModelCommonInterface){
+            if ($value instanceof ModelInterface){
                 $value = $value->toArray($filters);
-
                 if (empty($value)){
-                    $properties[ucfirst($name)] = null;
-                    continue;
+                    $value = (object) $value;
                 }
+            } elseif ($value instanceof ModelCollectionInterface){
+                $value = $value->toArray($filters);
             }
 
             if ($this->properties[$name]['items']){
@@ -459,6 +461,11 @@ abstract class Model implements ModelInterface
             throw ModelException::make(static::class.". Property [{$propertyName}] is not writable.");
         }
 
+        if ($propertyMeta['type'] === 'custom'){
+            $this->{'setter'.ucfirst($propertyName)}($value, $propertyName, $propertyMeta);
+            return $this;
+        }
+
         if (is_null($value) or $propertyMeta['type'] === 'mixed'){
             $this->modelData[$propertyName] = $value;
             return $this;
@@ -564,6 +571,10 @@ abstract class Model implements ModelInterface
 
         if ($propertyMeta['readable'] === false){
             throw ModelException::make(static::class.". Property [{$propertyName}] is not readable.");
+        }
+
+        if ($propertyMeta['type'] === 'custom'){
+            return $this->{'getter'.ucfirst($propertyName)}($propertyName, $propertyMeta);
         }
 
         return $this->modelData[$propertyName] ?? null;
