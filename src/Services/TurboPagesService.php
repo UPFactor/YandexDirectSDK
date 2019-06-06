@@ -9,8 +9,6 @@ use YandexDirectSDK\Models\TurboPage;
 /** 
  * Class TurboPagesService 
  * 
- * @method   QueryBuilder   query()
- * 
  * @package YandexDirectSDK\Services 
  */ 
 class TurboPagesService extends Service 
@@ -21,7 +19,18 @@ class TurboPagesService extends Service
 
     protected $serviceModelCollectionClass = TurboPages::class;
 
-    protected $serviceMethods = [
-        'query' => 'get:selectionElements'
-    ];
+    protected $serviceMethods = [];
+
+    /**
+     * @return QueryBuilder
+     */
+    public function query() : QueryBuilder
+    {
+        return $this->selectionElements('get', function($query){
+            if (empty($query['SelectionCriteria'])){
+                unset($query['SelectionCriteria']);
+            }
+            return $query;
+        });
+    }
 }
