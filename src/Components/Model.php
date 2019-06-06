@@ -288,18 +288,18 @@ abstract class Model implements ModelInterface
                 continue;
             }
 
-            if ($value instanceof ModelCommonInterface){
-                $value = $value->toArray($filters);
-            }
-
-            if (is_numeric($value)){
-                $properties[ucfirst($name)] = $value;
-                continue;
-            }
-
-            if (empty($value)){
+            if (is_null($value)){
                 $properties[ucfirst($name)] = null;
                 continue;
+            }
+
+            if ($value instanceof ModelCommonInterface){
+                $value = $value->toArray($filters);
+
+                if (empty($value)){
+                    $properties[ucfirst($name)] = null;
+                    continue;
+                }
             }
 
             if ($this->properties[$name]['items']){
@@ -363,33 +363,39 @@ abstract class Model implements ModelInterface
                 $value = $value['Items'] ?? null;
             }
 
-            if ($this->properties[$name]['type'] !== 'object'){
+            if (is_null($value)){
                 $this->modelData[$name] = $value;
                 continue;
             }
 
-            $propertyObject = $this->properties[$name]['meta'];
-            $propertyObject = new $propertyObject();
+            if ($this->properties[$name]['type'] === 'object'){
+                $propertyObject = $this->properties[$name]['meta'];
+                $propertyObject = new $propertyObject();
 
-            if ($propertyObject instanceof ModelInterface){
-                $propertyObject->insert($value);
+                if ($propertyObject instanceof ModelInterface){
+
+                    $propertyObject->insert($value);
+
+                } elseif ($propertyObject instanceof ModelCollectionInterface){
+
+                    if (is_array($value)) {
+                        foreach ($value as $item) {
+                            $propertyObject->push(
+                                $propertyObject
+                                    ->getCompatibleModel()
+                                    ->insert($item)
+                            );
+                        }
+                    }
+
+                }
+
                 $this->modelData[$name] = $propertyObject;
                 continue;
             }
 
-            if ($propertyObject instanceof ModelCollectionInterface){
-                if (is_array($value)) {
-                    foreach ($value as $item) {
-                        $propertyObject->push(
-                            $propertyObject
-                                ->getCompatibleModel()
-                                ->insert($item)
-                        );
-                    }
-                }
-
-                $this->modelData[$name] = $propertyObject;
-            }
+            $this->modelData[$name] = $value;
+            continue;
         }
 
         return $this;
