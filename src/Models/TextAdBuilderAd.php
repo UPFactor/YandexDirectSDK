@@ -6,14 +6,20 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TextAdBuilderAd 
  * 
- * @property          AdBuilderAd   $creative
- * @property          string        $href
+ * @property            AdBuilderAd           $creative
+ * @property            string                $href
+ * @property            integer               $turboPageId
  * 
- * @method            $this         setCreative(AdBuilderAd $creative)
- * @method            $this         setHref(string $href)
+ * @property-readable   TurboPageModeration   $turboPageModeration
  * 
- * @method            AdBuilderAd   getCreative()
- * @method            string        getHref()
+ * @method              $this                 setCreative(AdBuilderAd $creative)
+ * @method              $this                 setHref(string $href)
+ * @method              $this                 setTurboPageId(integer $turboPageId)
+ * 
+ * @method              AdBuilderAd           getCreative()
+ * @method              string                getHref()
+ * @method              integer               getTurboPageId()
+ * @method              TurboPageModeration   getTurboPageModeration()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -25,6 +25,8 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * @method              QueryBuilder   query()
  * @method              Result         resume()
  * @method              Result         suspend()
+ * @method              Result         setRelatedContextBids($contextBid)
+ * @method              Result         setRelatedStrategyPriority($strategyPriority)
  * 
  * @method              $this          setId(integer $id)
  * @method              $this          setAdGroupId(integer $adGroupId)
@@ -57,7 +59,9 @@ class AudienceTarget extends Model
         'delete' => AudienceTargetsService::class,
         'query' => AudienceTargetsService::class,
         'resume' => AudienceTargetsService::class,
-        'suspend' => AudienceTargetsService::class
+        'suspend' => AudienceTargetsService::class,
+        'setRelatedContextBids' => AudienceTargetsService::class,
+        'setRelatedStrategyPriority' => AudienceTargetsService::class
     ];
 
     protected $properties = [

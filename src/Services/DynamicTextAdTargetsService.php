@@ -67,7 +67,7 @@ class DynamicTextAdTargetsService extends Service
                     WebpageBid::make()
                         ->setId($id)
                         ->setBid($bid)
-                        ->setContextBid( $contextBid)
+                        ->setContextBid($contextBid)
                 );
             }
         } else {
@@ -142,7 +142,7 @@ class DynamicTextAdTargetsService extends Service
     /**
      * Sets bids and priorities for targeting conditions for dynamic ads.
      *
-     * @param integer|integer[]|WebpageBid|WebpageBids|ModelCommonInterface $webpageBids
+     * @param WebpageBid|WebpageBids|ModelCommonInterface $webpageBids
      * @return Result
      * @throws InvalidArgumentException
      * @throws RequestException

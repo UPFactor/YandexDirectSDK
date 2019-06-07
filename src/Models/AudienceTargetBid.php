@@ -3,8 +3,6 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\AudienceTargetBids;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Services\AudienceTargetsService;
 
 /** 
  * Class AudienceTargetBid 
@@ -14,8 +12,6 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * @property          integer   $campaignId
  * @property          integer   $contextBid
  * @property          string    $strategyPriority
- * 
- * @method            Result    setBids()
  * 
  * @method            $this     setId(integer $id)
  * @method            $this     setAdGroupId(integer $adGroupId)
@@ -38,10 +34,6 @@ class AudienceTargetBid extends Model
     const HIGH = 'HIGH';
 
     protected $compatibleCollection = AudienceTargetBids::class;
-
-    protected $serviceProvidersMethods = [
-        'setBids' => AudienceTargetsService::class
-    ];
 
     protected $properties = [
         'id' => 'integer',

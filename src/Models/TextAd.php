@@ -11,6 +11,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @property            string                $title2
  * @property            string                $text
  * @property            string                $mobile
+ * @property            integer               $turboPageId
  * @property            string                $href
  * @property            string                $ageLabel
  * @property            integer               $vCardId
@@ -20,7 +21,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @property            string                $displayUrlPath
  * @property            integer[]             $adExtensionIds
  * @property            VideoExtension        $videoExtension
+ * @property            PriceExtension        $priceExtension
  * 
+ * @property-readable   TurboPageModeration   $turboPageModeration
  * @property-readable   string                $displayDomain
  * @property-readable   ExtensionModeration   $vCardModeration
  * @property-readable   ExtensionModeration   $adImageModeration
@@ -32,6 +35,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @method              $this                 setTitle2(string $title2)
  * @method              $this                 setText(string $text)
  * @method              $this                 setMobile(string $mobile)
+ * @method              $this                 setTurboPageId(integer $turboPageId)
  * @method              $this                 setHref(string $href)
  * @method              $this                 setAgeLabel(string $ageLabel)
  * @method              $this                 setVCardId(integer $vCardId)
@@ -41,11 +45,14 @@ use YandexDirectSDK\Components\Model as Model;
  * @method              $this                 setDisplayUrlPath(string $displayUrlPath)
  * @method              $this                 setAdExtensionIds(integer[] $adExtensionIds)
  * @method              $this                 setVideoExtension(VideoExtension $videoExtension)
+ * @method              $this                 setPriceExtension(PriceExtension $priceExtension)
  * 
  * @method              string                getTitle()
  * @method              string                getTitle2()
  * @method              string                getText()
  * @method              string                getMobile()
+ * @method              integer               getTurboPageId()
+ * @method              TurboPageModeration   getTurboPageModeration()
  * @method              string                getHref()
  * @method              string                getDisplayDomain()
  * @method              string                getAgeLabel()
@@ -61,6 +68,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @method              integer[]             getAdExtensionIds()
  * @method              AdExtensionsAd        getAdExtensions()
  * @method              VideoExtension        getVideoExtension()
+ * @method              PriceExtension        getPriceExtension()
  * 
  * @package YandexDirectSDK\Models 
  */ 
