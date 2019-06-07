@@ -17,6 +17,11 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  * @property-read ModelInterface|ModelCollectionInterface       $resource
  * @property-read integer                                       $code
  * @property-read array                                         $header
+ * @property-read string                                        $requestId
+ * @property-read integer                                       $unitsSpent
+ * @property-read integer                                       $unitsBalance
+ * @property-read integer                                       $unitsLimit
+ * @property-read string                                        $unitsUsedLogin
  * @property-read Data                                          $errors
  * @property-read Data                                          $warnings
  *
@@ -34,7 +39,7 @@ class Result
     /**
      * Response code.
      *
-     * @var int
+     * @var integer
      */
     protected $code = 0;
 
@@ -44,6 +49,44 @@ class Result
      * @var array
      */
     protected $header = [];
+
+    /**
+     * Unique request ID.
+     *
+     * @var string
+     */
+    protected $requestId = '';
+
+    /**
+     * The number of units spent on the request.
+     *
+     * @var integer
+     */
+    protected $unitsSpent = 0;
+
+    /**
+     * The balance of units from the daily limit.
+     *
+     * @var integer
+     */
+    protected $unitsBalance = 0;
+
+    /**
+     * Daily limit units.
+     *
+     * @var integer
+     */
+    protected $unitsLimit = 0;
+
+    /**
+     * The login of the advertiser’s representative, if the advertiser’s
+     * units are spent during the execution of the request, or the agency’s
+     * representative’s login, if the agency’s units are spent during
+     * the execution of the request.
+     *
+     * @var string
+     */
+    protected $unitsUsedLogin = '';
 
     /**
      * Result of the API response.
@@ -72,12 +115,6 @@ class Result
      * @var Data
      */
     protected $warnings;
-
-    /**
-     * Create Result instance.
-     *
-     * @param resource $resource
-     */
 
     /**
      * Result constructor.
@@ -130,6 +167,11 @@ class Result
         return array(
             'code' => $this->code,
             'header' => $this->header,
+            'requestId' => $this->requestId,
+            'unitsSpent' => $this->unitsSpent,
+            'unitsBalance' => $this->unitsBalance,
+            'unitsLimit' => $this->unitsLimit,
+            'unitsUsedLogin' => $this->unitsUsedLogin,
             'data' => $this->data->all(),
             'errors' => $this->errors->all(),
             'warnings' => $this->warnings->all()
@@ -164,6 +206,55 @@ class Result
     public function getHeader()
     {
         return $this->header;
+    }
+
+    /**
+     * Returns unique request ID.
+     *
+     * @return string
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * Returns number of units spent on the request.
+     *
+     * @return int
+     */
+    public function getUnitsSpent(){
+        return $this->unitsSpent;
+    }
+
+    /**
+     * Returns balance of units from the daily limit.
+     *
+     * @return int
+     */
+    public function getUnitsBalance(){
+        return $this->unitsBalance;
+    }
+
+    /**
+     * Returns daily limit units.
+     *
+     * @return int
+     */
+    public function getUnitsLimit(){
+        return $this->unitsLimit;
+    }
+
+    /**
+     * Returns login of the advertiser’s representative, if the advertiser’s
+     * units are spent during the execution of the request, or the agency’s
+     * representative’s login, if the agency’s units are spent during
+     * the execution of the request.
+     *
+     * @return string
+     */
+    public function getUnitsUsedLogin(){
+        return $this->unitsUsedLogin;
     }
 
     /**
@@ -247,6 +338,16 @@ class Result
                 $item = explode(":", $item, 2);
                 $this->header[trim($item[0])] = trim($item[1]);
             }
+        }
+
+        $this->requestId = (string) $this->header['RequestId'] ?? '';
+        $this->unitsUsedLogin = (string) $this->header['Units-Used-Login'] ?? '';
+
+        if (isset($this->header['Units'])){
+            $units = explode('/', $this->header['Units']);
+            $this->unitsSpent = (integer) $units[0] ?? 0;
+            $this->unitsBalance = (integer) $units[1] ?? 0;
+            $this->unitsLimit = (integer) $units[2] ?? 0;
         }
     }
 

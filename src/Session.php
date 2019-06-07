@@ -4,7 +4,6 @@ namespace YandexDirectSDK;
 
 use Exception;
 use YandexDirectSDK\Common\File;
-use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
@@ -531,17 +530,20 @@ class Session
             'Content-Type: application/json; charset=utf-8'
         ));
 
-        $this->requestLogging($url, $params);
+        $requestID = str_replace(['.',' '], '', microtime());
+
+        $this->requestLogging($requestID, $url, $params);
 
         try {
             $result = new Result($curl);
         } catch (RequestException $exception){
-            $this->exceptionLogging($exception);
+            $this->exceptionLogging($requestID, $exception);
             throw $exception;
         }
 
-        $this->errorLogging($result->errors);
-        $this->warningLogging($result->warnings);
+        $this->responseLogging($requestID, $result);
+        $this->errorLogging($requestID, $result);
+        $this->warningLogging($requestID, $result);
 
         return $result;
     }
@@ -549,37 +551,56 @@ class Session
     /**
      * Logging information about the request.
      *
+     * @param string $requestID
      * @param string $url
      * @param string $params
-     * @throws RuntimeException
      */
-    protected function requestLogging($url, $params): void
+    protected function requestLogging($requestID, $url, $params): void
     {
         if (is_null($this->logFile)){
             return;
         }
 
         try {
-            $this->logFile->append(date('Y-m-d H:i:s') . "\trequest\tsandbox:{$this->useSandbox}\tclient:{$this->client}\turl:{$url}\tparams:{$params}\n");
+            $this->logFile->append("{$requestID}\t" . date('Y-m-d H:i:s') . "\trequest\tsandbox:{$this->useSandbox}\tclient:{$this->client}\turl:{$url}\tparams:{$params}\n");
         } catch (Exception $error) {
             throw RuntimeException::make(static::class."::requestLogging. {$error->getMessage()}");
         }
     }
 
     /**
-     * Logging information about fatal errors.
+     * Logging information about the response.
      *
-     * @param Exception $exception
-     * @throws RuntimeException
+     * @param string $requestID
+     * @param Result $result
      */
-    protected function exceptionLogging(Exception $exception): void
+    protected function responseLogging($requestID, Result $result): void
     {
         if (is_null($this->logFile)){
             return;
         }
 
         try {
-            $this->logFile->append(date('Y-m-d H:i:s') . "\tfatal error\tsandbox:{$this->useSandbox}\tclient:{$this->client}\tcode:{$exception->getCode()}\tmessage:{$exception->getMessage()}\n");
+            $this->logFile->append("{$requestID}\t" . date('Y-m-d H:i:s') . "\tresponse\tsandbox:{$this->useSandbox}\tclient:{$this->client}\trequestId:{$result->requestId}\terrors:{$result->errors->count()}\twarnings:{$result->warnings->count()}\tunitsUsedLogin:{$result->unitsUsedLogin}\tunitsSpent:{$result->unitsSpent}\tunitsBalance:{$result->unitsBalance}\tunitsLimit:{$result->unitsLimit}\n");
+        } catch (Exception $error) {
+            throw RuntimeException::make(static::class."::responseLogging. {$error->getMessage()}");
+        }
+    }
+
+    /**
+     * Logging information about fatal errors.
+     *
+     * @param string $requestID
+     * @param Exception $exception
+     */
+    protected function exceptionLogging($requestID, Exception $exception): void
+    {
+        if (is_null($this->logFile)){
+            return;
+        }
+
+        try {
+            $this->logFile->append("{$requestID}\t" . date('Y-m-d H:i:s') . "\tfatal error\tsandbox:{$this->useSandbox}\tclient:{$this->client}\tcode:{$exception->getCode()}\tmessage:{$exception->getMessage()}\n");
         } catch (Exception $error) {
             throw RuntimeException::make(static::class."::exceptionLogging. {$error->getMessage()}");
         }
@@ -588,19 +609,19 @@ class Session
     /**
      * Logging error information when executing a request.
      *
-     * @param Data $error
-     * @throws RuntimeException
+     * @param string $requestID
+     * @param Result $result
      */
-    protected function errorLogging(Data $error): void
+    protected function errorLogging($requestID, Result $result): void
     {
-        if (is_null($this->logFile) or $error->isEmpty()){
+        if (is_null($this->logFile) or $result->errors->isEmpty()){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\terror\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
+        $line = "{$requestID}\t" . date('Y-m-d H:i:s') . "\terror\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
         $content = '';
 
-        $error->each(function($errors) use ($line, &$content){
+        $result->errors->each(function($errors) use ($line, &$content){
             foreach ($errors as $error){
                 $message = "{$error['message']}." . (empty($error['detail']) ? '' : "{$error['detail']}.");
                 $content .= "{$line}\tcode:{$error['code']}\tmessage:{$message}\n";
@@ -611,27 +632,27 @@ class Session
             if (!empty($content)) {
                 $this->logFile->append($content);
             }
-        } catch (Exception $error) {
-            throw RuntimeException::make(static::class."::errorLogging. {$error->getMessage()}");
+        } catch (Exception $result) {
+            throw RuntimeException::make(static::class."::errorLogging. {$result->getMessage()}");
         }
     }
 
     /**
      * Logging warning information when executing a request.
      *
-     * @param Data $warning
-     * @throws RuntimeException
+     * @param string $requestID
+     * @param Result $result
      */
-    protected function warningLogging(Data $warning): void
+    protected function warningLogging($requestID, Result $result): void
     {
-        if (is_null($this->logFile) or $warning->isEmpty()){
+        if (is_null($this->logFile) or $result->warnings->isEmpty()){
             return;
         }
 
-        $line = date('Y-m-d H:i:s') . "\twarning\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
+        $line = "{$requestID}\t" . date('Y-m-d H:i:s') . "\twarning\tsandbox:{$this->useSandbox}\tclient:{$this->client}";
         $content = '';
 
-        $warning->each(function($warnings) use ($line, &$content){
+        $result->warnings->each(function($warnings) use ($line, &$content){
             foreach ($warnings as $warning){
                 $message = "{$warning['message']}." . (empty($warning['detail']) ? '' : "{$warning['detail']}.");
                 $content .= "{$line}\tcode:{$warning['code']}\tmessage:{$message}\n";
