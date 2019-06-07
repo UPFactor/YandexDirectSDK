@@ -19,6 +19,7 @@ use YandexDirectSDK\Services\BidsService;
 use YandexDirectSDK\Services\CampaignsService;
 use YandexDirectSDK\Services\ChangesService;
 use YandexDirectSDK\Services\ClientsService;
+use YandexDirectSDK\Services\CreativesService;
 use YandexDirectSDK\Services\DictionariesService;
 use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 use YandexDirectSDK\Services\KeywordBidsService;
@@ -469,6 +470,16 @@ class Session
     public function getLeadsService(): LeadsService
     {
         return new LeadsService($this);
+    }
+
+    /**
+     * Returns a new instance of the service-provider [CreativesService].
+     *
+     * @return CreativesService
+     */
+    public function getCreativesService(): CreativesService
+    {
+        return new CreativesService($this);
     }
 
     /**
