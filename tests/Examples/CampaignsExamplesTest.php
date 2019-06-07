@@ -346,6 +346,8 @@ class CampaignsExamplesTest extends TestCase
     public function testAddConversionCampaigns_byService(){
         $session = self::$session;
 
+        $this->markTestIncomplete('Missing target ID. Testing is possible only on a real account.');
+
         // Demo =====================================================================
 
         /**
