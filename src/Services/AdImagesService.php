@@ -7,6 +7,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
@@ -39,6 +40,7 @@ class AdImagesService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function delete($adImages):Result
     {

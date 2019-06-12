@@ -15,6 +15,7 @@ use YandexDirectSDK\Models\Ad;
  * 
  * @method   Result         add(Ad|Ads|ModelCommonInterface $ads)
  * @method   QueryBuilder   query()
+ * @method   Ad|Ads|null    find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
  * @method   Result         update(Ad|Ads|ModelCommonInterface $ads)
  * @method   Result         archive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
  * @method   Result         delete(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
@@ -36,6 +37,7 @@ class AdsService extends Service
     protected $serviceMethods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'update' => 'update:updateCollection',
         'archive' => 'archive:actionByIds',
         'delete' => 'delete:actionByIds',

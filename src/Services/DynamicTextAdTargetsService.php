@@ -9,6 +9,7 @@ use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -19,11 +20,12 @@ use YandexDirectSDK\Models\WebpageBid;
 /** 
  * Class DynamicTextAdTargetsService 
  * 
- * @method   Result         add(Webpage|Webpages|ModelCommonInterface $webpages)
- * @method   QueryBuilder   query()
- * @method   Result         delete(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
- * @method   Result         resume(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
- * @method   Result         suspend(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   Result                  add(Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   QueryBuilder            query()
+ * @method   Webpage|Webpages|null   find(integer|integer[]|Webpage|Webpages|ModelCommonInterface $ids, string[] $fields)
+ * @method   Result                  delete(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   Result                  resume(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method   Result                  suspend(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -38,6 +40,7 @@ class DynamicTextAdTargetsService extends Service
     protected $serviceMethods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds',
         'resume' => 'resume:actionByIds',
         'suspend' => 'suspend:actionByIds'
@@ -55,6 +58,7 @@ class DynamicTextAdTargetsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      * @throws ModelCollectionException
+     * @throws ModelException
      */
     public function setRelatedBids($webpages, $bid, $contextBid = null):Result
     {
@@ -94,6 +98,7 @@ class DynamicTextAdTargetsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
+     * @throws ModelException
      */
     public function setRelatedContextBids($webpages, $contextBid):Result
     {
@@ -122,6 +127,7 @@ class DynamicTextAdTargetsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
+     * @throws ModelException
      */
     public function setRelatedStrategyPriority($webpages, string $strategyPriority):Result
     {

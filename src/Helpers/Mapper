@@ -563,6 +563,22 @@ class Mapper extends ConsoleLauncher{
                     $params = [];
                     break;
 
+                case 'selectionByIds':
+                    $return = $serviceModelClass.'|'.$serviceModelCollectionClass.'|null';
+                    $params = [
+                        [
+                            'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
+                            'var' => '$ids',
+                            'default' => ''
+                        ],
+                        [
+                            'type' => 'string[]',
+                            'var' => '$fields',
+                            'default' => ''
+                        ]
+                    ];
+                    break;
+
                 default:
                     $this->warning("Service provider [{$this->objectReflection->name}] declares an unknown type of method [{$method['type']}].");
                     continue;
@@ -738,7 +754,7 @@ class Mapper extends ConsoleLauncher{
             return implode('|', $class);
         }
 
-        if (preg_match('/use.*?' . preg_quote($class) . '\s*(?:as\s+([\w+]+))?;[^\;]/s', $content, $matches)) {
+        if (preg_match('/use\s+\\\\?' . preg_quote($class) . '\s*(?:as\s+([\w+]+))?;[^;]/is', $content, $matches)) {
             if (!empty($matches[1])){
                 return $matches[1];
             }

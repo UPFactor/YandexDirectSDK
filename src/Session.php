@@ -112,7 +112,7 @@ class Session
      *
      * @param string $token
      * @param array $options
-     * @return Session
+     * @return static
      * @throws RuntimeException
      */
     public static function make(string $token, array $options = [])

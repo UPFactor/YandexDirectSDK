@@ -1,19 +1,22 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use Exception;
 use YandexDirectSDK\Collections\AdImages;
+use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Services\AdImagesService;
 
 /** 
  * Class AdImage 
  * 
- * @property            string         $adImageHash
  * @property            string         $imageData
  * @property            string         $name
  * 
+ * @property-readable   string         $adImageHash
  * @property-readable   string         $associated
  * @property-readable   string         $type
  * @property-readable   string         $subtype
@@ -24,7 +27,6 @@ use YandexDirectSDK\Services\AdImagesService;
  * @method              Result         add()
  * @method              Result         delete()
  * 
- * @method              $this          setAdImageHash(string $adImageHash)
  * @method              $this          setImageData(string $imageData)
  * @method              $this          setName(string $name)
  * 
@@ -66,6 +68,7 @@ class AdImage extends Model
     ];
 
     protected $nonWritableProperties = [
+        'adImageHash',
         'associated',
         'type',
         'subtype',
@@ -73,4 +76,46 @@ class AdImage extends Model
         'previewUrl'
     ];
 
+    /**
+     * @var string|null
+     */
+    public $imageFile;
+
+    /**
+     * @param string $name
+     * @param string $imageFile
+     * @return AdImage
+     * @throws ModelException
+     */
+    public static function image(string $name, string $imageFile)
+    {
+        return static::make()
+            ->setName($name)
+            ->setImageFile($imageFile);
+    }
+
+    /**
+     * @param string $imageFile
+     * @return $this
+     * @throws ModelException
+     */
+    public function setImageFile(string $imageFile)
+    {
+        try {
+            $this->modelData['imageData'] = File::bind($imageFile)->base64();
+            $this->imageFile = $imageFile;
+        } catch (Exception $error){
+            throw ModelException::make($error->getMessage(), $error->getCode());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
 }

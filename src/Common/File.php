@@ -128,6 +128,16 @@ class File extends FileInfo
     }
 
     /**
+     * Encode base64 file.
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function base64(){
+        return base64_encode($this->content());
+    }
+
+    /**
      * Open file.
      *
      * @param string $mode

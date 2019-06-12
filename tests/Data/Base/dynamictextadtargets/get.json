@@ -1,0 +1,22 @@
+{
+  "result": {
+    "Webpages": [{
+      "Id": 123,
+      "AdGroupId": 1234,
+      "CampaignId": 12345,
+      "Name": "My DynamicTextAdTargets",
+      "Bid": 100000000,
+      "ContextBid": 10000000,
+      "StrategyPriority": "LOW",
+      "State": "ON",
+      "StatusClarification": "Status description",
+      "Conditions": [{
+        "Operand": "DOMAIN",
+        "Operator": "EQUALS_ANY",
+        "Arguments": ["mysite.com", "yandex.com" ]
+      }],
+      "ConditionType": "PAGES_ALL"
+    }],
+    "LimitedBy": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "result": {
+    "Creatives": [{
+      "Id": 1234,
+      "Type": "IMAGE_CREATIVE",
+      "Name": "Creative",
+      "PreviewUrl": "https://yandex.com",
+      "Width": 100,
+      "Height": 200,
+      "ThumbnailUrl": "https://mysite.com/thumbnail.png",
+      "Associated": "YES",
+      "VideoExtensionCreative": {
+        "Duration": 60
+      },
+      "CpcVideoCreative": {
+        "Duration": 60
+      },
+      "CpmVideoCreative": {
+        "Duration": 60
+      }
+    }],
+    "LimitedBy": 100
+  }
+}

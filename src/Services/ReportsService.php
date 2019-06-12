@@ -592,10 +592,10 @@ class ReportsService extends Service
     }
 
     /**
-     * Run an API request.
-     *
      * @return Result
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws RequestException
+     * @throws RuntimeException
      */
     public function get()
     {

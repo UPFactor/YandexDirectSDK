@@ -10,6 +10,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -21,12 +22,13 @@ use YandexDirectSDK\Models\Keyword;
 /** 
  * Class KeywordsService 
  * 
- * @method   Result         add(Keyword|Keywords|ModelCommonInterface $keywords)
- * @method   Result         delete(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
- * @method   QueryBuilder   query()
- * @method   Result         resume(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
- * @method   Result         suspend(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
- * @method   Result         update(Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method   Result                  add(Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method   Result                  delete(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method   QueryBuilder            query()
+ * @method   Keyword|Keywords|null   find(integer|integer[]|Keyword|Keywords|ModelCommonInterface $ids, string[] $fields)
+ * @method   Result                  resume(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method   Result                  suspend(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method   Result                  update(Keyword|Keywords|ModelCommonInterface $keywords)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -42,6 +44,7 @@ class KeywordsService extends Service
         'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'resume' => 'resume:actionByIds',
         'suspend' => 'suspend:actionByIds',
         'update' => 'update:updateCollection',
@@ -58,6 +61,7 @@ class KeywordsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelCollectionException
+     * @throws ModelException
      */
     public function setRelatedBids($keywords, $bid, $contextBid = null):Result
     {
@@ -96,6 +100,7 @@ class KeywordsService extends Service
      * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function setRelatedContextBids($keywords, $contextBid):Result
     {
@@ -123,6 +128,7 @@ class KeywordsService extends Service
      * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function setRelatedStrategyPriority($keywords, string $strategyPriority):Result
     {
@@ -150,6 +156,7 @@ class KeywordsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
+     * @throws ModelException
      */
     public function setRelatedBidsAuto($keywords, ModelCommonInterface $bidsAuto): Result
     {
@@ -166,6 +173,7 @@ class KeywordsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedBids($keywords, array $fields): Result
     {

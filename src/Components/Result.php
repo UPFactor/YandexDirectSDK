@@ -340,14 +340,14 @@ class Result
             }
         }
 
-        $this->requestId = (string) $this->header['RequestId'] ?? '';
-        $this->unitsUsedLogin = (string) $this->header['Units-Used-Login'] ?? '';
+        $this->requestId = (string) ($this->header['RequestId'] ?? '');
+        $this->unitsUsedLogin = (string) ($this->header['Units-Used-Login'] ?? '');
 
         if (isset($this->header['Units'])){
             $units = explode('/', $this->header['Units']);
-            $this->unitsSpent = (integer) $units[0] ?? 0;
-            $this->unitsBalance = (integer) $units[1] ?? 0;
-            $this->unitsLimit = (integer) $units[2] ?? 0;
+            $this->unitsSpent = (integer) ($units[0] ?? 0);
+            $this->unitsBalance = (integer) ($units[1] ?? 0);
+            $this->unitsLimit = (integer) ($units[2] ?? 0);
         }
     }
 

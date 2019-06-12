@@ -13,6 +13,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -25,8 +26,9 @@ use YandexDirectSDK\Models\BidModifierToggle;
 /** 
  * Class BidModifiersService 
  * 
- * @method   Result         delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
- * @method   QueryBuilder   query()
+ * @method   Result                          delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
+ * @method   QueryBuilder                    query()
+ * @method   BidModifier|BidModifiers|null   find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -40,7 +42,8 @@ class BidModifiersService extends Service
 
     protected $serviceMethods = [
         'delete' => 'delete:actionByIds',
-        'query' => 'get:selectionElements'
+        'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds'
     ];
 
     /**
@@ -163,6 +166,7 @@ class BidModifiersService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
+     * @throws ModelException
      */
     public function set($bidModifiers, int $value = null): Result
     {

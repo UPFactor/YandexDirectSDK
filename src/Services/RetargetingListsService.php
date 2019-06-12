@@ -12,10 +12,11 @@ use YandexDirectSDK\Models\RetargetingList;
 /** 
  * Class RetargetingListsService 
  * 
- * @method   Result         add(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
- * @method   Result         delete(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
- * @method   QueryBuilder   query()
- * @method   Result         update(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method   Result                                  add(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method   Result                                  delete(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method   QueryBuilder                            query()
+ * @method   RetargetingList|RetargetingLists|null   find(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $ids, string[] $fields)
+ * @method   Result                                  update(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -31,6 +32,7 @@ class RetargetingListsService extends Service
         'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'update' => 'update:updateCollection'
     ];
 }

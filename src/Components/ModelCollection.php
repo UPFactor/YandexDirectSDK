@@ -223,16 +223,16 @@ abstract class ModelCollection implements ModelCollectionInterface
     public function extract($properties)
     {
         if (is_string($properties)){
-            return Arr::map($this->items, function($model) use ($properties){
-                return $model->{$properties};
+            return Arr::map($this->items, function(ModelInterface $model) use ($properties){
+                return $model->getPropertyValue($properties);
             });
         }
 
         if (is_array($properties)){
-            return Arr::map($this->items, function($model) use ($properties){
+            return Arr::map($this->items, function(ModelInterface $model) use ($properties){
                 $result = [];
                 foreach ($properties as $property){
-                    $result[$property] = $model->{$property};
+                    $result[$property] = $model->getPropertyValue($property);
                 }
                 return $result;
             });

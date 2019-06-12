@@ -9,6 +9,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -19,11 +20,12 @@ use YandexDirectSDK\Models\AudienceTargetBid;
 /** 
  * Class AudienceTargetsService 
  * 
- * @method   Result         add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   QueryBuilder   query()
- * @method   Result         delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   Result         resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   Result         suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   Result                                add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   QueryBuilder                          query()
+ * @method   AudienceTarget|AudienceTargets|null   find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
+ * @method   Result                                delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   Result                                resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method   Result                                suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -38,6 +40,7 @@ class AudienceTargetsService extends Service
     protected $serviceMethods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds',
         'resume' => 'resume:actionByIds',
         'suspend' => 'suspend:actionByIds'
@@ -54,6 +57,7 @@ class AudienceTargetsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
+     * @throws ModelException
      */
     public function setRelatedContextBids($audienceTargets, $contextBid):Result
     {
@@ -82,6 +86,7 @@ class AudienceTargetsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      * @throws ModelCollectionException
+     * @throws ModelException
      */
     public function setRelatedStrategyPriority($audienceTargets, $strategyPriority):Result
     {

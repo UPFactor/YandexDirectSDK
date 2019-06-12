@@ -65,11 +65,11 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = new AdGroups([$adGroup1, $adGroup2, $adGroup3]);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $adGroupCollection);
         $this->assertSame([$adGroup1, $adGroup2, $adGroup3], $adGroupCollection->all());
@@ -83,11 +83,11 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $adGroupCollection);
         $this->assertSame([$adGroup1, $adGroup2, $adGroup3], $adGroupCollection->all());
@@ -101,11 +101,11 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::make($adGroup1, $adGroup2, $adGroup3);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $adGroupCollection);
         $this->assertSame([$adGroup1, $adGroup2, $adGroup3], $adGroupCollection->all());
@@ -117,7 +117,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testInsert()
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $rawCollection = [
             [
@@ -145,7 +145,7 @@ class ModelCollectionExamplesTest extends TestCase
 
         $adGroupCollection = AdGroups::make()->insert($rawCollection);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertSame(
             $adGroupCollection->toArray(),
@@ -161,12 +161,12 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
         $adGroupCollection->all(); // array of AdGroup models
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals($this->getAdGroupsModels(), $adGroupCollection->all());
     }
@@ -179,12 +179,12 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
         $adGroupCollection->count(); // 3
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals(3, $adGroupCollection->count());
     }
@@ -197,7 +197,7 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollectionEmpty = AdGroups::wrap([]);
         $adGroupCollectionFull = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
@@ -205,7 +205,7 @@ class ModelCollectionExamplesTest extends TestCase
         $adGroupCollectionEmpty->isEmpty(); // true
         $adGroupCollectionFull->isEmpty(); // false
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertTrue($adGroupCollectionEmpty->isEmpty());
         $this->assertFalse($adGroupCollectionFull->isEmpty());
@@ -217,7 +217,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testIsEmpty_CallbackFunction()
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([]);
 
@@ -233,7 +233,7 @@ class ModelCollectionExamplesTest extends TestCase
         $adGroupCollection->isEmpty(); // false;
         $adGroupCollection->count(); // 1;
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertFalse($adGroupCollection->isEmpty());
         $this->assertEquals(1, $adGroupCollection->count());
@@ -247,7 +247,7 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollectionEmpty = AdGroups::wrap([]);
         $adGroupCollectionFull = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
@@ -255,7 +255,7 @@ class ModelCollectionExamplesTest extends TestCase
         $adGroupCollectionEmpty->isNotEmpty(); // false
         $adGroupCollectionFull->isNotEmpty(); // true
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertFalse($adGroupCollectionEmpty->isNotEmpty());
         $this->assertTrue($adGroupCollectionFull->isNotEmpty());
@@ -279,7 +279,7 @@ class ModelCollectionExamplesTest extends TestCase
 
         $adGroupCollection->isNotEmpty(); //false
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertFalse($adGroupCollection->isNotEmpty());
     }
@@ -309,7 +309,7 @@ class ModelCollectionExamplesTest extends TestCase
         $names = $adGroupCollection->extract('name');
         $namesAndCampaignIds = $adGroupCollection->extract(['name','campaignId']);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals(
             ['MyAdGroup_1','MyAdGroup_2'],
@@ -329,7 +329,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testFirst()
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroup1 = AdGroup::make()
             ->setCampaignId(5561)
@@ -355,7 +355,7 @@ class ModelCollectionExamplesTest extends TestCase
             $adGroupFirstModel->getName(); // MyAdGroup_1
         }
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals('MyAdGroup_1', $adGroupFirstModel->getName());
 
@@ -369,7 +369,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testFirst_CallbackFunction($adGroupCollection)
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         /** @var AdGroup $adGroupFirstModel */
         $adGroupFirstModel = $adGroupCollection->first(function(AdGroup $model){
@@ -380,7 +380,7 @@ class ModelCollectionExamplesTest extends TestCase
             $adGroupFirstModel->getName(); // MyAdGroup_2
         }
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals('MyAdGroup_2', $adGroupFirstModel->getName());
     }
@@ -392,7 +392,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testLast()
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroup1 = AdGroup::make()
             ->setCampaignId(5561)
@@ -418,7 +418,7 @@ class ModelCollectionExamplesTest extends TestCase
             $adGroupFirstModel->getName(); // MyAdGroup_3
         }
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals('MyAdGroup_3', $adGroupFirstModel->getName());
 
@@ -432,7 +432,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testLast_CallbackFunction($adGroupCollection)
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         /** @var AdGroup $adGroupFirstModel */
         $adGroupFirstModel = $adGroupCollection->last(function(AdGroup $model){
@@ -443,7 +443,7 @@ class ModelCollectionExamplesTest extends TestCase
             $adGroupFirstModel->getName(); // MyAdGroup_2
         }
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals('MyAdGroup_2', $adGroupFirstModel->getName());
 
@@ -467,7 +467,7 @@ class ModelCollectionExamplesTest extends TestCase
         // Returns [$adGroup2, $adGroup3]
         $adGroupCollection->all();
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertSame($adGroup1, $adGroupFirstModel);
         $this->assertSame([$adGroup2, $adGroup3], $adGroupCollection->all());
@@ -491,7 +491,7 @@ class ModelCollectionExamplesTest extends TestCase
         // Returns [$adGroup1, $adGroup2]
         $adGroupCollection->all();
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertSame($adGroup3, $adGroupFirstModel);
         $this->assertSame([$adGroup1, $adGroup2], $adGroupCollection->all());
@@ -515,7 +515,7 @@ class ModelCollectionExamplesTest extends TestCase
         // Returns AdGroups[$adGroup1]
         $collection2 = $adGroupCollection->initial(2);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $collection1);
         $this->assertNotSame($adGroupCollection, $collection1);
@@ -545,7 +545,7 @@ class ModelCollectionExamplesTest extends TestCase
         // Returns AdGroups[$adGroup3]
         $collection2 = $adGroupCollection->tail(2);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $collection1);
         $this->assertNotSame($adGroupCollection, $collection1);
@@ -564,7 +564,7 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
 
@@ -577,7 +577,7 @@ class ModelCollectionExamplesTest extends TestCase
         // Returns AdGroups[$adGroup2, $adGroup3]
         $collection3 = $adGroupCollection->slice(1,2);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $collection1);
         $this->assertNotSame($adGroupCollection, $collection1);
@@ -600,12 +600,12 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $originalCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
         $copyCollection = $originalCollection->copy();
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $copyCollection);
         $this->assertNotSame($originalCollection, $copyCollection);
@@ -620,14 +620,14 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
 
         //Returns "9f622f737999e219536793b9c09513ff7b2e803d"
         $adGroupCollection->hash();
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertEquals('9f622f737999e219536793b9c09513ff7b2e803d', $adGroupCollection->hash());
 
@@ -646,12 +646,12 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection = AdGroups::make();
         $adGroupCollection->push($adGroup1)->push($adGroup2)->push($adGroup3);
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertSame([$adGroup1, $adGroup2, $adGroup3], $adGroupCollection->all());
     }
@@ -664,7 +664,7 @@ class ModelCollectionExamplesTest extends TestCase
     {
         list($adGroup1, $adGroup2, $adGroup3) = $this->getAdGroupsModels();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $originalCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
 
@@ -673,7 +673,7 @@ class ModelCollectionExamplesTest extends TestCase
             return $newModel;
         });
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $newCollection);
         $this->assertNotSame($originalCollection, $newCollection);
@@ -691,13 +691,13 @@ class ModelCollectionExamplesTest extends TestCase
         $adGroupCollection = AdGroups::wrap([$adGroup1, $adGroup2, $adGroup3]);
         $hash = $adGroupCollection->hash();
 
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroupCollection->each(function(AdGroup $model, $key){
             $model->setName($model->name . ' key: ' . $key);
         });
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertNotEquals($hash, $adGroupCollection->hash());
     }
@@ -708,7 +708,7 @@ class ModelCollectionExamplesTest extends TestCase
      */
     public function testFilter()
     {
-        // Demo =====================================================================
+        // DEMO =====================================================================
 
         $adGroup1 = AdGroup::make()
             ->setCampaignId(5561)
@@ -732,7 +732,7 @@ class ModelCollectionExamplesTest extends TestCase
             return $model->campaignId === 5562;
         });
 
-        // End Demo =================================================================
+        // ==========================================================================
 
         $this->assertInstanceOf(AdGroups::class, $newCollection);
         $this->assertNotSame($originalCollection, $newCollection);

@@ -13,6 +13,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -28,14 +29,15 @@ use YandexDirectSDK\Models\Campaign;
 /** 
  * Class CampaignsService 
  * 
- * @method   Result         add(Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   QueryBuilder   query()
- * @method   Result         update(Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   Result         archive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   Result         delete(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   Result         resume(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   Result         suspend(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
- * @method   Result         unarchive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    add(Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   QueryBuilder              query()
+ * @method   Campaign|Campaigns|null   find(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $ids, string[] $fields)
+ * @method   Result                    update(Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    archive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    delete(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    resume(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    suspend(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method   Result                    unarchive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -50,6 +52,7 @@ class CampaignsService extends Service
     protected $serviceMethods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
+        'find' => 'get:selectionByIds',
         'update' => 'update:updateCollection',
         'archive' => 'archive:actionByIds',
         'delete' => 'delete:actionByIds',
@@ -65,6 +68,7 @@ class CampaignsService extends Service
      * @param AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @return Result
      * @throws ServiceException
+     * @throws ModelException
      */
     public function addRelatedAdGroups($campaigns, ModelCommonInterface $adGroups): Result
     {
@@ -81,6 +85,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedAdGroups($campaigns, array $fields): Result
     {
@@ -99,6 +104,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedAds($campaigns, array $fields): Result
     {
@@ -117,6 +123,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedAudienceTargets($campaigns, array $fields): Result
     {
@@ -137,6 +144,7 @@ class CampaignsService extends Service
      * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function setRelatedBids($campaigns, $bid, $contextBid = null):Result
     {
@@ -175,6 +183,7 @@ class CampaignsService extends Service
      * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function setRelatedContextBids($campaigns, $contextBid):Result
     {
@@ -202,6 +211,7 @@ class CampaignsService extends Service
      * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function setRelatedStrategyPriority($campaigns, string $strategyPriority):Result
     {
@@ -229,6 +239,7 @@ class CampaignsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      * @throws RequestException
+     * @throws ModelException
      */
     public function setRelatedBidsAuto($campaigns, ModelCommonInterface $bidsAuto): Result
     {
@@ -245,6 +256,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedBids($campaigns, array $fields): Result
     {
@@ -266,6 +278,7 @@ class CampaignsService extends Service
      * @throws RuntimeException
      * @throws ServiceException
      * @throws ReflectionException
+     * @throws ModelException
      */
     public function addRelatedBidModifiers($campaigns, ModelCommonInterface $bidModifiers): Result
     {
@@ -284,6 +297,7 @@ class CampaignsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelCollectionException
+     * @throws ModelException
      */
     public function enableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -312,6 +326,7 @@ class CampaignsService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelCollectionException
+     * @throws ModelException
      */
     public function disableBidModifiers($campaigns, string $bidModifierType): Result
     {
@@ -335,10 +350,10 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @param array $levels
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedBidModifiers($campaigns, array $fields): Result
     {
@@ -357,6 +372,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedKeywords($campaigns, array $fields): Result
     {
@@ -374,6 +390,7 @@ class CampaignsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
+     * @throws ModelException
      */
     public function getRelatedWebpages($campaigns, array $fields): Result
     {

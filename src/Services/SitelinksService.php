@@ -12,8 +12,9 @@ use YandexDirectSDK\Models\SitelinksSet;
 /** 
  * Class SitelinksService 
  * 
- * @method   Result   add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
- * @method   Result   delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method   Result                            add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method   Result                            delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method   SitelinksSet|SitelinksSets|null   find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -27,7 +28,8 @@ class SitelinksService extends Service
 
     protected $serviceMethods = [
         'add' => 'add:addCollection',
-        'delete' => 'delete:actionByIds'
+        'delete' => 'delete:actionByIds',
+        'find' => 'get:selectionByIds'
     ];
 
     /**

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit bootstrap="../vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="Examples">
+            <file>Examples/ModelCollectionExamplesTest.php</file>
+
+            <file>Examples/Campaigns/ServiceExamplesTest.php</file>
+            <file>Examples/Campaigns/ModelExamplesTest.php</file>
+            <file>Examples/Campaigns/CollectionExamplesTest.php</file>
+
+            <file>Examples/AdGroups/ServiceExamplesTest.php</file>
+            <file>Examples/AdGroups/ModelExamplesTest.php</file>
+            <file>Examples/AdGroups/CollectionExamplesTest.php</file>
+
+            <file>Examples/Ads/ServiceExamplesTest.php</file>
+            <file>Examples/Ads/ModelExamplesTest.php</file>
+            <file>Examples/Ads/CollectionExamplesTest.php</file>
+
+            <file>Examples/Keywords/ServiceExamplesTest.php</file>
+            <file>Examples/Keywords/ModelExamplesTest.php</file>
+            <file>Examples/Keywords/CollectionExamplesTest.php</file>
+
+            <file>Examples/Sitelinks/ServiceExamplesTest.php</file>
+            <file>Examples/Sitelinks/ModelExamplesTest.php</file>
+            <file>Examples/Sitelinks/CollectionExamplesTest.php</file>
+
+            <file>Examples/Bids/ServiceExamplesTest.php</file>
+            <file>Examples/Bids/ModelExamplesTest.php</file>
+            <file>Examples/Bids/CollectionExamplesTest.php</file>
+
+            <file>Examples/BidModifiers/ServiceExamplesTest.php</file>
+            <file>Examples/BidModifiers/ModelExamplesTest.php</file>
+            <file>Examples/BidModifiers/CollectionExamplesTest.php</file>
+
+            <file>Examples/DynamicTextAdTargets/ServiceExamplesTest.php</file>
+            <file>Examples/DynamicTextAdTargets/ModelExamplesTest.php</file>
+            <file>Examples/DynamicTextAdTargets/CollectionExamplesTest.php</file>
+
+            <file>Examples/TurboPages/ServiceExamplesTest.php</file>
+            <file>Examples/TurboPages/ModelExamplesTest.php</file>
+            <file>Examples/TurboPages/CollectionExamplesTest.php</file>
+
+            <file>Examples/Creatives/ServiceExamplesTest.php</file>
+            <file>Examples/Creatives/ModelExamplesTest.php</file>
+            <file>Examples/Creatives/CollectionExamplesTest.php</file>
+
+            <file>Examples/Leads/ServiceExamplesTest.php</file>
+            <file>Examples/Leads/ModelExamplesTest.php</file>
+            <file>Examples/Leads/CollectionExamplesTest.php</file>
+
+        </testsuite>
+    </testsuites>
+</phpunit>

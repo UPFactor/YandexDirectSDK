@@ -4,10 +4,13 @@ namespace YandexDirectSDK\Services;
 use YandexDirectSDK\Collections\TurboPages;
 use YandexDirectSDK\Components\Service; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\TurboPage;
 
 /** 
  * Class TurboPagesService 
+ * 
+ * @method   TurboPage|TurboPages|null   find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */ 
@@ -19,7 +22,9 @@ class TurboPagesService extends Service
 
     protected $serviceModelCollectionClass = TurboPages::class;
 
-    protected $serviceMethods = [];
+    protected $serviceMethods = [
+        'find' => 'get:selectionByIds'
+    ];
 
     /**
      * @return QueryBuilder

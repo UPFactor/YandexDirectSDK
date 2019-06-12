@@ -5,6 +5,7 @@ namespace YandexDirectSDK\Components;
 use Closure;
 use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -99,13 +100,10 @@ abstract class Service
      */
     public function __call($method, $arguments)
     {
-        $method = $this->serviceMethods[$method] ?? null;
-
-        if (is_null($method)){
+        if (!isset($this->serviceMethods[$method])){
             throw ServiceException::make(static::class.". Method [{$method}] is missing.");
         }
-
-        return $this->{$method['type']}($method['name'], ...$arguments);
+        return $this->{$this->serviceMethods[$method]['type']}($this->serviceMethods[$method]['name'], ...$arguments);
     }
 
     /**
@@ -178,11 +176,12 @@ abstract class Service
      * @param string|string[]|integer|integer[]|ModelCommonInterface $source
      * @param string $container
      * @return array
+     * @throws ModelException
      */
     protected function extractIds($source, $container = 'id'): array
     {
         if ($source instanceof ModelInterface){
-            $keys = [$source->{$container}];
+            $keys = [$source->getPropertyValue($container)];
         } elseif ($source instanceof ModelCollectionInterface) {
             $keys = $source->extract($container);
         } else {
@@ -204,6 +203,7 @@ abstract class Service
      * @param string $ownerKey
      * @return ModelCollectionInterface
      * @throws ServiceException
+     * @throws ModelException
      */
     protected function bind($owner, $related, $foreignKey, $ownerKey = 'id'): ModelCollectionInterface
     {
@@ -370,7 +370,6 @@ abstract class Service
      */
     protected function selectionElements(string $methodName, $queryHandler = null): QueryBuilder
     {
-
         if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
         }
@@ -391,6 +390,50 @@ abstract class Service
     }
 
     /**
+     * @param string $methodName
+     * @param $elements
+     * @param array $fields
+     * @return ModelInterface|ModelCollectionInterface|null
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws ModelException
+     */
+    protected function selectionByIds(string $methodName, $elements, array $fields)
+    {
+        if ($elements instanceof ModelCommonInterface){
+
+            if ($elements instanceof ModelCollectionInterface){
+                $elements = $elements
+                    ->setSession($this->session)
+                    ->extract('id');
+            } elseif ($elements instanceof ModelInterface){
+                $elements = $elements
+                    ->setSession($this->session)
+                    ->getPropertyValue('id');
+            } else {
+                throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
+            }
+
+        } elseif (!is_array($elements)) {
+
+            $elements = [$elements];
+
+        }
+
+        $result = $this->selectionElements($methodName)
+            ->select($fields)
+            ->whereIn('Ids', $elements)
+            ->get()
+            ->getResource();
+
+        if (count($elements) === 1){
+            $result = $result->first();
+        }
+
+        return $result;
+    }
+
+    /**
      * Typical method for action based on object property values.
      *
      * @param string $methodName
@@ -401,27 +444,22 @@ abstract class Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
     {
         if ($elements instanceof ModelCommonInterface){
 
             if ($elements instanceof ModelCollectionInterface){
-
                 $elements = $elements
                     ->setSession($this->session)
                     ->extract($modelProperty);
-
             } elseif ($elements instanceof ModelInterface){
-
                 $elements = $elements
                     ->setSession($this->session)
-                    ->{$modelProperty};
-
+                    ->getPropertyValue($modelProperty);
             } else {
-
                 throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
-
             }
 
         } elseif (!is_array($elements)) {
@@ -442,6 +480,7 @@ abstract class Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
+     * @throws ModelException
      */
     protected function actionByIds(string $methodName, $elements): Result
     {

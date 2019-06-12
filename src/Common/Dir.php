@@ -289,6 +289,17 @@ class Dir extends FileInfo
     }
 
     /**
+     * Retrieve file from directory.
+     *
+     * @param string $filename
+     * @return File
+     * @throws Exception
+     */
+    public function getFile($filename){
+        return (new File($this->realPath() . Str::begin($filename, DIRECTORY_SEPARATOR)));
+    }
+
+    /**
      * Create a new subdirectory in the directory.
      *
      * @param $dirname

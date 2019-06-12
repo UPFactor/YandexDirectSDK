@@ -19,6 +19,7 @@ use YandexDirectSDK\Services\CreativesService;
  * @property-readable   string                   $associated
  * @property-readable   VideoExtensionCreative   $videoExtensionCreative
  * @property-readable   CpcVideoCreative         $cpcVideoCreative
+ * @property-readable   CpmVideoCreative         $cpmVideoCreative
  * 
  * @method              QueryBuilder             query()
  * 
@@ -32,6 +33,7 @@ use YandexDirectSDK\Services\CreativesService;
  * @method              string                   getAssociated()
  * @method              VideoExtensionCreative   getVideoExtensionCreative()
  * @method              CpcVideoCreative         getCpcVideoCreative()
+ * @method              CpmVideoCreative         getCpmVideoCreative()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -53,7 +55,8 @@ class Creative extends Model
         'thumbnailUrl' => 'string',
         'associated' => 'string',
         'videoExtensionCreative' => 'object:' . VideoExtensionCreative::class,
-        'cpcVideoCreative' => 'object:' . CpcVideoCreative::class
+        'cpcVideoCreative' => 'object:' . CpcVideoCreative::class,
+        'cpmVideoCreative' => 'object:' . CpmVideoCreative::class
     ];
 
     protected $nonWritableProperties = [
@@ -66,7 +69,8 @@ class Creative extends Model
         'thumbnailUrl',
         'associated',
         'videoExtensionCreative',
-        'cpcVideoCreative'
+        'cpcVideoCreative',
+        'cpmVideoCreative'
     ];
 
     protected $nonAddableProperties = [

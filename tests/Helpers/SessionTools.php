@@ -3,6 +3,7 @@
 namespace YandexDirectSDKTest\Helpers;
 
 use Exception;
+use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Session;
 
 class SessionTools
@@ -56,5 +57,16 @@ class SessionTools
         } catch (Exception $error){
             die("Failed session init: {$error->getMessage()}");
         }
+    }
+
+    /**
+     * Initialize a new fake session
+     *
+     * @param string $dataPath
+     * @return FakeSession
+     * @throws RuntimeException
+     */
+    public static function fake(string $dataPath){
+        return (new FakeSession(''))->useFakeApi(true, $dataPath);
     }
 }

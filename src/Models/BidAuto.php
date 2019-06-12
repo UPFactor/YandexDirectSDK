@@ -3,8 +3,6 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Services\BidsService;
 
 /** 
  * Class BidAuto 
@@ -18,8 +16,6 @@ use YandexDirectSDK\Services\BidsService;
  * @property          integer    $increasePercent
  * @property          string     $calculateBy
  * @property          integer    $contextCoverage
- * 
- * @method            Result     setAuto()
  * 
  * @method            $this      setCampaignId(integer $campaignId)
  * @method            $this      setAdGroupId(integer $adGroupId)
@@ -63,10 +59,6 @@ class BidAuto extends Model
     const P24 = 'P24';
 
     protected $compatibleCollection = BidsAuto::class;
-
-    protected $serviceProvidersMethods = [
-        'setAuto' => BidsService::class
-    ];
 
     protected $properties = [
         'campaignId' => 'integer',
