@@ -3,39 +3,41 @@
 namespace YandexDirectSDK\Interfaces;
 
 use Closure;
+use Countable;
+use Iterator;
+use SeekableIterator;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
-use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
  * Interface ModelCollection
  *
  * @package YandexDirectSDK\Interfaces
  */
-interface ModelCollection extends ModelCommon
+interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Countable
 {
     /**
      * Create a new collection instance.
      *
-     * @param ModelInterface[] ...$values
+     * @param ModelInterface[] ...$models
      * @return static
      */
-    public static function make(...$values);
+    public static function make(...$models);
 
     /**
      * Create a new collection instance.
      *
-     * @param ModelInterface[]|ModelCollectionInterface $value
+     * @param ModelInterface[]
      * @return static
      */
-    public static function wrap($value);
+    public static function wrap(array $models);
 
     /**
      * Reset the collection.
      *
-     * @param ModelInterface[]|ModelCollectionInterface $value
+     * @param ModelInterface[] $models
      * @return static
      */
-    public function reset($value = []);
+    public function reset(array $models = []);
 
     /**
      * Get all of the items in the collection.

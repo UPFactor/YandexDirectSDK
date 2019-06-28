@@ -16,10 +16,10 @@ trait SessionTrait
     /**
      * Set the session.
      *
-     * @param Session $session
+     * @param Session $session|null
      * @return $this
      */
-    public function setSession(Session $session){
+    public function setSession(Session $session = null){
         $this->session = $session;
         return $this;
     }

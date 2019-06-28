@@ -6,7 +6,6 @@ use Closure;
 use ReflectionClass;
 use ReflectionException;
 use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
@@ -20,14 +19,17 @@ use YandexDirectSDK\Session;
  */
 abstract class ModelCollection implements ModelCollectionInterface
 {
-    use SessionTrait;
-
     /**
      * The models contained in the collection.
      *
      * @var ModelInterface[]
      */
     protected $items = [];
+
+    /**
+     * @var int
+     */
+    protected $position = 0;
 
     /**
      * Compatible class of model.
@@ -55,27 +57,101 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Create a new collection instance.
+     * Rewind the Iterator to the first element
      *
-     * @param mixed ...$models
-     * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
+     * @return void
      */
-    public static function make(...$models){
-        return (new static())->reset($models);
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Return the current element.
+     *
+     * @return ModelInterface
+     */
+    public function current()
+    {
+        return $this->items[$this->position];
+    }
+
+    /**
+     * Move forward to next element.
+     *
+     * @return void
+     */
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    /**
+     * Return the key of the current element.
+     *
+     * @return int
+     */
+    public function key()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Checks if current position is valid.
+     *
+     * @return bool
+     */
+    public function valid()
+    {
+        return isset($this->items[$this->position]);
+    }
+
+    /**
+     * Seeks to a position.
+     *
+     * @param int $position
+     * @return ModelInterface
+     */
+    public function seek($position)
+    {
+        return $this->items[$position];
     }
 
     /**
      * Create a new collection instance.
      *
-     * @param ModelCollectionInterface|ModelInterface[] $models
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
+     * @param ModelInterface ...$models
+     * @return static
      */
-    public function __construct($models = null)
+    public static function make(...$models)
+    {
+        return (new static($models));
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param ModelInterface[] $models
+     * @return static
+     */
+    public static function wrap(array $models)
+    {
+        return (new static($models));
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param ModelInterface[] $models
+     */
+    public function __construct(array $models = null)
     {
         $this->initialize($models);
+
+        if (is_null($this->compatibleModel)){
+            throw ModelCollectionException::make(static::class.". Collection is not serviced.");
+        }
+
         if (!is_null($models)) $this->reset($models);
     }
 
@@ -92,47 +168,55 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Implementing dynamic methods.
      *
-     * @param string  $method
+     * @param string $method
      * @param mixed[] $arguments
-     * @return $this|mixed|null
-     * @throws ModelCollectionException
+     * @return Result
      */
     public function __call($method, $arguments)
     {
-        if (array_key_exists($method, $this->serviceProvidersMethods)){
-            if (!is_null($this->session)){
-                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this, ...$arguments);
-            }
+        return $this->call($method, null, ...$arguments);
+    }
 
-            throw ModelCollectionException::make(static::class.". Failed method [{$method}]. No session to connect.");
+    /**
+     * Implementing dynamic methods.
+     *
+     * @param string $method
+     * @param Session|null $session
+     * @param mixed ...$arguments
+     * @return Result
+     */
+    public function call($method, Session $session = null, ...$arguments)
+    {
+        if (!array_key_exists($method, $this->serviceProvidersMethods)){
+            throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
         }
 
-        throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
+        return (new $this->serviceProvidersMethods[$method]())
+            ->{'setSession'}($session)
+            ->{$method}($this, ...$arguments);
     }
 
     /**
      * Reset the collection.
      *
-     * @param mixed $value
+     * @param ModelInterface[] $models
      * @return $this
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
-    public function reset($value = []){
-        $this->items = $this->dataFusionController($value);
+    public function reset(array $models = [])
+    {
+        $this->items = $this->dataFusionController($models);
         return $this;
     }
 
     /**
-     * Create a new collection instance.
+     * Re-declares the current collection with a new set of elements.
      *
-     * @param mixed $models
+     * @param ModelInterface[] $models
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
-    public static function wrap($models){
-        return (new static())->reset($models);
+    protected function redeclare(array $models = [])
+    {
+        return new static($models);
     }
 
     /**
@@ -149,15 +233,13 @@ abstract class ModelCollection implements ModelCollectionInterface
      * Retrieve copy of the object.
      *
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function copy(){
-        $copy = Arr::map($this->items, function(ModelInterface $item){
-            return $item->copy();
-        });
-
-        return $this->redeclare($copy);
+        return $this->redeclare(
+            Arr::map($this->items, function(ModelInterface $item){
+                return $item->copy();
+            })
+        );
     }
 
     /**
@@ -299,8 +381,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param int $count
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function initial($count = 1)
     {
@@ -313,8 +393,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param int $count
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function tail($count = 1)
     {
@@ -326,17 +404,10 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param ModelInterface $value
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function push($value)
     {
-        $value = $this->dataItemController($value);
-
-        if (!is_null($this->session)){
-            $value->setSession($this->session);
-        }
-
-        array_push($this->items, $value);
+        array_push($this->items, $this->dataItemController($value));
         return $this;
     }
 
@@ -347,8 +418,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param Closure $callable
      * @param null $context
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function map(Closure $callable, $context = null)
     {
@@ -375,8 +444,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param Closure $callable
      * @param null $context
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function filter(Closure $callable, $context = null)
     {
@@ -390,8 +457,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param $offset
      * @param null $length
      * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      */
     public function slice($offset, $length = null)
     {
@@ -403,7 +468,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @param Data|array $source
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function insert($source)
     {
@@ -423,13 +487,9 @@ abstract class ModelCollection implements ModelCollectionInterface
             if (array_key_exists($index, $this->items)){
                 $this->items[$index]->insert($model);
             } else {
-                $model = $this->compatibleModel::make($model);
-
-                if (!is_null($this->session)){
-                    $model->setSession($this->session);
-                }
-
-                $this->push($model);
+                $this->push(
+                    $this->compatibleModel::make($model)
+                );
             }
         }
 
@@ -471,21 +531,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Binds the collection to a session.
-     *
-     * @param Session $session
-     * @return $this
-     */
-    public function setSession(Session $session)
-    {
-        $this->session = $session;
-        foreach ($this->items as $model){
-            $model->setSession($session);
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve instance of compatible models.
      *
      * @return ModelInterface
@@ -514,70 +559,34 @@ abstract class ModelCollection implements ModelCollectionInterface
     protected function initialize($models){}
 
     /**
-     * Re-declares the current collection with a new set of elements.
-     *
-     * @param mixed $value
-     * @return static
-     * @throws InvalidArgumentException
-     * @throws ModelCollectionException
-     */
-    protected function redeclare($value){
-        $collection = (new static())->reset($value);
-
-        if (!is_null($this->session)){
-            $collection->setSession($this->session);
-        }
-
-        return $collection;
-    }
-
-    /**
      * Preprocessor combining collections with data.
      *
-     * @param mixed $data
-     * @return static[]
-     * @throws ModelCollectionException
-     * @throws InvalidArgumentException
+     * @param ModelInterface[] $models
+     * @return ModelInterface[]
      */
-    protected function dataFusionController($data)
+    protected function dataFusionController(array $models)
     {
-        if (is_null($this->compatibleModel)){
-            throw ModelCollectionException::make(static::class.". Collection is not serviced.");
-        }
-
-        if (is_object($data)){
-            if (get_class($data) !== static::class) {
-                throw InvalidArgumentException::invalidType(static::class, 1, static::class."|array of {$this->compatibleModel}", get_class($data));
-            }
-            return $data->all();
-        }
-
-        if (is_array($data)){
-            return Arr::map($data, function($item){
-                return $this->dataItemController($item);
-            });
-        }
-
-        throw InvalidArgumentException::invalidType(static::class, 1, static::class."|array of {$this->compatibleModel}", gettype($data));
+        return Arr::map($models, function($item){
+            return $this->dataItemController($item);
+        });
     }
 
     /**
      * Preprocessor adding new items to the collection.
      *
-     * @param mixed $item
-     * @return static
-     * @throws InvalidArgumentException
+     * @param ModelInterface $model
+     * @return ModelInterface
      */
-    protected function dataItemController($item)
+    protected function dataItemController($model)
     {
-        if (!is_object($item)){
-            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, gettype($item));
+        if (!is_object($model)){
+            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, gettype($model));
         }
 
-        if (get_class($item) !== $this->compatibleModel){
-            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, get_class($item));
+        if (get_class($model) !== $this->compatibleModel){
+            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, get_class($model));
         }
 
-        return $item;
+        return $model;
     }
 }

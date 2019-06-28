@@ -4,12 +4,13 @@ namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
 use ReflectionException;
-use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
+use YandexDirectSDK\Session;
 
 /**
  * Class Model
@@ -17,8 +18,6 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  */
 abstract class Model implements ModelInterface
 {
-    use SessionTrait;
-
     const IS_READABLE = 1 << 0;     // 0001
     const IS_WRITABLE = 1 << 1;     // 0010
     const IS_ADDABLE = 1 << 2;      // 0100
@@ -169,13 +168,21 @@ abstract class Model implements ModelInterface
     }
 
     /**
+     * Returns a string representation of the current model.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+
+    /**
      * Dynamic recording of model property values.
      *
      * @param string $property
      * @param mixed $value
      * @return mixed
-     * @throws InvalidArgumentException
-     * @throws ModelException
      */
     public function __set($property, $value)
     {
@@ -188,7 +195,6 @@ abstract class Model implements ModelInterface
      *
      * @param string $property
      * @return mixed|null
-     * @throws ModelException
      */
     public function __get($property)
     {
@@ -200,18 +206,12 @@ abstract class Model implements ModelInterface
      *
      * @param string $method
      * @param mixed[] $arguments
-     * @return $this|mixed|null
-     * @throws InvalidArgumentException
-     * @throws ModelException
+     * @return $this|null|mixed
      */
     public function __call($method, $arguments)
     {
         if (array_key_exists($method, $this->serviceProvidersMethods)){
-            if (!is_null($this->session)){
-                return (new $this->serviceProvidersMethods[$method]($this->session))->{$method}($this, ...$arguments);
-            }
-
-            throw ModelException::make(static::class.". Failed method [{$method}]. No session to connect.");
+            return $this->call($method, null, ...$arguments);
         }
 
         $action = substr($method, 0, 3);
@@ -229,13 +229,22 @@ abstract class Model implements ModelInterface
     }
 
     /**
-     * Returns a string representation of the current model.
+     * Implementing dynamic methods.
      *
-     * @return string
+     * @param $method
+     * @param Session|null $session
+     * @param mixed ...$arguments
+     * @return Result
      */
-    public function __toString()
+    public function call($method, Session $session = null, ...$arguments)
     {
-        return $this->toJson();
+        if (!array_key_exists($method, $this->serviceProvidersMethods)){
+            throw ModelException::make(static::class.". Method [{$method}] is missing.");
+        }
+
+        return (new $this->serviceProvidersMethods[$method]())
+            ->{'setSession'}($session)
+            ->{$method}($this, ...$arguments);
     }
 
     /**
@@ -244,13 +253,7 @@ abstract class Model implements ModelInterface
      * @return static
      */
     public function copy(){
-        $model = (new static())->insert($this->toArray());
-
-        if (!is_null($this->session)){
-            $model->setSession($this->session);
-        }
-
-        return $model;
+        return (new static())->insert($this->toArray());
     }
 
     /**
@@ -371,28 +374,11 @@ abstract class Model implements ModelInterface
             }
 
             if ($this->properties[$name]['type'] === 'object'){
-                $propertyObject = $this->properties[$name]['meta'];
-                $propertyObject = new $propertyObject();
-
-                if ($propertyObject instanceof ModelInterface){
-
-                    $propertyObject->insert($value);
-
-                } elseif ($propertyObject instanceof ModelCollectionInterface){
-
-                    if (is_array($value)) {
-                        foreach ($value as $item) {
-                            $propertyObject->push(
-                                $propertyObject
-                                    ->getCompatibleModel()
-                                    ->insert($item)
-                            );
-                        }
-                    }
-
+                if (!empty($this->modelData[$name]) and $this->modelData[$name] instanceof ModelCommonInterface){
+                    $this->modelData[$name]->insert($value);
+                } else {
+                    $this->modelData[$name] = (new $this->properties[$name]['meta'])->{'insert'}($value);
                 }
-
-                $this->modelData[$name] = $propertyObject;
                 continue;
             }
 
@@ -446,8 +432,6 @@ abstract class Model implements ModelInterface
      * @param string $propertyName
      * @param mixed  $value
      * @return $this
-     * @throws ModelException
-     * @throws InvalidArgumentException
      */
     public function setPropertyValue($propertyName, $value)
     {
@@ -559,7 +543,6 @@ abstract class Model implements ModelInterface
      *
      * @param string $propertyName
      * @return mixed|null
-     * @throws ModelException
      */
     public function getPropertyValue($propertyName)
     {

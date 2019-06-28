@@ -54,24 +54,21 @@ abstract class Service
     /**
      * Create Service instance.
      *
-     * @param Session $session
      * @param mixed ...$arguments
      * @return static
      */
-    public static function make(Session $session, ...$arguments)
+    public static function make(...$arguments)
     {
-        return new static($session, ...$arguments);
+        return new static(...$arguments);
     }
 
     /**
      * Create Service instance.
      *
-     * @param Session $session
      * @param mixed ...$arguments
      */
-    public function __construct(Session $session, ...$arguments)
+    public function __construct(...$arguments)
     {
-        $this->session = $session;
         $this->initialize(...$arguments);
 
         foreach ($this->serviceMethods as $methodAlias => $methodMeta){
@@ -96,7 +93,6 @@ abstract class Service
      * @param string $method
      * @param array $arguments
      * @return mixed
-     * @throws ServiceException
      */
     public function __call($method, $arguments)
     {
@@ -118,6 +114,9 @@ abstract class Service
      */
     public function call($method, $params = array()): Result
     {
+        if (is_null($this->session) and is_null($this->session = Session::init())){
+            throw ServiceException::make(static::class.". Failed method [{$method}]. No session to connect.");
+        }
         return $this->session->call($this->serviceName, $method, $params);
     }
 
@@ -167,8 +166,7 @@ abstract class Service
      * @param mixed ...$arguments
      * @return void
      */
-    protected function initialize(...$arguments): void
-    {}
+    protected function initialize(...$arguments): void {}
 
     /**
      * Gets an array of identifiers from the passed source.
@@ -238,9 +236,7 @@ abstract class Service
             throw ServiceException::make(static::class.". Failed bind model. Invalid object type to bind. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
         }
 
-        return $related
-            ->setSession($this->session)
-            ->insert($elements);
+        return $related->insert($elements);
     }
 
     /**
@@ -257,9 +253,7 @@ abstract class Service
     {
         $result = $this->call($methodName, $model->toArray(Model::IS_ADDABLE));
         return $result->setResource(
-            $model
-                ->setSession($this->session)
-                ->insert($result->data)
+            $model->insert($result->data)
         );
     }
 
@@ -296,9 +290,7 @@ abstract class Service
         $result = $this->call($methodName, [$addClassName => $collection->toArray(Model::IS_ADDABLE)]);
 
         return $result->setResource(
-            $collection
-                ->setSession($this->session)
-                ->insert($result->data->get($resultClassName))
+            $collection->insert($result->data->get($resultClassName))
         );
     }
 
@@ -316,9 +308,7 @@ abstract class Service
     {
         $result = $this->call($methodName, $model->toArray(Model::IS_UPDATABLE));
         return $result->setResource(
-            $model
-                ->setSession($this->session)
-                ->insert($result->data)
+            $model->insert($result->data)
         );
     }
 
@@ -355,9 +345,7 @@ abstract class Service
         $result = $this->call($methodName, [$updateClassName => $collection->toArray(Model::IS_UPDATABLE)]);
 
         return $result->setResource(
-                $collection
-                    ->setSession($this->session)
-                    ->insert($result->data->get($resultClassName))
+            $collection->insert($result->data->get($resultClassName))
         );
     }
 
@@ -383,7 +371,6 @@ abstract class Service
 
             return $result->setResource(
                 $this->serviceModelCollectionClass::make()
-                    ->setSession($this->session)
                     ->insert($result->data->get($this->serviceModelCollectionClass::getClassName()))
             );
         });
@@ -401,23 +388,15 @@ abstract class Service
     protected function selectionByIds(string $methodName, $elements, array $fields)
     {
         if ($elements instanceof ModelCommonInterface){
-
             if ($elements instanceof ModelCollectionInterface){
-                $elements = $elements
-                    ->setSession($this->session)
-                    ->extract('id');
+                $elements = $elements->extract('id');
             } elseif ($elements instanceof ModelInterface){
-                $elements = $elements
-                    ->setSession($this->session)
-                    ->getPropertyValue('id');
+                $elements = $elements->getPropertyValue('id');
             } else {
                 throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
             }
-
         } elseif (!is_array($elements)) {
-
             $elements = [$elements];
-
         }
 
         $result = $this->selectionElements($methodName)
@@ -449,23 +428,15 @@ abstract class Service
     protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
     {
         if ($elements instanceof ModelCommonInterface){
-
             if ($elements instanceof ModelCollectionInterface){
-                $elements = $elements
-                    ->setSession($this->session)
-                    ->extract($modelProperty);
+                $elements = $elements->extract($modelProperty);
             } elseif ($elements instanceof ModelInterface){
-                $elements = $elements
-                    ->setSession($this->session)
-                    ->getPropertyValue($modelProperty);
+                $elements = $elements->getPropertyValue($modelProperty);
             } else {
                 throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
             }
-
         } elseif (!is_array($elements)) {
-
             $elements = [$elements];
-
         }
 
         return $this->call($methodName, (new QueryBuilder())->whereIn($actionProperty, $elements)->toArray());

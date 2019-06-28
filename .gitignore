@@ -4,3 +4,4 @@
 /tests/Init/
 /tests/Run/
 *.phpunit.result.cache
+*.YDSession

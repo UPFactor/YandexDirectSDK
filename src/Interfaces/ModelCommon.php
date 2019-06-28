@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Interfaces;
 
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Session;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Data;
@@ -18,6 +19,16 @@ interface ModelCommon
      * @return string
      */
     public static function getClassName();
+
+    /**
+     * Implementing dynamic methods.
+     *
+     * @param string $method
+     * @param Session|null $session
+     * @param mixed ...$arguments
+     * @return Result
+     */
+    public function call($method, Session $session = null, ...$arguments);
 
     /**
      * Retrieve copy of the object.

@@ -108,6 +108,23 @@ class Session
     protected $logFile;
 
     /**
+     * @return static|null
+     * @throws RuntimeException
+     */
+    public static function init()
+    {
+        $sessionConf = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'.YDSession';
+        if (file_exists($sessionConf)){
+            $sessionConf = json_decode(@file_get_contents($sessionConf));
+            if (json_last_error() === JSON_ERROR_NONE){
+                return new static(($sessionConf['token'] ?? ''), ($sessionConf['options'] ?? []));
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * Create Session instance.
      *
      * @param string $token
@@ -277,9 +294,9 @@ class Session
      *
      * @return CampaignsService
      */
-    public function getCampaignsService()
+    public function getCampaignsService(): CampaignsService
     {
-        return new CampaignsService($this);
+        return (new CampaignsService())->setSession($this);
     }
 
     /**
@@ -289,7 +306,7 @@ class Session
      */
     public function getAdGroupsService(): AdGroupsService
     {
-        return new AdGroupsService($this);
+        return (new AdGroupsService())->setSession($this);
     }
 
     /**
@@ -299,7 +316,7 @@ class Session
      */
     public function getAdsService(): AdsService
     {
-        return new AdsService($this);
+        return (new AdsService())->setSession($this);
     }
 
     /**
@@ -309,7 +326,7 @@ class Session
      */
     public function getKeywordsService(): KeywordsService
     {
-        return new KeywordsService($this);
+        return (new KeywordsService())->setSession($this);
     }
 
     /**
@@ -319,7 +336,7 @@ class Session
      */
     public function getBidsService(): BidsService
     {
-        return new BidsService($this);
+        return (new BidsService())->setSession($this);
     }
 
     /**
@@ -329,7 +346,7 @@ class Session
      */
     public function getKeywordBidsService(): KeywordBidsService
     {
-        return new KeywordBidsService($this);
+        return (new KeywordBidsService())->setSession($this);
     }
 
     /**
@@ -339,7 +356,7 @@ class Session
      */
     public function getBidModifiersService(): BidModifiersService
     {
-        return new BidModifiersService($this);
+        return (new BidModifiersService())->setSession($this);
     }
 
     /**
@@ -349,7 +366,7 @@ class Session
      */
     public function getAudienceTargetsService(): AudienceTargetsService
     {
-        return new AudienceTargetsService($this);
+        return (new AudienceTargetsService())->setSession($this);
     }
 
     /**
@@ -359,7 +376,7 @@ class Session
      */
     public function getRetargetingListsService(): RetargetingListsService
     {
-        return new RetargetingListsService($this);
+        return (new RetargetingListsService())->setSession($this);
     }
 
     /**
@@ -369,7 +386,7 @@ class Session
      */
     public function getVCardsService(): VCardsService
     {
-        return new VCardsService($this);
+        return (new VCardsService())->setSession($this);
     }
 
     /**
@@ -379,7 +396,7 @@ class Session
      */
     public function getSitelinksService(): SitelinksService
     {
-        return new SitelinksService($this);
+        return (new SitelinksService())->setSession($this);
     }
 
     /**
@@ -389,7 +406,7 @@ class Session
      */
     public function getAdImagesService(): AdImagesService
     {
-        return new AdImagesService($this);
+        return (new AdImagesService())->setSession($this);
     }
 
     /**
@@ -399,7 +416,7 @@ class Session
      */
     public function getAdExtensionsService(): AdExtensionsService
     {
-        return new AdExtensionsService($this);
+        return (new AdExtensionsService())->setSession($this);
     }
 
     /**
@@ -409,7 +426,7 @@ class Session
      */
     public function getDynamicTextAdTargetsService(): DynamicTextAdTargetsService
     {
-        return new DynamicTextAdTargetsService($this);
+        return (new DynamicTextAdTargetsService())->setSession($this);
     }
 
     /**
@@ -419,7 +436,7 @@ class Session
      */
     public function getChangesService(): ChangesService
     {
-        return new ChangesService($this);
+        return (new ChangesService())->setSession($this);
     }
 
     /**
@@ -429,7 +446,7 @@ class Session
      */
     public function getDictionariesService(): DictionariesService
     {
-        return new DictionariesService($this);
+        return (new DictionariesService())->setSession($this);
     }
 
     /**
@@ -439,7 +456,7 @@ class Session
      */
     public function getClientsService(): ClientsService
     {
-        return new ClientsService($this);
+        return (new ClientsService())->setSession($this);
     }
 
     /**
@@ -449,7 +466,7 @@ class Session
      */
     public function getAgencyClientsService(): AgencyClientsService
     {
-        return new AgencyClientsService($this);
+        return (new AgencyClientsService())->setSession($this);
     }
 
     /**
@@ -459,7 +476,7 @@ class Session
      */
     public function getKeywordsResearchService(): KeywordsResearchService
     {
-        return new KeywordsResearchService($this);
+        return (new KeywordsResearchService())->setSession($this);
     }
 
     /**
@@ -469,7 +486,7 @@ class Session
      */
     public function getLeadsService(): LeadsService
     {
-        return new LeadsService($this);
+        return (new LeadsService())->setSession($this);
     }
 
     /**
@@ -479,7 +496,7 @@ class Session
      */
     public function getCreativesService(): CreativesService
     {
-        return new CreativesService($this);
+        return (new CreativesService())->setSession($this);
     }
 
     /**
@@ -489,7 +506,7 @@ class Session
      */
     public function getTurboPagesService(): TurboPagesService
     {
-        return new TurboPagesService($this);
+        return (new TurboPagesService())->setSession($this);
     }
 
     /**
@@ -501,7 +518,7 @@ class Session
      */
     public function getReportsService(string $reportName, string $reportType='CUSTOM_REPORT'): ReportsService
     {
-        return new ReportsService($this, $reportName, $reportType);
+        return (new ReportsService($reportName, $reportType))->setSession($this);
     }
 
     /**
