@@ -108,21 +108,14 @@ class Session
     protected $logFile;
 
     /**
-     * @return static|null
+     * @return static
      * @throws RuntimeException
      */
     public static function init()
     {
-        $sessionConf = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'.YDSession';
-        if (file_exists($sessionConf)){
-            $sessionConf = json_decode(@file_get_contents($sessionConf));
-            if (json_last_error() === JSON_ERROR_NONE){
-                return new static(($sessionConf['token'] ?? ''), ($sessionConf['options'] ?? []));
-            }
-        }
-        return null;
+        $env = Environment::fetch();
+        return new static($env['token'], $env);
     }
-
 
     /**
      * Create Session instance.

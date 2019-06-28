@@ -114,10 +114,7 @@ abstract class Service
      */
     public function call($method, $params = array()): Result
     {
-        if (is_null($this->session) and is_null($this->session = Session::init())){
-            throw ServiceException::make(static::class.". Failed method [{$method}]. No session to connect.");
-        }
-        return $this->session->call($this->serviceName, $method, $params);
+        return ($this->session ?? Session::init())->call($this->serviceName, $method, $params);
     }
 
     /**
