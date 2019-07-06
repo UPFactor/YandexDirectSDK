@@ -25,9 +25,9 @@ class Bids extends ModelCollection
     /** 
      * @var Bid[] 
      */ 
-    protected $compatibleModel = Bid::class;
+    protected static $compatibleModel = Bid::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => BidsService::class,
         'set' => BidsService::class
     ];

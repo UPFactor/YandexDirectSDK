@@ -21,6 +21,13 @@ interface ModelCommon
     public static function getClassName();
 
     /**
+     * Retrieve metadata of service-providers methods.
+     *
+     * @return Service[]
+     */
+    public static function getServiceMethods();
+
+    /**
      * Implementing dynamic methods.
      *
      * @param string $method
@@ -75,26 +82,4 @@ interface ModelCommon
      * @return $this
      */
     public function insert($source);
-
-    /**
-     * Binds the object to a session.
-     *
-     * @param Session $session
-     * @return $this;
-     */
-    public function setSession(Session $session);
-
-    /**
-     * Retrieve the session used by the object.
-     *
-     * @return null|Session
-     */
-    public function getSession();
-
-    /**
-     * Retrieve metadata of service-providers methods.
-     *
-     * @return Service[]
-     */
-    public function getServiceProvidersMethodsMeta();
 }

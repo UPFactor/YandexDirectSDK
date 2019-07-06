@@ -19,5 +19,5 @@ class BidsAuto extends ModelCollection
     /** 
      * @var BidAuto[] 
      */ 
-    protected $compatibleModel = BidAuto::class;
+    protected static $compatibleModel = BidAuto::class;
 }

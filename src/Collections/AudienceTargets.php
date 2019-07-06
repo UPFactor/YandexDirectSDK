@@ -28,9 +28,9 @@ class AudienceTargets extends ModelCollection
     /** 
      * @var AudienceTarget 
      */ 
-    protected $compatibleModel = AudienceTarget::class;
+    protected static $compatibleModel = AudienceTarget::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => AudienceTargetsService::class,
         'delete' => AudienceTargetsService::class,
         'query' => AudienceTargetsService::class,

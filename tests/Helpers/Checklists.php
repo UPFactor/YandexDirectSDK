@@ -3,6 +3,7 @@
 
 namespace YandexDirectSDKTest\Helpers;
 
+use Exception;
 use PHPUnit\Framework\Assert;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Result;
@@ -33,7 +34,7 @@ class Checklists extends Assert
      * @param null $expectedClass
      * @param array $expectedProperties
      * @return ModelInterface|ModelCollectionInterface|null
-     * @throws ModelException
+     * @throws Exception
      */
     public function checkResource(Result $result, $expectedClass = null, $expectedProperties = [])
     {
@@ -42,10 +43,9 @@ class Checklists extends Assert
 
         if (is_null($expectedClass)){
             $this->assertNull($resource);
-            return $resource;
+        } else {
+            $this->assertInstanceOf($expectedClass, $resource);
         }
-
-        $this->assertInstanceOf($expectedClass, $resource);
 
         if (!empty($expectedProperties)){
             $this->checkModelCollection($resource, $expectedProperties);
@@ -58,15 +58,26 @@ class Checklists extends Assert
      * Checklist for [Model] properties.
      *
      * @param ModelInterface $model
-     * @param array $expectedProperties
+     * @param array|string $expectedProperties
      * @return ModelInterface
-     * @throws ModelException
+     * @throws Exception
      */
-    public function checkModel(ModelInterface $model, array $expectedProperties)
+    public function checkModel(ModelInterface $model, $expectedProperties)
     {
-        if ($model instanceof ModelInterface){
+        $arrModel = $model->toArray();
 
-            $arrModel = $model->toArray();
+        if (is_string($expectedProperties)){
+
+            $expectedProperties = explode(':', $expectedProperties, 2);
+            $path = $expectedProperties[0];
+            $key = $expectedProperties[1] ?? null;
+
+            $this->assertEquals(
+                FakeApi::getArray($path, $key),
+                $arrModel
+            );
+
+        } else if (is_array($expectedProperties)){
 
             foreach ($expectedProperties as $index => $property){
                 if (is_integer($index)){
@@ -79,7 +90,9 @@ class Checklists extends Assert
                     $this->assertNotNull($value, $index);
                 }
             }
+
         }
+
         return $model;
     }
 
@@ -87,16 +100,33 @@ class Checklists extends Assert
      * Checklist for [Model] properties in [ModelCollection].
      *
      * @param ModelCollectionInterface $collection
-     * @param array $expectedProperties
+     * @param array|string $expectedProperties
      * @return ModelCollectionInterface
-     * @throws ModelException
+     * @throws Exception
      */
-    public function checkModelCollection(ModelCollectionInterface $collection, array $expectedProperties)
+    public function checkModelCollection(ModelCollectionInterface $collection, $expectedProperties)
     {
         $this->assertTrue($collection->isNotEmpty(), 'Collection is empty');
-        $collection->each(function(ModelInterface $model) use ($expectedProperties){
-            $this->checkModel($model, $expectedProperties);
-        });
+
+        if (is_string($expectedProperties)){
+
+            $arrCollection = $collection->toArray();
+            $expectedProperties = explode(':', $expectedProperties, 2);
+            $path = $expectedProperties[0];
+            $key = $expectedProperties[1] ?? null;
+
+            $this->assertEquals(
+                FakeApi::getArray($path, $key),
+                $arrCollection
+            );
+
+        } else if (is_array($expectedProperties)){
+
+            $collection->each(function(ModelInterface $model) use ($expectedProperties){
+                $this->checkModel($model, $expectedProperties);
+            });
+
+        }
 
         return $collection;
     }

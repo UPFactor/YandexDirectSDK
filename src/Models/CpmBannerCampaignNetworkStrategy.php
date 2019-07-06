@@ -34,7 +34,7 @@ class CpmBannerCampaignNetworkStrategy extends Model
     const CP_MAXIMUM_IMPRESSIONS = 'CP_MAXIMUM_IMPRESSIONS';
     const WB_MAXIMUM_IMPRESSIONS = 'WB_MAXIMUM_IMPRESSIONS';
 
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategyType' => 'enum:' . self::MANUAL_CPM . ',' . self::CP_DECREASED_PRICE_FOR_REPEATED_IMPRESSIONS . ',' . self::WB_DECREASED_PRICE_FOR_REPEATED_IMPRESSIONS . ',' . self::CP_MAXIMUM_IMPRESSIONS . ',' . self::WB_MAXIMUM_IMPRESSIONS,
         'wbMaximumImpressions' => 'object:' . StrategyWbMaximumImpressions::class,
         'cpMaximumImpressions' => 'object:' . StrategyCpMaximumImpressions::class,

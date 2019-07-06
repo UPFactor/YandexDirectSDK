@@ -16,6 +16,13 @@ use YandexDirectSDK\Interfaces\Model as ModelInterface;
 interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Countable
 {
     /**
+     * Retrieve instance of compatible models.
+     *
+     * @return ModelInterface
+     */
+    public static function getCompatibleModel();
+
+    /**
      * Create a new collection instance.
      *
      * @param ModelInterface[] ...$models
@@ -174,11 +181,4 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
      * @return static
      */
     public function slice($offset, $length = null);
-
-    /**
-     * Retrieve instance of compatible models.
-     *
-     * @return ModelInterface
-     */
-    public function getCompatibleModel();
 }

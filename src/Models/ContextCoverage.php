@@ -17,14 +17,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class ContextCoverage extends Model 
 { 
-    protected $compatibleCollection = ContextCoverages::class;
+    protected static $compatibleCollection = ContextCoverages::class;
 
-    protected $properties = [
+    protected static $properties = [
         'probability' => 'integer',
         'price' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'probability',
         'price'
     ];

@@ -60,14 +60,14 @@ class Bid extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = Bids::class;
+    protected static $compatibleCollection = Bids::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => BidsService::class,
         'set' => BidsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',
@@ -83,7 +83,7 @@ class Bid extends Model
         'auctionBids' => 'object:' . AuctionBids::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'servingStatus',
         'competitorsBids',
         'searchPrices',

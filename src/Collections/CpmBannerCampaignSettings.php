@@ -16,5 +16,5 @@ class CpmBannerCampaignSettings extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = CpmBannerCampaignSetting::class;
+    protected static $compatibleModel = CpmBannerCampaignSetting::class;
 }

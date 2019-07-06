@@ -27,19 +27,19 @@ class AdExtensionAd extends Model
     const REMOVE = 'REMOVE';
     const SET = 'SET';
 
-    protected $compatibleCollection = AdExtensionsAd::class;
+    protected static $compatibleCollection = AdExtensionsAd::class;
 
-    protected $properties = [
+    protected static $properties = [
         'adExtensionId' => 'integer',
         'type' => 'string',
         'operation' => 'enum:' . self::ADD . ',' . self::REMOVE . ',' . self::SET
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'operation'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'type'
     ];
 }

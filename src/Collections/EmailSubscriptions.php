@@ -19,5 +19,5 @@ class EmailSubscriptions extends ModelCollection
     /** 
      * @var EmailSubscription 
      */ 
-    protected $compatibleModel = EmailSubscription::class;
+    protected static $compatibleModel = EmailSubscription::class;
 }

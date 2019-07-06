@@ -42,9 +42,9 @@ class AdGroups extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = AdGroup::class;
+    protected static $compatibleModel = AdGroup::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdGroupsService::class,
         'add' => AdGroupsService::class,
         'update' => AdGroupsService::class,

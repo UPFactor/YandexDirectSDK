@@ -28,20 +28,20 @@ use YandexDirectSDK\Services\SitelinksService;
  */ 
 class SitelinksSet extends Model 
 { 
-    protected $compatibleCollection = SitelinksSets::class;
+    protected static $compatibleCollection = SitelinksSets::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => SitelinksService::class,
         'delete' => SitelinksService::class,
         'query' => SitelinksService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'sitelinks' => 'object:' . Sitelinks::class
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

@@ -52,9 +52,9 @@ class AudienceTarget extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = AudienceTargets::class;
+    protected static $compatibleCollection = AudienceTargets::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => AudienceTargetsService::class,
         'delete' => AudienceTargetsService::class,
         'query' => AudienceTargetsService::class,
@@ -64,7 +64,7 @@ class AudienceTarget extends Model
         'setRelatedStrategyPriority' => AudienceTargetsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'adGroupId' => 'integer',
         'campaignId' => 'integer',
@@ -75,12 +75,12 @@ class AudienceTarget extends Model
         'state' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'campaignId',
         'state'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

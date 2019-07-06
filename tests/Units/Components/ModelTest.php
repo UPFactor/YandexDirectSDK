@@ -1,31 +1,14 @@
 <?php
 
-namespace YandexDirectSDKTest\Unit\Session;
+namespace YandexDirectSDKTest\Unit\Components;
 
 use PHPUnit\Framework\TestCase;
 use YandexDirectSDK\Exceptions\ModelException;
-use YandexDirectSDK\Session;
 use YandexDirectSDKTest\Helpers\FakeModelCollectionTools;
 use YandexDirectSDKTest\Helpers\FakeModel;
-use YandexDirectSDKTest\Helpers\SessionTools;
 
 class ModelTest extends TestCase
 {
-    /**
-     * @var Session
-     */
-    public static $session;
-
-    public static function setUpBeforeClass():void
-    {
-        self::$session = SessionTools::init();
-    }
-
-    public static function tearDownAfterClass():void
-    {
-        self::$session = null;
-    }
-
     /*
      |-------------------------------------------------------------------------------
      |

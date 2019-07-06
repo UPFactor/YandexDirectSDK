@@ -47,7 +47,7 @@ class Environment
      */
     public static function useSandbox(bool $switch)
     {
-        $_ENV['YD_SESSION_SANDBOX'] = (int) $switch;
+        $_ENV['YD_SESSION_SANDBOX'] = (string) $switch;
     }
 
     /**
@@ -58,7 +58,7 @@ class Environment
      */
     public static function useOperatorUnits(bool $switch)
     {
-        $_ENV['YD_SESSION_OPERATOR_UNITS'] = (int) $switch;
+        $_ENV['YD_SESSION_OPERATOR_UNITS'] = (string) $switch;
     }
 
     /**
@@ -77,38 +77,92 @@ class Environment
     }
 
     /**
-     * Reset options
+     * Set options
      *
      * @param array $options
      */
-    public static function reset(array $options)
+    public static function set(array $options)
     {
-        foreach ($options as $option => $value){
-            switch ($option){
-                case 'token': self::setToken($value); break;
-                case 'client': self::setClient($value); break;
-                case 'language': self::setLanguage($value); break;
-                case 'sandbox': self::useSandbox($value); break;
-                case 'operatorUnits': self::useOperatorUnits($value); break;
-                case 'logFile': self::useLogFile(true, $value); break;
-            }
+        if (isset($options['token'])){
+            self::setToken($options['token']);
+        } else {
+            self::setToken('');
+        }
+
+        if (isset($options['client'])){
+            self::setClient($options['client']);
+        } else {
+            self::setClient('');
+        }
+
+        if (isset($options['language'])){
+            self::setLanguage($options['language']);
+        } else {
+            self::setLanguage('en');
+        }
+
+        if (isset($options['sandbox'])){
+            self::useSandbox($options['sandbox']);
+        } else {
+            self::useSandbox(false);
+        }
+
+        if (isset($options['operatorUnits'])){
+            self::useOperatorUnits($options['operatorUnits']);
+        } else {
+            self::useOperatorUnits(false);
+        }
+
+        if (isset($options['logFile'])){
+            self::useLogFile(true, $options['logFile']);
+        } else {
+            self::useLogFile(false);
         }
     }
 
     /**
-     * Get all options.
+     * Fetch all options.
      *
      * @return array
      */
     public static function fetch()
     {
-        return [
-            'token' => $_ENV['YD_SESSION_TOKEN'] ?? '',
-            'client' => $_ENV['YD_SESSION_CLIENT'] ?? '',
-            'language' => $_ENV['YD_SESSION_LANGUAGE'] ?? 'en',
-            'sandbox' => $_ENV['YD_SESSION_SENDBOX'] ?? false,
-            'operatorUnits' => $_ENV['YD_SESSION_OPERATOR_UNITS'] ?? true,
-            'logFile' => empty($_ENV['YD_SESSION_LOG_FILE']) ? null : $_ENV['YD_SESSION_LOG_FILE']
-        ];
+        if (!empty($_ENV['YD_SESSION_TOKEN']) and is_string($_ENV['YD_SESSION_TOKEN'])){
+            $options['token'] = $_ENV['YD_SESSION_TOKEN'];
+        } else {
+            $options['token'] = '';
+        }
+
+        if (!empty($_ENV['YD_SESSION_CLIENT']) and is_string($_ENV['YD_SESSION_CLIENT'])){
+            $options['client'] = $_ENV['YD_SESSION_CLIENT'];
+        } else {
+            $options['client'] = '';
+        }
+
+        if (!empty($_ENV['YD_SESSION_LANGUAGE']) and is_string($_ENV['YD_SESSION_LANGUAGE'])){
+            $options['language'] = $_ENV['YD_SESSION_LANGUAGE'];
+        } else {
+            $options['language'] = 'en';
+        }
+
+        if (!empty($_ENV['YD_SESSION_SANDBOX']) and ($_ENV['YD_SESSION_SANDBOX'] === '1' or $_ENV['YD_SESSION_SANDBOX'] === 'true')){
+            $options['sandbox'] = true;
+        } else {
+            $options['sandbox'] = false;
+        }
+
+        if (!empty($_ENV['YD_SESSION_OPERATOR_UNITS']) and ($_ENV['YD_SESSION_OPERATOR_UNITS'] === '1' or $_ENV['YD_SESSION_OPERATOR_UNITS'] === 'true')){
+            $options['operatorUnits'] = true;
+        } else {
+            $options['operatorUnits'] = false;
+        }
+
+        if (!empty($_ENV['YD_SESSION_LOG_FILE']) and is_string($_ENV['YD_SESSION_LOG_FILE'])){
+            $options['logFile'] = $_ENV['YD_SESSION_LOG_FILE'];
+        } else {
+            $options['logFile'] = null;
+        }
+
+        return $options;
     }
 }

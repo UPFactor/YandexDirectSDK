@@ -32,7 +32,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyAverageRoi extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'reserveReturn' => 'integer',
         'roiCoef' => 'integer',
         'goalId' => 'integer',

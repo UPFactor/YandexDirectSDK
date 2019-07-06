@@ -46,16 +46,16 @@ class RetargetingList extends Model
     const RETARGETING = 'RETARGETING';
     const AUDIENCE = 'AUDIENCE';
 
-    protected $compatibleCollection = RetargetingLists::class;
+    protected static $compatibleCollection = RetargetingLists::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => RetargetingListsService::class,
         'delete' => RetargetingListsService::class,
         'query' => RetargetingListsService::class,
         'update' => RetargetingListsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'type' => 'enum:' . self::RETARGETING . ',' . self::AUDIENCE,
         'name' => 'string',
@@ -65,16 +65,16 @@ class RetargetingList extends Model
         'scope' => 'string'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'type'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'isAvailable',
         'scope'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

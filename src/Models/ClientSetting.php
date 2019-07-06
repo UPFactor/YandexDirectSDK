@@ -25,16 +25,11 @@ class ClientSetting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = ClientSettings::class;
+    protected static $compatibleCollection = ClientSettings::class;
 
-    protected $properties = [
+    protected static $properties = [
         'option' => 'enum:' . self::CORRECT_TYPOS_AUTOMATICALLY . ',' . self::DISPLAY_STORE_RATING,
         'value' => 'enum:' . self::YES . ',' . self::NO
-    ];
-
-    protected $requiredProperties = [
-        'option',
-        'value'
     ];
 
     /**

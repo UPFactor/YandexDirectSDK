@@ -29,9 +29,9 @@ class Ads extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = Ad::class;
+    protected static $compatibleModel = Ad::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdsService::class,
         'add' => AdsService::class,
         'update' => AdsService::class,

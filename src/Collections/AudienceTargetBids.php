@@ -19,5 +19,5 @@ class AudienceTargetBids extends ModelCollection
     /** 
      * @var AudienceTargetBid 
      */ 
-    protected $compatibleModel = AudienceTargetBid::class;
+    protected static $compatibleModel = AudienceTargetBid::class;
 }

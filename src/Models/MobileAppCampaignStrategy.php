@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class MobileAppCampaignStrategy extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'search' => 'object:' . MobileAppCampaignSearchStrategy::class,
         'network' => 'object:' . MobileAppCampaignNetworkStrategy::class
     ];

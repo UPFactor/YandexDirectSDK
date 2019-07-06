@@ -32,9 +32,9 @@ class BidModifierToggle extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = BidModifierToggles::class;
+    protected static $compatibleCollection = BidModifierToggles::class;
 
-    protected $properties = [
+    protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'type' => 'enum:' . self::DEMOGRAPHICS_ADJUSTMENT . ',' . self::RETARGETING_ADJUSTMENT . ',' . self::REGIONAL_ADJUSTMENT,

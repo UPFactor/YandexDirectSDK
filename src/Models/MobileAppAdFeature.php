@@ -30,15 +30,15 @@ class MobileAppAdFeature extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = MobileAppAdFeatures::class;
+    protected static $compatibleCollection = MobileAppAdFeatures::class;
 
-    protected $properties = [
+    protected static $properties = [
         'feature' => 'enum:' . self::PRICE.','.self::ICON.','.self::CUSTOMER_RATING.','.self::RATINGS,
         'enabled' => 'enum:' . self::YES.','.self::NO,
         'isAvailable' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'isAvailable'
     ];
 }

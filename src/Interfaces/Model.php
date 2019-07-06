@@ -22,18 +22,18 @@ interface Model extends ModelCommon
     public static function make($properties = null);
 
     /**
+     * Gets an array of model properties.
+     *
+     * @return array
+     */
+    public static function getProperties();
+
+    /**
      * Retrieve instance of compatible collection.
      *
      * @return ModelCollectionInterface|null
      */
-    public function getCompatibleCollection();
-
-    /**
-     * Retrieve model property metadata.
-     *
-     * @return array
-     */
-    public function getPropertiesMeta();
+    public static function getCompatibleCollection();
 
     /**
      * Setting a value for a model property.

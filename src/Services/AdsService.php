@@ -28,13 +28,13 @@ use YandexDirectSDK\Models\Ad;
  */
 class AdsService extends Service
 {
-    protected $serviceName = 'ads';
+    protected static $name = 'ads';
 
-    protected $serviceModelClass = Ad::class;
+    protected static $modelClass = Ad::class;
 
-    protected $serviceModelCollectionClass = Ads::class;
+    protected static $modelCollectionClass = Ads::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

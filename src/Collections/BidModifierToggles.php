@@ -19,5 +19,5 @@ class BidModifierToggles extends ModelCollection
     /** 
      * @var BidModifierToggle 
      */ 
-    protected $compatibleModel = BidModifierToggle::class;
+    protected static $compatibleModel = BidModifierToggle::class;
 }

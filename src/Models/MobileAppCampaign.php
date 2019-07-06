@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class MobileAppCampaign extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'settings' => 'object:' . MobileAppCampaignSettings::class,
         'biddingStrategy' => 'object:' . MobileAppCampaignStrategy::class
     ];

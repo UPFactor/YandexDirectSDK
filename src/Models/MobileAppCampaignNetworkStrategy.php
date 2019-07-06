@@ -43,8 +43,16 @@ class MobileAppCampaignNetworkStrategy extends Model
     const WEEKLY_CLICK_PACKAGE = 'WEEKLY_CLICK_PACKAGE';
     const SERVING_OFF = 'SERVING_OFF';
 
-    protected $properties = [
-        'biddingStrategyType' => 'enum:',
+    protected static $properties = [
+        'biddingStrategyType' => 'enum:'
+            .self::NETWORK_DEFAULT.','
+            .self::MAXIMUM_COVERAGE.','
+            .self::WB_MAXIMUM_CLICKS.','
+            .self::WB_MAXIMUM_APP_INSTALLS.','
+            .self::AVERAGE_CPC.','
+            .self::AVERAGE_CPI.','
+            .self::WEEKLY_CLICK_PACKAGE.','
+            .self::SERVING_OFF,
         'networkDefault' => 'object:' . StrategyNetworkDefault::class,
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumAppInstalls' => 'object:' . StrategyMaximumAppInstalls::class,
@@ -52,18 +60,4 @@ class MobileAppCampaignNetworkStrategy extends Model
         'averageCpi' => 'object:' . StrategyAverageCpi::class,
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
     ];
-
-    protected function initialize(...$arguments)
-    {
-        $this->properties['biddingStrategyType'] = 'enum:' . implode(',',[
-                self::NETWORK_DEFAULT,
-                self::MAXIMUM_COVERAGE,
-                self::WB_MAXIMUM_CLICKS,
-                self::WB_MAXIMUM_APP_INSTALLS,
-                self::AVERAGE_CPC,
-                self::AVERAGE_CPI,
-                self::WEEKLY_CLICK_PACKAGE,
-                self::SERVING_OFF
-            ]);
-    }
 }

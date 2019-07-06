@@ -16,12 +16,12 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Network extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'bid' => 'integer',
         'coverage' => 'object:' . Coverage::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'bid',
         'coverage'
     ];

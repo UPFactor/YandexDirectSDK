@@ -14,13 +14,13 @@ use YandexDirectSDK\Components\Model;
  */ 
 class VideoExtensionCreative extends Model 
 { 
-    protected $compatibleCollection; 
+    protected static $compatibleCollection;
 
-    protected $properties = [
+    protected static $properties = [
         'duration' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'duration'
     ];
 }

@@ -37,11 +37,11 @@ class PriceExtension extends Model
     const UAH = 'UAH';
     const USD = 'USD';
 
-    protected $compatibleCollection; 
+    protected static $compatibleCollection;
 
-    protected $serviceProvidersMethods = []; 
+    protected static $serviceMethods = [];
 
-    protected $properties = [
+    protected static $properties = [
         'price' => 'integer',
         'oldPrice' => 'integer',
         'priceQualifier' => 'enum:' . self::FROM . ',' . self::UP_TO . ',' . self::NONE,

@@ -3,7 +3,6 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
-use YandexDirectSDK\Common\SessionTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
@@ -21,35 +20,129 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  */
 abstract class Service
 {
-    use SessionTrait;
+    /**
+     * Boot data registry.
+     *
+     * @var array
+     */
+    private static $boot = [];
 
     /**
      * Service name.
      *
      * @var string
      */
-    protected $serviceName;
+    protected static $name;
 
     /**
      * The class of the model that is used by the service.
      *
      * @var ModelInterface
      */
-    protected $serviceModelClass;
+    protected static $modelClass;
 
     /**
      * The class of the collection that is used by the service.
      *
      * @var ModelCollectionInterface
      */
-    protected $serviceModelCollectionClass;
+    protected static $modelCollectionClass;
 
     /**
      * Available service methods.
      *
      * @var array
      */
+    protected static $methods = [];
+
+    /**
+     * Session instance.
+     *
+     * @var Session|null
+     */
+    protected $session;
+
+    /**
+     * Methods of the service provider instance.
+     *
+     * @var array
+     */
     protected $serviceMethods = [];
+
+    /**
+     * Bootstrap of the object.
+     *
+     * @return array
+     */
+    protected static function bootstrap():array
+    {
+        $class = static::class;
+
+        if (key_exists($class, self::$boot)){
+            return self::$boot[$class];
+        }
+
+        $methods = [];
+
+        foreach (static::$methods as $methodAlias => $methodMeta){
+            $methodMeta = explode(':', $methodMeta, 2);
+            $methodName = trim($methodMeta[0]);
+            $methodType = trim($methodMeta[1] ?? '');
+
+            if (empty($methodMeta)){
+                continue;
+            }
+
+            $methods[$methodAlias] = [
+                'name' => $methodName,
+                'type' => $methodType
+            ];
+        }
+
+        self::$boot[$class]['methods'] = $methods;
+
+        return self::$boot[$class];
+    }
+
+    /**
+     * Retrieve service name.
+     *
+     * @return string
+     */
+    public static function getName(): string
+    {
+        return static::$name;
+    }
+
+    /**
+     * Get the class of the model used by the service.
+     *
+     * @return ModelInterface
+     */
+    public static function getModelClass()
+    {
+        return static::$modelClass;
+    }
+
+    /**
+     * Get the class of the collection used by the service.
+     *
+     * @return ModelCollectionInterface
+     */
+    public static function getModelCollectionClass()
+    {
+        return static::$modelCollectionClass;
+    }
+
+    /**
+     * Retrieve service methods metadata.
+     *
+     * @return array
+     */
+    public static function getMethods(): array
+    {
+        return static::bootstrap()['methods'];
+    }
 
     /**
      * Create Service instance.
@@ -69,22 +162,8 @@ abstract class Service
      */
     public function __construct(...$arguments)
     {
+        $this->serviceMethods = static::bootstrap()['methods'];
         $this->initialize(...$arguments);
-
-        foreach ($this->serviceMethods as $methodAlias => $methodMeta){
-            $methodMeta = explode(':', $methodMeta, 2);
-            $methodName = trim($methodMeta[0]);
-            $methodType = trim($methodMeta[1] ?? '');
-
-            if (empty($methodMeta)){
-                continue;
-            }
-
-            $this->serviceMethods[$methodAlias] = [
-                'name' => $methodName,
-                'type' => $methodType
-            ];
-        }
     }
 
     /**
@@ -114,47 +193,7 @@ abstract class Service
      */
     public function call($method, $params = array()): Result
     {
-        return ($this->session ?? Session::init())->call($this->serviceName, $method, $params);
-    }
-
-    /**
-     * Retrieve service name.
-     *
-     * @return string
-     */
-    public function getServiceName(): string
-    {
-        return $this->serviceName;
-    }
-
-    /**
-     * Get the class of the model used by the service.
-     *
-     * @return ModelInterface
-     */
-    public function getServiceModelClass()
-    {
-        return $this->serviceModelClass;
-    }
-
-    /**
-     * Get the class of the collection used by the service.
-     *
-     * @return ModelCollectionInterface
-     */
-    public function getServiceModelCollectionClass()
-    {
-        return $this->serviceModelCollectionClass;
-    }
-
-    /**
-     * Retrieve service methods metadata.
-     *
-     * @return array
-     */
-    public function getMethodsMeta(): array
-    {
-        return $this->serviceMethods;
+        return ($this->session ?? Session::init())->call(static::$name, $method, $params);
     }
 
     /**
@@ -164,6 +203,26 @@ abstract class Service
      * @return void
      */
     protected function initialize(...$arguments): void {}
+
+    /**
+     * Set the session.
+     *
+     * @param Session|null $session
+     * @return $this
+     */
+    public function setSession(Session $session = null){
+        $this->session = $session;
+        return $this;
+    }
+
+    /**
+     * Retrieve the session.
+     *
+     * @return Session|null
+     */
+    public function getSession(){
+        return $this->session;
+    }
 
     /**
      * Gets an array of identifiers from the passed source.
@@ -215,7 +274,7 @@ abstract class Service
                 $elements[] = array_merge($related->toArray(), [$foreignKey => $key]);
             }
 
-            if (is_null($related = $related->getCompatibleCollection())){
+            if (is_null($related = $related::getCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed bind model. Model [".get_class($related)."] does not support this operation.");
             }
 
@@ -269,7 +328,7 @@ abstract class Service
     protected function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection->getCompatibleCollection())){
+            if (is_null($modelCollection = $collection::getCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
@@ -324,7 +383,7 @@ abstract class Service
     protected function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection->getCompatibleCollection())){
+            if (is_null($modelCollection = $collection::getCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
@@ -355,7 +414,7 @@ abstract class Service
      */
     protected function selectionElements(string $methodName, $queryHandler = null): QueryBuilder
     {
-        if (is_null($this->serviceModelClass) or is_null($this->serviceModelCollectionClass)){
+        if (is_null(static::$modelClass) or is_null(static::$modelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
         }
 
@@ -367,8 +426,8 @@ abstract class Service
             $result = $this->call($methodName, is_null($queryHandler) ? $query->toArray() : $queryHandler($query->toArray()));
 
             return $result->setResource(
-                $this->serviceModelCollectionClass::make()
-                    ->insert($result->data->get($this->serviceModelCollectionClass::getClassName()))
+                static::$modelCollectionClass::make()
+                    ->insert($result->data->get(static::$modelCollectionClass::getClassName()))
             );
         });
     }

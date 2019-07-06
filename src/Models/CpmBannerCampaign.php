@@ -26,7 +26,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CpmBannerCampaign extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategy' => 'object:' . CpmBannerCampaignStrategy::class,
         'settings' => 'object:' . CpmBannerCampaignSettings::class,
         'counterIds' => 'array:integer',

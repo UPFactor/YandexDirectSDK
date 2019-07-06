@@ -26,9 +26,9 @@ class AdImages extends ModelCollection
     /** 
      * @var AdImage 
      */ 
-    protected $compatibleModel = AdImage::class;
+    protected static $compatibleModel = AdImage::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdImagesService::class,
         'add' => AdImagesService::class,
         'delete' => AdImagesService::class

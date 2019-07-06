@@ -17,14 +17,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class NetworkCoverageItem extends Model 
 {
-    protected $compatibleCollection = NetworkCoverageItems::class;
+    protected static $compatibleCollection = NetworkCoverageItems::class;
 
-    protected $properties = [
+    protected static $properties = [
         'probability' => 'integer',
         'bid' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'probability',
         'bid'
     ];

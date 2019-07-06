@@ -22,13 +22,13 @@ use YandexDirectSDK\Models\KeywordBid;
  */
 class KeywordBidsService extends Service
 {
-    protected $serviceName = 'keywordbids';
+    protected static $name = 'keywordbids';
 
-    protected $serviceModelClass = KeywordBid::class;
+    protected static $modelClass = KeywordBid::class;
 
-    protected $serviceModelCollectionClass = KeywordBids::class;
+    protected static $modelCollectionClass = KeywordBids::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'query' => 'get:selectionElements',
     ];
 

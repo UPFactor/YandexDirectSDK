@@ -27,23 +27,17 @@ class MobileAppCampaignSetting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = MobileAppCampaignSettings::class;
+    protected static $compatibleCollection = MobileAppCampaignSettings::class;
 
-    protected function initialize(...$arguments)
-    {
-        $this->properties = [
-            'option' => 'enum:' . implode(',',[
-                    self::ADD_TO_FAVORITES,
-                    self::ENABLE_AREA_OF_INTEREST_TARGETING,
-                    self::MAINTAIN_NETWORK_CPC,
-                    self::REQUIRE_SERVICING
-                ]),
-            'value' => 'enum:' . implode(',',[
-                    self::YES,
-                    self::NO
-                ])
-        ];
-    }
+    protected static $properties = [
+        'option' => 'enum:'
+            .self::ADD_TO_FAVORITES.','
+            .self::ENABLE_AREA_OF_INTEREST_TARGETING.','
+            .self::MAINTAIN_NETWORK_CPC.','
+            .self::REQUIRE_SERVICING,
+
+        'value' => 'enum:'.self::YES.','.self::NO
+    ];
 
     /**
      * Returns the [MobileAppCampaignSetting] instance

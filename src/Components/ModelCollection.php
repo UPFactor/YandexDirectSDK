@@ -20,6 +20,20 @@ use YandexDirectSDK\Session;
 abstract class ModelCollection implements ModelCollectionInterface
 {
     /**
+     * Compatible class of model.
+     *
+     * @var ModelInterface
+     */
+    protected static $compatibleModel;
+
+    /**
+     * Service-providers methods.
+     *
+     * @var Service[]
+     */
+    protected static $serviceMethods = [];
+
+    /**
      * The models contained in the collection.
      *
      * @var ModelInterface[]
@@ -32,20 +46,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     protected $position = 0;
 
     /**
-     * Compatible class of model.
-     *
-     * @var ModelInterface
-     */
-    protected $compatibleModel;
-
-    /**
-     * Service-providers methods.
-     *
-     * @var Service[]
-     */
-    protected $serviceProvidersMethods = [];
-
-    /**
      * Returns the short class name.
      *
      * @return string
@@ -54,6 +54,105 @@ abstract class ModelCollection implements ModelCollectionInterface
     public static function getClassName()
     {
         return (new ReflectionClass(static::class))->getShortName();
+    }
+
+    /**
+     * Retrieve instance of compatible models.
+     *
+     * @return ModelInterface
+     */
+    public static function getCompatibleModel()
+    {
+        return static::$compatibleModel::make();
+    }
+
+    /**
+     * Retrieve metadata of service-providers methods.
+     *
+     * @return Service[]
+     */
+    public static function getServiceMethods()
+    {
+        return static::$serviceMethods;
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param ModelInterface ...$models
+     * @return static
+     */
+    public static function make(...$models)
+    {
+        return (new static($models));
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param ModelInterface[] $models
+     * @return static
+     */
+    public static function wrap(array $models)
+    {
+        return (new static($models));
+    }
+
+    /**
+     * Create a new collection instance.
+     *
+     * @param ModelInterface[] $models
+     */
+    public function __construct(array $models = null)
+    {
+        $this->initialize($models);
+
+        if (is_null(static::$compatibleModel)){
+            throw ModelCollectionException::make(static::class.". Collection is not serviced.");
+        }
+
+        if (!is_null($models)) $this->reset($models);
+    }
+
+    /**
+     * Returns a string representation of the current collection.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+
+    /**
+     * Implementing dynamic methods.
+     *
+     * @param string $method
+     * @param mixed[] $arguments
+     * @return Result
+     */
+    public function __call($method, $arguments)
+    {
+        return $this->call($method, null, ...$arguments);
+    }
+
+    /**
+     * Implementing dynamic methods.
+     *
+     * @param string $method
+     * @param Session|null $session
+     * @param mixed ...$arguments
+     * @return Result
+     */
+    public function call($method, Session $session = null, ...$arguments)
+    {
+        if (!array_key_exists($method, static::$serviceMethods)){
+            throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
+        }
+
+        return (new static::$serviceMethods[$method]())
+            ->{'setSession'}($session)
+            ->{$method}($this, ...$arguments);
     }
 
     /**
@@ -115,85 +214,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     public function seek($position)
     {
         return $this->items[$position];
-    }
-
-    /**
-     * Create a new collection instance.
-     *
-     * @param ModelInterface ...$models
-     * @return static
-     */
-    public static function make(...$models)
-    {
-        return (new static($models));
-    }
-
-    /**
-     * Create a new collection instance.
-     *
-     * @param ModelInterface[] $models
-     * @return static
-     */
-    public static function wrap(array $models)
-    {
-        return (new static($models));
-    }
-
-    /**
-     * Create a new collection instance.
-     *
-     * @param ModelInterface[] $models
-     */
-    public function __construct(array $models = null)
-    {
-        $this->initialize($models);
-
-        if (is_null($this->compatibleModel)){
-            throw ModelCollectionException::make(static::class.". Collection is not serviced.");
-        }
-
-        if (!is_null($models)) $this->reset($models);
-    }
-
-    /**
-     * Returns a string representation of the current collection.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toJson();
-    }
-
-    /**
-     * Implementing dynamic methods.
-     *
-     * @param string $method
-     * @param mixed[] $arguments
-     * @return Result
-     */
-    public function __call($method, $arguments)
-    {
-        return $this->call($method, null, ...$arguments);
-    }
-
-    /**
-     * Implementing dynamic methods.
-     *
-     * @param string $method
-     * @param Session|null $session
-     * @param mixed ...$arguments
-     * @return Result
-     */
-    public function call($method, Session $session = null, ...$arguments)
-    {
-        if (!array_key_exists($method, $this->serviceProvidersMethods)){
-            throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
-        }
-
-        return (new $this->serviceProvidersMethods[$method]())
-            ->{'setSession'}($session)
-            ->{$method}($this, ...$arguments);
     }
 
     /**
@@ -450,7 +470,6 @@ abstract class ModelCollection implements ModelCollectionInterface
         return $this->redeclare(array_values(Arr::filter($this->items, $callable, $context)));
     }
 
-
     /**
      * Slice the collection.
      *
@@ -488,7 +507,7 @@ abstract class ModelCollection implements ModelCollectionInterface
                 $this->items[$index]->insert($model);
             } else {
                 $this->push(
-                    $this->compatibleModel::make($model)
+                    static::$compatibleModel::make($model)
                 );
             }
         }
@@ -531,26 +550,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Retrieve instance of compatible models.
-     *
-     * @return ModelInterface
-     */
-    public function getCompatibleModel()
-    {
-        return $this->compatibleModel::make();
-    }
-
-    /**
-     * Retrieve metadata of service-providers methods.
-     *
-     * @return Service[]
-     */
-    public function getServiceProvidersMethodsMeta()
-    {
-        return $this->serviceProvidersMethods;
-    }
-
-    /**
      * Collection initialization handler.
      *
      * @param ModelCollectionInterface|ModelInterface[] $models
@@ -580,11 +579,11 @@ abstract class ModelCollection implements ModelCollectionInterface
     protected function dataItemController($model)
     {
         if (!is_object($model)){
-            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, gettype($model));
+            throw InvalidArgumentException::invalidType(static::class, 1, static::$compatibleModel, gettype($model));
         }
 
-        if (get_class($model) !== $this->compatibleModel){
-            throw InvalidArgumentException::invalidType(static::class, 1, $this->compatibleModel, get_class($model));
+        if (get_class($model) !== static::$compatibleModel){
+            throw InvalidArgumentException::invalidType(static::class, 1, static::$compatibleModel, get_class($model));
         }
 
         return $model;

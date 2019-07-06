@@ -43,13 +43,13 @@ use YandexDirectSDK\Models\Campaign;
  */
 class CampaignsService extends Service
 {
-    protected $serviceName = 'campaigns';
+    protected static $name = 'campaigns';
 
-    protected $serviceModelClass = Campaign::class;
+    protected static $modelClass = Campaign::class;
 
-    protected $serviceModelCollectionClass = Campaigns::class;
+    protected static $modelCollectionClass = Campaigns::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

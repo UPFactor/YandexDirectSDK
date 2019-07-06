@@ -16,12 +16,12 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Search extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'bid' => 'integer',
         'auctionBids' => 'object:' . AuctionBids::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'bid',
         'auctionBids'
     ];

@@ -29,7 +29,7 @@ class SmsSettings extends Model
     const MONEY_OUT = 'MONEY_OUT';
     const FINISHED = 'FINISHED';
 
-    protected $properties = [
+    protected static $properties = [
         'events' => 'set:' . self::MONITORING . ',' . self::MODERATION . ',' . self::MONEY_IN . ',' . self::MONEY_OUT . ',' . self::FINISHED,
         'timeFrom' => 'string',
         'timeTo' => 'string'

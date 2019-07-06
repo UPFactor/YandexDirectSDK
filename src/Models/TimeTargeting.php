@@ -25,7 +25,7 @@ class TimeTargeting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $properties = [
+    protected static $properties = [
         'schedule' => 'array:string',
         'considerWorkingWeekends' => 'enum:' . self::YES . ',' . self::NO,
         'holidaysSchedule' => 'object:' . TimeTargetingOnPublicHolidays::class

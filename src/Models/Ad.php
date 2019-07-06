@@ -77,9 +77,9 @@ use YandexDirectSDK\Services\AdsService;
  */ 
 class Ad extends Model 
 {
-    protected $compatibleCollection = Ads::class;
+    protected static $compatibleCollection = Ads::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdsService::class,
         'add' => AdsService::class,
         'update' => AdsService::class,
@@ -91,7 +91,7 @@ class Ad extends Model
         'moderate' => AdsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
@@ -102,8 +102,9 @@ class Ad extends Model
         'mobileAppImageAd' => 'object:' . MobileAppImageAd::class,
         'textAdBuilderAd' => 'object:' . TextAdBuilderAd::class,
         'mobileAppAdBuilderAd' => 'object:' . MobileAppAdBuilderAd::class,
-        'cpcVideoAdBuilderAd' => 'object:' . CpcVideoAdBuilderAd::class,
         'cpmBannerAdBuilderAd' => 'object:' . CpmBannerAdBuilderAd::class,
+        'cpcVideoAdBuilderAd' => 'object:' . CpcVideoAdBuilderAd::class,
+        'cpmVideoAdBuilderAd' => 'object:' . CpmVideoAdBuilderAd::class,
         'status' => 'string',
         'statusClarification' => 'string',
         'state' => 'string',
@@ -113,11 +114,11 @@ class Ad extends Model
         'subtype' => 'string'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'adGroupId'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'campaignId',
         'status',
         'statusClarification',
@@ -128,7 +129,7 @@ class Ad extends Model
         'subtype'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

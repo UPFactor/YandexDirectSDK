@@ -25,7 +25,7 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Phone extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'countryCode' => 'string',
         'cityCode' => 'string',
         'phoneNumber' => 'string',

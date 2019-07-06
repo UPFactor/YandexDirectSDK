@@ -21,13 +21,13 @@ use YandexDirectSDK\Models\Client;
  */
 class AgencyClientsService extends Service
 {
-    protected $serviceName = 'agencyclients';
+    protected static $name = 'agencyclients';
 
-    protected $serviceModelClass = Client::class;
+    protected static $modelClass = Client::class;
 
-    protected $serviceModelCollectionClass = Clients::class;
+    protected static $modelCollectionClass = Clients::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addModel',
         'update' => 'update:updateCollection',
         'query' => 'get:selectionElements'

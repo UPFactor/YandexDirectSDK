@@ -17,13 +17,13 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AdExtensionSetting extends Model 
 { 
-    protected $serviceProvidersMethods = [];
+    protected static $serviceMethods = [];
 
-    protected $properties = [
+    protected static $properties = [
         'adExtensions' => 'object:' . AdExtensionsAd::class
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'adExtensions'
     ];
 }

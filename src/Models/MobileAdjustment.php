@@ -22,7 +22,7 @@ class MobileAdjustment extends Model
     const IOS = 'IOS';
     const ANDROID = 'ANDROID';
 
-    protected $properties = [
+    protected static $properties = [
         'bidModifier' => 'integer',
         'operatingSystemType' => 'enum:' . self::IOS . ',' . self::ANDROID
     ];

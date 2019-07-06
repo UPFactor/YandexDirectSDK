@@ -20,14 +20,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class BidModifierSet extends Model 
 { 
-    protected $compatibleCollection = BidModifierSets::class;
+    protected static $compatibleCollection = BidModifierSets::class;
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'bidModifier' => 'integer'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

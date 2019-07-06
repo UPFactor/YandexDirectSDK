@@ -23,7 +23,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyWeeklyClickPackage extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'clicksPerWeek' => 'integer',
         'averageCpc' => 'integer',
         'bidCeiling' => 'integer'

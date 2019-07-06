@@ -19,5 +19,5 @@ class BidModifierSets extends ModelCollection
     /** 
      * @var BidModifierSet 
      */ 
-    protected $compatibleModel = BidModifierSet::class;
+    protected static $compatibleModel = BidModifierSet::class;
 }

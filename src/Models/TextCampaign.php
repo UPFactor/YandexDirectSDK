@@ -31,7 +31,7 @@ use YandexDirectSDK\Components\Model;
  */
 class TextCampaign extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategy' => 'object:' . TextCampaignStrategy::class,
         'settings' => 'object:' . TextCampaignSettings::class,
         'counterIds' => 'array:integer',

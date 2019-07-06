@@ -32,7 +32,7 @@ class EmailSettings extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $properties = [
+    protected static $properties = [
         'email' => 'string',
         'checkPositionInterval' => 'integer',
         'warningBalance' => 'integer',

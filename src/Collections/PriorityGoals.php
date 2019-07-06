@@ -17,5 +17,5 @@ class PriorityGoals extends ModelCollection
      */
     protected $items = [];
 
-    protected $compatibleModel = PriorityGoal::class;
+    protected static $compatibleModel = PriorityGoal::class;
 }

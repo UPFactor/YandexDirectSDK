@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <phpunit bootstrap="../vendor/autoload.php" colors="true">
     <testsuites>
+        <testsuite name="Base">
+            <file>Units/Environment/EnvironmentTest.php</file>
+            <file>Units/Session/SessionTest.php</file>
+        </testsuite>
+
+        <testsuite name="Components">
+            <file>Units/Components/ModelTest.php</file>
+        </testsuite>
+
+        <testsuite name="Models">
+            <file>Units/Models/CampaignTest.php</file>
+        </testsuite>
+
+        <testsuite name="ModelCollections">
+        </testsuite>
+
         <testsuite name="Examples">
+            <!--
             <file>Examples/ModelCollectionExamplesTest.php</file>
 
             <file>Examples/Campaigns/ServiceExamplesTest.php</file>
@@ -47,7 +64,7 @@
             <file>Examples/Leads/ServiceExamplesTest.php</file>
             <file>Examples/Leads/ModelExamplesTest.php</file>
             <file>Examples/Leads/CollectionExamplesTest.php</file>
-
+            -->
         </testsuite>
     </testsuites>
 </phpunit>

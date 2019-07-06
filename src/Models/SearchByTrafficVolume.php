@@ -22,7 +22,7 @@ use YandexDirectSDK\Components\Model;
  */ 
 class SearchByTrafficVolume extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'targetTrafficVolume' => 'integer',
         'IncreasePercent' => 'integer',
         'BidCeiling' => 'integer'

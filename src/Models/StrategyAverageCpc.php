@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyAverageCpc extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'weeklySpendLimit' => 'integer',
         'averageCpc' => 'integer'
     ];

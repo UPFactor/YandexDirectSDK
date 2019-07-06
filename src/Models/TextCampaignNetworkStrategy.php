@@ -48,7 +48,7 @@ class TextCampaignNetworkStrategy extends Model
     const WEEKLY_CLICK_PACKAGE = 'WEEKLY_CLICK_PACKAGE';
     const SERVING_OFF = 'SERVING_OFF';
 
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategyType' => 'enum:' . self::NETWORK_DEFAULT . ',' . self::MAXIMUM_COVERAGE . ',' . self::WB_MAXIMUM_CLICKS . ',' . self::WB_MAXIMUM_CONVERSION_RATE . ',' . self::AVERAGE_CPC . ',' . self::AVERAGE_CPA . ',' . self::AVERAGE_ROI . ',' . self::WEEKLY_CLICK_PACKAGE . ',' . self::SERVING_OFF,
         'networkDefault' => 'object:' . StrategyNetworkDefault::class,
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,

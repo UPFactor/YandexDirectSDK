@@ -19,5 +19,5 @@ class ClientSettings extends ModelCollection
     /** 
      * @var ClientSetting 
      */ 
-    protected $compatibleModel = ClientSetting::class;
+    protected static $compatibleModel = ClientSetting::class;
 }

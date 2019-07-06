@@ -42,8 +42,8 @@ class DynamicTextCampaignSearchStrategy extends Model
     const AVERAGE_ROI = 'AVERAGE_ROI';
     const WEEKLY_CLICK_PACKAGE = 'WEEKLY_CLICK_PACKAGE';
 
-    protected $properties = [
-        'biddingStrategyType' => 'enum:',
+    protected static $properties = [
+        'biddingStrategyType' => 'enum:'.self::HIGHEST_POSITION.','.self::WB_MAXIMUM_CLICKS.','.self::WB_MAXIMUM_CONVERSION_RATE.','.self::AVERAGE_CPC.','.self::AVERAGE_CPA.','.self::AVERAGE_ROI.','.self::WEEKLY_CLICK_PACKAGE,
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumConversionRate' => 'object:' . StrategyMaximumConversionRate::class,
         'averageCpc' => 'object:' . StrategyAverageCpc::class,
@@ -51,17 +51,4 @@ class DynamicTextCampaignSearchStrategy extends Model
         'averageRoi' => 'object:' . StrategyAverageRoi::class,
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
     ];
-
-    protected function initialize(...$arguments)
-    {
-        $this->properties['biddingStrategyType'] = 'enum:' . implode(',',[
-                self::HIGHEST_POSITION,
-                self::WB_MAXIMUM_CLICKS,
-                self::WB_MAXIMUM_CONVERSION_RATE,
-                self::AVERAGE_CPC,
-                self::AVERAGE_CPA,
-                self::AVERAGE_ROI,
-                self::WEEKLY_CLICK_PACKAGE
-            ]);
-    }
 }

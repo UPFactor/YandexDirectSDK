@@ -40,13 +40,13 @@ class ClientsService extends Service
         "VatRate"
     ];
 
-    protected $serviceName = 'clients';
+    protected static $name = 'clients';
 
-    protected $serviceModelClass = Client::class;
+    protected static $modelClass = Client::class;
 
-    protected $serviceModelCollectionClass = Clients::class;
+    protected static $modelCollectionClass = Clients::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'update' => 'update:updateCollection'
     ];
 

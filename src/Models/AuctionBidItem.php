@@ -19,15 +19,15 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AuctionBidItem extends Model 
 { 
-    protected $compatibleCollection = AuctionBidItems::class;
+    protected static $compatibleCollection = AuctionBidItems::class;
 
-    protected $properties = [
+    protected static $properties = [
         'trafficVolume' => 'integer',
         'bid' => 'integer',
         'price' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'trafficVolume',
         'bid',
         'price'

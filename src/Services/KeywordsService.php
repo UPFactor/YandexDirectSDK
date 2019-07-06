@@ -34,13 +34,13 @@ use YandexDirectSDK\Models\Keyword;
  */
 class KeywordsService extends Service
 {
-    protected $serviceName = 'keywords';
+    protected static $name = 'keywords';
 
-    protected $serviceModelClass = Keyword::class;
+    protected static $modelClass = Keyword::class;
 
-    protected $serviceModelCollectionClass = Keywords::class;
+    protected static $modelCollectionClass = Keywords::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',

@@ -31,14 +31,14 @@ class ClientNotification extends Model
     const EN = 'EN';
     const TR = 'TR';
 
-    protected $properties = [
+    protected static $properties = [
         'lang' => 'enum:' . self::RU . ',' . self::UK . ',' . self::EN . ',' . self::TR,
         'smsPhoneNumber' => 'string',
         'email' => 'string',
         'emailSubscriptions' => 'object:' . EmailSubscriptions::class,
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'smsPhoneNumber'
     ];
 }

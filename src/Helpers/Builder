@@ -51,12 +51,13 @@ class Builder extends ConsoleLauncher
             $content .= " */ \n";
             $content .= "class {$className} extends Model \n";
             $content .= "{ \n";
-            $content .= "    protected \$compatibleCollection; \n\n";
-            $content .= "    protected \$serviceProvidersMethods = []; \n\n";
-            $content .= "    protected \$properties = []; \n\n";
-            $content .= "    protected \$nonWritableProperties = []; \n\n";
-            $content .= "    protected \$nonReadableProperties = []; \n\n";
-            $content .= "    protected \$requiredProperties = []; \n";
+            $content .= "    protected static \$compatibleCollection; \n\n";
+            $content .= "    protected static \$serviceMethods = []; \n\n";
+            $content .= "    protected static \$properties = []; \n\n";
+            $content .= "    protected static \$nonWritableProperties = []; \n\n";
+            $content .= "    protected static \$nonReadableProperties = []; \n\n";
+            $content .= "    protected static \$nonUpdatableProperties = []; \n\n";
+            $content .= "    protected static \$nonAddableProperties = []; \n";
             $content .= "}";
 
             $file->create($content);
@@ -103,8 +104,8 @@ class Builder extends ConsoleLauncher
             $content .= "    /** \n";
             $content .= "     * @var {$modelClassName} \n";
             $content .= "     */ \n";
-            $content .= "    protected \$compatibleModel = {$modelClassName}::class; \n\n";
-            $content .= "    protected \$serviceProvidersMethods = []; \n";
+            $content .= "    protected static \$compatibleModel = {$modelClassName}::class; \n\n";
+            $content .= "    protected static \$serviceMethods = []; \n";
             $content .= "}";
 
             $file->create($content);
@@ -136,10 +137,10 @@ class Builder extends ConsoleLauncher
             $content .= " */ \n";
             $content .= "class {$className} extends Service \n";
             $content .= "{ \n";
-            $content .= "    protected \$serviceName = ''; \n\n";
-            $content .= "    protected \$serviceModelClass = ''; \n\n";
-            $content .= "    protected \$serviceModelCollectionClass = ''; \n\n";
-            $content .= "    protected \$serviceMethods = []; \n";
+            $content .= "    protected static \$name = ''; \n\n";
+            $content .= "    protected static \$modelClass = ''; \n\n";
+            $content .= "    protected static \$modelCollectionClass = ''; \n\n";
+            $content .= "    protected static \$methods = []; \n";
             $content .= "}";
 
             $file->create($content);

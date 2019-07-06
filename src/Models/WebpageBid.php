@@ -36,9 +36,9 @@ class WebpageBid extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = WebpageBids::class;
+    protected static $compatibleCollection = WebpageBids::class;
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
@@ -47,7 +47,7 @@ class WebpageBid extends Model
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

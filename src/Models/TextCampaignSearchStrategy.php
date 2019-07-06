@@ -44,7 +44,7 @@ class TextCampaignSearchStrategy extends Model
     const WEEKLY_CLICK_PACKAGE = 'WEEKLY_CLICK_PACKAGE';
     const SERVING_OFF = 'SERVING_OFF';
 
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategyType' => 'enum:' . self::HIGHEST_POSITION . ',' . self::WB_MAXIMUM_CLICKS . ',' . self::WB_MAXIMUM_CONVERSION_RATE . ',' . self::AVERAGE_CPC . ',' . self::AVERAGE_CPA . ',' . self::AVERAGE_ROI . ',' . self::WEEKLY_CLICK_PACKAGE . ',' . self::SERVING_OFF,
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumConversionRate' => 'object:' . StrategyMaximumConversionRate::class,

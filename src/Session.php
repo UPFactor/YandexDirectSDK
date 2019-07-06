@@ -91,7 +91,7 @@ class Session
      *
      * @var bool
      */
-    protected $useOperatorUnits =  true;
+    protected $useOperatorUnits =  false;
 
     /**
      * Sandbox mode.
@@ -108,6 +108,8 @@ class Session
     protected $logFile;
 
     /**
+     * Create Session instance.
+     *
      * @return static
      * @throws RuntimeException
      */
@@ -142,6 +144,10 @@ class Session
         $this->setToken($token);
 
         foreach ($options as $option => $value){
+            if (!isset($value)){
+                continue;
+            }
+
             switch ($option){
                 case 'client': $this->setClient($value); break;
                 case 'language': $this->setLanguage($value); break;
@@ -150,6 +156,8 @@ class Session
                 case 'logFile': $this->useLogFile(true, $value); break;
             }
         }
+
+        $this->initialize();
     }
 
     /**
@@ -688,4 +696,11 @@ class Session
             throw RuntimeException::make(static::class."::warningLogging. {$error->getMessage()}");
         }
     }
+
+    /**
+     * Session initialization handler.
+     *
+     * @return void
+     */
+    protected function initialize(){}
 }

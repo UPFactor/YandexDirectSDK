@@ -26,7 +26,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyAverageCpa extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'weeklySpendLimit' => 'integer',
         'bidCeiling' => 'integer',
         'goalId' => 'integer',

@@ -16,13 +16,13 @@ use YandexDirectSDK\Models\TurboPage;
  */ 
 class TurboPagesService extends Service 
 { 
-    protected $serviceName = 'turbopages';
+    protected static $name = 'turbopages';
 
-    protected $serviceModelClass = TurboPage::class;
+    protected static $modelClass = TurboPage::class;
 
-    protected $serviceModelCollectionClass = TurboPages::class;
+    protected static $modelCollectionClass = TurboPages::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'find' => 'get:selectionByIds'
     ];
 

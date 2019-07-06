@@ -17,14 +17,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class ClientRestriction extends Model 
 { 
-    protected $compatibleCollection = ClientRestrictions::class;
+    protected static $compatibleCollection = ClientRestrictions::class;
 
-    protected $properties = [
+    protected static $properties = [
         'element' => 'string',
         'value' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'element',
         'value'
     ];

@@ -18,13 +18,13 @@ use YandexDirectSDK\Models\Creative;
  */
 class CreativesService extends Service
 {
-    protected $serviceName = 'creatives';
+    protected static $name = 'creatives';
 
-    protected $serviceModelClass = Creative::class;
+    protected static $modelClass = Creative::class;
 
-    protected $serviceModelCollectionClass = Creatives::class;
+    protected static $modelCollectionClass = Creatives::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds'
     ];

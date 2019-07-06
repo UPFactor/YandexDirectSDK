@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Model;
  */
 class Notification extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'smsSettings' => 'object:' . SmsSettings::class,
         'emailSettings' => 'object:' . EmailSettings::class
     ];

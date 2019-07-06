@@ -13,7 +13,6 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Session;
 
 class Mapper extends ConsoleLauncher{
 
@@ -247,11 +246,12 @@ class Mapper extends ConsoleLauncher{
         ];
 
         /**
-         * @var ModelInterface $modelObject
+         * @var ModelInterface $modelClass
          */
-        $modelObject = new $this->objectClass();
-        $modelMethodsMeta = $modelObject->getServiceProvidersMethodsMeta();
-        $modelPropertiesMeta = $modelObject->getPropertiesMeta();
+
+        $modelClass = $this->objectClass;
+        $modelMethodsMeta = $modelClass::getServiceMethods();
+        $modelPropertiesMeta = $modelClass::getProperties();
 
         $providers = [];
 
@@ -267,16 +267,16 @@ class Mapper extends ConsoleLauncher{
                 continue;
             }
 
+            $service = $provider;
+
             if (array_key_exists($provider, $providers)){
-                $service = $providers[$provider]['service'];
                 $methods = $providers[$provider]['methods'];
             } else {
-                $service = $providers[$provider]['service'] = new $provider(Session::make(''));
                 $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
             }
 
-            if (array_key_exists($alias, $service->getMethodsMeta())){
-                $method = $service->getMethodsMeta()[$alias]['type'];
+            if (array_key_exists($alias, $service::getMethods())){
+                $method = $service::getMethods()[$alias]['type'];
             } else {
                 $method = $alias;
             }
@@ -403,10 +403,13 @@ class Mapper extends ConsoleLauncher{
             'method-readable' => []
         ];
 
-        /** @var ModelCollectionInterface $collectionObject */
-        $collectionObject = new $this->objectClass();
-        $collectionCompatibleModel = $collectionObject->getCompatibleModel();
-        $collectionMethodsMeta = $collectionObject->getServiceProvidersMethodsMeta();
+        /**
+         * @var ModelCollectionInterface $collectionClass
+         */
+
+        $collectionClass = $this->objectClass;
+        $collectionCompatibleModel = $collectionClass::getCompatibleModel();
+        $collectionMethodsMeta = $collectionClass::getServiceMethods();
 
         if (is_null($collectionCompatibleModel)){
             $this->warning("Collection [{$this->objectReflection->name}]. Compatible model not defined.");
@@ -427,16 +430,16 @@ class Mapper extends ConsoleLauncher{
                 continue;
             }
 
+            $service = $provider;
+
             if (array_key_exists($provider, $providers)){
-                $service = $providers[$provider]['service'];
                 $methods = $providers[$provider]['methods'];
             } else {
-                $service = $providers[$provider]['service'] = new $provider(Session::make(''));
                 $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
             }
 
-            if (array_key_exists($alias, $service->getMethodsMeta())){
-                $method = $service->getMethodsMeta()[$alias]['type'];
+            if (array_key_exists($alias, $service::getMethods())){
+                $method = $service::getMethods()[$alias]['type'];
             } else {
                 $method = $alias;
             }
@@ -482,15 +485,15 @@ class Mapper extends ConsoleLauncher{
             'method-readable' => []
         ];
 
-        /** @var Service $serviceObject */
+        /** @var Service $serviceClass */
         /** @var string $serviceModelClass */
         /** @var string $serviceModelCollectionClass */
 
-        $serviceObject = new $this->objectClass(new Session(''));
-        $serviceName = $serviceObject->getServiceName();
-        $serviceModelClass = $serviceObject->getServiceModelClass();
-        $serviceModelCollectionClass = $serviceObject->getServiceModelCollectionClass();
-        $serviceMethodsMeta = $serviceObject->getMethodsMeta();
+        $serviceClass = $this->objectClass;
+        $serviceName = $serviceClass::getName();
+        $serviceModelClass = $serviceClass::getModelClass();
+        $serviceModelCollectionClass = $serviceClass::getModelCollectionClass();
+        $serviceMethodsMeta = $serviceClass::getMethods();
 
         if (is_null($serviceName)){
             $this->warning("Service provider [{$this->objectReflection->name}]. Service name is missing.");

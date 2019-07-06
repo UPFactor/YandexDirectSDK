@@ -22,13 +22,13 @@ use YandexDirectSDK\Models\Bid;
  */
 class BidsService extends Service
 {
-    protected $serviceName = 'bids';
+    protected static $name = 'bids';
 
-    protected $serviceModelClass = Bid::class;
+    protected static $modelClass = Bid::class;
 
-    protected $serviceModelCollectionClass = Bids::class;
+    protected static $modelCollectionClass = Bids::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'query' => 'get:selectionElements',
     ];
 

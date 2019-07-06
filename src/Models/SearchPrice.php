@@ -17,14 +17,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class SearchPrice extends Model 
 {
-    protected $compatibleCollection = SearchPrices::class;
+    protected static $compatibleCollection = SearchPrices::class;
 
-    protected $properties = [
+    protected static $properties = [
         'position' => 'string',
         'price' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'position',
         'price'
     ];

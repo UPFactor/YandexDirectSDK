@@ -18,13 +18,13 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextFeedAdGroup extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'source' => 'string',
         'sourceType' => 'string',
         'sourceProcessingStatus' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'source',
         'sourceType',
         'sourceProcessingStatus'

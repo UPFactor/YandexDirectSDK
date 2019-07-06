@@ -14,11 +14,11 @@ use YandexDirectSDK\Components\Model;
  */ 
 class CpmVideoCreative extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'duration' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'duration'
     ];
 }

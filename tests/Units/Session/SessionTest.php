@@ -4,150 +4,117 @@ namespace YandexDirectSDKTest\Unit\Session;
 
 use PHPUnit\Framework\TestCase;
 use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Environment;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Services\AdExtensionsService;
-use YandexDirectSDK\Services\AdGroupsService;
-use YandexDirectSDK\Services\AdImagesService;
-use YandexDirectSDK\Services\AdsService;
-use YandexDirectSDK\Services\AgencyClientsService;
-use YandexDirectSDK\Services\AudienceTargetsService;
-use YandexDirectSDK\Services\BidModifiersService;
-use YandexDirectSDK\Services\BidsService;
-use YandexDirectSDK\Services\CampaignsService;
-use YandexDirectSDK\Services\ChangesService;
-use YandexDirectSDK\Services\ClientsService;
-use YandexDirectSDK\Services\DictionariesService;
-use YandexDirectSDK\Services\DynamicTextAdTargetsService;
-use YandexDirectSDK\Services\KeywordBidsService;
-use YandexDirectSDK\Services\KeywordsResearchService;
-use YandexDirectSDK\Services\KeywordsService;
-use YandexDirectSDK\Services\LeadsService;
-use YandexDirectSDK\Services\ReportsService;
-use YandexDirectSDK\Services\RetargetingListsService;
-use YandexDirectSDK\Services\SitelinksService;
-use YandexDirectSDK\Services\VCardsService;
 use YandexDirectSDK\Session;
-use YandexDirectSDKTest\Helpers\SessionTools;
+use YandexDirectSDKTest\Helpers\FakeEnvironment;
+use YandexDirectSDKTest\Helpers\FakeSession;
+use YandexDirectSDKTest\Helpers\TestDir;
 
 class SessionTest extends TestCase
 {
-    public $logFile = __DIR__ . '/../../Run/testConstructLogFile.log';
+    public static $logFile;
 
-    public function sessionDataProvider(){
+    public static function setUpBeforeClass():void
+    {
+        FakeEnvironment::setUp();
+        self::$logFile = TestDir::run('testConstructLogFile.log', '');
+    }
 
-        $initData = SessionTools::getInitData();
+    public static function tearDownAfterClass():void
+    {
+        FakeEnvironment::tearDown();
+        if (file_exists(self::$logFile)){
+            unlink(self::$logFile);
+        }
+    }
 
+    public function InitDataProvider(){
         return [
             [
-                $initData['token'],
-                [
-                    'client' => 'clientLogin',
-                    'language' => 'ru',
-                    'sandbox' => true,
+                'init' => [
+                    'token' => ''
+                ],
+                'fetch' => [
+                    'token' => '',
+                    'client' => '',
+                    'language' => 'en',
+                    'sandbox' => false,
                     'operatorUnits' => false,
-                    'logFile' => $this->logFile
+                    'logFile' => null
+                ]
+            ],
+            [
+                'init' => [
+                    'token' => 'testToken',
+                    'client' => 'testClient',
+                    'language' => 'testLanguage',
+                    'sandbox' => true,
+                    'operatorUnits' => true,
+                    'logFile' => self::$logFile
+                ],
+                'fetch' => [
+                    'token' => 'testToken',
+                    'client' => 'testClient',
+                    'language' => 'testLanguage',
+                    'sandbox' => true,
+                    'operatorUnits' => true,
+                    'logFile' => self::$logFile
                 ]
             ]
         ];
     }
 
-    public function setUp(): void
-    {
-        if (file_exists($this->logFile)){
-            unlink($this->logFile);
-        }
-    }
-
     /**
-     * @dataProvider sessionDataProvider
+     * @dataProvider InitDataProvider
      *
-     * @param string $token
-     * @param array $options
+     * @param array $a
+     * @param array $b
      * @throws RuntimeException
      */
-    public function testConstruct(string $token, array $options):void
+    public function testConstruct(array $a, array $b)
     {
-
-        //General method of creating a session instance.
-
-        $session = (new Session($token))
-            ->setClient($options['client'])
-            ->setLanguage($options['language'])
-            ->useSandbox($options['sandbox'])
-            ->useOperatorUnits($options['operatorUnits'])
-            ->useLogFile(true, $options['logFile']);
-
-        $expected = $options;
-        $expected['token'] = $token;
-        $expected['logFile'] = realpath($expected['logFile']);
-
-        $this->assertEquals($expected, $session->fetch());
-        $this->assertFileExists($expected['logFile']);
-
-        //General method of creating an instance of a session
-        //using an array of options.
-
-        $session = new Session($token, $options);
-        $this->assertEquals($expected, $session->fetch());
-
-        //Alternate method of creating an instance of a session.
-
-        $session = Session::make($token)
-            ->setClient($options['client'])
-            ->setLanguage($options['language'])
-            ->useSandbox($options['sandbox'])
-            ->useOperatorUnits($options['operatorUnits'])
-            ->useLogFile(true, $options['logFile']);
-
-        $this->assertEquals($expected, $session->fetch());
-
-        //Alternate method of creating an instance of a session
-        //using an array of options.
-
-        $session = Session::make($token, $options);
-        $this->assertEquals($expected, $session->fetch());
+        $session = new Session($a['token'], $a);
+        $this->assertEquals($b, $session->fetch());
     }
 
     /**
-     * Availability of basic services.
-     *
+     * @dataProvider InitDataProvider
      * @depends testConstruct
      *
-     * @return void
+     * @param array $a
+     * @param array $b
+     * @throws RuntimeException
      */
-    public function testServiceAccess(): void
+    public function testMake(array $a, array $b)
     {
-        $session = SessionTools::init();
+        $session = Session::make($a['token'], $a);
+        $this->assertEquals($b, $session->fetch());
+    }
 
-        $this->assertTrue($session->getCampaignsService() instanceof CampaignsService);
-        $this->assertTrue($session->getAdGroupsService() instanceof AdGroupsService);
-        $this->assertTrue($session->getAdsService() instanceof AdsService);
-        $this->assertTrue($session->getKeywordsService() instanceof KeywordsService);
-        $this->assertTrue($session->getBidsService() instanceof BidsService);
-        $this->assertTrue($session->getKeywordBidsService() instanceof KeywordBidsService);
-        $this->assertTrue($session->getBidModifiersService() instanceof BidModifiersService);
-        $this->assertTrue($session->getAudienceTargetsService() instanceof AudienceTargetsService);
-        $this->assertTrue($session->getRetargetingListsService() instanceof RetargetingListsService);
-        $this->assertTrue($session->getVCardsService() instanceof VCardsService);
-        $this->assertTrue($session->getSitelinksService() instanceof SitelinksService);
-        $this->assertTrue($session->getAdImagesService() instanceof AdImagesService);
-        $this->assertTrue($session->getAdExtensionsService() instanceof AdExtensionsService);
-        $this->assertTrue($session->getDynamicTextAdTargetsService() instanceof DynamicTextAdTargetsService);
-        $this->assertTrue($session->getChangesService() instanceof ChangesService);
-        $this->assertTrue($session->getDictionariesService() instanceof DictionariesService);
-        $this->assertTrue($session->getClientsService() instanceof ClientsService);
-        $this->assertTrue($session->getAgencyClientsService() instanceof AgencyClientsService);
-        $this->assertTrue($session->getKeywordsResearchService() instanceof KeywordsResearchService);
-        $this->assertTrue($session->getLeadsService() instanceof LeadsService);
-        $this->assertTrue($session->getReportsService('report') instanceof ReportsService);
+    /**
+     * @dataProvider InitDataProvider
+     * @depends testConstruct
+     *
+     * @param array $a
+     * @param array $b
+     * @throws RuntimeException
+     */
+    public function testInit(array $a, array $b)
+    {
+        Environment::set($a);
+        $session = Session::init();
+        $this->assertEquals($b, $session->fetch());
+
+        FakeEnvironment::setUp();
     }
 
     /**
      * Calling the Yandex.Direct API method.
      *
-     * @depends testConstruct
+     * @depends testInit
      *
      * @return void
      * @throws InvalidArgumentException
@@ -156,7 +123,7 @@ class SessionTest extends TestCase
      */
     public function testApiCall(): void
     {
-        $result = SessionTools::init()->call('dictionaries', 'get', [
+        $result = FakeSession::init()->call('dictionaries', 'get', [
             'DictionaryNames' => ['Currencies']
         ]);
 
@@ -166,7 +133,7 @@ class SessionTest extends TestCase
     /**
      * Yandex.Direct API method exception: Bad Request.
      *
-     * @depends testConstruct
+     * @depends testInit
      *
      * @return void
      * @throws InvalidArgumentException
@@ -176,13 +143,13 @@ class SessionTest extends TestCase
     public function testApiCall_RequestException_BadRequest():void
     {
         $this->expectException(RequestException::class);
-        SessionTools::init()->call('dictionaries', 'get', []);
+        FakeSession::init()->call('dictionaries', 'get', []);
     }
 
     /**
      * Yandex.Direct API method exception: Not Found.
      *
-     * @depends testConstruct
+     * @depends testInit
      *
      * @return void
      * @throws InvalidArgumentException
@@ -193,30 +160,30 @@ class SessionTest extends TestCase
     {
         $this->expectException(RequestException::class);
         $this->expectExceptionCode(404);
-        SessionTools::init()->call('', '');
+        FakeSession::init()->call('', '');
     }
 
     /**
      * Yandex.Direct API method exception: URI Too Long.
      *
-     * @depends testConstruct
+     * @depends testInit
      *
      * @return void
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function testApiCall_RequestException_URITooLong():void
+    public function testApiCall_RequestException_URILong():void
     {
         $this->expectException(RequestException::class);
         $this->expectExceptionCode(414);
-        SessionTools::init()->call(str_repeat('dictionaries', 1000), '');
+        FakeSession::init()->call(str_repeat('dictionaries', 1000), '');
     }
 
     /**
      * Yandex.Direct API method exception: Lack of access to the log file.
      *
-     * @depends testConstruct
+     * @depends testInit
      *
      * @return void
      * @throws InvalidArgumentException
@@ -227,17 +194,17 @@ class SessionTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $session = SessionTools::init();
-        $session->useLogFile(true, $this->logFile);
+        $session = FakeSession::init();
+        $session->useLogFile(true, self::$logFile);
 
-        chmod($this->logFile, 000);
+        chmod(self::$logFile, 000);
 
         try {
             $session->call('dictionaries', 'get', [
                 'DictionaryNames' => ['Currencies']
             ]);
         } catch (RuntimeException $e){
-            unlink($this->logFile);
+            unlink(self::$logFile);
             throw $e;
         }
     }

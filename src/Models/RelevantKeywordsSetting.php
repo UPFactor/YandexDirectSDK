@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Model;
  */
 class RelevantKeywordsSetting extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'budgetPercent' => 'integer',
         'optimizeGoalId' => 'integer'
     ];

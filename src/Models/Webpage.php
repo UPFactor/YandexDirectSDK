@@ -62,9 +62,9 @@ class Webpage extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = Webpages::class;
+    protected static $compatibleCollection = Webpages::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => DynamicTextAdTargetsService::class,
         'delete' => DynamicTextAdTargetsService::class,
         'query' => DynamicTextAdTargetsService::class,
@@ -75,7 +75,7 @@ class Webpage extends Model
         'setRelatedStrategyPriority' => DynamicTextAdTargetsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'name' => 'string',
         'adGroupId' => 'integer',
@@ -89,14 +89,14 @@ class Webpage extends Model
         'statusClarification' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'campaignId',
         'conditionType',
         'state',
         'statusClarification'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

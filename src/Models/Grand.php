@@ -29,15 +29,15 @@ class Grand extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = Grands::class;
+    protected static $compatibleCollection = Grands::class;
 
-    protected $properties = [
+    protected static $properties = [
         'privilege' => 'enum:' . self::EDIT_CAMPAIGNS . ',' . self::IMPORT_XLS . ',' . self::TRANSFER_MONEY,
         'value' => 'enum:' . self::YES . ',' . self::NO,
         'agency' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'agency'
     ];
 

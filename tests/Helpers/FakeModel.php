@@ -27,14 +27,13 @@ class FakeModel extends Model
 
     /**
      * Model initialization handler.
+     * @return void
      */
     protected function initialize()
     {
-        $this->checklists = new Checklists();
-
         $initializationData = [
             'compatibleCollection' => FakeModelCollectionTools::class,
-            'serviceProvidersMethods' => [],
+            'serviceMethods' => [],
             'properties' => [
                 'propBoolean' => 'boolean',
                 'propFloat' => 'float',
@@ -48,27 +47,46 @@ class FakeModel extends Model
                 'propArrayOfSet' => 'arrayOfSet:s1,s2,s3',
                 'propObject' => 'object:' . FakeModel::class,
                 'propArrayOfObject' => 'arrayOfObject:' . FakeModelCollectionTools::class
-            ]
+            ],
+            'nonWritableProperties' => [],
+            'nonReadableProperties' => [],
+            'nonUpdatableProperties' => [],
+            'nonAddableProperties' => []
         ];
 
         if (is_array(self::$initializationData) or empty(self::$initializationData)){
-            $initializationData = array_merge($initializationData, self::$initializationData);
+            foreach (self::$initializationData as $property => $value){
+                if (array_key_exists($property, $initializationData)){
+                    $initializationData[$property] = $value;
+                }
+            }
         }
 
-        foreach ($initializationData as $property => $value){
-            $this->{$property} = $value;
+        static::$compatibleCollection = $initializationData['compatibleCollection'];
+        static::$serviceMethods = $initializationData['serviceMethods'];
+        static::$properties = $initializationData['properties'];
+        static::$nonWritableProperties = $initializationData['nonWritableProperties'];
+        static::$nonReadableProperties = $initializationData['nonReadableProperties'];
+        static::$nonUpdatableProperties = $initializationData['nonUpdatableProperties'];
+        static::$nonAddableProperties = $initializationData['nonAddableProperties'];
+
+        if (array_key_exists(static::class, self::$boot)){
+            unset(self::$boot[static::class]);
         }
 
+        $this->modelProperties = self::bootstrap()['properties'];
         self::$initializationData = [];
+
+        $this->checklists = new Checklists();
     }
 
     /**
      * Check properties of this model.
      *
      * @param array $expectedProperties
-     * @throws ModelException
      */
-    public function check(array $expectedProperties){
+    public function check(array $expectedProperties)
+    {
         $this->checklists->checkModel($this, $expectedProperties);
     }
 }

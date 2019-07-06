@@ -75,15 +75,15 @@ use YandexDirectSDK\Services\VCardsService;
  */ 
 class VCard extends Model 
 { 
-    protected $compatibleCollection = VCards::class;
+    protected static $compatibleCollection = VCards::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => VCardsService::class,
         'add' => VCardsService::class,
         'delete' => VCardsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'campaignId' => 'integer',
         'country' => 'string',
@@ -104,7 +104,7 @@ class VCard extends Model
         'contactPerson' => 'string'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

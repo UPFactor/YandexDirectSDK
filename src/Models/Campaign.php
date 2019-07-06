@@ -112,9 +112,9 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 class Campaign extends Model
 {
-    protected $compatibleCollection = Campaigns::class;
+    protected static $compatibleCollection = Campaigns::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => CampaignsService::class,
         'add' => CampaignsService::class,
         'update' => CampaignsService::class,
@@ -140,7 +140,7 @@ class Campaign extends Model
         'getRelatedWebpages' => CampaignsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id'=>'integer',
         'clientInfo' => 'string',
         'notification' => 'object:' . Notification::class,
@@ -169,7 +169,7 @@ class Campaign extends Model
         'representedBy' => 'object:' . CampaignAssistant::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'type',
         'status',
         'state',
@@ -182,7 +182,7 @@ class Campaign extends Model
         'representedBy'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

@@ -21,13 +21,13 @@ use YandexDirectSDK\Models\VCard;
  */
 class VCardsService extends Service
 {
-    protected $serviceName = 'vcards';
+    protected static $name = 'vcards';
 
-    protected $serviceModelClass = VCard::class;
+    protected static $modelClass = VCard::class;
 
-    protected $serviceModelCollectionClass = VCards::class;
+    protected static $modelCollectionClass = VCards::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

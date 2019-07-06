@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextCampaignStrategy extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'search' => 'object:' . DynamicTextCampaignSearchStrategy::class,
         'network' => 'object:' . DynamicTextCampaignNetworkStrategy::class
     ];

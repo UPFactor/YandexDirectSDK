@@ -38,15 +38,15 @@ use YandexDirectSDK\Services\AdExtensionsService;
  */ 
 class AdExtension extends Model 
 { 
-    protected $compatibleCollection = AdExtensions::class;
+    protected static $compatibleCollection = AdExtensions::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdExtensionsService::class,
         'add' => AdExtensionsService::class,
         'delete' => AdExtensionsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'associated' => 'string',
         'type' => 'string',
@@ -56,11 +56,11 @@ class AdExtension extends Model
         'statusClarification' => 'string'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'callout'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'associated',
         'type',
         'state',
@@ -68,7 +68,7 @@ class AdExtension extends Model
         'statusClarification'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

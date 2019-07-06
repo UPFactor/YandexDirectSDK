@@ -81,7 +81,7 @@ class ReportsService extends Service
      *
      * @var string
      */
-    protected $serviceName = 'reports';
+    protected static $name = 'reports';
 
     /**
      * Report name.

@@ -23,9 +23,9 @@ class KeywordBidsAuto extends ModelCollection
     /** 
      * @var KeywordBidAuto 
      */ 
-    protected $compatibleModel = KeywordBidAuto::class;
+    protected static $compatibleModel = KeywordBidAuto::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'setAuto' => KeywordBidsService::class
     ];
 }

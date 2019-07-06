@@ -39,25 +39,19 @@ class MobileAppCampaignSearchStrategy extends Model
     const WEEKLY_CLICK_PACKAGE = 'WEEKLY_CLICK_PACKAGE';
     const SERVING_OFF = 'SERVING_OFF';
 
-    protected $properties = [
-        'biddingStrategyType' => 'enum:',
+    protected static $properties = [
+        'biddingStrategyType' => 'enum:'
+            .self::HIGHEST_POSITION.','
+            .self::WB_MAXIMUM_CLICKS.','
+            .self::WB_MAXIMUM_APP_INSTALLS.','
+            .self::AVERAGE_CPC.','
+            .self::AVERAGE_CPI.','
+            .self::WEEKLY_CLICK_PACKAGE.','
+            .self::SERVING_OFF,
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumAppInstalls' => 'object:' . StrategyMaximumAppInstalls::class,
         'averageCpc' => 'object:' . StrategyAverageCpc::class,
         'averageCpi' => 'object:' . StrategyAverageCpi::class,
         'weeklyClickPackage' => 'object:' . StrategyWeeklyClickPackage::class
     ];
-
-    protected function initialize(...$arguments)
-    {
-        $this->properties['biddingStrategyType'] = 'enum:' . implode(',',[
-                self::HIGHEST_POSITION,
-                self::WB_MAXIMUM_CLICKS,
-                self::WB_MAXIMUM_APP_INSTALLS,
-                self::AVERAGE_CPC,
-                self::AVERAGE_CPI,
-                self::WEEKLY_CLICK_PACKAGE,
-                self::SERVING_OFF
-            ]);
-    }
 }

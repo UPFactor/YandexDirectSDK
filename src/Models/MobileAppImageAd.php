@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class MobileAppImageAd extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'trackingUrl' => 'string',
         'adImageHash' => 'string'
     ];

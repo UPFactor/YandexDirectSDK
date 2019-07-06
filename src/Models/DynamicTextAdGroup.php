@@ -19,12 +19,12 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextAdGroup extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'domainUrl' => 'string',
         'domainUrlProcessingStatus' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'domainUrlProcessingStatus'
     ];
 }

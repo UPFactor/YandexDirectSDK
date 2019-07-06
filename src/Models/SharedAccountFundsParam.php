@@ -16,12 +16,12 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class SharedAccountFundsParam extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'refund' => 'integer',
         'spend' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'refund',
         'spend'
     ];

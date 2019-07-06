@@ -19,5 +19,5 @@ class RetargetingListRuleArguments extends ModelCollection
     /** 
      * @var RetargetingListRuleArgument 
      */ 
-    protected $compatibleModel = RetargetingListRuleArgument::class;
+    protected static $compatibleModel = RetargetingListRuleArgument::class;
 }

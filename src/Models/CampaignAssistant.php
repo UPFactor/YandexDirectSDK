@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CampaignAssistant extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'manager' => 'string',
         'agency' => 'string'
     ];

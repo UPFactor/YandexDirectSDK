@@ -76,9 +76,9 @@ class Client extends Model
     const UAH = 'UAH';
     const USD = 'USD';
 
-    protected $compatibleCollection = Clients::class;
+    protected static $compatibleCollection = Clients::class;
 
-    protected $properties = [
+    protected static $properties = [
         'accountQuality' => 'float',
         'archived' => 'string',
         'clientId' => 'integer',
@@ -100,19 +100,19 @@ class Client extends Model
         'vatRate' => 'float'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'clientInfo',
         'phone'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'login',
         'firstName',
         'lastName',
         'currency'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'accountQuality',
         'archived',
         'countryId',

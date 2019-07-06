@@ -46,9 +46,9 @@ class Campaigns extends ModelCollection
      */
     protected $items = [];
 
-    protected $compatibleModel = Campaign::class;
+    protected static $compatibleModel = Campaign::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => CampaignsService::class,
         'add' => CampaignsService::class,
         'update' => CampaignsService::class,

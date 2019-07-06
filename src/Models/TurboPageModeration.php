@@ -22,12 +22,12 @@ class TurboPageModeration extends Model
     const REJECTED = 'REJECTED';
     const UNKNOWN = 'UNKNOWN';
 
-    protected $properties = [
+    protected static $properties = [
         'status' => 'enum:' . self::ACCEPTED . ',' . self::DRAFT . ',' . self::MODERATION . ',' . self::REJECTED . ',' . self::UNKNOWN,
         'statusClarification' => 'string:'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'status',
         'statusClarification'
     ];

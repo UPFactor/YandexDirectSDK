@@ -23,9 +23,9 @@ class TurboPages extends ModelCollection
     /** 
      * @var TurboPage 
      */ 
-    protected $compatibleModel = TurboPage::class;
+    protected static $compatibleModel = TurboPage::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => TurboPagesService::class,
     ];
 }

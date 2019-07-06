@@ -20,14 +20,14 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CampaignFundsParam extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'sum' => 'integer',
         'balance' => 'integer',
         'balanceBonus' => 'integer',
         'sumAvailableForTransfer' => 'integer'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'sum',
         'balance',
         'balanceBonus',

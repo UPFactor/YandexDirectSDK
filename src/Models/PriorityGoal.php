@@ -26,15 +26,15 @@ class PriorityGoal extends Model
 {
     const SET = 'SET';
 
-    protected $compatibleCollection = PriorityGoals::class;
+    protected static $compatibleCollection = PriorityGoals::class;
 
-    protected $properties = [
+    protected static $properties = [
         'goalId' => 'integer',
         'value' => 'integer',
         'operation' => 'enum:' . self::SET
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'operation'
     ];
 }

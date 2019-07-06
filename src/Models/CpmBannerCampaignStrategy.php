@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CpmBannerCampaignStrategy extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'search' => 'object:' . CpmBannerCampaignSearchStrategy::class,
         'network' => 'object:' . CpmBannerCampaignNetworkStrategy::class
     ];

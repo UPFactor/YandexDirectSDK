@@ -16,5 +16,5 @@ class MobileAppCampaignSettings extends ModelCollection
      */ 
     protected $items = []; 
 
-    protected $compatibleModel = MobileAppCampaignSetting::class;
+    protected static $compatibleModel = MobileAppCampaignSetting::class;
 }

@@ -22,13 +22,13 @@ use YandexDirectSDK\Models\RetargetingList;
  */
 class RetargetingListsService extends Service
 {
-    protected $serviceName = 'retargetinglists';
+    protected static $name = 'retargetinglists';
 
-    protected $serviceModelClass = RetargetingList::class;
+    protected static $modelClass = RetargetingList::class;
 
-    protected $serviceModelCollectionClass = RetargetingLists::class;
+    protected static $modelCollectionClass = RetargetingLists::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',

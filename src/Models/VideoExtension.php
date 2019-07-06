@@ -23,14 +23,14 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class VideoExtension extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'creativeId' => 'integer',
         'status' => 'string',
         'thumbnailUrl' => 'string',
         'previewUrl' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'status',
         'thumbnailUrl',
         'previewUrl'

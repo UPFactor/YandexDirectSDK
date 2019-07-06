@@ -29,31 +29,19 @@ class CpmBannerCampaignSetting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = CpmBannerCampaignSettings::class;
+    protected static $compatibleCollection = CpmBannerCampaignSettings::class;
 
-    /**
-     * Model Initialization Handler.
-     *
-     * @param array $arguments
-     * @return void
-     */
-    protected function initialize(...$arguments)
-    {
-        $this->properties = [
-            'option' => 'enum:' . implode(',',[
-                    self::ADD_METRICA_TAG,
-                    self::ADD_OPENSTAT_TAG,
-                    self::ADD_TO_FAVORITES,
-                    self::ENABLE_AREA_OF_INTEREST_TARGETING,
-                    self::ENABLE_SITE_MONITORING,
-                    self::REQUIRE_SERVICING
-                ]),
-            'value' => 'enum:' . implode(',',[
-                    self::YES,
-                    self::NO
-                ])
-        ];
-    }
+    protected static $properties = [
+        'option' => 'enum:'
+            .self::ADD_METRICA_TAG.','
+            .self::ADD_OPENSTAT_TAG.','
+            .self::ADD_TO_FAVORITES.','
+            .self::ENABLE_AREA_OF_INTEREST_TARGETING.','
+            .self::ENABLE_SITE_MONITORING.','
+            .self::REQUIRE_SERVICING,
+
+        'value' => 'enum:'.self::YES.','.self::NO
+    ];
 
     /**
      * Returns the [CpmBannerCampaignSetting] instance

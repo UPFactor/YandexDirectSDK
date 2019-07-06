@@ -28,7 +28,7 @@ class TimeTargetingOnPublicHolidays extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $properties = [
+    protected static $properties = [
         'suspendOnHolidays' => 'enum:' . self::YES . ',' . self::NO,
         'bidPercent' => 'integer',
         'startHour' => 'integer',

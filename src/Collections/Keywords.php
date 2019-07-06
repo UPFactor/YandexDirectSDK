@@ -35,9 +35,9 @@ class Keywords extends ModelCollection
     /** 
      * @var Keyword[] 
      */ 
-    protected $compatibleModel = Keyword::class;
+    protected static $compatibleModel = Keyword::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => KeywordsService::class,
         'delete' => KeywordsService::class,
         'query' => KeywordsService::class,

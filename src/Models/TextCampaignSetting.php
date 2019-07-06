@@ -34,29 +34,23 @@ class TextCampaignSetting extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = TextCampaignSettings::class;
+    protected static $compatibleCollection = TextCampaignSettings::class;
 
-    protected function initialize(...$arguments)
-    {
-        $this->properties = [
-            'option' => 'enum:' . implode(',',[
-                    self::ADD_METRICA_TAG,
-                    self::ADD_OPENSTAT_TAG,
-                    self::ADD_TO_FAVORITES,
-                    self::ENABLE_AREA_OF_INTEREST_TARGETING,
-                    self::ENABLE_COMPANY_INFO,
-                    self::ENABLE_EXTENDED_AD_TITLE,
-                    self::ENABLE_SITE_MONITORING,
-                    self::EXCLUDE_PAUSED_COMPETING_ADS,
-                    self::MAINTAIN_NETWORK_CPC,
-                    self::REQUIRE_SERVICING
-                ]),
-            'value' => 'enum:' . implode(',',[
-                    self::YES,
-                    self::NO
-                ])
-        ];
-    }
+    protected static $properties = [
+        'option' => 'enum:'
+            .self::ADD_METRICA_TAG.','
+            .self::ADD_OPENSTAT_TAG.','
+            .self::ADD_TO_FAVORITES.','
+            .self::ENABLE_AREA_OF_INTEREST_TARGETING.','
+            .self::ENABLE_COMPANY_INFO.','
+            .self::ENABLE_EXTENDED_AD_TITLE.','
+            .self::ENABLE_SITE_MONITORING.','
+            .self::EXCLUDE_PAUSED_COMPETING_ADS.','
+            .self::MAINTAIN_NETWORK_CPC.','
+            .self::REQUIRE_SERVICING,
+
+        'value' => 'enum:'.self::YES.','.self::NO
+    ];
 
     /**
      * Returns the [TextCampaignSetting] instance

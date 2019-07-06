@@ -45,13 +45,13 @@ use YandexDirectSDK\Models\Webpage;
  */
 class AdGroupsService extends Service
 {
-    protected $serviceName = 'adgroups';
+    protected static $name = 'adgroups';
 
-    protected $serviceModelClass = AdGroup::class;
+    protected static $modelClass = AdGroup::class;
 
-    protected $serviceModelCollectionClass = AdGroups::class;
+    protected static $modelCollectionClass = AdGroups::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'update' => 'update:updateCollection',
         'query' => 'get:selectionElements',

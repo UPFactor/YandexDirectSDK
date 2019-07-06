@@ -15,7 +15,7 @@ use YandexDirectSDK\Exceptions\RuntimeException;
  */
 class DictionariesService extends Service
 {
-    protected $serviceName = 'dictionaries';
+    protected static $name = 'dictionaries';
 
     /**
      * @param string|string[] $names

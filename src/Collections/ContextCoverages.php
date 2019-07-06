@@ -19,5 +19,5 @@ class ContextCoverages extends ModelCollection
     /** 
      * @var ContextCoverage[] 
      */ 
-    protected $compatibleModel = ContextCoverage::class;
+    protected static $compatibleModel = ContextCoverage::class;
 }

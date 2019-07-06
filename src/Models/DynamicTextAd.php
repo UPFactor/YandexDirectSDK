@@ -41,9 +41,9 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextAd extends Model 
 { 
-    protected $serviceProvidersMethods = []; 
+    protected static $serviceMethods = [];
 
-    protected $properties = [
+    protected static $properties = [
         'text' => 'string',
         'vCardId' => 'integer',
         'vCardModeration' => 'object:' . ExtensionModeration::class,
@@ -56,15 +56,15 @@ class DynamicTextAd extends Model
         'adExtensions' => 'object:' . AdExtensionsAd::class
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'calloutSetting'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'adExtensionIds'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'vCardModeration',
         'sitelinksModeration',
         'adImageModeration',

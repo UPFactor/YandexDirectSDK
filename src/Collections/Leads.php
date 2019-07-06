@@ -23,9 +23,9 @@ class Leads extends ModelCollection
     /** 
      * @var Lead 
      */ 
-    protected $compatibleModel = Lead::class;
+    protected static $compatibleModel = Lead::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => LeadsService::class
     ];
 }

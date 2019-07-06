@@ -25,14 +25,14 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class CpmBannerAdBuilderAd extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'creative' => 'object:' . AdBuilderAd::class,
         'href' => 'string',
         'turboPageId' => 'integer',
         'turboPageModeration' => 'object:' . TurboPageModeration::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'turboPageModeration'
     ];
 }

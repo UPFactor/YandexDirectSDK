@@ -26,9 +26,9 @@ class SitelinksSets extends ModelCollection
     /** 
      * @var SitelinksSet[] 
      */ 
-    protected $compatibleModel = SitelinksSet::class;
+    protected static $compatibleModel = SitelinksSet::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => SitelinksService::class,
         'delete' => SitelinksService::class,
         'query' => SitelinksService::class

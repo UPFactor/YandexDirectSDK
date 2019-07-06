@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class StrategyMaximumAppInstalls extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'weeklySpendLimit' => 'integer',
         'bidCeiling' => 'integer'
     ];

@@ -18,13 +18,13 @@ use YandexDirectSDK\Components\Model as Model;
  */
 class FundsParam extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'mode' => 'string',
         'campaignFunds' => 'object:' . CampaignFundsParam::class,
         'sharedAccountFunds' => 'object:' . SharedAccountFundsParam::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'mode',
         'campaignFunds',
         'sharedAccountFunds'

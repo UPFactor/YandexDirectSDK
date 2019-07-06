@@ -49,14 +49,14 @@ class KeywordBid extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = KeywordBids::class;
+    protected static $compatibleCollection = KeywordBids::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => KeywordBidsService::class,
         'set' => KeywordBidsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',
@@ -68,7 +68,7 @@ class KeywordBid extends Model
         'servingStatus' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'search',
         'network',
         'servingStatus'

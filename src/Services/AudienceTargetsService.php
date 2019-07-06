@@ -31,13 +31,13 @@ use YandexDirectSDK\Models\AudienceTargetBid;
  */
 class AudienceTargetsService extends Service
 {
-    protected $serviceName = 'audiencetargets';
+    protected static $name = 'audiencetargets';
 
-    protected $serviceModelClass = AudienceTarget::class;
+    protected static $modelClass = AudienceTarget::class;
 
-    protected $serviceModelCollectionClass = AudienceTargets::class;
+    protected static $modelCollectionClass = AudienceTargets::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

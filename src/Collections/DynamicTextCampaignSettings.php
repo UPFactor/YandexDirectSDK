@@ -16,5 +16,5 @@ class DynamicTextCampaignSettings extends ModelCollection
     */ 
     protected $items = []; 
 
-    protected $compatibleModel = DynamicTextCampaignSetting::class;
+    protected static $compatibleModel = DynamicTextCampaignSetting::class;
 }

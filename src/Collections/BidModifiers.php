@@ -27,9 +27,9 @@ class BidModifiers extends ModelCollection
     /** 
      * @var BidModifier 
      */ 
-    protected $compatibleModel = BidModifier::class; 
+    protected static $compatibleModel = BidModifier::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => BidModifiersService::class,
         'set' => BidModifiersService::class,
         'delete' => BidModifiersService::class,

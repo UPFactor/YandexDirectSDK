@@ -83,9 +83,9 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 class AdGroup extends Model 
 { 
-    protected $compatibleCollection = AdGroups::class;
+    protected static $compatibleCollection = AdGroups::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdGroupsService::class,
         'add' => AdGroupsService::class,
         'update' => AdGroupsService::class,
@@ -109,7 +109,7 @@ class AdGroup extends Model
         'getRelatedWebpages' => AdGroupsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'name' => 'string',
         'campaignId' => 'integer',
@@ -129,13 +129,13 @@ class AdGroup extends Model
 
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'campaignId',
         'cpmBannerKeywordsAdGroup',
         'cpmBannerUserProfileAdGroup'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'restrictedRegionIds',
         'dynamicTextFeedAdGroup',
         'status',
@@ -144,7 +144,7 @@ class AdGroup extends Model
         'subtype'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

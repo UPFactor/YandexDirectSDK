@@ -71,9 +71,9 @@ class Keyword extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = Keywords::class;
+    protected static $compatibleCollection = Keywords::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => KeywordsService::class,
         'delete' => KeywordsService::class,
         'query' => KeywordsService::class,
@@ -87,7 +87,7 @@ class Keyword extends Model
         'getRelatedBids' => KeywordsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'adGroupId' => 'integer',
         'campaignId' => 'integer',
@@ -104,14 +104,14 @@ class Keyword extends Model
         'statisticsNetwork' => 'object:' . Statistics::class
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'adGroupId',
         'bid',
         'contextBid',
         'strategyPriority'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'campaignId',
         'status',
         'servingStatus',
@@ -120,7 +120,7 @@ class Keyword extends Model
         'statisticsNetwork'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

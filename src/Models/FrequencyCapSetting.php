@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class FrequencyCapSetting extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'impressions' => 'integer',
         'periodDays' => 'integer'
     ];

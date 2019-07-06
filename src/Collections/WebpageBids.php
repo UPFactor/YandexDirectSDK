@@ -19,5 +19,5 @@ class WebpageBids extends ModelCollection
     /** 
      * @var WebpageBid 
      */ 
-    protected $compatibleModel = WebpageBid::class;
+    protected static $compatibleModel = WebpageBid::class;
 }

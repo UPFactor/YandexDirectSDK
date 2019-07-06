@@ -19,11 +19,11 @@ use YandexDirectSDK\Components\Model;
  */ 
 class BiddingRule extends Model 
 { 
-    protected $compatibleCollection; 
+    protected static $compatibleCollection;
 
-    protected $serviceProvidersMethods = []; 
+    protected static $serviceMethods = [];
 
-    protected $properties = [
+    protected static $properties = [
         'searchByTrafficVolume' => 'object:' . SearchByTrafficVolume::class,
         'networkByCoverage' => 'object:' . NetworkByCoverage::class
     ];

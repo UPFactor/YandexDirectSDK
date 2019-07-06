@@ -24,93 +24,91 @@ abstract class Model implements ModelInterface
     const IS_UPDATABLE = 1 << 3;    // 1000
 
     /**
-     * Model data.
+     * Boot data registry.
      *
      * @var array
      */
-    protected $modelData = [];
-
-    /**
-     * Model property.
-     *
-     * @var array
-     */
-    protected $properties = [];
-
-    /**
-     * Non-writable properties.
-     *
-     * @var array
-     */
-    protected $nonWritableProperties = [];
-
-    /**
-     * Non-readable properties.
-     *
-     * @var array
-     */
-    protected $nonReadableProperties = [];
-
-    /**
-     * Non-updateable properties.
-     *
-     * @var array
-     */
-    protected $nonUpdatableProperties = [];
-
-    /**
-     * Non-addable properties.
-     *
-     * @var array
-     */
-    protected $nonAddableProperties = [];
+    protected static $boot = [];
 
     /**
      * Compatible class of collection.
      *
      * @var ModelCollectionInterface
      */
-    protected $compatibleCollection;
+    protected static $compatibleCollection;
 
     /**
      * Service-providers methods.
      *
      * @var Service[]
      */
-    protected $serviceProvidersMethods = [];
+    protected static $serviceMethods = [];
 
     /**
-     * Create a new model instance.
+     * Model property.
      *
-     * @param array $properties
-     * @return static
+     * @var array
      */
-    public static function make($properties = null)
-    {
-        return (new static())->insert($properties);
-    }
+    protected static $properties = [];
 
     /**
-     * Returns the short class name.
+     * Non-writable properties.
      *
-     * @return string
-     * @throws ReflectionException
+     * @var array
      */
-    public static function getClassName()
-    {
-        return (new ReflectionClass(static::class))->getShortName();
-    }
+    protected static $nonWritableProperties = [];
 
     /**
-     * Create a new model instance.
+     * Non-readable properties.
+     *
+     * @var array
      */
-    public function __construct()
+    protected static $nonReadableProperties = [];
+
+    /**
+     * Non-updateable properties.
+     *
+     * @var array
+     */
+    protected static $nonUpdatableProperties = [];
+
+    /**
+     * Non-addable properties.
+     *
+     * @var array
+     */
+    protected static $nonAddableProperties = [];
+
+    /**
+     * Data of the model instance.
+     *
+     * @var array
+     */
+    protected $modelData = [];
+
+    /**
+     * Properties of the model instance.
+     *
+     * @var array
+     */
+    protected $modelProperties = [];
+
+    /**
+     * Bootstrap of the object.
+     *
+     * @return array
+     */
+    protected static function bootstrap():array
     {
-        $this->initialize();
+        $class = static::class;
+
+        if (key_exists($class, self::$boot)){
+            return self::$boot[$class];
+        }
 
         $properties = [];
 
-        foreach ($this->properties as $name => $propertyMeta){
+        foreach (static::$properties as $name => $propertyMeta){
             $propertyMeta = explode(':', $propertyMeta, 2);
             $propertyType = trim($propertyMeta[0]);
             $propertyTypeMeta = trim($propertyMeta[1] ?? '');
@@ -156,15 +154,78 @@ abstract class Model implements ModelInterface
                 'type' => strtolower($propertyType),
                 'meta' => $propertyTypeMeta,
                 'items' => $propertyUseItemsSubarray,
-                'readable' => !in_array($name, $this->nonReadableProperties),
-                'writable' => !in_array($name, $this->nonWritableProperties)
+                'readable' => !in_array($name, static::$nonReadableProperties),
+                'writable' => !in_array($name, static::$nonWritableProperties)
             ];
 
-            $properties[$name]['addable'] = ($properties[$name]['writable'] and !in_array($name, $this->nonAddableProperties));
-            $properties[$name]['updatable'] = ($properties[$name]['writable'] and !in_array($name, $this->nonUpdatableProperties));
+            $properties[$name]['addable'] = ($properties[$name]['writable'] and !in_array($name, static::$nonAddableProperties));
+            $properties[$name]['updatable'] = ($properties[$name]['writable'] and !in_array($name, static::$nonUpdatableProperties));
         }
 
-        $this->properties = $properties;
+        self::$boot[$class]['properties'] = $properties;
+
+        return self::$boot[$class];
+    }
+
+    /**
+     * Create a new model instance.
+     *
+     * @param array $properties
+     * @return static
+     */
+    public static function make($properties = null)
+    {
+        return (new static())->insert($properties);
+    }
+
+    /**
+     * Returns the short class name.
+     *
+     * @return string
+     * @throws ReflectionException
+     */
+    public static function getClassName()
+    {
+        return (new ReflectionClass(static::class))->getShortName();
+    }
+
+    /**
+     * Gets an array of model properties.
+     *
+     * @return array
+     */
+    public static function getProperties()
+    {
+        return static::bootstrap()['properties'];
+    }
+
+    /**
+     * Retrieve instance of compatible collection.
+     *
+     * @return ModelCollectionInterface|null
+     */
+    public static function getCompatibleCollection()
+    {
+        return is_null(static::$compatibleCollection) ? null : static::$compatibleCollection::make();
+    }
+
+    /**
+     * Retrieve metadata of service-providers methods.
+     *
+     * @return Service[]
+     */
+    public static function getServiceMethods()
+    {
+        return static::$serviceMethods;
+    }
+
+    /**
+     * Create a new model instance.
+     */
+    public function __construct()
+    {
+        $this->modelProperties = static::bootstrap()['properties'];
+        $this->initialize();
     }
 
     /**
@@ -210,7 +271,7 @@ abstract class Model implements ModelInterface
      */
     public function __call($method, $arguments)
     {
-        if (array_key_exists($method, $this->serviceProvidersMethods)){
+        if (array_key_exists($method, static::$serviceMethods)){
             return $this->call($method, null, ...$arguments);
         }
 
@@ -238,11 +299,11 @@ abstract class Model implements ModelInterface
      */
     public function call($method, Session $session = null, ...$arguments)
     {
-        if (!array_key_exists($method, $this->serviceProvidersMethods)){
+        if (!array_key_exists($method, static::$serviceMethods)){
             throw ModelException::make(static::class.". Method [{$method}] is missing.");
         }
 
-        return (new $this->serviceProvidersMethods[$method]())
+        return (new static::$serviceMethods[$method]())
             ->{'setSession'}($session)
             ->{$method}($this, ...$arguments);
     }
@@ -277,19 +338,19 @@ abstract class Model implements ModelInterface
         $properties = [];
         foreach ($this->modelData as $name => $value){
 
-            if ($filters & self::IS_READABLE and $this->properties[$name]['readable'] === false){
+            if ($filters & self::IS_READABLE and $this->modelProperties[$name]['readable'] === false){
                 continue;
             }
 
-            if ($filters & self::IS_WRITABLE and $this->properties[$name]['writable'] === false){
+            if ($filters & self::IS_WRITABLE and $this->modelProperties[$name]['writable'] === false){
                 continue;
             }
 
-            if ($filters & self::IS_ADDABLE and $this->properties[$name]['addable'] === false){
+            if ($filters & self::IS_ADDABLE and $this->modelProperties[$name]['addable'] === false){
                 continue;
             }
 
-            if ($filters & self::IS_UPDATABLE and $this->properties[$name]['updatable'] === false){
+            if ($filters & self::IS_UPDATABLE and $this->modelProperties[$name]['updatable'] === false){
                 continue;
             }
 
@@ -307,7 +368,7 @@ abstract class Model implements ModelInterface
                 $value = $value->toArray($filters);
             }
 
-            if ($this->properties[$name]['items']){
+            if ($this->modelProperties[$name]['items']){
                 $value = ['Items' => $value];
             }
 
@@ -360,11 +421,11 @@ abstract class Model implements ModelInterface
         foreach ($source as $name => $value){
             $name = lcfirst($name);
 
-            if (!array_key_exists($name, $this->properties)){
+            if (!array_key_exists($name, $this->modelProperties)){
                 continue;
             }
 
-            if ($this->properties[$name]['items'] === true){
+            if ($this->modelProperties[$name]['items'] === true){
                 $value = $value['Items'] ?? null;
             }
 
@@ -373,11 +434,11 @@ abstract class Model implements ModelInterface
                 continue;
             }
 
-            if ($this->properties[$name]['type'] === 'object'){
+            if ($this->modelProperties[$name]['type'] === 'object'){
                 if (!empty($this->modelData[$name]) and $this->modelData[$name] instanceof ModelCommonInterface){
                     $this->modelData[$name]->insert($value);
                 } else {
-                    $this->modelData[$name] = (new $this->properties[$name]['meta'])->{'insert'}($value);
+                    $this->modelData[$name] = (new $this->modelProperties[$name]['meta'])->{'insert'}($value);
                 }
                 continue;
             }
@@ -390,43 +451,6 @@ abstract class Model implements ModelInterface
     }
 
     /**
-     * Retrieve instance of compatible collection.
-     *
-     * @return ModelCollectionInterface|null
-     */
-    public function getCompatibleCollection()
-    {
-        return is_null($this->compatibleCollection) ? null : $this->compatibleCollection::make();
-    }
-
-    /**
-     * Retrieve metadata of model properties.
-     *
-     * @return array
-     */
-    public function getPropertiesMeta()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * Retrieve metadata of service-providers methods.
-     *
-     * @return Service[]
-     */
-    public function getServiceProvidersMethodsMeta()
-    {
-        return $this->serviceProvidersMethods;
-    }
-
-    /**
-     * Model initialization handler.
-     *
-     * @return void
-     */
-    protected function initialize(){}
-
-    /**
      * Setting a value for a model property.
      *
      * @param string $propertyName
@@ -435,7 +459,7 @@ abstract class Model implements ModelInterface
      */
     public function setPropertyValue($propertyName, $value)
     {
-        $propertyMeta = $this->properties[$propertyName] ?? null;
+        $propertyMeta = $this->modelProperties[$propertyName] ?? null;
 
         if (is_null($propertyMeta)){
             throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
@@ -546,7 +570,7 @@ abstract class Model implements ModelInterface
      */
     public function getPropertyValue($propertyName)
     {
-        $propertyMeta = $this->properties[$propertyName] ?? null;
+        $propertyMeta = $this->modelProperties[$propertyName] ?? null;
 
         if (is_null($propertyMeta)){
             throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
@@ -562,4 +586,11 @@ abstract class Model implements ModelInterface
 
         return $this->modelData[$propertyName] ?? null;
     }
+
+    /**
+     * Model initialization handler.
+     *
+     * @return void
+     */
+    protected function initialize(){}
 }

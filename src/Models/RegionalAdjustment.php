@@ -22,13 +22,13 @@ use YandexDirectSDK\Components\Model;
  */ 
 class RegionalAdjustment extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'regionId' => 'integer',
         'bidModifier' => 'integer',
         'enabled' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'enabled'
     ];
 }

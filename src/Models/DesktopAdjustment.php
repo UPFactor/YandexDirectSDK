@@ -16,7 +16,7 @@ use YandexDirectSDK\Components\Model;
  */ 
 class DesktopAdjustment extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'bidModifier' => 'integer'
     ];
 }

@@ -1,0 +1,43 @@
+{
+  "result": { 
+    "AdGroups": [{  
+      "Id": 123456,
+      "Name": "NameString",
+      "CampaignId": 1,
+      "RegionIds": [2,3],
+      "RestrictedRegionIds": {  
+        "Items": [4,5]
+      }, 
+      "NegativeKeywords": {  
+        "Items": ["item1","item2"]
+      }, 
+      "TrackingParams": "TrackingParamsString",
+      "Status": "ACCEPTED",
+      "ServingStatus": "ELIGIBLE",
+      "Type": "TEXT_AD_GROUP",
+      "Subtype": "WEBPAGE",
+      "MobileAppAdGroup": {  
+        "StoreUrl": "StoreUrlString",
+        "TargetDeviceType": ["DEVICE_TYPE_MOBILE","DEVICE_TYPE_TABLET"],
+        "TargetCarrier": "WI_FI_AND_CELLULAR",
+        "TargetOperatingSystemVersion": "TargetOperatingSystemVersionString",
+        "AppIconModeration": {  
+          "Status": "ACCEPTED",
+          "StatusClarification": "StatusClarificationString"
+        },
+        "AppOperatingSystemType": "IOS",
+        "AppAvailabilityStatus": "NOT_AVAILABLE"
+      },
+      "DynamicTextAdGroup": {  
+        "DomainUrl": "DomainUrl",
+        "DomainUrlProcessingStatus": "EMPTY_RESULT"
+      },
+      "DynamicTextFeedAdGroup": {  
+        "Source": "SourceString",
+        "SourceType": "RETAIL_FEED",
+        "SourceProcessingStatus": "EMPTY_RESULT"
+      }
+    }],
+    "LimitedBy": 100
+  }
+}

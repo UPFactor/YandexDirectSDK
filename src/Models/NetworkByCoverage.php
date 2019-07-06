@@ -22,7 +22,7 @@ use YandexDirectSDK\Components\Model;
  */ 
 class NetworkByCoverage extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'targetCoverage' => 'integer',
         'increasePercent' => 'integer',
         'bidCeiling' => 'integer',

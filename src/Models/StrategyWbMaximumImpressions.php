@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class StrategyWbMaximumImpressions extends Model 
 {
-    protected $properties = [
+    protected static $properties = [
         'averageCpm' => 'integer',
         'spendLimit' => 'integer'
     ];

@@ -26,9 +26,9 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Sitelink extends Model 
 {
-    protected $compatibleCollection = Sitelinks::class;
+    protected static $compatibleCollection = Sitelinks::class;
 
-    protected $properties = [
+    protected static $properties = [
         'title' => 'string',
         'href' => 'string',
         'description' => 'string',

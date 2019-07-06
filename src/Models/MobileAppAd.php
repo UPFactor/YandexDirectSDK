@@ -47,7 +47,7 @@ class MobileAppAd extends Model
     const PLAY = 'PLAY';
     const BUY_AUTODETECT = 'BUY_AUTODETECT';
 
-    protected $properties = [
+    protected static $properties = [
         'title' => 'stack:string',
         'text' => 'string',
         'trackingUrl' => 'string',
@@ -58,7 +58,7 @@ class MobileAppAd extends Model
         'adImageModeration' => 'object:' . ExtensionModeration::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'adImageModeration'
     ];
 }

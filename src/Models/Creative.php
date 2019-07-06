@@ -39,13 +39,13 @@ use YandexDirectSDK\Services\CreativesService;
  */ 
 class Creative extends Model 
 { 
-    protected $compatibleCollection = Creatives::class;
+    protected static $compatibleCollection = Creatives::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => CreativesService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'type' => 'string',
         'name' => 'string',
@@ -59,7 +59,7 @@ class Creative extends Model
         'cpmVideoCreative' => 'object:' . CpmVideoCreative::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'id',
         'type',
         'name',
@@ -73,7 +73,7 @@ class Creative extends Model
         'cpmVideoCreative'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

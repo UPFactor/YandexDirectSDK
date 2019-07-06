@@ -23,13 +23,13 @@ use YandexDirectSDK\Models\AdImage;
  */
 class AdImagesService extends Service
 {
-    protected $serviceName = 'adimages';
+    protected static $name = 'adimages';
 
-    protected $serviceModelClass = AdImage::class;
+    protected static $modelClass = AdImage::class;
 
-    protected $serviceModelCollectionClass = AdImages::class;
+    protected static $modelCollectionClass = AdImages::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
     ];

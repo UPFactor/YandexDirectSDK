@@ -54,16 +54,16 @@ use YandexDirectSDK\Services\BidModifiersService;
  */ 
 class BidModifier extends Model 
 { 
-    protected $compatibleCollection = BidModifiers::class;
+    protected static $compatibleCollection = BidModifiers::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => BidModifiersService::class,
         'set' => BidModifiersService::class,
         'delete' => BidModifiersService::class,
         'query' => BidModifiersService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
@@ -77,12 +77,12 @@ class BidModifier extends Model
         'type' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'level',
         'type'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

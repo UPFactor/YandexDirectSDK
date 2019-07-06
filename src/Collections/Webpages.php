@@ -31,9 +31,9 @@ class Webpages extends ModelCollection
     /** 
      * @var Webpage 
      */ 
-    protected $compatibleModel = Webpage::class;
+    protected static $compatibleModel = Webpage::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => DynamicTextAdTargetsService::class,
         'delete' => DynamicTextAdTargetsService::class,
         'query' => DynamicTextAdTargetsService::class,

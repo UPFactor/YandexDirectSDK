@@ -19,7 +19,7 @@ use YandexDirectSDK\Components\Model;
  */ 
 class InstantMessenger extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'messengerClient' => 'string',
         'messengerLogin' => 'string'
     ];

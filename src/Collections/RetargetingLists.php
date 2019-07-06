@@ -27,9 +27,9 @@ class RetargetingLists extends ModelCollection
     /** 
      * @var RetargetingList 
      */ 
-    protected $compatibleModel = RetargetingList::class;
+    protected static $compatibleModel = RetargetingList::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'add' => RetargetingListsService::class,
         'delete' => RetargetingListsService::class,
         'query' => RetargetingListsService::class,

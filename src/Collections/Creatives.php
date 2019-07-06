@@ -23,9 +23,9 @@ class Creatives extends ModelCollection
     /** 
      * @var Creative 
      */ 
-    protected $compatibleModel = Creative::class;
+    protected static $compatibleModel = Creative::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => CreativesService::class
     ];
 }

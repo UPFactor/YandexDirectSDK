@@ -23,7 +23,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyMaximumConversionRate extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'weeklySpendLimit' => 'integer',
         'bidCeiling' => 'integer',
         'goalId' => 'integer'

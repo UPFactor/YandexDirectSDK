@@ -24,14 +24,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class RetargetingAdjustment extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'retargetingConditionId' => 'integer',
         'bidModifier' => 'integer',
         'accessible' => 'string',
         'enabled' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'accessible',
         'enabled'
     ];

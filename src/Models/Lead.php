@@ -28,13 +28,13 @@ use YandexDirectSDK\Services\LeadsService;
  */ 
 class Lead extends Model 
 { 
-    protected $compatibleCollection = Leads::class;
+    protected static $compatibleCollection = Leads::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => LeadsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'submittedAt' => 'string',
         'turboPageId' => 'integer',
@@ -42,7 +42,7 @@ class Lead extends Model
         'data' => 'object:' . LeadData::class
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'id',
         'submittedAt',
         'turboPageId',
@@ -50,7 +50,7 @@ class Lead extends Model
         'data'
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

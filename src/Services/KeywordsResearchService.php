@@ -21,13 +21,13 @@ class KeywordsResearchService extends Service
     const MERGE_DUPLICATES = 'MERGE_DUPLICATES';
     const ELIMINATE_OVERLAPPING = 'ELIMINATE_OVERLAPPING';
 
-    protected $serviceName = 'keywordsresearch';
+    protected static $name = 'keywordsresearch';
 
-    protected $serviceModelClass;
+    protected static $modelClass;
 
-    protected $serviceModelCollectionClass;
+    protected static $modelCollectionClass;
 
-    protected $serviceMethods = [];
+    protected static $methods = [];
 
     /**
      * Pre-processing of keywords.

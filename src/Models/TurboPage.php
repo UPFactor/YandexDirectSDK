@@ -25,25 +25,25 @@ use YandexDirectSDK\Services\TurboPagesService;
  */ 
 class TurboPage extends Model 
 { 
-    protected $compatibleCollection = TurboPages::class;
+    protected static $compatibleCollection = TurboPages::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => TurboPagesService::class,
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'name' => 'string',
         'href' => 'string',
         'previewHref' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'id',
         'name',
         'href',
         'previewHref'
     ];
 
-    protected $nonReadableProperties = [];
+    protected static $nonReadableProperties = [];
 }

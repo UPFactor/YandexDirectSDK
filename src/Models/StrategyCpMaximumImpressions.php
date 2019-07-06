@@ -31,7 +31,7 @@ class StrategyCpMaximumImpressions extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $properties = [
+    protected static $properties = [
         'averageCpm' => 'integer',
         'spendLimit' => 'integer',
         'startDate' => 'string',

@@ -34,13 +34,13 @@ use YandexDirectSDK\Models\BidModifierToggle;
  */
 class BidModifiersService extends Service
 {
-    protected $serviceName = 'bidmodifiers';
+    protected static $name = 'bidmodifiers';
 
-    protected $serviceModelClass = BidModifier::class;
+    protected static $modelClass = BidModifier::class;
 
-    protected $serviceModelCollectionClass = BidModifiers::class;
+    protected static $modelCollectionClass = BidModifiers::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds'

@@ -13,20 +13,36 @@ use YandexDirectSDK\Session;
 class FakeSession extends Session
 {
     /**
-     * @var Dir|null
+     * @var Checklists
      */
-    protected $fakeApi = null;
+    protected $checklists;
+
+    /**
+     * @var Dir
+     */
+    protected $fakeApi;
+
+    /**
+     * Session initialization handler.
+     *
+     * @return void
+     */
+    protected function initialize()
+    {
+        $this->checklists = new Checklists();
+    }
 
     /**
      * Switch on/off fake api
      *
      * @param bool $switch
-     * @param string|null $dataPath
+     * @param string|null $apiName
      * @return $this
      */
-    public function useFakeApi(bool $switch, string $dataPath = null)
+    public function fakeApi(bool $switch, string $apiName = null)
     {
-        if ($switch){
+        if ($switch and !is_null($apiName)){
+            $dataPath = TestDir::data($apiName);
             $this->fakeApi = Dir::bind($dataPath);
         } else {
             $this->fakeApi = null;
@@ -41,10 +57,10 @@ class FakeSession extends Session
      * @param string $method
      * @param array $params
      * @return Result
+     * @throws Exception
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws Exception
      */
     public function call($service, $method, $params = []): Result
     {
@@ -53,7 +69,9 @@ class FakeSession extends Session
         }
 
         return new FakeResult(
-            $this->fakeApi->getFile("/{$service}/{$method}.json")->content()
+            $this->fakeApi
+                ->getFile(DIRECTORY_SEPARATOR . $service . DIRECTORY_SEPARATOR. $method . '.json')
+                ->content()
         );
     }
 }

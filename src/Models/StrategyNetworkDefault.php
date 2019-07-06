@@ -20,7 +20,7 @@ use YandexDirectSDK\Components\Model;
  */
 class StrategyNetworkDefault extends Model
 {
-    protected $properties = [
+    protected static $properties = [
         'limitPercent' => 'integer',
         'bidPercent' => 'integer'
     ];

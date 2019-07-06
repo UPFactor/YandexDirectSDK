@@ -18,7 +18,7 @@ use YandexDirectSDK\Exceptions\RuntimeException;
  */
 class ChangesService extends Service
 {
-    protected $serviceName = 'changes';
+    protected static $name = 'changes';
 
     /**
      * @param null $timestamp

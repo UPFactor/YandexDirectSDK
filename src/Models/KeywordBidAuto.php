@@ -30,13 +30,13 @@ use YandexDirectSDK\Services\KeywordBidsService;
  */ 
 class KeywordBidAuto extends Model 
 { 
-    protected $compatibleCollection = KeywordBidsAuto::class;
+    protected static $compatibleCollection = KeywordBidsAuto::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'setAuto' => KeywordBidsService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',

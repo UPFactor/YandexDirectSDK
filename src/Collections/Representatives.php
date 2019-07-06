@@ -19,5 +19,5 @@ class Representatives extends ModelCollection
     /** 
      * @var Representative 
      */ 
-    protected $compatibleModel = Representative::class;
+    protected static $compatibleModel = Representative::class;
 }

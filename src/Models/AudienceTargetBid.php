@@ -33,9 +33,9 @@ class AudienceTargetBid extends Model
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';
 
-    protected $compatibleCollection = AudienceTargetBids::class;
+    protected static $compatibleCollection = AudienceTargetBids::class;
 
-    protected $properties = [
+    protected static $properties = [
         'id' => 'integer',
         'adGroupId' => 'integer',
         'campaignId' => 'integer',
@@ -43,7 +43,7 @@ class AudienceTargetBid extends Model
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'id'
     ];
 }

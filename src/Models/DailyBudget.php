@@ -23,7 +23,7 @@ class DailyBudget extends Model
     const STANDARD = 'STANDARD';
     const DISTRIBUTED = 'DISTRIBUTED';
 
-    protected $properties = [
+    protected static $properties = [
         'amount' => 'integer',
         'mode' => 'enum:' . self::STANDARD . ',' . self::DISTRIBUTED
     ];

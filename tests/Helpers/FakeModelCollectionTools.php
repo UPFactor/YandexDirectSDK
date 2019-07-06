@@ -20,10 +20,12 @@ class FakeModelCollectionTools extends ModelCollection
     /**
      * @var FakeModel
      */
-    protected $compatibleModel = FakeModel::class;
+    protected static $compatibleModel = FakeModel::class;
 
     /**
      * Collection initialization handler.
+     * @param $models
+     * @return void
      */
     protected function initialize($models)
     {
@@ -34,7 +36,6 @@ class FakeModelCollectionTools extends ModelCollection
      * Check model properties of this collection.
      *
      * @param array $expectedProperties
-     * @throws ModelException
      */
     public function check(array $expectedProperties){
         $this->checklists->checkModelCollection($this, $expectedProperties);

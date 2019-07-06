@@ -17,14 +17,14 @@ use YandexDirectSDK\Components\Model;
  */ 
 class LeadDataItem extends Model 
 { 
-    protected $compatibleCollection = LeadData::class;
+    protected static $compatibleCollection = LeadData::class;
 
-    protected $properties = [
+    protected static $properties = [
         'name' => 'string',
         'value' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'name',
         'value'
     ];

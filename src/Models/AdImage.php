@@ -43,15 +43,15 @@ use YandexDirectSDK\Services\AdImagesService;
  */ 
 class AdImage extends Model 
 { 
-    protected $compatibleCollection = AdImages::class;
+    protected static $compatibleCollection = AdImages::class;
 
-    protected $serviceProvidersMethods = [
+    protected static $serviceMethods = [
         'query' => AdImagesService::class,
         'add' => AdImagesService::class,
         'delete' => AdImagesService::class
     ];
 
-    protected $properties = [
+    protected static $properties = [
         'adImageHash' => 'string',
         'imageData' => 'string',
         'name' => 'string',
@@ -62,12 +62,12 @@ class AdImage extends Model
         'previewUrl' => 'string'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'imageData',
         'name'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'adImageHash',
         'associated',
         'type',

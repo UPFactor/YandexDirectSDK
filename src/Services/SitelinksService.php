@@ -20,13 +20,13 @@ use YandexDirectSDK\Models\SitelinksSet;
  */
 class SitelinksService extends Service
 {
-    protected $serviceName = 'sitelinks';
+    protected static $name = 'sitelinks';
 
-    protected $serviceModelClass = SitelinksSet::class;
+    protected static $modelClass = SitelinksSet::class;
 
-    protected $serviceModelCollectionClass = SitelinksSets::class;
+    protected static $modelCollectionClass = SitelinksSets::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'find' => 'get:selectionByIds'

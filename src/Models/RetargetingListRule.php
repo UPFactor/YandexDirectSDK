@@ -25,9 +25,9 @@ class RetargetingListRule extends Model
     const ANY = 'ANY';
     const NONE = 'NONE';
 
-    protected $compatibleCollection = RetargetingListRules::class;
+    protected static $compatibleCollection = RetargetingListRules::class;
 
-    protected $properties = [
+    protected static $properties = [
         'arguments' => 'object:' . RetargetingListRuleArguments::class,
         'operator' => 'enum:' . self::ALL . ',' . self::ANY . ',' . self::NONE,
     ];

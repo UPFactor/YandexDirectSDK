@@ -16,13 +16,13 @@ use YandexDirectSDK\Models\Lead;
  */
 class LeadsService extends Service
 {
-    protected $serviceName = 'leads';
+    protected static $name = 'leads';
 
-    protected $serviceModelClass = Lead::class;
+    protected static $modelClass = Lead::class;
 
-    protected $serviceModelCollectionClass = Leads::class;
+    protected static $modelCollectionClass = Leads::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'query' => 'get:selectionElements'
     ];
 }

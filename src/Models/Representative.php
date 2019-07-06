@@ -23,15 +23,15 @@ class Representative extends Model
     const DELEGATE = 'DELEGATE';
     const UNKNOWN = 'UNKNOWN';
 
-    protected $compatibleCollection = Representatives::class;
+    protected static $compatibleCollection = Representatives::class;
 
-    protected $properties = [
+    protected static $properties = [
         'login' => 'string',
         'email' => 'string',
         'role' => 'enum:' . self::CHIEF . ',' . self::DELEGATE . ',' . self::UNKNOWN,
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'login',
         'email',
         'role'

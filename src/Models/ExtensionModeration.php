@@ -16,12 +16,12 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class ExtensionModeration extends Model 
 { 
-    protected $properties = [
+    protected static $properties = [
         'status' => 'string',
         'statusClarification' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'status',
         'statusClarification'
     ];

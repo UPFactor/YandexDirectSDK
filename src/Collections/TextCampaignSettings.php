@@ -17,5 +17,5 @@ class TextCampaignSettings extends ModelCollection
      */
     protected $items = [];
 
-    protected $compatibleModel = TextCampaignSetting::class;
+    protected static $compatibleModel = TextCampaignSetting::class;
 }

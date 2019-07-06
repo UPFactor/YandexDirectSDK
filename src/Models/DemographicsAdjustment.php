@@ -34,14 +34,14 @@ class DemographicsAdjustment extends Model
     const AGE_45_54 = 'AGE_45_54';
     const AGE_55 = 'AGE_55';
 
-    protected $properties = [
+    protected static $properties = [
         'gender' => 'enum:' . self::GENDER_MALE . ',' . self::GENDER_FEMALE,
         'age' => 'enum:' . self::AGE_0_17 . ',' . self::AGE_18_24 . ',' . self::AGE_25_34 . ',' . self::AGE_35_44 . ',' . self::AGE_45_54 . ',' . self::AGE_55,
         'bidModifier' => 'integer',
         'enabled' => 'string'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'enabled'
     ];
 }

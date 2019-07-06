@@ -1,0 +1,14 @@
+{
+  "result": { 
+    "AdImages": [{  
+      "AdImageHash": "AdImageHashString",
+      "Name": "NameString",
+      "Associated": "YES",
+      "Type": "SMALL",
+      "Subtype": "IMG_240_400",
+      "OriginalUrl": "OriginalUrlString",
+      "PreviewUrl": "PreviewUrlString"
+    }],
+    "LimitedBy": 100
+  }
+}

@@ -20,9 +20,9 @@ use YandexDirectSDK\Components\Model;
  */ 
 class RetargetingListRuleArgument extends Model 
 { 
-    protected $compatibleCollection = RetargetingListRuleArguments::class;
+    protected static $compatibleCollection = RetargetingListRuleArguments::class;
 
-    protected $properties = [
+    protected static $properties = [
         'membershipLifeSpan' => 'integer',
         'externalId' => 'integer'
     ];

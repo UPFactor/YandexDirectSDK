@@ -31,13 +31,13 @@ use YandexDirectSDK\Models\WebpageBid;
  */
 class DynamicTextAdTargetsService extends Service
 {
-    protected $serviceName = 'dynamictextadtargets';
+    protected static $name = 'dynamictextadtargets';
 
-    protected $serviceModelClass = Webpage::class;
+    protected static $modelClass = Webpage::class;
 
-    protected $serviceModelCollectionClass = Webpages::class;
+    protected static $modelCollectionClass = Webpages::class;
 
-    protected $serviceMethods = [
+    protected static $methods = [
         'add' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

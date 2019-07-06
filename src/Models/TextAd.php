@@ -96,9 +96,9 @@ class TextAd extends Model
     const MONTHS_11 = 'MONTHS_11';
     const MONTHS_12 = 'MONTHS_12';
 
-    protected $serviceProvidersMethods = [];
+    protected static $serviceMethods = [];
 
-    protected $properties = [
+    protected static $properties = [
         'title' => 'string',
         'title2' => 'string',
         'text' => 'string',
@@ -123,17 +123,17 @@ class TextAd extends Model
         'priceExtension' => 'object:' . PriceExtension::class
     ];
 
-    protected $nonAddableProperties = [
+    protected static $nonAddableProperties = [
         'ageLabel',
         'calloutSetting'
     ];
 
-    protected $nonUpdatableProperties = [
+    protected static $nonUpdatableProperties = [
         'mobile',
         'adExtensionIds'
     ];
 
-    protected $nonWritableProperties = [
+    protected static $nonWritableProperties = [
         'turboPageModeration',
         'displayDomain',
         'vCardModeration',

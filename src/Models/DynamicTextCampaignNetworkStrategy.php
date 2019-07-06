@@ -18,7 +18,7 @@ class DynamicTextCampaignNetworkStrategy extends Model
 {
     const SERVING_OFF = 'SERVING_OFF';
 
-    protected $properties = [
+    protected static $properties = [
         'biddingStrategyType' => 'enum:'.self::SERVING_OFF
     ];
 }

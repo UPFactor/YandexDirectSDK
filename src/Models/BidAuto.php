@@ -58,9 +58,9 @@ class BidAuto extends Model
     const P23 = 'P23';
     const P24 = 'P24';
 
-    protected $compatibleCollection = BidsAuto::class;
+    protected static $compatibleCollection = BidsAuto::class;
 
-    protected $properties = [
+    protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',

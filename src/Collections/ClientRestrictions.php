@@ -19,5 +19,5 @@ class ClientRestrictions extends ModelCollection
     /** 
      * @var ClientRestriction 
      */ 
-    protected $compatibleModel = ClientRestriction::class;
+    protected static $compatibleModel = ClientRestriction::class;
 }

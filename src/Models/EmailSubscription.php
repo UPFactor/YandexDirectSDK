@@ -26,9 +26,9 @@ class EmailSubscription extends Model
     const YES = 'YES';
     const NO = 'NO';
 
-    protected $compatibleCollection = EmailSubscriptions::class;
+    protected static $compatibleCollection = EmailSubscriptions::class;
 
-    protected $properties = [
+    protected static $properties = [
         'option' => 'enum:' . self::RECEIVE_RECOMMENDATIONS . ',' . self::TRACK_MANAGED_CAMPAIGNS . ',' . self::TRACK_POSITION_CHANGES,
         'value' => 'enum:' . self::YES . ',' . self::NO
     ];
