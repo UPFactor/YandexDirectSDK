@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class AdExtensionSetting 
  * 
- * @property          AdExtensionsAd   $adExtensions
+ * @property       AdExtensionsAd   $adExtensions
  * 
- * @method            $this            setAdExtensions(AdExtensionsAd $adExtensions)
+ * @method         $this            setAdExtensions(AdExtensionsAd $adExtensions)
  * 
- * @method            AdExtensionsAd   getAdExtensions()
+ * @method         AdExtensionsAd   getAdExtensions()
  * 
  * @package YandexDirectSDK\Models 
  */ 

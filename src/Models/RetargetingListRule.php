@@ -8,14 +8,14 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class RetargetingListRule 
  * 
- * @property          RetargetingListRuleArguments   $arguments
- * @property          string                         $operator
+ * @property       RetargetingListRuleArguments   $arguments
+ * @property       string                         $operator
  * 
- * @method            $this                          setArguments(RetargetingListRuleArguments $arguments)
- * @method            $this                          setOperator(string $operator)
+ * @method         $this                          setArguments(RetargetingListRuleArguments $arguments)
+ * @method         $this                          setOperator(string $operator)
  * 
- * @method            RetargetingListRuleArguments   getArguments()
- * @method            string                         getOperator()
+ * @method         RetargetingListRuleArguments   getArguments()
+ * @method         string                         getOperator()
  * 
  * @package YandexDirectSDK\Models 
  */ 

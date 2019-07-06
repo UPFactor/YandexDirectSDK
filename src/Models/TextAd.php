@@ -7,68 +7,68 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TextAd 
  * 
- * @property            string                $title
- * @property            string                $title2
- * @property            string                $text
- * @property            string                $mobile
- * @property            integer               $turboPageId
- * @property            string                $href
- * @property            string                $ageLabel
- * @property            integer               $vCardId
- * @property            string                $adImageHash
- * @property            integer               $sitelinkSetId
- * @property            AdExtensionSetting    $calloutSetting
- * @property            string                $displayUrlPath
- * @property            integer[]             $adExtensionIds
- * @property            VideoExtension        $videoExtension
- * @property            PriceExtension        $priceExtension
+ * @property        string                $title
+ * @property        string                $title2
+ * @property        string                $text
+ * @property        string                $mobile
+ * @property        integer               $turboPageId
+ * @property        string                $href
+ * @property        string                $ageLabel
+ * @property        integer               $vCardId
+ * @property        string                $adImageHash
+ * @property        integer               $sitelinkSetId
+ * @property        AdExtensionSetting    $calloutSetting
+ * @property        string                $displayUrlPath
+ * @property        integer[]             $adExtensionIds
+ * @property        VideoExtension        $videoExtension
+ * @property        PriceExtension        $priceExtension
  * 
- * @property-readable   TurboPageModeration   $turboPageModeration
- * @property-readable   string                $displayDomain
- * @property-readable   ExtensionModeration   $vCardModeration
- * @property-readable   ExtensionModeration   $adImageModeration
- * @property-readable   ExtensionModeration   $sitelinksModeration
- * @property-readable   ExtensionModeration   $displayUrlPathModeration
- * @property-readable   AdExtensionsAd        $adExtensions
+ * @property-read   TurboPageModeration   $turboPageModeration
+ * @property-read   string                $displayDomain
+ * @property-read   ExtensionModeration   $vCardModeration
+ * @property-read   ExtensionModeration   $adImageModeration
+ * @property-read   ExtensionModeration   $sitelinksModeration
+ * @property-read   ExtensionModeration   $displayUrlPathModeration
+ * @property-read   AdExtensionsAd        $adExtensions
  * 
- * @method              $this                 setTitle(string $title)
- * @method              $this                 setTitle2(string $title2)
- * @method              $this                 setText(string $text)
- * @method              $this                 setMobile(string $mobile)
- * @method              $this                 setTurboPageId(integer $turboPageId)
- * @method              $this                 setHref(string $href)
- * @method              $this                 setAgeLabel(string $ageLabel)
- * @method              $this                 setVCardId(integer $vCardId)
- * @method              $this                 setAdImageHash(string $adImageHash)
- * @method              $this                 setSitelinkSetId(integer $sitelinkSetId)
- * @method              $this                 setCalloutSetting(AdExtensionSetting $calloutSetting)
- * @method              $this                 setDisplayUrlPath(string $displayUrlPath)
- * @method              $this                 setAdExtensionIds(integer[] $adExtensionIds)
- * @method              $this                 setVideoExtension(VideoExtension $videoExtension)
- * @method              $this                 setPriceExtension(PriceExtension $priceExtension)
+ * @method          $this                 setTitle(string $title)
+ * @method          $this                 setTitle2(string $title2)
+ * @method          $this                 setText(string $text)
+ * @method          $this                 setMobile(string $mobile)
+ * @method          $this                 setTurboPageId(integer $turboPageId)
+ * @method          $this                 setHref(string $href)
+ * @method          $this                 setAgeLabel(string $ageLabel)
+ * @method          $this                 setVCardId(integer $vCardId)
+ * @method          $this                 setAdImageHash(string $adImageHash)
+ * @method          $this                 setSitelinkSetId(integer $sitelinkSetId)
+ * @method          $this                 setCalloutSetting(AdExtensionSetting $calloutSetting)
+ * @method          $this                 setDisplayUrlPath(string $displayUrlPath)
+ * @method          $this                 setAdExtensionIds(integer[] $adExtensionIds)
+ * @method          $this                 setVideoExtension(VideoExtension $videoExtension)
+ * @method          $this                 setPriceExtension(PriceExtension $priceExtension)
  * 
- * @method              string                getTitle()
- * @method              string                getTitle2()
- * @method              string                getText()
- * @method              string                getMobile()
- * @method              integer               getTurboPageId()
- * @method              TurboPageModeration   getTurboPageModeration()
- * @method              string                getHref()
- * @method              string                getDisplayDomain()
- * @method              string                getAgeLabel()
- * @method              integer               getVCardId()
- * @method              ExtensionModeration   getVCardModeration()
- * @method              string                getAdImageHash()
- * @method              ExtensionModeration   getAdImageModeration()
- * @method              integer               getSitelinkSetId()
- * @method              ExtensionModeration   getSitelinksModeration()
- * @method              AdExtensionSetting    getCalloutSetting()
- * @method              string                getDisplayUrlPath()
- * @method              ExtensionModeration   getDisplayUrlPathModeration()
- * @method              integer[]             getAdExtensionIds()
- * @method              AdExtensionsAd        getAdExtensions()
- * @method              VideoExtension        getVideoExtension()
- * @method              PriceExtension        getPriceExtension()
+ * @method          string                getTitle()
+ * @method          string                getTitle2()
+ * @method          string                getText()
+ * @method          string                getMobile()
+ * @method          integer               getTurboPageId()
+ * @method          TurboPageModeration   getTurboPageModeration()
+ * @method          string                getHref()
+ * @method          string                getDisplayDomain()
+ * @method          string                getAgeLabel()
+ * @method          integer               getVCardId()
+ * @method          ExtensionModeration   getVCardModeration()
+ * @method          string                getAdImageHash()
+ * @method          ExtensionModeration   getAdImageModeration()
+ * @method          integer               getSitelinkSetId()
+ * @method          ExtensionModeration   getSitelinksModeration()
+ * @method          AdExtensionSetting    getCalloutSetting()
+ * @method          string                getDisplayUrlPath()
+ * @method          ExtensionModeration   getDisplayUrlPathModeration()
+ * @method          integer[]             getAdExtensionIds()
+ * @method          AdExtensionsAd        getAdExtensions()
+ * @method          VideoExtension        getVideoExtension()
+ * @method          PriceExtension        getPriceExtension()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -11,33 +11,33 @@ use YandexDirectSDK\Services\RetargetingListsService;
 /** 
  * Class RetargetingList 
  * 
- * @property            integer                $id
- * @property            string                 $type
- * @property            string                 $name
- * @property            string                 $description
- * @property            RetargetingListRules   $rules
+ * @property        integer                $id
+ * @property        string                 $type
+ * @property        string                 $name
+ * @property        string                 $description
+ * @property        RetargetingListRules   $rules
  * 
- * @property-readable   string                 $isAvailable
- * @property-readable   string                 $scope
+ * @property-read   string                 $isAvailable
+ * @property-read   string                 $scope
  * 
- * @method              Result                 add()
- * @method              Result                 delete()
- * @method              QueryBuilder           query()
- * @method              Result                 update()
+ * @method          Result                 add()
+ * @method          Result                 delete()
+ * @method          QueryBuilder           query()
+ * @method          Result                 update()
  * 
- * @method              $this                  setId(integer $id)
- * @method              $this                  setType(string $type)
- * @method              $this                  setName(string $name)
- * @method              $this                  setDescription(string $description)
- * @method              $this                  setRules(RetargetingListRules $rules)
+ * @method          $this                  setId(integer $id)
+ * @method          $this                  setType(string $type)
+ * @method          $this                  setName(string $name)
+ * @method          $this                  setDescription(string $description)
+ * @method          $this                  setRules(RetargetingListRules $rules)
  * 
- * @method              integer                getId()
- * @method              string                 getType()
- * @method              string                 getName()
- * @method              string                 getDescription()
- * @method              string                 getIsAvailable()
- * @method              RetargetingListRules   getRules()
- * @method              string                 getScope()
+ * @method          integer                getId()
+ * @method          string                 getType()
+ * @method          string                 getName()
+ * @method          string                 getDescription()
+ * @method          string                 getIsAvailable()
+ * @method          RetargetingListRules   getRules()
+ * @method          string                 getScope()
  * 
  * @package YandexDirectSDK\Models 
  */ 

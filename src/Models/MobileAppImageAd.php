@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppImageAd 
  * 
- * @property          string   $trackingUrl
- * @property          string   $adImageHash
+ * @property       string   $trackingUrl
+ * @property       string   $adImageHash
  * 
- * @method            $this    setTrackingUrl(string $trackingUrl)
- * @method            $this    setAdImageHash(string $adImageHash)
+ * @method         $this    setTrackingUrl(string $trackingUrl)
+ * @method         $this    setAdImageHash(string $adImageHash)
  * 
- * @method            string   getTrackingUrl()
- * @method            string   getAdImageHash()
+ * @method         string   getTrackingUrl()
+ * @method         string   getAdImageHash()
  * 
  * @package YandexDirectSDK\Models 
  */ 

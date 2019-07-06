@@ -9,17 +9,17 @@ use YandexDirectSDK\Services\TurboPagesService;
 /** 
  * Class TurboPage 
  * 
- * @property-readable   integer        $id
- * @property-readable   string         $name
- * @property-readable   string         $href
- * @property-readable   string         $previewHref
+ * @property-read   integer        $id
+ * @property-read   string         $name
+ * @property-read   string         $href
+ * @property-read   string         $previewHref
  * 
- * @method              QueryBuilder   query()
+ * @method          QueryBuilder   query()
  * 
- * @method              integer        getId()
- * @method              string         getName()
- * @method              string         getHref()
- * @method              string         getPreviewHref()
+ * @method          integer        getId()
+ * @method          string         getName()
+ * @method          string         getHref()
+ * @method          string         getPreviewHref()
  * 
  * @package YandexDirectSDK\Models 
  */ 

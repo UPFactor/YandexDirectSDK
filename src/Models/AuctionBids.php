@@ -7,9 +7,9 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class AuctionBids 
  * 
- * @property-readable   AuctionBidItems   $auctionBidItems
+ * @property-read   AuctionBidItems   $auctionBidItems
  * 
- * @method              AuctionBidItems   getAuctionBidItems()
+ * @method          AuctionBidItems   getAuctionBidItems()
  * 
  * @package YandexDirectSDK\Models 
  */ 

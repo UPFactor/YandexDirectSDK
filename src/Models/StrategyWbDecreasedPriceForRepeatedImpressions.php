@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class StrategyWbDecreasedPriceForRepeatedImpressions 
  * 
- * @property          integer   $averageCpm
- * @property          integer   $spendLimit
+ * @property       integer   $averageCpm
+ * @property       integer   $spendLimit
  * 
- * @method            $this     setAverageCpm(integer $averageCpm)
- * @method            $this     setSpendLimit(integer $spendLimit)
+ * @method         $this     setAverageCpm(integer $averageCpm)
+ * @method         $this     setSpendLimit(integer $spendLimit)
  * 
- * @method            integer   getAverageCpm()
- * @method            integer   getSpendLimit()
+ * @method         integer   getAverageCpm()
+ * @method         integer   getSpendLimit()
  * 
  * @package YandexDirectSDK\Models 
  */ 

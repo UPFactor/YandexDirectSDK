@@ -6,15 +6,15 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class CampaignFundsParam 
  * 
- * @property-readable   integer   $sum
- * @property-readable   integer   $balance
- * @property-readable   integer   $balanceBonus
- * @property-readable   integer   $sumAvailableForTransfer
+ * @property-read   integer   $sum
+ * @property-read   integer   $balance
+ * @property-read   integer   $balanceBonus
+ * @property-read   integer   $sumAvailableForTransfer
  * 
- * @method              integer   getSum()
- * @method              integer   getBalance()
- * @method              integer   getBalanceBonus()
- * @method              integer   getSumAvailableForTransfer()
+ * @method          integer   getSum()
+ * @method          integer   getBalance()
+ * @method          integer   getBalanceBonus()
+ * @method          integer   getSumAvailableForTransfer()
  * 
  * @package YandexDirectSDK\Models 
  */ 

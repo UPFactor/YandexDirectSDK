@@ -6,27 +6,27 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAdGroup 
  * 
- * @property            string                $storeUrl
- * @property            string[]              $targetDeviceType
- * @property            string                $targetCarrier
- * @property            string                $targetOperatingSystemVersion
+ * @property        string                $storeUrl
+ * @property        string[]              $targetDeviceType
+ * @property        string                $targetCarrier
+ * @property        string                $targetOperatingSystemVersion
  * 
- * @property-readable   ExtensionModeration   $appIconModeration
- * @property-readable   string                $appOperatingSystemType
- * @property-readable   string                $appAvailabilityStatus
+ * @property-read   ExtensionModeration   $appIconModeration
+ * @property-read   string                $appOperatingSystemType
+ * @property-read   string                $appAvailabilityStatus
  * 
- * @method              $this                 setStoreUrl(string $storeUrl)
- * @method              $this                 setTargetDeviceType(string[] $targetDeviceType)
- * @method              $this                 setTargetCarrier(string $targetCarrier)
- * @method              $this                 setTargetOperatingSystemVersion(string $targetOperatingSystemVersion)
+ * @method          $this                 setStoreUrl(string $storeUrl)
+ * @method          $this                 setTargetDeviceType(string[] $targetDeviceType)
+ * @method          $this                 setTargetCarrier(string $targetCarrier)
+ * @method          $this                 setTargetOperatingSystemVersion(string $targetOperatingSystemVersion)
  * 
- * @method              string                getStoreUrl()
- * @method              string[]              getTargetDeviceType()
- * @method              string                getTargetCarrier()
- * @method              string                getTargetOperatingSystemVersion()
- * @method              ExtensionModeration   getAppIconModeration()
- * @method              string                getAppOperatingSystemType()
- * @method              string                getAppAvailabilityStatus()
+ * @method          string                getStoreUrl()
+ * @method          string[]              getTargetDeviceType()
+ * @method          string                getTargetCarrier()
+ * @method          string                getTargetOperatingSystemVersion()
+ * @method          ExtensionModeration   getAppIconModeration()
+ * @method          string                getAppOperatingSystemType()
+ * @method          string                getAppAvailabilityStatus()
  * 
  * @package YandexDirectSDK\Models 
  */ 

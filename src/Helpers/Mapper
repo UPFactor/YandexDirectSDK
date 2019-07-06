@@ -238,11 +238,11 @@ class Mapper extends ConsoleLauncher{
     {
         $modelLexemes = [
             'property' => [],
-            'property-writable' => [],
-            'property-readable' => [],
+            'property-write' => [],
+            'property-read' => [],
             'method' => [],
-            'method-writable' => [],
-            'method-readable' => []
+            'method-write' => [],
+            'method-read' => []
         ];
 
         /**
@@ -333,18 +333,18 @@ class Mapper extends ConsoleLauncher{
             $toCreate = [];
 
             if ($property['writable'] === true and $property['readable'] === true) {
-                $toCreate = ['property', 'method-readable', 'method-writable'];
+                $toCreate = ['property', 'method-read', 'method-write'];
             } elseif ($property['writable'] === true) {
-                $toCreate = ['property-writable', 'method-writable'];
+                $toCreate = ['property-write', 'method-write'];
             } elseif ($property['readable'] === true) {
-                $toCreate = ['property-readable', 'method-readable'];
+                $toCreate = ['property-read', 'method-read'];
             }
 
             foreach ($toCreate as $createItemType){
                 switch ($createItemType){
                     case 'property':
-                    case 'property-writable':
-                    case 'property-readable':
+                    case 'property-write':
+                    case 'property-read':
 
                         $modelLexemes[$createItemType][] = [
                             'type' => $resultType,
@@ -353,7 +353,7 @@ class Mapper extends ConsoleLauncher{
                         ];
                         break;
 
-                    case 'method-writable':
+                    case 'method-write':
 
                         $modelLexemes[$createItemType][] = [
                             'native' => false,
@@ -369,7 +369,7 @@ class Mapper extends ConsoleLauncher{
                         ];
                         break;
 
-                    case 'method-readable':
+                    case 'method-read':
 
                         $modelLexemes[$createItemType][] = [
                             'native' => false,
@@ -396,11 +396,11 @@ class Mapper extends ConsoleLauncher{
     {
         $collectionLexemes = [
             'property' => [],
-            'property-writable' => [],
-            'property-readable' => [],
+            'property-write' => [],
+            'property-read' => [],
             'method' => [],
-            'method-writable' => [],
-            'method-readable' => []
+            'method-write' => [],
+            'method-read' => []
         ];
 
         /**
@@ -478,11 +478,11 @@ class Mapper extends ConsoleLauncher{
     {
         $serviceLexemes = [
             'property' => [],
-            'property-writable' => [],
-            'property-readable' => [],
+            'property-write' => [],
+            'property-read' => [],
             'method' => [],
-            'method-writable' => [],
-            'method-readable' => []
+            'method-write' => [],
+            'method-read' => []
         ];
 
         /** @var Service $serviceClass */
@@ -613,8 +613,6 @@ class Mapper extends ConsoleLauncher{
         $maxLenTag = 0;
         $maxLenType = 0;
 
-
-
         foreach ($lexemes as $lexemeType => $lexemeGroup){
 
             if (empty($lexemeGroup)){
@@ -651,7 +649,7 @@ class Mapper extends ConsoleLauncher{
                 continue;
             }
 
-            if (in_array($lexemeType, ['property','property-writable','property-readable'])){
+            if (in_array($lexemeType, ['property','property-write','property-read'])){
                 foreach ($lexemeGroup as $item){
                     $tag = str_pad('@'.$lexemeType, $maxLenTag, ' ');
                     $type = str_pad($item['type'], $maxLenType, ' ');
@@ -660,7 +658,7 @@ class Mapper extends ConsoleLauncher{
                 $doc .= " * \n";
             }
 
-            if (in_array($lexemeType, ['method','method-writable','method-readable'])){
+            if (in_array($lexemeType, ['method','method-write','method-read'])){
                 foreach ($lexemeGroup as $item){
                     $tag = str_pad('@method', $maxLenTag, ' ');
                     $result = str_pad($item['return'], $maxLenType, ' ');
@@ -779,5 +777,5 @@ class Mapper extends ConsoleLauncher{
 try{
     (new Mapper())->execute();
 } catch (Exception $e){
-    (new ConsoleLauncher())->error($e);
+    (new ConsoleLauncher())->error($e->getMessage());
 }

@@ -6,14 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class FrequencyCapSetting 
  * 
- * @property          integer   $impressions
- * @property          integer   $periodDays
+ * @property       integer   $impressions
+ * @property       integer   $periodDays
  * 
- * @method            $this     setImpressions(integer $impressions)
- * @method            $this     setPeriodDays(integer $periodDays)
+ * @method         $this     setImpressions(integer $impressions)
+ * @method         $this     setPeriodDays(integer $periodDays)
  * 
- * @method            integer   getImpressions()
- * @method            integer   getPeriodDays()
+ * @method         integer   getImpressions()
+ * @method         integer   getPeriodDays()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class VideoAdjustment 
  * 
- * @property          integer   $bidModifier
+ * @property       integer   $bidModifier
  * 
- * @method            $this     setBidModifier(integer $bidModifier)
+ * @method         $this     setBidModifier(integer $bidModifier)
  * 
- * @method            integer   getBidModifier()
+ * @method         integer   getBidModifier()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -6,9 +6,9 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class CpmVideoCreative 
  * 
- * @property-readable   integer   $duration
+ * @property-read   integer   $duration
  * 
- * @method              integer   getDuration()
+ * @method          integer   getDuration()
  * 
  * @package YandexDirectSDK\Models 
  */ 

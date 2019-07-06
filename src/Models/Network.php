@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Network 
  * 
- * @property-readable   integer    $bid
- * @property-readable   Coverage   $coverage
+ * @property-read   integer    $bid
+ * @property-read   Coverage   $coverage
  * 
- * @method              integer    getBid()
- * @method              Coverage   getCoverage()
+ * @method          integer    getBid()
+ * @method          Coverage   getCoverage()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -6,26 +6,26 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class MapPoint 
  * 
- * @property          integer   $x
- * @property          integer   $y
- * @property          integer   $x1
- * @property          integer   $y1
- * @property          integer   $x2
- * @property          integer   $y2
+ * @property       integer   $x
+ * @property       integer   $y
+ * @property       integer   $x1
+ * @property       integer   $y1
+ * @property       integer   $x2
+ * @property       integer   $y2
  * 
- * @method            $this     setX(integer $x)
- * @method            $this     setY(integer $y)
- * @method            $this     setX1(integer $x1)
- * @method            $this     setY1(integer $y1)
- * @method            $this     setX2(integer $x2)
- * @method            $this     setY2(integer $y2)
+ * @method         $this     setX(integer $x)
+ * @method         $this     setY(integer $y)
+ * @method         $this     setX1(integer $x1)
+ * @method         $this     setY1(integer $y1)
+ * @method         $this     setX2(integer $x2)
+ * @method         $this     setY2(integer $y2)
  * 
- * @method            integer   getX()
- * @method            integer   getY()
- * @method            integer   getX1()
- * @method            integer   getY1()
- * @method            integer   getX2()
- * @method            integer   getY2()
+ * @method         integer   getX()
+ * @method         integer   getY()
+ * @method         integer   getX1()
+ * @method         integer   getY1()
+ * @method         integer   getX2()
+ * @method         integer   getY2()
  * 
  * @package YandexDirectSDK\Models 
  */ 

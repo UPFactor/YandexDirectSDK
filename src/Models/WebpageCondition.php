@@ -7,17 +7,17 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class WebpageCondition 
  * 
- * @property          string     $operand
- * @property          string     $operator
- * @property          string[]   $arguments
+ * @property       string     $operand
+ * @property       string     $operator
+ * @property       string[]   $arguments
  * 
- * @method            $this      setOperand(string $operand)
- * @method            $this      setOperator(string $operator)
- * @method            $this      setArguments(string[] $arguments)
+ * @method         $this      setOperand(string $operand)
+ * @method         $this      setOperator(string $operator)
+ * @method         $this      setArguments(string[] $arguments)
  * 
- * @method            string     getOperand()
- * @method            string     getOperator()
- * @method            string[]   getArguments()
+ * @method         string     getOperand()
+ * @method         string     getOperator()
+ * @method         string[]   getArguments()
  * 
  * @package YandexDirectSDK\Models 
  */ 

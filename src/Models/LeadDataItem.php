@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class LeadDataItem 
  * 
- * @property-readable   string   $name
- * @property-readable   string   $value
+ * @property-read   string   $name
+ * @property-read   string   $value
  * 
- * @method              string   getName()
- * @method              string   getValue()
+ * @method          string   getName()
+ * @method          string   getValue()
  * 
  * @package YandexDirectSDK\Models 
  */ 

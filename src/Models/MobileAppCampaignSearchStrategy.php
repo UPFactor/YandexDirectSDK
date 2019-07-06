@@ -6,26 +6,26 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppCampaignSearchStrategy 
  * 
- * @property          string                       $biddingStrategyType
- * @property          StrategyMaximumClicks        $wbMaximumClicks
- * @property          StrategyMaximumAppInstalls   $wbMaximumAppInstalls
- * @property          StrategyAverageCpc           $averageCpc
- * @property          StrategyAverageCpi           $averageCpi
- * @property          StrategyWeeklyClickPackage   $weeklyClickPackage
+ * @property       string                       $biddingStrategyType
+ * @property       StrategyMaximumClicks        $wbMaximumClicks
+ * @property       StrategyMaximumAppInstalls   $wbMaximumAppInstalls
+ * @property       StrategyAverageCpc           $averageCpc
+ * @property       StrategyAverageCpi           $averageCpi
+ * @property       StrategyWeeklyClickPackage   $weeklyClickPackage
  * 
- * @method            $this                        setBiddingStrategyType(string $biddingStrategyType)
- * @method            $this                        setWbMaximumClicks(StrategyMaximumClicks $wbMaximumClicks)
- * @method            $this                        setWbMaximumAppInstalls(StrategyMaximumAppInstalls $wbMaximumAppInstalls)
- * @method            $this                        setAverageCpc(StrategyAverageCpc $averageCpc)
- * @method            $this                        setAverageCpi(StrategyAverageCpi $averageCpi)
- * @method            $this                        setWeeklyClickPackage(StrategyWeeklyClickPackage $weeklyClickPackage)
+ * @method         $this                        setBiddingStrategyType(string $biddingStrategyType)
+ * @method         $this                        setWbMaximumClicks(StrategyMaximumClicks $wbMaximumClicks)
+ * @method         $this                        setWbMaximumAppInstalls(StrategyMaximumAppInstalls $wbMaximumAppInstalls)
+ * @method         $this                        setAverageCpc(StrategyAverageCpc $averageCpc)
+ * @method         $this                        setAverageCpi(StrategyAverageCpi $averageCpi)
+ * @method         $this                        setWeeklyClickPackage(StrategyWeeklyClickPackage $weeklyClickPackage)
  * 
- * @method            string                       getBiddingStrategyType()
- * @method            StrategyMaximumClicks        getWbMaximumClicks()
- * @method            StrategyMaximumAppInstalls   getWbMaximumAppInstalls()
- * @method            StrategyAverageCpc           getAverageCpc()
- * @method            StrategyAverageCpi           getAverageCpi()
- * @method            StrategyWeeklyClickPackage   getWeeklyClickPackage()
+ * @method         string                       getBiddingStrategyType()
+ * @method         StrategyMaximumClicks        getWbMaximumClicks()
+ * @method         StrategyMaximumAppInstalls   getWbMaximumAppInstalls()
+ * @method         StrategyAverageCpc           getAverageCpc()
+ * @method         StrategyAverageCpi           getAverageCpi()
+ * @method         StrategyWeeklyClickPackage   getWeeklyClickPackage()
  * 
  * @package YandexDirectSDK\Models 
  */ 
