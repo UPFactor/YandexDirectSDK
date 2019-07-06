@@ -9,7 +9,6 @@ use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Bid;
 
@@ -50,7 +49,6 @@ class BidsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function setAuto(ModelCommonInterface $bidsAuto):Result
     {

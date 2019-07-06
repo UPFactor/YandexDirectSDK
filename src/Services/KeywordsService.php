@@ -9,7 +9,6 @@ use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
@@ -60,7 +59,6 @@ class KeywordsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ModelCollectionException
      * @throws ModelException
      */
     public function setRelatedBids($keywords, $bid, $contextBid = null):Result
@@ -87,7 +85,9 @@ class KeywordsService extends Service
             }
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -97,7 +97,6 @@ class KeywordsService extends Service
      * @param integer $contextBid
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelException
@@ -115,7 +114,9 @@ class KeywordsService extends Service
             );
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -125,7 +126,6 @@ class KeywordsService extends Service
      * @param string $strategyPriority
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelException
@@ -143,7 +143,9 @@ class KeywordsService extends Service
             );
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -160,9 +162,9 @@ class KeywordsService extends Service
      */
     public function setRelatedBidsAuto($keywords, ModelCommonInterface $bidsAuto): Result
     {
-        return $this->session->getBidsService()->setAuto(
-            $this->bind($keywords, $bidsAuto, 'KeywordId')
-        );
+        return BidsService::make()
+            ->setSession($this->session)
+            ->setAuto($this->bind($keywords, $bidsAuto, 'KeywordId'));
     }
 
     /**
@@ -177,7 +179,9 @@ class KeywordsService extends Service
      */
     public function getRelatedBids($keywords, array $fields): Result
     {
-        return $this->session->getBidsService()->query()
+        return BidsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('KeywordIds', $this->extractIds($keywords))
             ->get();

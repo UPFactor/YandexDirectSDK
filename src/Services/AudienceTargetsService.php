@@ -8,11 +8,9 @@ use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AudienceTarget;
 use YandexDirectSDK\Models\AudienceTargetBid;
@@ -53,10 +51,8 @@ class AudienceTargetsService extends Service
      * @param integer $contextBid
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      * @throws ModelException
      */
     public function setRelatedContextBids($audienceTargets, $contextBid):Result
@@ -84,8 +80,6 @@ class AudienceTargetsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
-     * @throws ModelCollectionException
      * @throws ModelException
      */
     public function setRelatedStrategyPriority($audienceTargets, $strategyPriority):Result
@@ -112,7 +106,6 @@ class AudienceTargetsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function setBids(ModelCommonInterface $audienceTargetBids):Result
     {

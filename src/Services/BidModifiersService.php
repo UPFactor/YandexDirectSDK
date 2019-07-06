@@ -12,7 +12,6 @@ use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
@@ -55,7 +54,6 @@ class BidModifiersService extends Service
      * @throws RequestException
      * @throws RuntimeException
      * @throws ReflectionException
-     * @throws ModelCollectionException
      */
     public function add(ModelCommonInterface $bidModifiers) : Result
     {
@@ -64,7 +62,7 @@ class BidModifiersService extends Service
 
         if ($bidModifiers instanceof ModelInterface) {
             /** @var BidModifiers $class */
-            $class = $this->serviceModelCollectionClass;
+            $class = static::$modelCollectionClass;
             $bidModifiers = $class::make($bidModifiers);
         }
 
@@ -150,9 +148,7 @@ class BidModifiersService extends Service
         }
 
         return $result->setResource(
-            $bidModifiers
-                ->setSession($this->session)
-                ->insert($modelData)
+            $bidModifiers->insert($modelData)
         );
     }
 

@@ -8,11 +8,9 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Webpage;
 use YandexDirectSDK\Models\WebpageBid;
@@ -56,8 +54,6 @@ class DynamicTextAdTargetsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
-     * @throws ModelCollectionException
      * @throws ModelException
      */
     public function setRelatedBids($webpages, $bid, $contextBid = null):Result
@@ -94,10 +90,8 @@ class DynamicTextAdTargetsService extends Service
      * @param integer $contextBid
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      * @throws ModelException
      */
     public function setRelatedContextBids($webpages, $contextBid):Result
@@ -123,10 +117,8 @@ class DynamicTextAdTargetsService extends Service
      * @param string $strategyPriority
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      * @throws ModelException
      */
     public function setRelatedStrategyPriority($webpages, string $strategyPriority):Result
@@ -153,7 +145,6 @@ class DynamicTextAdTargetsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function setBids(ModelCommonInterface $webpageBids):Result
     {

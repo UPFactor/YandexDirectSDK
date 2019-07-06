@@ -23,7 +23,6 @@ class ChangesService extends Service
     /**
      * @param null $timestamp
      * @return string
-     * @throws RuntimeException
      */
     protected function timestampConverting($timestamp = null):string
     {

@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Services;
 
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Collections\Clients;
 use YandexDirectSDK\Components\Service;
@@ -58,7 +57,6 @@ class ClientsService extends Service
      * @return Result
      * @throws InvalidArgumentException
      * @throws RuntimeException
-     * @throws ServiceException
      */
     public function get(...$fields){
         if (empty($fields)){

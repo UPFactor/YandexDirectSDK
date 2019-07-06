@@ -16,7 +16,6 @@ use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
@@ -70,9 +69,9 @@ class AdGroupsService extends Service
      */
     public function addRelatedAds($adGroups, ModelCommonInterface $ads): Result
     {
-        return $this->session->getAdsService()->add(
-            $this->bind($adGroups, $ads, 'AdGroupId')
-        );
+        return AdsService::make()
+            ->setSession($this->session)
+            ->add($this->bind($adGroups, $ads, 'AdGroupId'));
     }
 
     /**
@@ -87,11 +86,12 @@ class AdGroupsService extends Service
      */
     public function getRelatedAds($adGroups, array $fields): Result
     {
-        return $this->session->getAdsService()->query()
+        return AdsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
-
     }
 
     /**
@@ -105,9 +105,9 @@ class AdGroupsService extends Service
      */
     public function addRelatedAudienceTargets($adGroups, ModelCommonInterface $audienceTargets): Result
     {
-        return $this->session->getAudienceTargetsService()->add(
-            $this->bind($adGroups, $audienceTargets, 'AdGroupId')
-        );
+        return AudienceTargetsService::make()
+            ->setSession($this->session)
+            ->add($this->bind($adGroups, $audienceTargets, 'AdGroupId'));
     }
 
     /**
@@ -122,7 +122,9 @@ class AdGroupsService extends Service
      */
     public function getRelatedAudienceTargets($adGroups, array $fields): Result
     {
-        return $this->session->getAudienceTargetsService()->query()
+        return AudienceTargetsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -136,7 +138,6 @@ class AdGroupsService extends Service
      * @param integer|null $contextBid
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelException
@@ -165,7 +166,9 @@ class AdGroupsService extends Service
             }
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -175,7 +178,6 @@ class AdGroupsService extends Service
      * @param integer $contextBid
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelException
@@ -193,7 +195,9 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -203,7 +207,6 @@ class AdGroupsService extends Service
      * @param string $strategyPriority
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ModelException
@@ -221,7 +224,9 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->getBidsService()->set($bids);
+        return BidsService::make()
+            ->setSession($this->session)
+            ->set($bids);
     }
 
     /**
@@ -238,9 +243,9 @@ class AdGroupsService extends Service
      */
     public function setRelatedBidsAuto($adGroups, ModelCommonInterface $bidsAuto): Result
     {
-        return $this->session->getBidsService()->setAuto(
-            $this->bind($adGroups, $bidsAuto, 'AdGroupId')
-        );
+        return BidsService::make()
+            ->setSession($this->session)
+            ->setAuto($this->bind($adGroups, $bidsAuto, 'AdGroupId'));
     }
 
     /**
@@ -255,7 +260,9 @@ class AdGroupsService extends Service
      */
     public function getRelatedBids($adGroups, array $fields): Result
     {
-        return $this->session->getBidsService()->query()
+        return BidsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -268,7 +275,6 @@ class AdGroupsService extends Service
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
      * @throws InvalidArgumentException
-     * @throws ModelCollectionException
      * @throws RequestException
      * @throws RuntimeException
      * @throws ServiceException
@@ -277,9 +283,9 @@ class AdGroupsService extends Service
      */
     public function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {
-        return $this->session->getBidModifiersService()->add(
-            $this->bind($adGroups, $bidModifiers, 'AdGroupId')
-        );
+        return BidModifiersService::make()
+            ->setSession($this->session)
+            ->add($this->bind($adGroups, $bidModifiers, 'AdGroupId'));
     }
 
     /**
@@ -291,7 +297,6 @@ class AdGroupsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ModelCollectionException
      * @throws ModelException
      */
     public function enableBidModifiers($adGroups, string $bidModifierType): Result
@@ -308,7 +313,9 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->getBidModifiersService()->toggle($collection);
+        return BidModifiersService::make()
+            ->setSession($this->session)
+            ->toggle($collection);
     }
 
     /**
@@ -320,7 +327,6 @@ class AdGroupsService extends Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ModelCollectionException
      * @throws ModelException
      */
     public function disableBidModifiers($adGroups, string $bidModifierType): Result
@@ -337,7 +343,9 @@ class AdGroupsService extends Service
             );
         }
 
-        return $this->session->getBidModifiersService()->toggle($collection);
+        return BidModifiersService::make()
+            ->setSession($this->session)
+            ->toggle($collection);
     }
 
     /**
@@ -352,7 +360,9 @@ class AdGroupsService extends Service
      */
     public function getRelatedBidModifiers($adGroups, array $fields): Result
     {
-        return $this->session->getBidModifiersService()->query()
+        return BidModifiersService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
@@ -370,9 +380,9 @@ class AdGroupsService extends Service
      */
     public function addRelatedKeywords($adGroups, ModelCommonInterface $keywords): Result
     {
-        return $this->session->getKeywordsService()->add(
-            $this->bind($adGroups, $keywords, 'AdGroupId')
-        );
+        return KeywordsService::make()
+            ->setSession($this->session)
+            ->add($this->bind($adGroups, $keywords, 'AdGroupId'));
     }
 
     /**
@@ -387,7 +397,9 @@ class AdGroupsService extends Service
      */
     public function getRelatedKeywords($adGroups, array $fields): Result
     {
-        return $this->session->getKeywordsService()->query()
+        return KeywordsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
@@ -404,9 +416,9 @@ class AdGroupsService extends Service
      */
     public function addRelatedWebpages($adGroups, ModelCommonInterface $webpages): Result
     {
-        return $this->session->getDynamicTextAdTargetsService()->add(
-            $this->bind($adGroups, $webpages, 'AdGroupId')
-        );
+        return DynamicTextAdTargetsService::make()
+            ->setSession($this->session)
+            ->add($this->bind($adGroups, $webpages, 'AdGroupId'));
     }
 
     /**
@@ -421,7 +433,9 @@ class AdGroupsService extends Service
      */
     public function getRelatedWebpages($adGroups, array $fields): Result
     {
-        return $this->session->getDynamicTextAdTargetsService()->query()
+        return DynamicTextAdTargetsService::make()
+            ->setSession($this->session)
+            ->query()
             ->select($fields)
             ->whereIn('AdGroupIds', $this->extractIds($adGroups))
             ->get();
