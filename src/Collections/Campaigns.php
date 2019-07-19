@@ -48,8 +48,12 @@ class Campaigns extends ModelCollection
 
     protected static $compatibleModel = Campaign::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => CampaignsService::class,
+        'find' => CampaignsService::class
+    ];
+
+    protected static $methods = [
         'add' => CampaignsService::class,
         'update' => CampaignsService::class,
         'delete' => CampaignsService::class,

@@ -17,8 +17,6 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AdExtensionSetting extends Model 
 { 
-    protected static $serviceMethods = [];
-
     protected static $properties = [
         'adExtensions' => 'object:' . AdExtensionsAd::class
     ];

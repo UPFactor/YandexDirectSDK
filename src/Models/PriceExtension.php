@@ -39,8 +39,6 @@ class PriceExtension extends Model
 
     protected static $compatibleCollection;
 
-    protected static $serviceMethods = [];
-
     protected static $properties = [
         'price' => 'integer',
         'oldPrice' => 'integer',

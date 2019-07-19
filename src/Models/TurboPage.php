@@ -27,8 +27,9 @@ class TurboPage extends Model
 { 
     protected static $compatibleCollection = TurboPages::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => TurboPagesService::class,
+        'find' => TurboPagesService::class
     ];
 
     protected static $properties = [

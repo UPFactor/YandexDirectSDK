@@ -29,10 +29,14 @@ class BidModifiers extends ModelCollection
      */ 
     protected static $compatibleModel = BidModifier::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => BidModifiersService::class,
+        'find' => BidModifiersService::class
+    ];
+
+    protected static $methods = [
         'add' => BidModifiersService::class,
         'set' => BidModifiersService::class,
-        'delete' => BidModifiersService::class,
-        'query' => BidModifiersService::class
+        'delete' => BidModifiersService::class
     ];
 }

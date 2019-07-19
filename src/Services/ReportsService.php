@@ -175,26 +175,31 @@ class ReportsService extends Service
     protected $includeDiscount = 'NO';
 
     /**
-     * Service initialization handler.
+     * Create Service instance.
      *
-     * @param mixed ...$arguments
-     * @return void
-     * @throws InvalidArgumentException
+     * @param string $reportName
+     * @param string $reportType
+     * @return static
      */
-    protected function initialize(...$arguments): void
+    public static function make(string $reportName, string $reportType = 'CUSTOM_REPORT')
     {
-        if (isset($arguments[0]) and !is_string($arguments[0])){
-            throw InvalidArgumentException::invalidType(static::class.'::report', 1, 'string');
+        return new static(...func_get_args());
+    }
+
+    /**
+     * Create Service instance.
+     *
+     * @param string $reportName
+     * @param string $reportType
+     */
+    public function __construct(string $reportName, string $reportType = 'CUSTOM_REPORT')
+    {
+        if (!in_array($reportType, static::$validReportType)){
+            throw InvalidArgumentException::invalidType(static::class.'::report', 1, implode('|', static::$validReportType));
         }
 
-        if (isset($arguments[1])){
-            if (!in_array($arguments[1], static::$validReportType)){
-                throw InvalidArgumentException::invalidType(static::class.'::report', 1, implode('|', static::$validReportType));
-            }
-        }
-
-        $this->reportName = $arguments[0] ?? date("Y-m-d H:i:s");
-        $this->reportType = $arguments[1] ?? 'CUSTOM_REPORT';
+        $this->reportName = $reportName;
+        $this->reportType = $reportType;
     }
 
     /**

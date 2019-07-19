@@ -63,7 +63,7 @@ class FakeModel extends Model
         }
 
         static::$compatibleCollection = $initializationData['compatibleCollection'];
-        static::$serviceMethods = $initializationData['serviceMethods'];
+        static::$methods = $initializationData['serviceMethods'];
         static::$properties = $initializationData['properties'];
         static::$nonWritableProperties = $initializationData['nonWritableProperties'];
         static::$nonReadableProperties = $initializationData['nonReadableProperties'];

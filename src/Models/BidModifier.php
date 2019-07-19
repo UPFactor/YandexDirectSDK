@@ -56,11 +56,15 @@ class BidModifier extends Model
 { 
     protected static $compatibleCollection = BidModifiers::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => BidModifiersService::class,
+        'find' => BidModifiersService::class
+    ];
+
+    protected static $methods = [
         'add' => BidModifiersService::class,
         'set' => BidModifiersService::class,
-        'delete' => BidModifiersService::class,
-        'query' => BidModifiersService::class
+        'delete' => BidModifiersService::class
     ];
 
     protected static $properties = [

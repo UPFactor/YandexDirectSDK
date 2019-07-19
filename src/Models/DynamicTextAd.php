@@ -41,8 +41,6 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class DynamicTextAd extends Model 
 { 
-    protected static $serviceMethods = [];
-
     protected static $properties = [
         'text' => 'string',
         'vCardId' => 'integer',

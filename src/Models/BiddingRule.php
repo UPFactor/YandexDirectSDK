@@ -21,8 +21,6 @@ class BiddingRule extends Model
 { 
     protected static $compatibleCollection;
 
-    protected static $serviceMethods = [];
-
     protected static $properties = [
         'searchByTrafficVolume' => 'object:' . SearchByTrafficVolume::class,
         'networkByCoverage' => 'object:' . NetworkByCoverage::class

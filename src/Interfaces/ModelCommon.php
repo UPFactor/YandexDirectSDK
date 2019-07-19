@@ -2,10 +2,8 @@
 
 namespace YandexDirectSDK\Interfaces;
 
-use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Session;
-use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Data;
+use YandexDirectSDK\Components\Service;
 
 /**
  * Interface ModelsCommon
@@ -14,28 +12,25 @@ use YandexDirectSDK\Components\Data;
 interface ModelCommon
 {
     /**
-     * Returns the short class name.
+     * Returns object name.
      *
      * @return string
      */
     public static function getClassName();
 
     /**
-     * Retrieve metadata of service-providers methods.
+     * Returns the metadata of the declared methods.
      *
      * @return Service[]
      */
-    public static function getServiceMethods();
+    public static function getMethodsMeta();
 
     /**
-     * Implementing dynamic methods.
+     * Returns the metadata of the declared static methods.
      *
-     * @param string $method
-     * @param Session|null $session
-     * @param mixed ...$arguments
-     * @return Result
+     * @return Service[]
      */
-    public function call($method, Session $session = null, ...$arguments);
+    public static function getStaticMethodsMeta();
 
     /**
      * Retrieve copy of the object.

@@ -2,8 +2,6 @@
 
 namespace YandexDirectSDK\Interfaces;
 
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
@@ -22,18 +20,25 @@ interface Model extends ModelCommon
     public static function make($properties = null);
 
     /**
-     * Gets an array of model properties.
+     * Returns the metadata of the declared model properties.
      *
      * @return array
      */
-    public static function getProperties();
+    public static function getPropertiesMeta();
+
+    /**
+     * Returns class of compatible collection.
+     *
+     * @return ModelCollectionInterface
+     */
+    public static function getCompatibleCollectionClass();
 
     /**
      * Retrieve instance of compatible collection.
      *
      * @return ModelCollectionInterface|null
      */
-    public static function getCompatibleCollection();
+    public static function makeCompatibleCollection();
 
     /**
      * Setting a value for a model property.
@@ -41,8 +46,6 @@ interface Model extends ModelCommon
      * @param string $propertyName
      * @param mixed  $value
      * @return $this
-     * @throws ModelException
-     * @throws InvalidArgumentException
      */
     public function setPropertyValue($propertyName, $value);
 
@@ -51,7 +54,6 @@ interface Model extends ModelCommon
      *
      * @param string $propertyName
      * @return mixed|null
-     * @throws ModelException
      */
     public function getPropertyValue($propertyName);
 

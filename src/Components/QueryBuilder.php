@@ -63,7 +63,6 @@ class QueryBuilder
      *
      * @param string|string[] ...$fields
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function select(...$fields)
     {
@@ -186,7 +185,6 @@ class QueryBuilder
      * Available if the [$this->getter] parameter is set.
      *
      * @return Result
-     * @throws RuntimeException
      */
     public function get()
     {

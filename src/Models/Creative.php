@@ -41,8 +41,9 @@ class Creative extends Model
 { 
     protected static $compatibleCollection = Creatives::class;
 
-    protected static $serviceMethods = [
-        'query' => CreativesService::class
+    protected static $staticMethods = [
+        'query' => CreativesService::class,
+        'find' => CreativesService::class
     ];
 
     protected static $properties = [

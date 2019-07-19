@@ -28,8 +28,12 @@ class AdExtensions extends ModelCollection
      */ 
     protected static $compatibleModel = AdExtension::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => AdExtensionsService::class,
+        'find' => AdExtensionsService::class
+    ];
+
+    protected static $methods = [
         'add' => AdExtensionsService::class,
         'delete' => AdExtensionsService::class
     ];

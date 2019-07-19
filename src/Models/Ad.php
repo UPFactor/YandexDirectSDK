@@ -82,8 +82,12 @@ class Ad extends Model
 {
     protected static $compatibleCollection = Ads::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => AdsService::class,
+        'find' => AdsService::class
+    ];
+
+    protected static $methods = [
         'add' => AdsService::class,
         'update' => AdsService::class,
         'delete' => AdsService::class,

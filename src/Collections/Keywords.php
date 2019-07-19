@@ -37,10 +37,14 @@ class Keywords extends ModelCollection
      */ 
     protected static $compatibleModel = Keyword::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => KeywordsService::class,
+        'find' => KeywordsService::class
+    ];
+
+    protected static $methods = [
         'add' => KeywordsService::class,
         'delete' => KeywordsService::class,
-        'query' => KeywordsService::class,
         'resume' => KeywordsService::class,
         'suspend' => KeywordsService::class,
         'update' => KeywordsService::class,

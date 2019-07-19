@@ -3,14 +3,13 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
+use Exception;
 use ReflectionClass;
-use ReflectionException;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
-use YandexDirectSDK\Session;
 
 /**
  * Class ModelCollection
@@ -20,18 +19,32 @@ use YandexDirectSDK\Session;
 abstract class ModelCollection implements ModelCollectionInterface
 {
     /**
+     * Boot data registry.
+     *
+     * @var array
+     */
+    protected static $boot = [];
+
+    /**
+     * Declared virtual methods of the collection.
+     *
+     * @var Service[]
+     */
+    protected static $methods = [];
+
+    /**
+     * Declared virtual static methods of the collection.
+     *
+     * @var Service[]
+     */
+    protected static $staticMethods = [];
+
+    /**
      * Compatible class of model.
      *
      * @var ModelInterface
      */
     protected static $compatibleModel;
-
-    /**
-     * Service-providers methods.
-     *
-     * @var Service[]
-     */
-    protected static $serviceMethods = [];
 
     /**
      * The models contained in the collection.
@@ -46,34 +59,19 @@ abstract class ModelCollection implements ModelCollectionInterface
     protected $position = 0;
 
     /**
-     * Returns the short class name.
+     * Implementing magic methods.
      *
-     * @return string
-     * @throws ReflectionException
+     * @param string $method
+     * @param mixed[] $arguments
+     * @return mixed
      */
-    public static function getClassName()
+    public static function __callStatic($method, $arguments)
     {
-        return (new ReflectionClass(static::class))->getShortName();
-    }
+        if (array_key_exists($method, static::$staticMethods)){
+            return static::$methods[$method]::{$method}(...$arguments);
+        }
 
-    /**
-     * Retrieve instance of compatible models.
-     *
-     * @return ModelInterface
-     */
-    public static function getCompatibleModel()
-    {
-        return static::$compatibleModel::make();
-    }
-
-    /**
-     * Retrieve metadata of service-providers methods.
-     *
-     * @return Service[]
-     */
-    public static function getServiceMethods()
-    {
-        return static::$serviceMethods;
+        throw ModelCollectionException::make(static::class.". Static method [{$method}] is missing.");
     }
 
     /**
@@ -88,6 +86,56 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
+     * Returns object name.
+     *
+     * @return string
+     */
+    public static function getClassName()
+    {
+        return static::bootstrap('name');
+    }
+
+    /**
+     * Returns the metadata of the declared methods.
+     *
+     * @return Service[]
+     */
+    public static function getMethodsMeta()
+    {
+        return static::$methods;
+    }
+
+    /**
+     * Returns the metadata of the declared static methods.
+     *
+     * @return Service[]
+     */
+    public static function getStaticMethodsMeta()
+    {
+        return static::$staticMethods;
+    }
+
+    /**
+     * Returns class of compatible model.
+     *
+     * @return ModelInterface
+     */
+    public static function getCompatibleModelClass()
+    {
+        return static::$compatibleModel;
+    }
+
+    /**
+     * Retrieve instance of compatible model.
+     *
+     * @return ModelInterface
+     */
+    public static function makeCompatibleModel()
+    {
+        return static::$compatibleModel::make();
+    }
+
+    /**
      * Create a new collection instance.
      *
      * @param ModelInterface[] $models
@@ -96,6 +144,32 @@ abstract class ModelCollection implements ModelCollectionInterface
     public static function wrap(array $models)
     {
         return (new static($models));
+    }
+
+    /**
+     * Bootstrap of the object.
+     *
+     * @param string|null $key
+     * @return array|string|null
+     */
+    protected static function bootstrap(string $key = null)
+    {
+        $class = static::class;
+        $classShortName = null;
+
+        if (key_exists($class, self::$boot)){
+            return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
+        }
+
+        try {
+            $classShortName = (new ReflectionClass(static::class))->getShortName();
+        } catch (Exception $error) {}
+
+        self::$boot[$class] = [
+            'name' => $classShortName
+        ];
+
+        return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
     }
 
     /**
@@ -125,34 +199,19 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Implementing dynamic methods.
+     * Implementing magic methods.
      *
      * @param string $method
      * @param mixed[] $arguments
-     * @return Result
+     * @return mixed
      */
     public function __call($method, $arguments)
     {
-        return $this->call($method, null, ...$arguments);
-    }
-
-    /**
-     * Implementing dynamic methods.
-     *
-     * @param string $method
-     * @param Session|null $session
-     * @param mixed ...$arguments
-     * @return Result
-     */
-    public function call($method, Session $session = null, ...$arguments)
-    {
-        if (!array_key_exists($method, static::$serviceMethods)){
-            throw ModelCollectionException::make(static::class.". Method [{$method}] is missing.");
+        if (array_key_exists($method, static::$methods)){
+            return static::$methods[$method]::{$method}($this, ...$arguments);
         }
 
-        return (new static::$serviceMethods[$method]())
-            ->{'setSession'}($session)
-            ->{$method}($this, ...$arguments);
+        throw ModelCollectionException::make(static::class.". Static method [{$method}] is missing.");
     }
 
     /**
@@ -226,17 +285,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     {
         $this->items = $this->dataFusionController($models);
         return $this;
-    }
-
-    /**
-     * Re-declares the current collection with a new set of elements.
-     *
-     * @param ModelInterface[] $models
-     * @return static
-     */
-    protected function redeclare(array $models = [])
-    {
-        return new static($models);
     }
 
     /**
@@ -556,6 +604,17 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @return void
      */
     protected function initialize($models){}
+
+    /**
+     * Re-declares the current collection with a new set of elements.
+     *
+     * @param ModelInterface[] $models
+     * @return static
+     */
+    protected function redeclare(array $models = [])
+    {
+        return new static($models);
+    }
 
     /**
      * Preprocessor combining collections with data.

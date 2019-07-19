@@ -30,7 +30,7 @@ class Lead extends Model
 { 
     protected static $compatibleCollection = Leads::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => LeadsService::class
     ];
 

@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Components;
 
 use Closure;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Exceptions\ServiceException;
@@ -35,6 +34,13 @@ abstract class Service
     protected static $name;
 
     /**
+     * Declared virtual methods of the service provider.
+     *
+     * @var array
+     */
+    protected static $methods = [];
+
+    /**
      * The class of the model that is used by the service.
      *
      * @var ModelInterface
@@ -49,75 +55,37 @@ abstract class Service
     protected static $modelCollectionClass;
 
     /**
-     * Available service methods.
+     * Dynamic call to service methods.
      *
-     * @var array
+     * @param string $method
+     * @param array $arguments
+     * @return mixed
      */
-    protected static $methods = [];
-
-    /**
-     * Session instance.
-     *
-     * @var Session|null
-     */
-    protected $session;
-
-    /**
-     * Methods of the service provider instance.
-     *
-     * @var array
-     */
-    protected $serviceMethods = [];
-
-    /**
-     * Bootstrap of the object.
-     *
-     * @return array
-     */
-    protected static function bootstrap():array
+    public static function __callStatic($method, $arguments)
     {
-        $class = static::class;
+        $bootMethods = static::bootstrap('methods');
 
-        if (key_exists($class, self::$boot)){
-            return self::$boot[$class];
+        if (!isset($bootMethods[$method])){
+            throw ServiceException::make(static::class.". Method [{$method}] is missing.");
         }
 
-        $methods = [];
-
-        foreach (static::$methods as $methodAlias => $methodMeta){
-            $methodMeta = explode(':', $methodMeta, 2);
-            $methodName = trim($methodMeta[0]);
-            $methodType = trim($methodMeta[1] ?? '');
-
-            if (empty($methodMeta)){
-                continue;
-            }
-
-            $methods[$methodAlias] = [
-                'name' => $methodName,
-                'type' => $methodType
-            ];
-        }
-
-        self::$boot[$class]['methods'] = $methods;
-
-        return self::$boot[$class];
+        return static::{$bootMethods[$method]['handler']}($bootMethods[$method]['name'], ...$arguments);
     }
 
     /**
-     * Retrieve service name.
+     * Returns service provider name.
      *
-     * @return string
+     * @return string|null
      */
-    public static function getName(): string
+    public static function getName()
     {
         return static::$name;
     }
 
     /**
-     * Get the class of the model used by the service.
+     * Returns class of the model that is used by the service.
      *
-     * @return ModelInterface
+     * @return string|null
      */
     public static function getModelClass()
     {
@@ -125,9 +93,9 @@ abstract class Service
     }
 
     /**
-     * Get the class of the collection used by the service.
+     * Returns class of the collection that is used by the service.
      *
-     * @return ModelCollectionInterface
+     * @return string|null
      */
     public static function getModelCollectionClass()
     {
@@ -135,50 +103,13 @@ abstract class Service
     }
 
     /**
-     * Retrieve service methods metadata.
+     * Returns the metadata of the declared service provider methods.
      *
      * @return array
      */
-    public static function getMethods(): array
+    public static function getMethodsMeta()
     {
-        return static::bootstrap()['methods'];
-    }
-
-    /**
-     * Create Service instance.
-     *
-     * @param mixed ...$arguments
-     * @return static
-     */
-    public static function make(...$arguments)
-    {
-        return new static(...$arguments);
-    }
-
-    /**
-     * Create Service instance.
-     *
-     * @param mixed ...$arguments
-     */
-    public function __construct(...$arguments)
-    {
-        $this->serviceMethods = static::bootstrap()['methods'];
-        $this->initialize(...$arguments);
-    }
-
-    /**
-     * Dynamic call to service methods.
-     *
-     * @param string $method
-     * @param array $arguments
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        if (!isset($this->serviceMethods[$method])){
-            throw ServiceException::make(static::class.". Method [{$method}] is missing.");
-        }
-        return $this->{$this->serviceMethods[$method]['type']}($this->serviceMethods[$method]['name'], ...$arguments);
+        return static::bootstrap('methods');
     }
 
     /**
@@ -191,37 +122,46 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    public function call($method, $params = array()): Result
+    public static function call($method, $params = array()): Result
     {
-        return ($this->session ?? Session::init())->call(static::$name, $method, $params);
+        return Session::call(static::$name, $method, $params);
     }
 
     /**
-     * Service initialization handler.
+     * Bootstrap of the class.
      *
-     * @param mixed ...$arguments
-     * @return void
+     * @param string $key
+     * @return array|string|null
      */
-    protected function initialize(...$arguments): void {}
+    protected static function bootstrap(string $key = null)
+    {
+        $class = static::class;
+        $methods = [];
 
-    /**
-     * Set the session.
-     *
-     * @param Session|null $session
-     * @return $this
-     */
-    public function setSession(Session $session = null){
-        $this->session = $session;
-        return $this;
-    }
+        if (key_exists($class, self::$boot)){
+            return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
+        }
 
-    /**
-     * Retrieve the session.
-     *
-     * @return Session|null
-     */
-    public function getSession(){
-        return $this->session;
+        foreach (static::$methods as $methodAlias => $methodMeta){
+            $methodMeta = explode(':', $methodMeta, 2);
+            $methodName = trim($methodMeta[0]);
+            $methodHandler = trim($methodMeta[1] ?? '');
+
+            if (empty($methodMeta)){
+                continue;
+            }
+
+            $methods[$methodAlias] = [
+                'name' => $methodName,
+                'handler' => empty($methodHandler) ? null : $methodHandler
+            ];
+        }
+
+        self::$boot[$class] = [
+            'methods' => $methods
+        ];
+
+        return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
     }
 
     /**
@@ -230,9 +170,8 @@ abstract class Service
      * @param string|string[]|integer|integer[]|ModelCommonInterface $source
      * @param string $container
      * @return array
-     * @throws ModelException
      */
-    protected function extractIds($source, $container = 'id'): array
+    protected static function extractIds($source, $container = 'id'): array
     {
         if ($source instanceof ModelInterface){
             $keys = [$source->getPropertyValue($container)];
@@ -256,12 +195,10 @@ abstract class Service
      * @param string $foreignKey
      * @param string $ownerKey
      * @return ModelCollectionInterface
-     * @throws ServiceException
-     * @throws ModelException
      */
-    protected function bind($owner, $related, $foreignKey, $ownerKey = 'id'): ModelCollectionInterface
+    protected static function bind($owner, $related, $foreignKey, $ownerKey = 'id'): ModelCollectionInterface
     {
-        $keys = $this->extractIds($owner, $ownerKey);
+        $keys = static::extractIds($owner, $ownerKey);
         $elements = [];
 
         if (empty($keys)){
@@ -274,7 +211,7 @@ abstract class Service
                 $elements[] = array_merge($related->toArray(), [$foreignKey => $key]);
             }
 
-            if (is_null($related = $related::getCompatibleCollection())){
+            if (is_null($related = $related::makeCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed bind model. Model [".get_class($related)."] does not support this operation.");
             }
 
@@ -289,7 +226,9 @@ abstract class Service
             $related = $related::make();
 
         } else {
+
             throw ServiceException::make(static::class.". Failed bind model. Invalid object type to bind. Expected [".ModelCollectionInterface::class."|".ModelInterface::class.".");
+
         }
 
         return $related->insert($elements);
@@ -305,9 +244,9 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function addModel(string $methodName, ModelInterface $model): Result
+    protected static function addModel(string $methodName, ModelInterface $model): Result
     {
-        $result = $this->call($methodName, $model->toArray(Model::IS_ADDABLE));
+        $result = static::call($methodName, $model->toArray(Model::IS_ADDABLE));
         return $result->setResource(
             $model->insert($result->data)
         );
@@ -325,10 +264,10 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
+    protected static function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::getCompatibleCollection())){
+            if (is_null($modelCollection = $collection::makeCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
@@ -343,7 +282,7 @@ abstract class Service
             $resultClassName = 'AddResults';
         }
 
-        $result = $this->call($methodName, [$addClassName => $collection->toArray(Model::IS_ADDABLE)]);
+        $result = static::call($methodName, [$addClassName => $collection->toArray(Model::IS_ADDABLE)]);
 
         return $result->setResource(
             $collection->insert($result->data->get($resultClassName))
@@ -360,9 +299,9 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function updateModel(string $methodName, ModelInterface $model): Result
+    protected static function updateModel(string $methodName, ModelInterface $model): Result
     {
-        $result = $this->call($methodName, $model->toArray(Model::IS_UPDATABLE));
+        $result = static::call($methodName, $model->toArray(Model::IS_UPDATABLE));
         return $result->setResource(
             $model->insert($result->data)
         );
@@ -380,10 +319,10 @@ abstract class Service
      * @throws RequestException
      * @throws RuntimeException
      */
-    protected function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
+    protected static function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::getCompatibleCollection())){
+            if (is_null($modelCollection = $collection::makeCompatibleCollection())){
                 throw ServiceException::make(static::class.". Failed method [{$methodName}]. Model [".get_class($collection)."] does not support this operation.");
             }
 
@@ -398,7 +337,7 @@ abstract class Service
             $resultClassName = 'UpdateResults';
         }
 
-        $result = $this->call($methodName, [$updateClassName => $collection->toArray(Model::IS_UPDATABLE)]);
+        $result = static::call($methodName, [$updateClassName => $collection->toArray(Model::IS_UPDATABLE)]);
 
         return $result->setResource(
             $collection->insert($result->data->get($resultClassName))
@@ -409,21 +348,17 @@ abstract class Service
      * Typical data selection method.
      *
      * @param string $methodName
-     * @param Closure|null $queryHandler
+     * @param Closure|null $handler
      * @return QueryBuilder
      */
-    protected function selectionElements(string $methodName, $queryHandler = null): QueryBuilder
+    protected static function selectionElements(string $methodName, Closure $handler = null): QueryBuilder
     {
         if (is_null(static::$modelClass) or is_null(static::$modelCollectionClass)){
             throw ServiceException::make(static::class.". Failed method [{$methodName}]. Service does not support this operation.");
         }
 
-        if (!($queryHandler instanceof Closure)){
-            $queryHandler = null;
-        }
-
-        return new QueryBuilder(function (QueryBuilder $query) use ($methodName, $queryHandler){
-            $result = $this->call($methodName, is_null($queryHandler) ? $query->toArray() : $queryHandler($query->toArray()));
+        return new QueryBuilder(function (QueryBuilder $query) use ($methodName, $handler){
+            $result = static::call($methodName, is_null($handler) ? $query->toArray() : $handler($query->toArray()));
 
             return $result->setResource(
                 static::$modelCollectionClass::make()
@@ -433,36 +368,23 @@ abstract class Service
     }
 
     /**
+     * Typical data selection method by ID.
+     *
      * @param string $methodName
      * @param $elements
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     * @throws ModelException
      */
-    protected function selectionByIds(string $methodName, $elements, array $fields)
+    protected static function selectionByIds(string $methodName, array $elements, array $fields)
     {
-        if ($elements instanceof ModelCommonInterface){
-            if ($elements instanceof ModelCollectionInterface){
-                $elements = $elements->extract('id');
-            } elseif ($elements instanceof ModelInterface){
-                $elements = $elements->getPropertyValue('id');
-            } else {
-                throw InvalidArgumentException::invalidType(static::class."::{$methodName}", null, ModelCollectionInterface::class."|".ModelInterface::class);
-            }
-        } elseif (!is_array($elements)) {
-            $elements = [$elements];
-        }
-
-        $result = $this->selectionElements($methodName)
+        $result = static::selectionElements($methodName)
             ->select($fields)
             ->whereIn('Ids', $elements)
             ->get()
             ->getResource();
 
         if (count($elements) === 1){
-            $result = $result->first();
+            return $result->first();
         }
 
         return $result;
@@ -479,9 +401,8 @@ abstract class Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ModelException
      */
-    protected function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
+    protected static function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
     {
         if ($elements instanceof ModelCommonInterface){
             if ($elements instanceof ModelCollectionInterface){
@@ -495,7 +416,7 @@ abstract class Service
             $elements = [$elements];
         }
 
-        return $this->call($methodName, (new QueryBuilder())->whereIn($actionProperty, $elements)->toArray());
+        return static::call($methodName, (new QueryBuilder())->whereIn($actionProperty, $elements)->toArray());
     }
 
     /**
@@ -507,12 +428,9 @@ abstract class Service
      * @throws InvalidArgumentException
      * @throws RequestException
      * @throws RuntimeException
-     * @throws ModelException
      */
-    protected function actionByIds(string $methodName, $elements): Result
+    protected static function actionByIds(string $methodName, $elements): Result
     {
-        return $this->actionByProperty($methodName, $elements, 'id', 'Ids');
+        return static::actionByProperty($methodName, $elements, 'id', 'Ids');
     }
-
-
 }

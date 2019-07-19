@@ -250,8 +250,9 @@ class Mapper extends ConsoleLauncher{
          */
 
         $modelClass = $this->objectClass;
-        $modelMethodsMeta = $modelClass::getServiceMethods();
-        $modelPropertiesMeta = $modelClass::getProperties();
+        $modelPropertiesMeta = $modelClass::getPropertiesMeta();
+        $modelMethodsMeta = $modelClass::getMethodsMeta();
+        $modelStaticMethodsMeta = $modelClass::getStaticMethodsMeta();
 
         $providers = [];
 
@@ -275,8 +276,8 @@ class Mapper extends ConsoleLauncher{
                 $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
             }
 
-            if (array_key_exists($alias, $service::getMethods())){
-                $method = $service::getMethods()[$alias]['type'];
+            if (array_key_exists($alias, $service::getMethodsMeta())){
+                $method = $service::getMethodsMeta()[$alias]['handler'];
             } else {
                 $method = $alias;
             }
@@ -408,8 +409,8 @@ class Mapper extends ConsoleLauncher{
          */
 
         $collectionClass = $this->objectClass;
-        $collectionCompatibleModel = $collectionClass::getCompatibleModel();
-        $collectionMethodsMeta = $collectionClass::getServiceMethods();
+        $collectionCompatibleModel = $collectionClass::makeCompatibleModel();
+        $collectionMethodsMeta = $collectionClass::meta('methods');
 
         if (is_null($collectionCompatibleModel)){
             $this->warning("Collection [{$this->objectReflection->name}]. Compatible model not defined.");
@@ -490,10 +491,10 @@ class Mapper extends ConsoleLauncher{
         /** @var string $serviceModelCollectionClass */
 
         $serviceClass = $this->objectClass;
-        $serviceName = $serviceClass::getName();
-        $serviceModelClass = $serviceClass::getModelClass();
-        $serviceModelCollectionClass = $serviceClass::getModelCollectionClass();
-        $serviceMethodsMeta = $serviceClass::getMethods();
+        $serviceName = $serviceClass::getName(); //todo:
+        $serviceModelClass = $serviceClass::getModelClass(); //todo:
+        $serviceModelCollectionClass = $serviceClass::getModelCollectionClass(); //todo:
+        $serviceMethodsMeta = $serviceClass::getMethods(); //todo:
 
         if (is_null($serviceName)){
             $this->warning("Service provider [{$this->objectReflection->name}]. Service name is missing.");

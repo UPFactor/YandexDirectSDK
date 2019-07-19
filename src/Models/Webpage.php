@@ -64,10 +64,14 @@ class Webpage extends Model
 
     protected static $compatibleCollection = Webpages::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => DynamicTextAdTargetsService::class,
+        'find' => DynamicTextAdTargetsService::class
+    ];
+
+    protected static $methods = [
         'add' => DynamicTextAdTargetsService::class,
         'delete' => DynamicTextAdTargetsService::class,
-        'query' => DynamicTextAdTargetsService::class,
         'resume' => DynamicTextAdTargetsService::class,
         'suspend' => DynamicTextAdTargetsService::class,
         'setRelatedBids' => DynamicTextAdTargetsService::class,

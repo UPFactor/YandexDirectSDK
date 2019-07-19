@@ -27,8 +27,11 @@ class KeywordBids extends ModelCollection
      */ 
     protected static $compatibleModel = KeywordBid::class;
 
-    protected static $serviceMethods = [
-        'query' => KeywordBidsService::class,
+    protected static $staticMethods = [
+        'query' => KeywordBidsService::class
+    ];
+
+    protected static $methods = [
         'set' => KeywordBidsService::class
     ];
 }

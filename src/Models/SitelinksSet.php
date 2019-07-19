@@ -30,10 +30,14 @@ class SitelinksSet extends Model
 { 
     protected static $compatibleCollection = SitelinksSets::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => SitelinksService::class,
+        'find' => SitelinksService::class
+    ];
+
+    protected static $methods = [
         'add' => SitelinksService::class,
-        'delete' => SitelinksService::class,
-        'query' => SitelinksService::class
+        'delete' => SitelinksService::class
     ];
 
     protected static $properties = [

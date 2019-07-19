@@ -51,8 +51,11 @@ class KeywordBid extends Model
 
     protected static $compatibleCollection = KeywordBids::class;
 
-    protected static $serviceMethods = [
-        'query' => KeywordBidsService::class,
+    protected static $staticMethods = [
+        'query' => KeywordBidsService::class
+    ];
+
+    protected static $methods = [
         'set' => KeywordBidsService::class
     ];
 

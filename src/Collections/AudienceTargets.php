@@ -30,10 +30,14 @@ class AudienceTargets extends ModelCollection
      */ 
     protected static $compatibleModel = AudienceTarget::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => AudienceTargetsService::class,
+        'find' => AudienceTargetsService::class
+    ];
+
+    protected static $methods = [
         'add' => AudienceTargetsService::class,
         'delete' => AudienceTargetsService::class,
-        'query' => AudienceTargetsService::class,
         'resume' => AudienceTargetsService::class,
         'suspend' => AudienceTargetsService::class
     ];

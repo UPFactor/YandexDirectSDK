@@ -28,8 +28,12 @@ class VCards extends ModelCollection
      */ 
     protected static $compatibleModel = VCard::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
         'query' => VCardsService::class,
+        'find' => VCardsService::class
+    ];
+
+    protected static $methods = [
         'add' => VCardsService::class,
         'delete' => VCardsService::class
     ];

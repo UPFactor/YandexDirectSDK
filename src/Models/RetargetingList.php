@@ -48,10 +48,14 @@ class RetargetingList extends Model
 
     protected static $compatibleCollection = RetargetingLists::class;
 
-    protected static $serviceMethods = [
+    protected static $staticMethods = [
+        'query' => RetargetingListsService::class,
+        'find' => RetargetingListsService::class
+    ];
+
+    protected static $methods = [
         'add' => RetargetingListsService::class,
         'delete' => RetargetingListsService::class,
-        'query' => RetargetingListsService::class,
         'update' => RetargetingListsService::class
     ];
 

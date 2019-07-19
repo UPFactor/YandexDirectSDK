@@ -96,8 +96,6 @@ class TextAd extends Model
     const MONTHS_11 = 'MONTHS_11';
     const MONTHS_12 = 'MONTHS_12';
 
-    protected static $serviceMethods = [];
-
     protected static $properties = [
         'title' => 'string',
         'title2' => 'string',

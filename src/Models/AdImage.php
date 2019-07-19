@@ -45,8 +45,11 @@ class AdImage extends Model
 { 
     protected static $compatibleCollection = AdImages::class;
 
-    protected static $serviceMethods = [
-        'query' => AdImagesService::class,
+    protected static $staticMethods = [
+        'query' => AdImagesService::class
+    ];
+
+    protected static $methods = [
         'add' => AdImagesService::class,
         'delete' => AdImagesService::class
     ];
@@ -85,7 +88,6 @@ class AdImage extends Model
      * @param string $name
      * @param string $imageFile
      * @return AdImage
-     * @throws ModelException
      */
     public static function image(string $name, string $imageFile)
     {
@@ -97,12 +99,11 @@ class AdImage extends Model
     /**
      * @param string $imageFile
      * @return $this
-     * @throws ModelException
      */
     public function setImageFile(string $imageFile)
     {
         try {
-            $this->modelData['imageData'] = File::bind($imageFile)->base64();
+            $this->data['imageData'] = File::bind($imageFile)->base64();
             $this->imageFile = $imageFile;
         } catch (Exception $error){
             throw ModelException::make($error->getMessage(), $error->getCode());

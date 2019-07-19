@@ -32,7 +32,7 @@ class KeywordBidAuto extends Model
 { 
     protected static $compatibleCollection = KeywordBidsAuto::class;
 
-    protected static $serviceMethods = [
+    protected static $methods = [
         'setAuto' => KeywordBidsService::class
     ];
 
