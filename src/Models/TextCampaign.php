@@ -9,23 +9,22 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class TextCampaign 
  * 
- * @property       TextCampaignStrategy      $biddingStrategy
- * @property       TextCampaignSettings      $settings
- * @property       integer[]                 $counterIds
- * @property       RelevantKeywordsSetting   $relevantKeywords
- * @property       PriorityGoals             $priorityGoals
- * 
- * @method         $this                     setBiddingStrategy(TextCampaignStrategy $biddingStrategy)
- * @method         $this                     setSettings(TextCampaignSettings $settings)
- * @method         $this                     setCounterIds(integer[] $counterIds)
- * @method         $this                     setRelevantKeywords(RelevantKeywordsSetting $relevantKeywords)
- * @method         $this                     setPriorityGoals(PriorityGoals $priorityGoals)
- * 
- * @method         TextCampaignStrategy      getBiddingStrategy()
- * @method         TextCampaignSettings      getSettings()
- * @method         integer[]                 getCounterIds()
- * @method         RelevantKeywordsSetting   getRelevantKeywords()
- * @method         PriorityGoals             getPriorityGoals()
+ * @property     TextCampaignStrategy        $biddingStrategy
+ * @property     TextCampaignSettings        $settings
+ * @property     integer[]                   $counterIds
+ * @property     RelevantKeywordsSetting     $relevantKeywords
+ * @property     PriorityGoals               $priorityGoals
+ *                                           
+ * @method       $this                       setBiddingStrategy(TextCampaignStrategy $biddingStrategy)
+ * @method       TextCampaignStrategy        getBiddingStrategy()
+ * @method       $this                       setSettings(TextCampaignSettings $settings)
+ * @method       TextCampaignSettings        getSettings()
+ * @method       $this                       setCounterIds(integer[] $counterIds)
+ * @method       integer[]                   getCounterIds()
+ * @method       $this                       setRelevantKeywords(RelevantKeywordsSetting $relevantKeywords)
+ * @method       RelevantKeywordsSetting     getRelevantKeywords()
+ * @method       $this                       setPriorityGoals(PriorityGoals $priorityGoals)
+ * @method       PriorityGoals               getPriorityGoals()
  * 
  * @package YandexDirectSDK\Models 
  */

@@ -1,0 +1,16 @@
+{
+    "method": "add",
+    "params": {
+        "Keywords": [
+            {
+                "Keyword": "This is string #5",
+                "AdGroupId": 1000019,
+                "Bid": 1000020,
+                "ContextBid": 1000021,
+                "StrategyPriority": "LOW",
+                "UserParam1": "This is string #6",
+                "UserParam2": "This is string #7"
+            }
+        ]
+    }
+}

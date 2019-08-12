@@ -7,17 +7,15 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Grand 
  * 
- * @property        string   $privilege
- * @property        string   $value
- * 
- * @property-read   string   $agency
- * 
- * @method          $this    setPrivilege(string $privilege)
- * @method          $this    setValue(string $value)
- * 
- * @method          string   getPrivilege()
- * @method          string   getValue()
- * @method          string   getAgency()
+ * @property          string     $privilege
+ * @property          string     $value
+ * @property-read     string     $agency
+ *                               
+ * @method            $this      setPrivilege(string $privilege)
+ * @method            string     getPrivilege()
+ * @method            $this      setValue(string $value)
+ * @method            string     getValue()
+ * @method            string     getAgency()
  * 
  * @package YandexDirectSDK\Models 
  */ 

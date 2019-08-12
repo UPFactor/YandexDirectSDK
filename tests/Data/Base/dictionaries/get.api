@@ -1,0 +1,96 @@
+{
+    "result": {
+        "Currencies": [
+            {
+                "Currency": "This is string #144",
+                "Properties": [
+                    {
+                        "Name": "This is string #145",
+                        "Value": "This is string #146"
+                    }
+                ]
+            }
+        ],
+        "MetroStations": [
+            {
+                "GeoRegionId": 1000068,
+                "MetroStationId": 1000069,
+                "MetroStationName": "This is string #147"
+            }
+        ],
+        "GeoRegions": [
+            {
+                "GeoRegionId": 1000070,
+                "GeoRegionName": "This is string #148",
+                "GeoRegionType": "This is string #149",
+                "ParentId": 1000071
+            }
+        ],
+        "TimeZones": [
+            {
+                "TimeZone": "This is string #150",
+                "TimeZoneName": "This is string #151",
+                "UtcOffset": 10065
+            }
+        ],
+        "Constants": [
+            {
+                "Name": "This is string #152",
+                "Value": "This is string #153"
+            }
+        ],
+        "AdCategories": [
+            {
+                "AdCategory": "This is string #154",
+                "Description": "This is string #155",
+                "Message": "This is string #156"
+            }
+        ],
+        "OperationSystemVersions": [
+            {
+                "OsName": "This is string #157",
+                "OsVersion": "This is string #158"
+            }
+        ],
+        "SupplySidePlatforms": [
+            {
+                "Title": "This is string #159"
+            }
+        ],
+        "Interests": [
+            {
+                "InterestId": 1000072,
+                "ParentId": 1000073,
+                "Name": "This is string #160",
+                "IsTargetable": "YES"
+            }
+        ],
+        "AudienceCriteriaTypes": [
+            {
+                "Type": "This is string #161",
+                "BlockElement": "This is string #162",
+                "Name": "This is string #163",
+                "Description": "This is string #164",
+                "CanSelect": "ALL"
+            }
+        ],
+        "AudienceDemographicProfiles": [
+            {
+                "Id": 1000074,
+                "Type": "This is string #165",
+                "Name": "This is string #166",
+                "Description": "This is string #167"
+            }
+        ],
+        "AudienceInterests": [
+            {
+                "InterestKey": 1000075,
+                "Id": 1000076,
+                "ParentId": 1000077,
+                "Name": "This is string #168",
+                "Description": "This is string #169",
+                "InterestType": "SHORT_TERM"
+            }
+        ]
+    }
+}

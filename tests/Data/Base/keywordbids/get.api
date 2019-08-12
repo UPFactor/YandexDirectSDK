@@ -1,0 +1,37 @@
+{
+    "result": {
+        "KeywordBids": [
+            {
+                "CampaignId": 1000001,
+                "AdGroupId": 1000002,
+                "KeywordId": 1000003,
+                "ServingStatus": "ELIGIBLE",
+                "StrategyPriority": "LOW",
+                "Search": {
+                    "Bid": 1000004,
+                    "AuctionBids": {
+                        "AuctionBidItems": [
+                            {
+                                "TrafficVolume": 10001,
+                                "Bid": 1000005,
+                                "Price": 1000006
+                            }
+                        ]
+                    }
+                },
+                "Network": {
+                    "Bid": 1000007,
+                    "Coverage": {
+                        "CoverageItems": [
+                            {
+                                "Probability": 101.1,
+                                "Bid": 1000008
+                            }
+                        ]
+                    }
+                }
+            }
+        ],
+        "LimitedBy": 1000009
+    }
+}

@@ -7,68 +7,66 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TextAd 
  * 
- * @property        string                $title
- * @property        string                $title2
- * @property        string                $text
- * @property        string                $mobile
- * @property        integer               $turboPageId
- * @property        string                $href
- * @property        string                $ageLabel
- * @property        integer               $vCardId
- * @property        string                $adImageHash
- * @property        integer               $sitelinkSetId
- * @property        AdExtensionSetting    $calloutSetting
- * @property        string                $displayUrlPath
- * @property        integer[]             $adExtensionIds
- * @property        VideoExtension        $videoExtension
- * @property        PriceExtension        $priceExtension
- * 
- * @property-read   TurboPageModeration   $turboPageModeration
- * @property-read   string                $displayDomain
- * @property-read   ExtensionModeration   $vCardModeration
- * @property-read   ExtensionModeration   $adImageModeration
- * @property-read   ExtensionModeration   $sitelinksModeration
- * @property-read   ExtensionModeration   $displayUrlPathModeration
- * @property-read   AdExtensionsAd        $adExtensions
- * 
- * @method          $this                 setTitle(string $title)
- * @method          $this                 setTitle2(string $title2)
- * @method          $this                 setText(string $text)
- * @method          $this                 setMobile(string $mobile)
- * @method          $this                 setTurboPageId(integer $turboPageId)
- * @method          $this                 setHref(string $href)
- * @method          $this                 setAgeLabel(string $ageLabel)
- * @method          $this                 setVCardId(integer $vCardId)
- * @method          $this                 setAdImageHash(string $adImageHash)
- * @method          $this                 setSitelinkSetId(integer $sitelinkSetId)
- * @method          $this                 setCalloutSetting(AdExtensionSetting $calloutSetting)
- * @method          $this                 setDisplayUrlPath(string $displayUrlPath)
- * @method          $this                 setAdExtensionIds(integer[] $adExtensionIds)
- * @method          $this                 setVideoExtension(VideoExtension $videoExtension)
- * @method          $this                 setPriceExtension(PriceExtension $priceExtension)
- * 
- * @method          string                getTitle()
- * @method          string                getTitle2()
- * @method          string                getText()
- * @method          string                getMobile()
- * @method          integer               getTurboPageId()
- * @method          TurboPageModeration   getTurboPageModeration()
- * @method          string                getHref()
- * @method          string                getDisplayDomain()
- * @method          string                getAgeLabel()
- * @method          integer               getVCardId()
- * @method          ExtensionModeration   getVCardModeration()
- * @method          string                getAdImageHash()
- * @method          ExtensionModeration   getAdImageModeration()
- * @method          integer               getSitelinkSetId()
- * @method          ExtensionModeration   getSitelinksModeration()
- * @method          AdExtensionSetting    getCalloutSetting()
- * @method          string                getDisplayUrlPath()
- * @method          ExtensionModeration   getDisplayUrlPathModeration()
- * @method          integer[]             getAdExtensionIds()
- * @method          AdExtensionsAd        getAdExtensions()
- * @method          VideoExtension        getVideoExtension()
- * @method          PriceExtension        getPriceExtension()
+ * @property          string                  $title
+ * @property          string                  $title2
+ * @property          string                  $text
+ * @property          string                  $mobile
+ * @property          integer                 $turboPageId
+ * @property-read     TurboPageModeration     $turboPageModeration
+ * @property          string                  $href
+ * @property-read     string                  $displayDomain
+ * @property          string                  $ageLabel
+ * @property          integer                 $vCardId
+ * @property-read     ExtensionModeration     $vCardModeration
+ * @property          string                  $adImageHash
+ * @property-read     ExtensionModeration     $adImageModeration
+ * @property          integer                 $sitelinkSetId
+ * @property-read     ExtensionModeration     $sitelinksModeration
+ * @property          AdExtensionSetting      $calloutSetting
+ * @property          string                  $displayUrlPath
+ * @property-read     ExtensionModeration     $displayUrlPathModeration
+ * @property          integer[]               $adExtensionIds
+ * @property-read     AdExtensionsAd          $adExtensions
+ * @property          VideoExtension          $videoExtension
+ * @property          PriceExtension          $priceExtension
+ *                                            
+ * @method            $this                   setTitle(string $title)
+ * @method            string                  getTitle()
+ * @method            $this                   setTitle2(string $title2)
+ * @method            string                  getTitle2()
+ * @method            $this                   setText(string $text)
+ * @method            string                  getText()
+ * @method            $this                   setMobile(string $mobile)
+ * @method            string                  getMobile()
+ * @method            $this                   setTurboPageId(integer $turboPageId)
+ * @method            integer                 getTurboPageId()
+ * @method            TurboPageModeration     getTurboPageModeration()
+ * @method            $this                   setHref(string $href)
+ * @method            string                  getHref()
+ * @method            string                  getDisplayDomain()
+ * @method            $this                   setAgeLabel(string $ageLabel)
+ * @method            string                  getAgeLabel()
+ * @method            $this                   setVCardId(integer $vCardId)
+ * @method            integer                 getVCardId()
+ * @method            ExtensionModeration     getVCardModeration()
+ * @method            $this                   setAdImageHash(string $adImageHash)
+ * @method            string                  getAdImageHash()
+ * @method            ExtensionModeration     getAdImageModeration()
+ * @method            $this                   setSitelinkSetId(integer $sitelinkSetId)
+ * @method            integer                 getSitelinkSetId()
+ * @method            ExtensionModeration     getSitelinksModeration()
+ * @method            $this                   setCalloutSetting(AdExtensionSetting $calloutSetting)
+ * @method            AdExtensionSetting      getCalloutSetting()
+ * @method            $this                   setDisplayUrlPath(string $displayUrlPath)
+ * @method            string                  getDisplayUrlPath()
+ * @method            ExtensionModeration     getDisplayUrlPathModeration()
+ * @method            $this                   setAdExtensionIds(integer[] $adExtensionIds)
+ * @method            integer[]               getAdExtensionIds()
+ * @method            AdExtensionsAd          getAdExtensions()
+ * @method            $this                   setVideoExtension(VideoExtension $videoExtension)
+ * @method            VideoExtension          getVideoExtension()
+ * @method            $this                   setPriceExtension(PriceExtension $priceExtension)
+ * @method            PriceExtension          getPriceExtension()
  * 
  * @package YandexDirectSDK\Models 
  */ 

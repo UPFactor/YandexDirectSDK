@@ -2,7 +2,6 @@
 
 namespace YandexDirectSDK\Components;
 
-use Exception;
 use ReflectionClass;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
@@ -25,9 +24,9 @@ abstract class Model implements ModelInterface
     /**
      * Boot data registry.
      *
-     * @var array
+     * @var Registry
      */
-    protected static $boot = [];
+    protected static $boot;
 
     /**
      * Declared virtual properties of the model.
@@ -51,7 +50,7 @@ abstract class Model implements ModelInterface
     protected static $staticMethods = [];
 
     /**
-     * Compatible class of collection.
+     * Compatible model collection class.
      *
      * @var ModelCollectionInterface
      */
@@ -93,30 +92,14 @@ abstract class Model implements ModelInterface
     protected $data = [];
 
     /**
-     * Implementing magic methods.
-     *
-     * @param string $method
-     * @param mixed[] $arguments
-     * @return mixed
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        if (array_key_exists($method, static::$staticMethods)){
-            return static::$methods[$method]::{$method}(...$arguments);
-        }
-
-        throw ModelException::make(static::class.". Static method [{$method}] is missing.");
-    }
-
-    /**
      * Create a new model instance.
      *
-     * @param array $properties
+     * @param Data|array|null $properties
      * @return static
      */
     public static function make($properties = null)
     {
-        return (new static())->insert($properties);
+        return new static($properties);
     }
 
     /**
@@ -126,7 +109,7 @@ abstract class Model implements ModelInterface
      */
     public static function getClassName()
     {
-        return static::bootstrap('name');
+        return static::boot()->name;
     }
 
     /**
@@ -136,7 +119,7 @@ abstract class Model implements ModelInterface
      */
     public static function getPropertiesMeta()
     {
-        return static::bootstrap('properties');
+        return static::boot()->properties->toArray();
     }
 
     /**
@@ -146,7 +129,7 @@ abstract class Model implements ModelInterface
      */
     public static function getMethodsMeta()
     {
-        return static::$methods;
+        return static::boot()->methods->toArray();
     }
 
     /**
@@ -156,117 +139,75 @@ abstract class Model implements ModelInterface
      */
     public static function getStaticMethodsMeta()
     {
-        return static::$staticMethods;
+        return static::boot()->staticMethods->toArray();
     }
 
     /**
      * Returns class of compatible collection.
      *
-     * @return ModelCollectionInterface
+     * @return ModelCollectionInterface|ModelInterface|string|null
      */
     public static function getCompatibleCollectionClass()
     {
-        return static::$compatibleCollection;
+        return static::boot()->compatibility;
     }
 
     /**
      * Retrieve instance of compatible collection.
      *
-     * @return ModelCollectionInterface|null
+     * @return ModelCommonInterface|null
      */
     public static function makeCompatibleCollection()
     {
-        return is_null(static::$compatibleCollection) ? null : static::$compatibleCollection::make();
+        $compatibility = static::boot()->compatibility;
+        return is_null($compatibility) ? null : $compatibility::make();
     }
 
     /**
      * Bootstrap of the object.
      *
-     * @param string|null $key
-     * @return array|string|null
+     * @return ModelBootstrap
      */
-    protected static function bootstrap(string $key = null)
+    protected static function boot()
     {
         $class = static::class;
-        $classShortName = null;
-        $properties = [];
 
-        if (key_exists($class, self::$boot)){
-            return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
+        if (is_null(self::$boot)){
+            self::$boot = new Registry();
+        } elseif (self::$boot->has($class)) {
+            return self::$boot->get($class);
         }
 
-        try {
-            $classShortName = (new ReflectionClass(static::class))->getShortName();
-        } catch (Exception $error) {}
+        self::$boot->set($class, new ModelBootstrap([
+            'name' => (new ReflectionClass($class))->getShortName(),
+            'properties' => new ModelPropertyCollection(Arr::map(static::$properties, function($signature, $name){
+                $property = new ModelProperty($name, $signature);
+                $property->readable = !in_array($name, static::$nonReadableProperties);
+                $property->writable = !in_array($name, static::$nonWritableProperties);
+                $property->addable = !(in_array($name, static::$nonAddableProperties) or !$property->writable);
+                $property->updatable = !(in_array($name, static::$nonUpdatableProperties) or !$property->writable);
+                return $property;
+            })),
+            'methods' => new ModelMethodCollection(Arr::map(static::$methods, function($provider, $name){
+                return new ModelMethod($name, $provider);
+            })),
+            'staticMethods' => new ModelMethodCollection(Arr::map(static::$staticMethods, function($provider, $name){
+                return new ModelMethod($name, $provider);
+            })),
+            'compatibility' => static::$compatibleCollection
+        ]));
 
-        foreach (static::$properties as $name => $propertyMeta){
-            $propertyMeta = explode(':', $propertyMeta, 2);
-            $propertyType = trim($propertyMeta[0]);
-            $propertyTypeMeta = trim($propertyMeta[1] ?? '');
-            $propertyUseItemsSubarray = false;
-
-            switch ($propertyType){
-                case 'bool': $propertyType = 'boolean'; break;
-                case 'float': $propertyType = 'double'; break;
-                case 'int': $propertyType = 'integer'; break;
-                case 'array':
-                    $propertyUseItemsSubarray = true;
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? null : explode(',', $propertyTypeMeta);
-                    break;
-                case 'stack':
-                    $propertyType = 'array';
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? null : explode(',', $propertyTypeMeta);
-                    break;
-                case 'enum':
-                case 'set':
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? [] : explode(',', $propertyTypeMeta);
-                    break;
-                case 'arrayOfEnum':
-                case 'arrayOfSet':
-                    $propertyType = 'set';
-                    $propertyUseItemsSubarray = true;
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? [] : explode(',', $propertyTypeMeta);
-                    break;
-                case 'object':
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? null : $propertyTypeMeta;
-                    break;
-                case 'arrayOfObject':
-                    $propertyType = 'object';
-                    $propertyUseItemsSubarray = true;
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? null : $propertyTypeMeta;
-                    break;
-                case 'custom':
-                    $propertyTypeMeta = empty($propertyTypeMeta) ? [] : explode(',', $propertyTypeMeta);
-                    break;
-            }
-
-            $properties[$name] = [
-                'name' => $name,
-                'type' => strtolower($propertyType),
-                'meta' => $propertyTypeMeta,
-                'items' => $propertyUseItemsSubarray,
-                'readable' => !in_array($name, static::$nonReadableProperties),
-                'writable' => !in_array($name, static::$nonWritableProperties)
-            ];
-
-            $properties[$name]['addable'] = ($properties[$name]['writable'] and !in_array($name, static::$nonAddableProperties));
-            $properties[$name]['updatable'] = ($properties[$name]['writable'] and !in_array($name, static::$nonUpdatableProperties));
-        }
-
-        self::$boot[$class] = [
-            'name' => $classShortName,
-            'properties' => $properties
-        ];
-
-        return is_null($key) ? self::$boot[$class] : self::$boot[$class][$key] ?? null;
+        return self::$boot->get($class);
     }
 
     /**
-     * Create a new model instance.
+     * Model constructor.
+     *
+     * @param Data|array|null $properties
      */
-    public function __construct()
+    public function __construct($properties = null)
     {
-        $this->initialize();
+        $this->insert($properties);
     }
 
     /**
@@ -280,7 +221,7 @@ abstract class Model implements ModelInterface
     }
 
     /**
-     * Dynamic recording of model property values.
+     * Overload object properties.
      *
      * @param string $property
      * @param mixed $value
@@ -304,7 +245,23 @@ abstract class Model implements ModelInterface
     }
 
     /**
-     * Implementing magic methods.
+     * Overloading object static methods.
+     *
+     * @param string $method
+     * @param mixed[] $arguments
+     * @return mixed
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        if (!static::boot()->hasStaticMethod($method)){
+            throw ModelException::modelMethodNotExist(static::class, $method);
+        }
+
+        return static::boot()->getStaticMethod($method)->call(...$arguments);
+    }
+
+    /**
+     * Overloading object methods.
      *
      * @param string $method
      * @param mixed[] $arguments
@@ -312,22 +269,22 @@ abstract class Model implements ModelInterface
      */
     public function __call($method, $arguments)
     {
-        if (array_key_exists($method, static::$methods)){
-            return static::$methods[$method]::{$method}($this, ...$arguments);
+        if (!static::boot()->hasMethod($method)){
+            $action = substr($method, 0, 3);
+            $property = lcfirst(substr($method, 3));
+
+            if ($action === 'get'){
+                return $this->getPropertyValue($property);
+            }
+
+            if ($action === 'set'){
+                return $this->setPropertyValue($property, ...$arguments);
+            }
+
+            throw ModelException::modelMethodNotExist(static::class, $method);
         }
 
-        $action = substr($method, 0, 3);
-        $property = lcfirst(substr($method, 3));
-
-        if ($action === 'get'){
-            return $this->getPropertyValue($property);
-        }
-
-        if ($action === 'set'){
-            return $this->setPropertyValue($property, ...$arguments);
-        }
-
-        throw ModelException::make(static::class.". Method [{$method}] is missing.");
+        return static::boot()->getMethod($method)->call($this, ...$arguments);
     }
 
     /**
@@ -336,7 +293,7 @@ abstract class Model implements ModelInterface
      * @return static
      */
     public function copy(){
-        return (new static())->insert($this->toArray());
+        return new static($this->toArray());
     }
 
     /**
@@ -352,54 +309,61 @@ abstract class Model implements ModelInterface
     /**
      * Converts the current model to array.
      *
-     * @param int $filters
+     * @param int $filter
      * @return array
      */
-    public function toArray($filters = 0)
+    public function toArray($filter = 0)
     {
-        $bootProperties = static::bootstrap('properties');
-        $properties = [];
+        $result = [];
+        $properties = static::boot()->properties;
 
-        foreach ($this->data as $name => $value){
+        foreach ($this->data as $dataKey => $dataValue){
 
-            if ($filters & self::IS_READABLE and $bootProperties[$name]['readable'] === false){
+            if (is_null($property = $properties->get($dataKey))){
                 continue;
             }
 
-            if ($filters & self::IS_WRITABLE and $bootProperties[$name]['writable'] === false){
-                continue;
-            }
+            $dataKey = ucfirst($dataKey);
 
-            if ($filters & self::IS_ADDABLE and $bootProperties[$name]['addable'] === false){
-                continue;
-            }
+            //Filtering values
+            if (($filter & self::IS_READABLE and !$property->readable) or
+                ($filter & self::IS_WRITABLE and !$property->writable) or
+                ($filter & self::IS_ADDABLE and !$property->addable) or
+                ($filter & self::IS_UPDATABLE and !$property->updatable)) {continue;}
 
-            if ($filters & self::IS_UPDATABLE and $bootProperties[$name]['updatable'] === false){
-                continue;
-            }
-
-            if (is_null($value)){
-                $properties[ucfirst($name)] = null;
-                continue;
-            }
-
-            if ($value instanceof ModelInterface){
-                $value = $value->toArray($filters);
-                if (empty($value)){
-                    $value = (object) $value;
+            //Handling a custom property type
+            if ($property->type === 'custom'){
+                if (method_exists($this, $customExport = 'export'.$dataKey)){
+                    $dataValue = $this->{$customExport}($dataValue, $filter, $property);
                 }
-            } elseif ($value instanceof ModelCollectionInterface){
-                $value = $value->toArray($filters);
             }
 
-            if ($bootProperties[$name]['items']){
-                $value = ['Items' => $value];
+            //Handling a empty value
+            if (is_null($dataValue)){
+                $result[$dataKey] = null;
+                continue;
             }
 
-            $properties[ucfirst($name)] = $value;
+            //Handling a models and model collections
+            if ($dataValue instanceof ModelCommonInterface){
+                if ($dataValue instanceof ModelInterface){
+                    if (empty($dataValue = $dataValue->toArray($filter))){
+                        $dataValue = (object) [];
+                    }
+                } else {
+                    $dataValue = $dataValue->toArray($filter);
+                }
+            }
+
+            //Handling a tag [items]
+            if ($property->itemTag){
+                $dataValue = ['Items' => $dataValue];
+            }
+
+            $result[$dataKey] = $dataValue;
         }
 
-        return $properties;
+        return $result;
     }
 
     /**
@@ -409,7 +373,7 @@ abstract class Model implements ModelInterface
      * @return Data
      */
     public function toData($filters = 0){
-        return new Data($this->toArray());
+        return new Data($this->toArray($filters));
     }
 
     /**
@@ -431,8 +395,6 @@ abstract class Model implements ModelInterface
      */
     public function insert($source)
     {
-        $bootProperties = static::bootstrap('properties');
-
         if (empty($source)){
             return $this;
         }
@@ -441,37 +403,51 @@ abstract class Model implements ModelInterface
             if (!($source instanceof Data)){
                 return $this;
             }
-
             $source = $source->all();
         }
 
-        foreach ($source as $name => $value){
-            $name = lcfirst($name);
+        $properties = static::boot()->properties;
 
-            if (!array_key_exists($name, $bootProperties)){
+        foreach ($source as $sourceKey => $sourceValue){
+            $sourceKey = lcfirst($sourceKey);
+
+            if (is_null($property = $properties->get($sourceKey))){
                 continue;
             }
 
-            if ($bootProperties[$name]['items'] === true){
-                $value = $value['Items'] ?? null;
+            //Handling a tag [items]
+            if ($property->itemTag){
+                $sourceValue = $sourceValue['Items'] ?? null;
             }
 
-            if (is_null($value)){
-                $this->data[$name] = $value;
+            //Handling a custom property type
+            if ($property->type === 'custom'){
+                if (method_exists($this, $customImport = 'import'.ucfirst($sourceKey))){
+                    $sourceValue = $this->{$customImport}($sourceValue, $this->data[$sourceKey] ?? null, $property);
+                }
+            }
+
+            //Handling a empty value
+            if (is_null($sourceValue)){
+                $this->data[$sourceKey] = null;
                 continue;
             }
 
-            if ($bootProperties[$name]['type'] === 'object'){
-                if (!empty($this->data[$name]) and $this->data[$name] instanceof ModelCommonInterface){
-                    $this->data[$name]->insert($value);
+            //Handling a models and model collections
+            if ($property->type === 'object'){
+                /** @var ModelCommonInterface $permissibleValue */
+                $permissibleValue = $property->permissibleValues[0];
+
+                if (isset($this->data[$sourceKey]) and $this->data[$sourceKey] instanceof $permissibleValue){
+                    $this->data[$sourceKey]->insert($sourceValue);
                 } else {
-                    $this->data[$name] = (new $bootProperties[$name]['meta'])->{'insert'}($value);
+                    $permissibleValue = new $permissibleValue();
+                    $this->data[$sourceKey] = $permissibleValue->insert($sourceValue);
                 }
                 continue;
             }
 
-            $this->data[$name] = $value;
-            continue;
+            $this->data[$sourceKey] = $sourceValue;
         }
 
         return $this;
@@ -480,144 +456,69 @@ abstract class Model implements ModelInterface
     /**
      * Setting a value for a model property.
      *
-     * @param string $propertyName
+     * @param string $property
      * @param mixed  $value
      * @return $this
      */
-    public function setPropertyValue($propertyName, $value)
+    public function setPropertyValue($property, $value)
     {
-        $propertyMeta = static::bootstrap('properties')[$propertyName] ?? null;
-
-        if (is_null($propertyMeta)){
-            throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
+        if (!static::boot()->hasProperty($property)){
+            throw ModelException::modelPropertyNotExist(static::class, $property);
         }
 
-        if ($propertyMeta['writable'] === false){
-            throw ModelException::make(static::class.". Property [{$propertyName}] is not writable.");
+        $property = static::boot()->getProperty($property);
+
+        if (!$property->writable){
+            throw ModelException::modelPropertyNotWritable(static::class, $property->name);
         }
 
-        if ($propertyMeta['type'] === 'custom'){
-            $this->{'setter'.ucfirst($propertyName)}($value, $propertyName, $propertyMeta);
+        if ($property->type === 'custom'){
+            if (method_exists($this, $customSetter = 'setter'.ucfirst($property->name))){
+                $this->data[$property->name] = $this->{$customSetter}($value, $property);
+            } else {
+                $this->data[$property->name] = $value;
+            }
             return $this;
         }
 
-        if (is_null($value) or $propertyMeta['type'] === 'mixed'){
-            $this->data[$propertyName] = $value;
-            return $this;
+        if (!$property->check($value)){
+            throw InvalidArgumentException::modelPropertyValue(
+                static::class,
+                $property->name,
+                $property->type,
+                $property->permissibleValues,
+                $value
+            );
         }
 
-        switch ($propertyMeta['type']){
-            case 'string':
-            case 'boolean':
-            case 'double':
-            case 'integer':
-                if (gettype($value) !== $propertyMeta['type']){
-                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
-                }
-                break;
-
-            case 'numeric':
-                if (!is_numeric($value)){
-                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
-                }
-                break;
-
-            case 'array':
-                if (!is_array($value)) {
-                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['type'], gettype($value));
-                }
-
-                if (!is_null($propertyMeta['meta'])){
-                    foreach ($value as $index => $valueItem){
-                        if (!in_array(gettype($valueItem), $propertyMeta['meta'])) {
-                            throw InvalidArgumentException::invalidType(
-                                static::class."::{$propertyName}",
-                                1,
-                                'array of ' . implode(', ', $propertyMeta['meta']),
-                                $index . ' => ' . gettype($valueItem)
-                            );
-                        }
-                    }
-                }
-                break;
-
-            case 'enum':
-                if (!in_array($value, $propertyMeta['meta'])){
-                    throw InvalidArgumentException::invalidType(
-                        static::class."::{$propertyName}",
-                        1,
-                        'enum of ' . implode(', ', $propertyMeta['meta']),
-                        $value
-                    );
-                }
-                break;
-
-            case 'set':
-                if (!is_array($value)) {
-                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, 'array', gettype($value));
-                }
-
-                foreach ($value as $index => $valueItem){
-                    if (!in_array($valueItem,  $propertyMeta['meta'])) {
-                        throw InvalidArgumentException::invalidType(
-                            static::class."::{$propertyName}",
-                            1,
-                            'array contain ' . implode(', ', $propertyMeta['meta']),
-                            $index . ' => ' . $valueItem
-                        );
-                    }
-                }
-                break;
-
-            case 'object':
-                if (!is_object($value)) {
-                    throw InvalidArgumentException::invalidType(
-                        static::class."::{$propertyName}",
-                        1,
-                        is_null($propertyMeta['meta']) ? 'object' : $propertyMeta['meta'],
-                        gettype($value)
-                    );
-                }
-
-                if (!is_null($propertyMeta['meta']) and !($value instanceof $propertyMeta['meta'])){
-                    throw InvalidArgumentException::invalidType(static::class."::{$propertyName}", 1, $propertyMeta['meta'], get_class($value));
-                }
-                break;
-        }
-
-        $this->data[$propertyName] = $value;
+        $this->data[$property->name] = $value;
         return $this;
     }
 
     /**
      * Getting the value of the model property.
      *
-     * @param string $propertyName
+     * @param string $property
      * @return mixed|null
      */
-    public function getPropertyValue($propertyName)
+    public function getPropertyValue($property)
     {
-        $propertyMeta = static::bootstrap('properties')[$propertyName] ?? null;
-
-        if (is_null($propertyMeta)){
-            throw ModelException::make(static::class.". Property [{$propertyName}] does not exist.");
+        if (!static::boot()->hasProperty($property)){
+            throw ModelException::modelPropertyNotExist(static::class, $property);
         }
 
-        if ($propertyMeta['readable'] === false){
-            throw ModelException::make(static::class.". Property [{$propertyName}] is not readable.");
+        $property = static::boot()->getProperty($property);
+
+        if (!$property->readable){
+            throw ModelException::modelPropertyNotReadable(static::class, $property->name);
         }
 
-        if ($propertyMeta['type'] === 'custom'){
-            return $this->{'getter'.ucfirst($propertyName)}($propertyName, $propertyMeta);
+        if ($property->type === 'custom'){
+            if (method_exists($this, $customGetter = 'getter'.ucfirst($property->name))){
+                return $this->{$customGetter}($this->data[$property->name], $property);
+            }
         }
 
-        return $this->data[$propertyName] ?? null;
+        return $this->data[$property->name] ?? null;
     }
-
-    /**
-     * Model initialization handler.
-     *
-     * @return void
-     */
-    protected function initialize(){}
 }

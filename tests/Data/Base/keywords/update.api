@@ -1,0 +1,23 @@
+{
+    "result": {
+        "UpdateResults": [
+            {
+                "Id": 1000044,
+                "Warnings": [
+                    {
+                        "Code": 10033,
+                        "Message": "This is string #76",
+                        "Details": "This is string #77"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10034,
+                        "Message": "This is string #78",
+                        "Details": "This is string #79"
+                    }
+                ]
+            }
+        ]
+    }
+}

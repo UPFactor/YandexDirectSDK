@@ -7,14 +7,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class BidModifierSet 
  * 
- * @property       integer   $id
- * @property       integer   $bidModifier
- * 
- * @method         $this     setId(integer $id)
- * @method         $this     setBidModifier(integer $bidModifier)
- * 
- * @method         integer   getId()
- * @method         integer   getBidModifier()
+ * @property     integer     $id
+ * @property     integer     $bidModifier
+ *                           
+ * @method       $this       setId(integer $id)
+ * @method       integer     getId()
+ * @method       $this       setBidModifier(integer $bidModifier)
+ * @method       integer     getBidModifier()
  * 
  * @package YandexDirectSDK\Models 
  */ 

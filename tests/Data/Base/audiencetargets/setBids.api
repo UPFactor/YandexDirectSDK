@@ -1,0 +1,25 @@
+{
+    "result": {
+        "SetBidsResults": [
+            {
+                "Id": 1000085,
+                "AdGroupId": 1000086,
+                "CampaignId": 1000087,
+                "Warnings": [
+                    {
+                        "Code": 10076,
+                        "Message": "This is string #190",
+                        "Details": "This is string #191"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10077,
+                        "Message": "This is string #192",
+                        "Details": "This is string #193"
+                    }
+                ]
+            }
+        ]
+    }
+}

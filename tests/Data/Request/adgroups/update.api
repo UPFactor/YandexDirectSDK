@@ -1,0 +1,39 @@
+{
+    "method": "update",
+    "params": {
+        "AdGroups": [
+            {
+                "Id": 1000006,
+                "Name": "This is string #9",
+                "RegionIds": [
+                    1000007,
+                    1000008
+                ],
+                "NegativeKeywords": {
+                    "Items": [
+                        "This is string #10",
+                        "This is string #11"
+                    ]
+                },
+                "NegativeKeywordSharedSetIds": {
+                    "Items": [
+                        1000009,
+                        1000010
+                    ]
+                },
+                "TrackingParams": "This is string #12",
+                "MobileAppAdGroup": {
+                    "TargetDeviceType": [
+                        "DEVICE_TYPE_MOBILE",
+                        "DEVICE_TYPE_TABLET"
+                    ],
+                    "TargetCarrier": "WI_FI_ONLY",
+                    "TargetOperatingSystemVersion": "This is string #13"
+                },
+                "DynamicTextAdGroup": {
+                    "DomainUrl": "This is string #14"
+                }
+            }
+        ]
+    }
+}

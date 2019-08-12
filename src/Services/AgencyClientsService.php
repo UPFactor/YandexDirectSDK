@@ -13,9 +13,9 @@ use YandexDirectSDK\Models\Client;
 /** 
  * Class AgencyClientsService 
  * 
- * @method   Result         add(Client|Model $client)
- * @method   Result         update(Client|Clients|ModelCommonInterface $clients)
- * @method   QueryBuilder   query()
+ * @method static     Result           add(Client|Model $client)
+ * @method static     Result           update(Client|Clients|ModelCommonInterface $clients)
+ * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Services 
  */

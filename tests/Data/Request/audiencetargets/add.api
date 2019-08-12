@@ -1,0 +1,14 @@
+{
+    "method": "add",
+    "params": {
+        "AudienceTargets": [
+            {
+                "AdGroupId": 1000001,
+                "RetargetingListId": 1000002,
+                "InterestId": 1000003,
+                "ContextBid": 1000004,
+                "StrategyPriority": "LOW"
+            }
+        ]
+    }
+}

@@ -9,104 +9,103 @@ use YandexDirectSDK\Services\CampaignsService;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
+
 /** 
  * Class Campaign 
  * 
- * @property        integer               $id
- * @property        string                $clientInfo
- * @property        Notification          $notification
- * @property        string                $timeZone
- * @property        string                $name
- * @property        string                $startDate
- * @property        DailyBudget           $dailyBudget
- * @property        string                $endDate
- * @property        string[]              $negativeKeywords
- * @property        string[]              $blockedIps
- * @property        string[]              $excludedSites
- * @property        TextCampaign          $textCampaign
- * @property        MobileAppCampaign     $mobileAppCampaign
- * @property        DynamicTextCampaign   $dynamicTextCampaign
- * @property        CpmBannerCampaign     $cpmBannerCampaign
- * @property        TimeTargeting         $timeTargeting
- * 
- * @property-read   string                $type
- * @property-read   string                $status
- * @property-read   string                $state
- * @property-read   string                $statusPayment
- * @property-read   string                $statusClarification
- * @property-read   integer               $sourceId
- * @property-read   Statistics            $statistics
- * @property-read   string                $currency
- * @property-read   FundsParam            $funds
- * @property-read   CampaignAssistant     $representedBy
- * 
- * @method          QueryBuilder          query()
- * @method          Result                add()
- * @method          Result                update()
- * @method          Result                delete()
- * @method          Result                suspend()
- * @method          Result                resume()
- * @method          Result                archive()
- * @method          Result                unarchive()
- * @method          Result                addRelatedAdGroups(ModelCommonInterface $adGroups)
- * @method          Result                getRelatedAdGroups(array $fields)
- * @method          Result                getRelatedAds(array $fields)
- * @method          Result                getRelatedAudienceTargets(array $fields)
- * @method          Result                setRelatedBids($bid, $contextBid = null)
- * @method          Result                setRelatedContextBids($contextBid)
- * @method          Result                setRelatedStrategyPriority(string $strategyPriority)
- * @method          Result                setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method          Result                getRelatedBids(array $fields)
- * @method          Result                addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
- * @method          Result                enableBidModifiers(string $bidModifierType)
- * @method          Result                disableBidModifiers(string $bidModifierType)
- * @method          Result                getRelatedBidModifiers(array $fields)
- * @method          Result                getRelatedKeywords(array $fields)
- * @method          Result                getRelatedWebpages(array $fields)
- * 
- * @method          $this                 setId(integer $id)
- * @method          $this                 setClientInfo(string $clientInfo)
- * @method          $this                 setNotification(Notification $notification)
- * @method          $this                 setTimeZone(string $timeZone)
- * @method          $this                 setName(string $name)
- * @method          $this                 setStartDate(string $startDate)
- * @method          $this                 setDailyBudget(DailyBudget $dailyBudget)
- * @method          $this                 setEndDate(string $endDate)
- * @method          $this                 setNegativeKeywords(string[] $negativeKeywords)
- * @method          $this                 setBlockedIps(string[] $blockedIps)
- * @method          $this                 setExcludedSites(string[] $excludedSites)
- * @method          $this                 setTextCampaign(TextCampaign $textCampaign)
- * @method          $this                 setMobileAppCampaign(MobileAppCampaign $mobileAppCampaign)
- * @method          $this                 setDynamicTextCampaign(DynamicTextCampaign $dynamicTextCampaign)
- * @method          $this                 setCpmBannerCampaign(CpmBannerCampaign $cpmBannerCampaign)
- * @method          $this                 setTimeTargeting(TimeTargeting $timeTargeting)
- * 
- * @method          integer               getId()
- * @method          string                getClientInfo()
- * @method          Notification          getNotification()
- * @method          string                getTimeZone()
- * @method          string                getName()
- * @method          string                getStartDate()
- * @method          DailyBudget           getDailyBudget()
- * @method          string                getEndDate()
- * @method          string[]              getNegativeKeywords()
- * @method          string[]              getBlockedIps()
- * @method          string[]              getExcludedSites()
- * @method          TextCampaign          getTextCampaign()
- * @method          MobileAppCampaign     getMobileAppCampaign()
- * @method          DynamicTextCampaign   getDynamicTextCampaign()
- * @method          CpmBannerCampaign     getCpmBannerCampaign()
- * @method          TimeTargeting         getTimeTargeting()
- * @method          string                getType()
- * @method          string                getStatus()
- * @method          string                getState()
- * @method          string                getStatusPayment()
- * @method          string                getStatusClarification()
- * @method          integer               getSourceId()
- * @method          Statistics            getStatistics()
- * @method          string                getCurrency()
- * @method          FundsParam            getFunds()
- * @method          CampaignAssistant     getRepresentedBy()
+ * @property          integer                     $id
+ * @property          string                      $clientInfo
+ * @property          Notification                $notification
+ * @property          string                      $timeZone
+ * @property          string                      $name
+ * @property          string                      $startDate
+ * @property          DailyBudget                 $dailyBudget
+ * @property          string                      $endDate
+ * @property          string[]                    $negativeKeywords
+ * @property          string[]                    $blockedIps
+ * @property          string[]                    $excludedSites
+ * @property          TextCampaign                $textCampaign
+ * @property          MobileAppCampaign           $mobileAppCampaign
+ * @property          DynamicTextCampaign         $dynamicTextCampaign
+ * @property          CpmBannerCampaign           $cpmBannerCampaign
+ * @property          TimeTargeting               $timeTargeting
+ * @property-read     string                      $type
+ * @property-read     string                      $status
+ * @property-read     string                      $state
+ * @property-read     string                      $statusPayment
+ * @property-read     string                      $statusClarification
+ * @property-read     integer                     $sourceId
+ * @property-read     Statistics                  $statistics
+ * @property-read     string                      $currency
+ * @property-read     FundsParam                  $funds
+ * @property-read     CampaignAssistant           $representedBy
+ *                                                
+ * @method static     QueryBuilder                query()
+ * @method static     Campaign|Campaigns|null     find(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                      add()
+ * @method            Result                      update()
+ * @method            Result                      delete()
+ * @method            Result                      suspend()
+ * @method            Result                      resume()
+ * @method            Result                      archive()
+ * @method            Result                      unarchive()
+ * @method            Result                      addRelatedAdGroups(ModelCommonInterface $adGroups)
+ * @method            Result                      getRelatedAdGroups(array $fields)
+ * @method            Result                      getRelatedAds(array $fields)
+ * @method            Result                      getRelatedAudienceTargets(array $fields)
+ * @method            Result                      setRelatedBids($bid, $contextBid=null)
+ * @method            Result                      setRelatedContextBids($contextBid)
+ * @method            Result                      setRelatedStrategyPriority(string $strategyPriority)
+ * @method            Result                      setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
+ * @method            Result                      getRelatedBids(array $fields)
+ * @method            Result                      addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
+ * @method            Result                      enableBidModifiers(string $bidModifierType)
+ * @method            Result                      disableBidModifiers(string $bidModifierType)
+ * @method            Result                      getRelatedBidModifiers(array $fields)
+ * @method            Result                      getRelatedKeywords(array $fields)
+ * @method            Result                      getRelatedWebpages(array $fields)
+ * @method            $this                       setId(integer $id)
+ * @method            integer                     getId()
+ * @method            $this                       setClientInfo(string $clientInfo)
+ * @method            string                      getClientInfo()
+ * @method            $this                       setNotification(Notification $notification)
+ * @method            Notification                getNotification()
+ * @method            $this                       setTimeZone(string $timeZone)
+ * @method            string                      getTimeZone()
+ * @method            $this                       setName(string $name)
+ * @method            string                      getName()
+ * @method            $this                       setStartDate(string $startDate)
+ * @method            string                      getStartDate()
+ * @method            $this                       setDailyBudget(DailyBudget $dailyBudget)
+ * @method            DailyBudget                 getDailyBudget()
+ * @method            $this                       setEndDate(string $endDate)
+ * @method            string                      getEndDate()
+ * @method            $this                       setNegativeKeywords(string[] $negativeKeywords)
+ * @method            string[]                    getNegativeKeywords()
+ * @method            $this                       setBlockedIps(string[] $blockedIps)
+ * @method            string[]                    getBlockedIps()
+ * @method            $this                       setExcludedSites(string[] $excludedSites)
+ * @method            string[]                    getExcludedSites()
+ * @method            $this                       setTextCampaign(TextCampaign $textCampaign)
+ * @method            TextCampaign                getTextCampaign()
+ * @method            $this                       setMobileAppCampaign(MobileAppCampaign $mobileAppCampaign)
+ * @method            MobileAppCampaign           getMobileAppCampaign()
+ * @method            $this                       setDynamicTextCampaign(DynamicTextCampaign $dynamicTextCampaign)
+ * @method            DynamicTextCampaign         getDynamicTextCampaign()
+ * @method            $this                       setCpmBannerCampaign(CpmBannerCampaign $cpmBannerCampaign)
+ * @method            CpmBannerCampaign           getCpmBannerCampaign()
+ * @method            $this                       setTimeTargeting(TimeTargeting $timeTargeting)
+ * @method            TimeTargeting               getTimeTargeting()
+ * @method            string                      getType()
+ * @method            string                      getStatus()
+ * @method            string                      getState()
+ * @method            string                      getStatusPayment()
+ * @method            string                      getStatusClarification()
+ * @method            integer                     getSourceId()
+ * @method            Statistics                  getStatistics()
+ * @method            string                      getCurrency()
+ * @method            FundsParam                  getFunds()
+ * @method            CampaignAssistant           getRepresentedBy()
  * 
  * @package YandexDirectSDK\Models 
  */

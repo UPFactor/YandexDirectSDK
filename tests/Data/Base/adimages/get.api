@@ -1,0 +1,16 @@
+{
+    "result": {
+        "AdImages": [
+            {
+                "AdImageHash": "This is string #2",
+                "Name": "This is string #3",
+                "Associated": "YES",
+                "Type": "SMALL",
+                "Subtype": "IMG_240_400",
+                "OriginalUrl": "This is string #4",
+                "PreviewUrl": "This is string #5"
+            }
+        ],
+        "LimitedBy": 1000001
+    }
+}

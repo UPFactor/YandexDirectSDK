@@ -5,50 +5,49 @@ use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifier 
  * 
- * @property        integer                  $id
- * @property        integer                  $campaignId
- * @property        integer                  $adGroupId
- * @property        MobileAdjustment         $mobileAdjustment
- * @property        DesktopAdjustment        $desktopAdjustment
- * @property        DemographicsAdjustment   $demographicsAdjustment
- * @property        RetargetingAdjustment    $retargetingAdjustment
- * @property        RegionalAdjustment       $regionalAdjustment
- * @property        VideoAdjustment          $videoAdjustment
- * 
- * @property-read   string                   $level
- * @property-read   string                   $type
- * 
- * @method          Result                   add()
- * @method          Result                   set(int $value = null)
- * @method          Result                   delete()
- * @method          QueryBuilder             query()
- * 
- * @method          $this                    setId(integer $id)
- * @method          $this                    setCampaignId(integer $campaignId)
- * @method          $this                    setAdGroupId(integer $adGroupId)
- * @method          $this                    setMobileAdjustment(MobileAdjustment $mobileAdjustment)
- * @method          $this                    setDesktopAdjustment(DesktopAdjustment $desktopAdjustment)
- * @method          $this                    setDemographicsAdjustment(DemographicsAdjustment $demographicsAdjustment)
- * @method          $this                    setRetargetingAdjustment(RetargetingAdjustment $retargetingAdjustment)
- * @method          $this                    setRegionalAdjustment(RegionalAdjustment $regionalAdjustment)
- * @method          $this                    setVideoAdjustment(VideoAdjustment $videoAdjustment)
- * 
- * @method          integer                  getId()
- * @method          integer                  getCampaignId()
- * @method          integer                  getAdGroupId()
- * @method          MobileAdjustment         getMobileAdjustment()
- * @method          DesktopAdjustment        getDesktopAdjustment()
- * @method          DemographicsAdjustment   getDemographicsAdjustment()
- * @method          RetargetingAdjustment    getRetargetingAdjustment()
- * @method          RegionalAdjustment       getRegionalAdjustment()
- * @method          VideoAdjustment          getVideoAdjustment()
- * @method          string                   getLevel()
- * @method          string                   getType()
+ * @property          integer                           $id
+ * @property          integer                           $campaignId
+ * @property          integer                           $adGroupId
+ * @property          MobileAdjustment                  $mobileAdjustment
+ * @property          DesktopAdjustment                 $desktopAdjustment
+ * @property          DemographicsAdjustment            $demographicsAdjustment
+ * @property          RetargetingAdjustment             $retargetingAdjustment
+ * @property          RegionalAdjustment                $regionalAdjustment
+ * @property          VideoAdjustment                   $videoAdjustment
+ * @property-read     string                            $level
+ * @property-read     string                            $type
+ *                                                      
+ * @method static     QueryBuilder                      query()
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                            add()
+ * @method            Result                            set(int $value=null)
+ * @method            Result                            delete()
+ * @method            $this                             setId(integer $id)
+ * @method            integer                           getId()
+ * @method            $this                             setCampaignId(integer $campaignId)
+ * @method            integer                           getCampaignId()
+ * @method            $this                             setAdGroupId(integer $adGroupId)
+ * @method            integer                           getAdGroupId()
+ * @method            $this                             setMobileAdjustment(MobileAdjustment $mobileAdjustment)
+ * @method            MobileAdjustment                  getMobileAdjustment()
+ * @method            $this                             setDesktopAdjustment(DesktopAdjustment $desktopAdjustment)
+ * @method            DesktopAdjustment                 getDesktopAdjustment()
+ * @method            $this                             setDemographicsAdjustment(DemographicsAdjustment $demographicsAdjustment)
+ * @method            DemographicsAdjustment            getDemographicsAdjustment()
+ * @method            $this                             setRetargetingAdjustment(RetargetingAdjustment $retargetingAdjustment)
+ * @method            RetargetingAdjustment             getRetargetingAdjustment()
+ * @method            $this                             setRegionalAdjustment(RegionalAdjustment $regionalAdjustment)
+ * @method            RegionalAdjustment                getRegionalAdjustment()
+ * @method            $this                             setVideoAdjustment(VideoAdjustment $videoAdjustment)
+ * @method            VideoAdjustment                   getVideoAdjustment()
+ * @method            string                            getLevel()
+ * @method            string                            getType()
  * 
  * @package YandexDirectSDK\Models 
  */ 

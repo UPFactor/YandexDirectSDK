@@ -1,0 +1,43 @@
+{
+    "method": "add",
+    "params": {
+        "AdGroups": [
+            {
+                "Name": "This is string #2",
+                "CampaignId": 1000001,
+                "RegionIds": [
+                    1000002,
+                    1000003
+                ],
+                "NegativeKeywords": {
+                    "Items": [
+                        "This is string #3",
+                        "This is string #4"
+                    ]
+                },
+                "NegativeKeywordSharedSetIds": {
+                    "Items": [
+                        1000004,
+                        1000005
+                    ]
+                },
+                "TrackingParams": "This is string #5",
+                "MobileAppAdGroup": {
+                    "StoreUrl": "This is string #6",
+                    "TargetDeviceType": [
+                        "DEVICE_TYPE_MOBILE",
+                        "DEVICE_TYPE_TABLET"
+                    ],
+                    "TargetCarrier": "WI_FI_ONLY",
+                    "TargetOperatingSystemVersion": "This is string #7"
+                },
+                "DynamicTextAdGroup": {
+                    "DomainUrl": "This is string #8"
+                },
+                "CpmBannerKeywordsAdGroup": [],
+                "CpmBannerUserProfileAdGroup": [],
+                "CpmVideoAdGroup": []
+            }
+        ]
+    }
+}

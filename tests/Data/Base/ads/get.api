@@ -1,0 +1,206 @@
+{
+    "result": {
+        "Ads": [
+            {
+                "Id": 1000001,
+                "CampaignId": 1000002,
+                "AdGroupId": 1000003,
+                "Status": "ACCEPTED",
+                "State": "OFF",
+                "StatusClarification": "This is string #2",
+                "AdCategories": {
+                    "Items": [
+                        "ABORTION",
+                        "TOBACCO"
+                    ]
+                },
+                "AgeLabel": "AGE_0",
+                "Type": "TEXT_AD",
+                "Subtype": "NONE",
+                "TextAd": {
+                    "Title": "This is string #3",
+                    "Title2": "This is string #4",
+                    "Text": "This is string #5",
+                    "Href": "This is string #6",
+                    "Mobile": "YES",
+                    "DisplayDomain": "This is string #7",
+                    "DisplayUrlPath": "This is string #8",
+                    "VCardId": 1000004,
+                    "AdImageHash": "This is string #9",
+                    "SitelinkSetId": 1000005,
+                    "DisplayUrlPathModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #10"
+                    },
+                    "VCardModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #11"
+                    },
+                    "SitelinksModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #12"
+                    },
+                    "AdImageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #13"
+                    },
+                    "AdExtensions": [
+                        {
+                            "AdExtensionId": 1000006,
+                            "Type": "CALLOUT"
+                        }
+                    ],
+                    "VideoExtension": {
+                        "CreativeId": 1000007,
+                        "Status": "ACCEPTED",
+                        "ThumbnailUrl": "This is string #14",
+                        "PreviewUrl": "This is string #15"
+                    },
+                    "PriceExtension": {
+                        "Price": 1000008,
+                        "OldPrice": 1000009,
+                        "PriceQualifier": "FROM",
+                        "PriceCurrency": "RUB"
+                    },
+                    "TurboPageId": 1000010,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #16"
+                    }
+                },
+                "DynamicTextAd": {
+                    "VCardId": 1000011,
+                    "AdImageHash": "This is string #17",
+                    "SitelinkSetId": 1000012,
+                    "VCardModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #18"
+                    },
+                    "SitelinksModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #19"
+                    },
+                    "AdImageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #20"
+                    },
+                    "AdExtensions": [
+                        {
+                            "AdExtensionId": 1000013,
+                            "Type": "CALLOUT"
+                        }
+                    ],
+                    "Text": "This is string #21"
+                },
+                "MobileAppAd": {
+                    "Title": "This is string #22",
+                    "Text": "This is string #23",
+                    "TrackingUrl": "This is string #24",
+                    "Action": "DOWNLOAD",
+                    "AdImageHash": "This is string #25",
+                    "Features": [
+                        {
+                            "Feature": "PRICE",
+                            "Enabled": "YES",
+                            "IsAvailable": "YES"
+                        }
+                    ],
+                    "AdImageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #26"
+                    }
+                },
+                "TextImageAd": {
+                    "AdImageHash": "This is string #27",
+                    "Href": "This is string #28",
+                    "TurboPageId": 1000014,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #29"
+                    }
+                },
+                "MobileAppImageAd": {
+                    "AdImageHash": "This is string #30",
+                    "TrackingUrl": "This is string #31"
+                },
+                "TextAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000015,
+                        "ThumbnailUrl": "This is string #32",
+                        "PreviewUrl": "This is string #33"
+                    },
+                    "Href": "This is string #34",
+                    "TurboPageId": 1000016,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #35"
+                    }
+                },
+                "MobileAppAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000017,
+                        "ThumbnailUrl": "This is string #36",
+                        "PreviewUrl": "This is string #37"
+                    },
+                    "TrackingUrl": "This is string #38"
+                },
+                "CpmBannerAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000018,
+                        "ThumbnailUrl": "This is string #39",
+                        "PreviewUrl": "This is string #40"
+                    },
+                    "Href": "This is string #41",
+                    "TrackingPixels": {
+                        "Items": [
+                            {
+                                "TrackingPixel": "This is string #42",
+                                "Provider": "This is string #43"
+                            }
+                        ]
+                    },
+                    "TurboPageId": 1000019,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #44"
+                    }
+                },
+                "CpcVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000020,
+                        "ThumbnailUrl": "This is string #45",
+                        "PreviewUrl": "This is string #46"
+                    },
+                    "Href": "This is string #47",
+                    "TurboPageId": 1000021,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #48"
+                    }
+                },
+                "CpmVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000022,
+                        "ThumbnailUrl": "This is string #49",
+                        "PreviewUrl": "This is string #50"
+                    },
+                    "Href": "This is string #51",
+                    "TrackingPixels": {
+                        "Items": [
+                            {
+                                "TrackingPixel": "This is string #52",
+                                "Provider": "This is string #53"
+                            }
+                        ]
+                    },
+                    "TurboPageId": 1000023,
+                    "TurboPageModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #54"
+                    }
+                }
+            }
+        ],
+        "LimitedBy": 1000024
+    }
+}

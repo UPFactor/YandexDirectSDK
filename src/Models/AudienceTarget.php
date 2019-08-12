@@ -5,44 +5,43 @@ use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\AudienceTargetsService;
 
 /** 
  * Class AudienceTarget 
  * 
- * @property        integer        $id
- * @property        integer        $adGroupId
- * @property        integer        $retargetingListId
- * @property        integer        $interestId
- * @property        integer        $contextBid
- * @property        string         $strategyPriority
- * 
- * @property-read   integer        $campaignId
- * @property-read   string         $state
- * 
- * @method          Result         add()
- * @method          Result         delete()
- * @method          QueryBuilder   query()
- * @method          Result         resume()
- * @method          Result         suspend()
- * @method          Result         setRelatedContextBids($contextBid)
- * @method          Result         setRelatedStrategyPriority($strategyPriority)
- * 
- * @method          $this          setId(integer $id)
- * @method          $this          setAdGroupId(integer $adGroupId)
- * @method          $this          setRetargetingListId(integer $retargetingListId)
- * @method          $this          setInterestId(integer $interestId)
- * @method          $this          setContextBid(integer $contextBid)
- * @method          $this          setStrategyPriority(string $strategyPriority)
- * 
- * @method          integer        getId()
- * @method          integer        getAdGroupId()
- * @method          integer        getCampaignId()
- * @method          integer        getRetargetingListId()
- * @method          integer        getInterestId()
- * @method          integer        getContextBid()
- * @method          string         getStrategyPriority()
- * @method          string         getState()
+ * @property          integer                                 $id
+ * @property          integer                                 $adGroupId
+ * @property-read     integer                                 $campaignId
+ * @property          integer                                 $retargetingListId
+ * @property          integer                                 $interestId
+ * @property          integer                                 $contextBid
+ * @property          string                                  $strategyPriority
+ * @property-read     string                                  $state
+ *                                                            
+ * @method static     QueryBuilder                            query()
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                                  add()
+ * @method            Result                                  delete()
+ * @method            Result                                  resume()
+ * @method            Result                                  suspend()
+ * @method            Result                                  setRelatedContextBids($contextBid)
+ * @method            Result                                  setRelatedStrategyPriority($strategyPriority)
+ * @method            $this                                   setId(integer $id)
+ * @method            integer                                 getId()
+ * @method            $this                                   setAdGroupId(integer $adGroupId)
+ * @method            integer                                 getAdGroupId()
+ * @method            integer                                 getCampaignId()
+ * @method            $this                                   setRetargetingListId(integer $retargetingListId)
+ * @method            integer                                 getRetargetingListId()
+ * @method            $this                                   setInterestId(integer $interestId)
+ * @method            integer                                 getInterestId()
+ * @method            $this                                   setContextBid(integer $contextBid)
+ * @method            integer                                 getContextBid()
+ * @method            $this                                   setStrategyPriority(string $strategyPriority)
+ * @method            string                                  getStrategyPriority()
+ * @method            string                                  getState()
  * 
  * @package YandexDirectSDK\Models 
  */ 

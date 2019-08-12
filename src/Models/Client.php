@@ -11,57 +11,55 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Client 
  * 
- * @property        integer              $clientId
- * @property        string               $clientInfo
- * @property        string               $login
- * @property        string               $firstName
- * @property        string               $lastName
- * @property        string               $currency
- * @property        Grands               $grants
- * @property        ClientNotification   $notification
- * @property        string               $phone
- * @property        ClientSettings       $settings
- * 
- * @property-read   double               $accountQuality
- * @property-read   string               $archived
- * @property-read   integer              $countryId
- * @property-read   string               $createdAt
- * @property-read   integer              $overdraftSumAvailable
- * @property-read   Representatives      $representatives
- * @property-read   ClientRestrictions   $restrictions
- * @property-read   string               $type
- * @property-read   double               $vatRate
- * 
- * @method          $this                setClientId(integer $clientId)
- * @method          $this                setClientInfo(string $clientInfo)
- * @method          $this                setLogin(string $login)
- * @method          $this                setFirstName(string $firstName)
- * @method          $this                setLastName(string $lastName)
- * @method          $this                setCurrency(string $currency)
- * @method          $this                setGrants(Grands $grants)
- * @method          $this                setNotification(ClientNotification $notification)
- * @method          $this                setPhone(string $phone)
- * @method          $this                setSettings(ClientSettings $settings)
- * 
- * @method          double               getAccountQuality()
- * @method          string               getArchived()
- * @method          integer              getClientId()
- * @method          string               getClientInfo()
- * @method          integer              getCountryId()
- * @method          string               getCreatedAt()
- * @method          string               getLogin()
- * @method          string               getFirstName()
- * @method          string               getLastName()
- * @method          string               getCurrency()
- * @method          Grands               getGrants()
- * @method          ClientNotification   getNotification()
- * @method          string               getPhone()
- * @method          integer              getOverdraftSumAvailable()
- * @method          Representatives      getRepresentatives()
- * @method          ClientRestrictions   getRestrictions()
- * @method          ClientSettings       getSettings()
- * @method          string               getType()
- * @method          double               getVatRate()
+ * @property-read     double                 $accountQuality
+ * @property-read     string                 $archived
+ * @property          integer                $clientId
+ * @property          string                 $clientInfo
+ * @property-read     integer                $countryId
+ * @property-read     string                 $createdAt
+ * @property          string                 $login
+ * @property          string                 $firstName
+ * @property          string                 $lastName
+ * @property          string                 $currency
+ * @property          Grands                 $grants
+ * @property          ClientNotification     $notification
+ * @property          string                 $phone
+ * @property-read     integer                $overdraftSumAvailable
+ * @property-read     Representatives        $representatives
+ * @property-read     ClientRestrictions     $restrictions
+ * @property          ClientSettings         $settings
+ * @property-read     string                 $type
+ * @property-read     double                 $vatRate
+ *                                           
+ * @method            double                 getAccountQuality()
+ * @method            string                 getArchived()
+ * @method            $this                  setClientId(integer $clientId)
+ * @method            integer                getClientId()
+ * @method            $this                  setClientInfo(string $clientInfo)
+ * @method            string                 getClientInfo()
+ * @method            integer                getCountryId()
+ * @method            string                 getCreatedAt()
+ * @method            $this                  setLogin(string $login)
+ * @method            string                 getLogin()
+ * @method            $this                  setFirstName(string $firstName)
+ * @method            string                 getFirstName()
+ * @method            $this                  setLastName(string $lastName)
+ * @method            string                 getLastName()
+ * @method            $this                  setCurrency(string $currency)
+ * @method            string                 getCurrency()
+ * @method            $this                  setGrants(Grands $grants)
+ * @method            Grands                 getGrants()
+ * @method            $this                  setNotification(ClientNotification $notification)
+ * @method            ClientNotification     getNotification()
+ * @method            $this                  setPhone(string $phone)
+ * @method            string                 getPhone()
+ * @method            integer                getOverdraftSumAvailable()
+ * @method            Representatives        getRepresentatives()
+ * @method            ClientRestrictions     getRestrictions()
+ * @method            $this                  setSettings(ClientSettings $settings)
+ * @method            ClientSettings         getSettings()
+ * @method            string                 getType()
+ * @method            double                 getVatRate()
  * 
  * @package YandexDirectSDK\Models 
  */ 

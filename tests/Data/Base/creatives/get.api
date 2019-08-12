@@ -1,0 +1,26 @@
+{
+    "result": {
+        "Creatives": [
+            {
+                "Id": 1000001,
+                "Type": "IMAGE_CREATIVE",
+                "Name": "This is string #2",
+                "PreviewUrl": "This is string #3",
+                "Width": 10001,
+                "Height": 10002,
+                "ThumbnailUrl": "This is string #4",
+                "Associated": "YES",
+                "VideoExtensionCreative": {
+                    "Duration": 10003
+                },
+                "CpcVideoCreative": {
+                    "Duration": 10004
+                },
+                "CpmVideoCreative": {
+                    "Duration": 10005
+                }
+            }
+        ],
+        "LimitedBy": 1000002
+    }
+}

@@ -6,23 +6,23 @@ use YandexDirectSDK\Collections\SitelinksSets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\SitelinksService;
 
 /** 
  * Class SitelinksSet 
  * 
- * @property       integer        $id
- * @property       Sitelinks      $sitelinks
- * 
- * @method         Result         add()
- * @method         Result         delete()
- * @method         QueryBuilder   query()
- * 
- * @method         $this          setId(integer $id)
- * @method         $this          setSitelinks(Sitelinks $sitelinks)
- * 
- * @method         integer        getId()
- * @method         Sitelinks      getSitelinks()
+ * @property          integer                             $id
+ * @property          Sitelinks                           $sitelinks
+ *                                                        
+ * @method static     QueryBuilder                        query()
+ * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                              add()
+ * @method            Result                              delete()
+ * @method            $this                               setId(integer $id)
+ * @method            integer                             getId()
+ * @method            $this                               setSitelinks(Sitelinks $sitelinks)
+ * @method            Sitelinks                           getSitelinks()
  * 
  * @package YandexDirectSDK\Models 
  */ 

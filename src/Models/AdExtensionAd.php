@@ -7,17 +7,15 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class AdExtensionAd 
  * 
- * @property        integer   $adExtensionId
- * @property        string    $operation
- * 
- * @property-read   string    $type
- * 
- * @method          $this     setAdExtensionId(integer $adExtensionId)
- * @method          $this     setOperation(string $operation)
- * 
- * @method          integer   getAdExtensionId()
- * @method          string    getType()
- * @method          string    getOperation()
+ * @property          integer     $adExtensionId
+ * @property-read     string      $type
+ * @property          string      $operation
+ *                                
+ * @method            $this       setAdExtensionId(integer $adExtensionId)
+ * @method            integer     getAdExtensionId()
+ * @method            string      getType()
+ * @method            $this       setOperation(string $operation)
+ * @method            string      getOperation()
  * 
  * @package YandexDirectSDK\Models 
  */ 

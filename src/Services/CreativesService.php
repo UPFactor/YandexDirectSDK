@@ -11,8 +11,8 @@ use YandexDirectSDK\Models\Creative;
 /** 
  * Class CreativesService 
  * 
- * @method   QueryBuilder              query()
- * @method   Creative|Creatives|null   find(integer|integer[]|Creative|Creatives|ModelCommonInterface $ids, string[] $fields)
+ * @method static     QueryBuilder                query()
+ * @method static     Creative|Creatives|null     find(integer|integer[]|Creative|Creatives|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */

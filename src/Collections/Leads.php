@@ -9,7 +9,7 @@ use YandexDirectSDK\Services\LeadsService;
 /** 
  * Class Leads 
  * 
- * @method   QueryBuilder   query()
+ * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

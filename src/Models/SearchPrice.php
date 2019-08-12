@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class SearchPrice 
  * 
- * @property-read   string    $position
- * @property-read   integer   $price
- * 
- * @method          string    getPosition()
- * @method          integer   getPrice()
+ * @property-read     string      $position
+ * @property-read     integer     $price
+ *                                
+ * @method            string      getPosition()
+ * @method            integer     getPrice()
  * 
  * @package YandexDirectSDK\Models 
  */ 

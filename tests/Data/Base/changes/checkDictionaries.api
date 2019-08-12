@@ -1,0 +1,8 @@
+{
+    "result": {
+        "TimeZonesChanged": "YES",
+        "RegionsChanged": "YES",
+        "InterestsChanged": "YES",
+        "Timestamp": "This is string #23"
+    }
+}

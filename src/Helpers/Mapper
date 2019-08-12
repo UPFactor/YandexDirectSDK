@@ -1,6 +1,14 @@
 <?php
+namespace YandexDirectSDK\Helpers;
+
 require_once __DIR__ . "/../autoload.php";
 
+use Exception;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionParameter;
+use ReflectionProperty;
+use YandexDirectSDK\Common\Collection;
 use YandexDirectSDK\Common\ConsoleLauncher;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Common\Str;
@@ -14,41 +22,42 @@ use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 
+/**
+ * Class Mapper
+ */
 class Mapper extends ConsoleLauncher{
 
     /**
+     * Source code root directory.
+     *
      * @var Dir
      */
     protected $rootDir;
 
     /**
+     * Model class directory.
+     *
      * @var Dir
      */
     protected $modelDir;
 
     /**
+     * Collection class directory.
+     *
      * @var Dir
      */
     protected $collectionDir;
 
     /**
+     * Service class directory.
+     *
      * @var Dir
      */
     protected $serviceDir;
 
     /**
-     * @var string
-     */
-    protected $objectClass;
-
-    /**
-     * @var ReflectionClass
-     */
-    protected $objectReflection;
-
-    /**
      * Mapper constructor.
-     * @throws Exception
+     *
      */
     public function __construct()
     {
@@ -58,14 +67,19 @@ class Mapper extends ConsoleLauncher{
         $this->serviceDir =  Dir::bind($this->rootDir->realPath)->change('Services');
     }
 
-    public function execute()
+    /**
+     * Handler run command from console
+     *
+     * @return void
+     */
+    public function execute(): void
     {
         $settings = [];
 
         $this->bind('model', function($options) use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
-                'methods' => ['model'],
+                'mapper' => ModelMap::class,
                 'files' => $this->getFiles($this->modelDir->realPath, $options['model'].'.php')
             ];
         });
@@ -73,7 +87,7 @@ class Mapper extends ConsoleLauncher{
         $this->bind('model all', function() use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
-                'methods' => ['model'],
+                'mapper' => ModelMap::class,
                 'files' => $this->getFiles($this->modelDir->realPath)
             ];
         });
@@ -81,7 +95,7 @@ class Mapper extends ConsoleLauncher{
         $this->bind('collection', function($options) use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
-                'methods' => ['collection'],
+                'mapper' => CollectionMap::class,
                 'files' => $this->getFiles($this->collectionDir->realPath, $options['collection'].'.php')
             ];
         });
@@ -89,7 +103,7 @@ class Mapper extends ConsoleLauncher{
         $this->bind('collection all', function() use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
-                'methods' => ['collection'],
+                'mapper' => CollectionMap::class,
                 'files' => $this->getFiles($this->collectionDir->realPath)
             ];
         });
@@ -97,7 +111,7 @@ class Mapper extends ConsoleLauncher{
         $this->bind('service', function($options) use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
-                'methods' => ['service'],
+                'mapper' => ServiceMap::class,
                 'files' => $this->getFiles($this->serviceDir->realPath, $options['service'].'.php')
             ];
         });
@@ -105,7 +119,7 @@ class Mapper extends ConsoleLauncher{
         $this->bind('service all', function() use (&$settings){
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
-                'methods' => ['service'],
+                'mapper' => ServiceMap::class,
                 'files' => $this->getFiles($this->serviceDir->realPath)
             ];
         });
@@ -113,19 +127,19 @@ class Mapper extends ConsoleLauncher{
         $this->bind('all', function() use (&$settings) {
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->modelDir->name,
-                'methods' => ['model'],
+                'mapper' => ModelMap::class,
                 'files' => $this->getFiles($this->modelDir->realPath)
             ];
 
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->collectionDir->name,
-                'methods' => ['collection'],
+                'mapper' => CollectionMap::class,
                 'files' => $this->getFiles($this->collectionDir->realPath)
             ];
 
             $settings[] = [
                 'namespace' => 'YandexDirectSDK\\'.$this->serviceDir->name,
-                'methods' => ['service'],
+                'mapper' => ServiceMap::class,
                 'files' => $this->getFiles($this->serviceDir->realPath)
             ];
         });
@@ -134,589 +148,19 @@ class Mapper extends ConsoleLauncher{
 
         Arr::each($settings, function($setting){
             Arr::each($setting['files'], function (File $modelFile) use ($setting){
-
-                $this->objectClass = $setting['namespace'].'\\'.Str::replaceLast('.php', '', $modelFile->name);
-                $this->objectReflection = new ReflectionClass($this->objectClass);
-
-                foreach ($setting['methods'] as $method){
-                    $lexemes = $this->{'get' . ucfirst($method) . 'Lexemes'}();
-                    $this->createDoc($modelFile, $lexemes);
-                }
-
+                /** @var ClassMap $classMap */
+                $classMap = new $setting['mapper']($setting['namespace'].'\\'.Str::replaceLast('.php', '', $modelFile->name));
+                $classMap->applyDocumentation();
             });
         });
     }
 
     /**
-     * @param $class
-     * @return array
-     * @throws ReflectionException
-     */
-    protected function getClassLexemes($class){
-        $methods = (new ReflectionClass($class))->getMethods();
-
-        $lexemes = [];
-
-        foreach ($methods as $method){
-            $methodName = $method->getName();
-
-            $methodNative = $method->getDeclaringClass()->getName() === (is_object($class) ? get_class($class) : $class);
-
-            $methodReturnType = (function() use ($method){
-                if (is_null($type = $method->getReturnType())){
-                    return Result::class;
-                }
-
-                if (class_exists($type = $type->getName())){
-                    return $type;
-                } else {
-                    return $type;
-                }
-            })();
-
-            $methodParameters = (function() use ($method){
-                if (is_null($parameters = $method->getParameters())){
-                    return '';
-                }
-
-                $lexemes = [];
-
-                foreach ($parameters as $index => $parameter){
-                    if ($parameter->isVariadic()){
-                        $parameterName = '...$' . $parameter->getName();
-                    } else {
-                        $parameterName = '$'.$parameter->getName();
-                    }
-
-                    if (is_null($parameterType = $parameter->getType())){
-                        $parameterType = '';
-                    } else {
-                        $parameterType = $parameterType . ' ';
-                    }
-
-                    if ($parameter->isDefaultValueAvailable()){
-                        if ($parameter->isDefaultValueConstant()){
-                            $parameterDefaultValue = $parameter->getDefaultValueConstantName();
-                        } else {
-                            $parameterDefaultValue = $parameter->getDefaultValue();
-                            $parameterDefaultValue = json_encode($parameterDefaultValue);
-                            $parameterDefaultValue = str_replace(['{','}','"'], ['[',']','\''], $parameterDefaultValue);
-                        }
-                    } else {
-                        $parameterDefaultValue = '';
-                    }
-
-                    $lexemes[] = [
-                        'type' => $parameterType,
-                        'var' => $parameterName,
-                        'default' => $parameterDefaultValue
-                    ];
-                }
-
-                return $lexemes;
-            })();
-
-            $lexemes[$methodName] = [
-                'native' => $methodNative,
-                'name' => $methodName,
-                'params' => $methodParameters,
-                'return' => $methodReturnType
-            ];
-        }
-
-        return $lexemes;
-    }
-
-    /**
-     * Creates a map of dynamic properties and methods for a model.
+     * Files getter.
      *
-     * @return array
-     * @throws ReflectionException
-     * @throws Exception
-     */
-    protected function getModelLexemes(): array
-    {
-        $modelLexemes = [
-            'property' => [],
-            'property-write' => [],
-            'property-read' => [],
-            'method' => [],
-            'method-write' => [],
-            'method-read' => []
-        ];
-
-        /**
-         * @var ModelInterface $modelClass
-         */
-
-        $modelClass = $this->objectClass;
-        $modelPropertiesMeta = $modelClass::getPropertiesMeta();
-        $modelMethodsMeta = $modelClass::getMethodsMeta();
-        $modelStaticMethodsMeta = $modelClass::getStaticMethodsMeta();
-
-        $providers = [];
-
-        foreach ($modelMethodsMeta as $alias => $provider){
-
-            /**
-             * @var Service $service
-             * @var string $provider
-             */
-
-            if (!class_exists($provider)){
-                $this->warning("Model [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
-                continue;
-            }
-
-            $service = $provider;
-
-            if (array_key_exists($provider, $providers)){
-                $methods = $providers[$provider]['methods'];
-            } else {
-                $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
-            }
-
-            if (array_key_exists($alias, $service::getMethodsMeta())){
-                $method = $service::getMethodsMeta()[$alias]['handler'];
-            } else {
-                $method = $alias;
-            }
-
-            if (array_key_exists($method, $methods)){
-
-                if ($methods[$method]['native']){
-                    $methods[$method]['params'] = array_slice($methods[$method]['params'], 1);
-                } else {
-                    $methods[$method]['params'] = [];
-                }
-
-                $methods[$method]['name'] = $alias;
-
-                $modelLexemes['method'][] = $methods[$method];
-
-            } else {
-
-                $this->warning("Service provider [{$provider}] does not implement method [{$alias}], which is declared in model [{$this->objectReflection->name}].");
-                continue;
-
-            }
-        }
-
-        foreach ($modelPropertiesMeta as $property){
-
-            $resultType = '';
-
-            switch ($property['type']){
-                case 'numeric': $resultType = 'integer'; break;
-                case 'enum': $resultType = 'string'; break;
-                case 'set': $resultType = 'string[]'; break;
-                case 'array':
-                    if (!empty($property['meta']) and is_array($property['meta'])){
-                        $resultType = implode('[]|',$property['meta']).'[]';
-                    } else {
-                        $resultType = 'array';
-                    }
-                    break;
-
-                case 'object':
-                    $resultType = is_null($property['meta']) ? 'object' : $property['meta'];
-                    break;
-
-                case 'custom':
-                    if (!empty($property['meta']) and is_array($property['meta'])){
-                        $resultType = implode('|',$property['meta']);
-                    }
-                    break;
-
-                default: $resultType = $property['type'];
-            }
-
-            $toCreate = [];
-
-            if ($property['writable'] === true and $property['readable'] === true) {
-                $toCreate = ['property', 'method-read', 'method-write'];
-            } elseif ($property['writable'] === true) {
-                $toCreate = ['property-write', 'method-write'];
-            } elseif ($property['readable'] === true) {
-                $toCreate = ['property-read', 'method-read'];
-            }
-
-            foreach ($toCreate as $createItemType){
-                switch ($createItemType){
-                    case 'property':
-                    case 'property-write':
-                    case 'property-read':
-
-                        $modelLexemes[$createItemType][] = [
-                            'type' => $resultType,
-                            'var' => '$'.$property['name'],
-                            'default' => ''
-                        ];
-                        break;
-
-                    case 'method-write':
-
-                        $modelLexemes[$createItemType][] = [
-                            'native' => false,
-                            'name' => 'set'.ucfirst($property['name']),
-                            'params' => [
-                                [
-                                    'type' => $resultType,
-                                    'var' => '$'.$property['name'],
-                                    'default' => ''
-                                ]
-                            ],
-                            'return' => '$this'
-                        ];
-                        break;
-
-                    case 'method-read':
-
-                        $modelLexemes[$createItemType][] = [
-                            'native' => false,
-                            'name' => 'get'.ucfirst($property['name']),
-                            'params' => [],
-                            'return' => $resultType
-                        ];
-                        break;
-                }
-            }
-        }
-
-        return $modelLexemes;
-    }
-
-    /**
-     * Creates a map of dynamic properties and methods for a collection.
-     *
-     * @return array
-     * @throws ReflectionException
-     * @throws Exception
-     */
-    protected function getCollectionLexemes()
-    {
-        $collectionLexemes = [
-            'property' => [],
-            'property-write' => [],
-            'property-read' => [],
-            'method' => [],
-            'method-write' => [],
-            'method-read' => []
-        ];
-
-        /**
-         * @var ModelCollectionInterface $collectionClass
-         */
-
-        $collectionClass = $this->objectClass;
-        $collectionCompatibleModel = $collectionClass::makeCompatibleModel();
-        $collectionMethodsMeta = $collectionClass::meta('methods');
-
-        if (is_null($collectionCompatibleModel)){
-            $this->warning("Collection [{$this->objectReflection->name}]. Compatible model not defined.");
-            return $collectionLexemes;
-        }
-
-        $providers = [];
-
-        foreach ($collectionMethodsMeta as $alias => $provider){
-
-            /**
-             * @var Service $service
-             * @var string $provider
-             */
-
-            if (!class_exists($provider)){
-                $this->warning("Collection [{$this->objectReflection->name}]. Service provider [{$provider}] for the method [{$alias}] does not exist.");
-                continue;
-            }
-
-            $service = $provider;
-
-            if (array_key_exists($provider, $providers)){
-                $methods = $providers[$provider]['methods'];
-            } else {
-                $methods = $providers[$provider]['methods'] = $this->getClassLexemes($provider);
-            }
-
-            if (array_key_exists($alias, $service::getMethods())){
-                $method = $service::getMethods()[$alias]['type'];
-            } else {
-                $method = $alias;
-            }
-
-            if (array_key_exists($method, $methods)){
-
-                if ($methods[$method]['native']){
-                    $methods[$method]['params'] = array_slice($methods[$method]['params'], 1);
-                } else {
-                    $methods[$method]['params'] = [];
-                }
-
-                $methods[$method]['name'] = $alias;
-
-                $collectionLexemes['method'][] = $methods[$method];
-
-            } else {
-
-                $this->warning("Service provider [{$provider}] does not implement method [{$alias}], which is declared in collection [{$this->objectReflection->name}].");
-                continue;
-
-            }
-        }
-
-        return $collectionLexemes;
-    }
-
-    /**
-     * Creates a map of dynamic properties and methods for a service.
-     *
-     * @return array
-     * @throws ReflectionException
-     * @throws Exception
-     */
-    protected function getServiceLexemes()
-    {
-        $serviceLexemes = [
-            'property' => [],
-            'property-write' => [],
-            'property-read' => [],
-            'method' => [],
-            'method-write' => [],
-            'method-read' => []
-        ];
-
-        /** @var Service $serviceClass */
-        /** @var string $serviceModelClass */
-        /** @var string $serviceModelCollectionClass */
-
-        $serviceClass = $this->objectClass;
-        $serviceName = $serviceClass::getName(); //todo:
-        $serviceModelClass = $serviceClass::getModelClass(); //todo:
-        $serviceModelCollectionClass = $serviceClass::getModelCollectionClass(); //todo:
-        $serviceMethodsMeta = $serviceClass::getMethods(); //todo:
-
-        if (is_null($serviceName)){
-            $this->warning("Service provider [{$this->objectReflection->name}]. Service name is missing.");
-            return $serviceLexemes;
-        }
-
-        if (empty($serviceMethodsMeta)){
-            $this->warning("Service provider [{$this->objectReflection->name}]. Service methods is missing.");
-            return $serviceLexemes;
-        }
-
-        if (is_null($serviceModelClass) or is_null($serviceModelCollectionClass)){
-            $this->warning("Service provider [{$this->objectReflection->name}]. Dependent model or collection of models is not declared.");
-            return $serviceLexemes;
-        }
-
-        if (!class_exists($serviceModelClass)){
-            $this->warning("Service provider [{$this->objectReflection->name}]. The dependent model [{$serviceModelClass}] is not exist.");
-            return $serviceLexemes;
-        }
-
-        if (!class_exists($serviceModelCollectionClass)){
-            $this->warning("Service provider [{$this->objectReflection->name}]. The dependent model collection [{$serviceModelCollectionClass}] is not exist.");
-            return $serviceLexemes;
-        }
-
-        foreach ($serviceMethodsMeta as $alias => $method){
-
-            $return = null;
-            $params = null;
-
-            switch ($method['type']){
-                case 'addCollection':
-                case 'updateCollection':
-                    $return = Result::class;
-                    $params = [
-                        [
-                            'type' => $serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
-                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
-                            'default' => ''
-                        ]
-                    ];
-                    break;
-
-                case 'addModel':
-                case 'updateModel':
-                    $return = Result::class;
-                    $params = [
-                        [
-                            'type' => $serviceModelClass.'|'.ModelInterface::class,
-                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelClass))->getShortName()),
-                            'default' => ''
-                        ]
-                    ];
-                    break;
-
-                case 'actionByIds':
-                    $return = Result::class;
-                    $params = [
-                        [
-                            'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
-                            'var' => '$'.lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
-                            'default' => ''
-                        ]
-                    ];
-                    break;
-
-                case 'selectionElements':
-                    $return = QueryBuilder::class;
-                    $params = [];
-                    break;
-
-                case 'selectionByIds':
-                    $return = $serviceModelClass.'|'.$serviceModelCollectionClass.'|null';
-                    $params = [
-                        [
-                            'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class,
-                            'var' => '$ids',
-                            'default' => ''
-                        ],
-                        [
-                            'type' => 'string[]',
-                            'var' => '$fields',
-                            'default' => ''
-                        ]
-                    ];
-                    break;
-
-                default:
-                    $this->warning("Service provider [{$this->objectReflection->name}] declares an unknown type of method [{$method['type']}].");
-                    continue;
-            }
-
-            $serviceLexemes['method'][] = [
-                'native' => false,
-                'name' => $alias,
-                'params' => $params,
-                'return' => $return
-            ];
-        }
-
-        return $serviceLexemes;
-    }
-
-    /**
-     * Generates class documentation.
-     *
-     * @param File $sourceCodeFile
-     * @param $lexemes
-     * @throws Exception
-     */
-    protected function createDoc(File $sourceCodeFile, $lexemes): void
-    {
-        $doc = '';
-        $sourceCodeContent = $sourceCodeFile->content();
-
-        $maxLenTag = 0;
-        $maxLenType = 0;
-
-        foreach ($lexemes as $lexemeType => $lexemeGroup){
-
-            if (empty($lexemeGroup)){
-                continue;
-            }
-
-            if (strpos($lexemeType, 'method')){
-                $maxLenTag = max($maxLenTag, 7);
-            } else {
-                $maxLenTag = max($maxLenTag, strlen($lexemeType)+1);
-            }
-
-            foreach ($lexemeGroup as $lexemeIndex => $lexeme){
-                if (isset($lexeme['return'])){
-                    $lexeme['return'] = empty($lexeme['return']) ? '' : $this->classNameNormalization($lexeme['return'], $sourceCodeContent);
-                    $lexemes[$lexemeType][$lexemeIndex]['return'] = $lexeme['return'];
-                    $maxLenType = max($maxLenType, strlen($lexeme['return']));
-                }
-
-                if (isset($lexeme['type'])){
-                    $lexeme['type'] = empty($lexeme['type']) ? '' : $this->classNameNormalization($lexeme['type'], $sourceCodeContent);
-                    $lexemes[$lexemeType][$lexemeIndex]['type'] = $lexeme['type'];
-                    $maxLenType = max($maxLenType, strlen($lexeme['type']));
-                }
-            }
-        }
-
-        $doc .= "/** \n";
-        $doc .= " * Class ".$this->objectReflection->getShortName()." \n";
-        $doc .= " * \n";
-
-        foreach ($lexemes as $lexemeType => $lexemeGroup){
-            if (empty($lexemeGroup)){
-                continue;
-            }
-
-            if (in_array($lexemeType, ['property','property-write','property-read'])){
-                foreach ($lexemeGroup as $item){
-                    $tag = str_pad('@'.$lexemeType, $maxLenTag, ' ');
-                    $type = str_pad($item['type'], $maxLenType, ' ');
-                    $doc .= " * {$tag}   {$type}   {$item['var']}\n";
-                }
-                $doc .= " * \n";
-            }
-
-            if (in_array($lexemeType, ['method','method-write','method-read'])){
-                foreach ($lexemeGroup as $item){
-                    $tag = str_pad('@method', $maxLenTag, ' ');
-                    $result = str_pad($item['return'], $maxLenType, ' ');
-                    $params = '';
-                    foreach ($item['params'] as $param){
-                        $params .= empty($param['type']) ? '' : $this->classNameNormalization($param['type'], $sourceCodeContent) . ' ';
-                        $params .= $param['var'];
-                        $params .= empty($param['default']) ? '' : ' = ' . $param['default'];
-                        $params .= ', ';
-                    }
-                    $params = substr($params,0,-2);
-                    $doc .= " * {$tag}   {$result}   {$item['name']}({$params})\n";
-                }
-                $doc .= " * \n";
-            }
-        }
-
-        $doc .= " * @package {$this->objectReflection->getNamespaceName()} \n";
-        $doc .= " */";
-
-        $this->applyDoc($sourceCodeFile, $doc);
-    }
-
-    /**
-     * Sets documentation into class source code.
-     *
-     * @param File $sourceCodeFile
-     * @param string $doc
-     * @throws Exception
-     */
-    protected function applyDoc(File $sourceCodeFile, $doc = ''): void
-    {
-        $class = $this->objectReflection->getShortName();
-        $content = $sourceCodeFile->content();
-
-        if (preg_match('/(\/\*\*.*?\*\/)\s*class\s+('.$class.')/s', $content, $match)){
-            $content = Str::replaceFirst($match[1], $doc, $content);
-            $sourceCodeFile->put($content);
-            $this->message("{$class}: OK");
-            return;
-        }
-
-        if (preg_match('/class\s+'.$class.'/s', $content, $match)){
-            $content = Str::replaceFirst($match[0], "{$doc}\n{$match[0]}", $content);
-            $sourceCodeFile->put($content);
-            $this->message("{$class}: OK");
-            return;
-        }
-
-        $this->message("{$class}: Failed");
-    }
-
-    /**
      * @param $path
      * @param null $file
      * @return array
-     * @throws Exception
      */
     protected function getFiles($path, $file = null){
         if (is_null($file)){
@@ -733,45 +177,1095 @@ class Mapper extends ConsoleLauncher{
             return [$file];
         }
     }
+}
+
+/**
+ * Class PropertyMap
+ *
+ * @property string $name
+ * @property string $class
+ * @property boolean $own
+ * @property boolean $virtual
+ * @property boolean $static
+ * @property boolean $private
+ * @property boolean $protected
+ * @property boolean $public
+ * @property boolean $writable
+ * @property boolean $readable
+ * @property string $type
+ */
+class PropertyMap
+{
+    protected $name = '';
+
+    protected $class = '';
+
+    protected $own = false;
+
+    protected $virtual = false;
+
+    protected $static = false;
+
+    protected $private = false;
+
+    protected $protected = false;
+
+    protected $public = false;
+
+    protected $writable = false;
+
+    protected $readable = false;
+
+    protected $type = 'mixed';
 
     /**
+     * PropertyMap constructor.
+     *
      * @param string $class
-     * @param string $content
-     * @return string
-     * @throws ReflectionException
+     * @param ReflectionProperty|array $property
      */
-    protected function classNameNormalization(string $class, string $content){
-        $class = trim($class);
+    public function __construct(string $class, $property = null)
+    {
+        $this->class = $class;
 
-        if (empty($class) or empty($content)){
-            return $class;
+        if ($property instanceof ReflectionProperty){
+            $this->name = $property->getName();
+            $this->own = $property->class === $class;
+            $this->virtual = false;
+            $this->static = $property->isStatic();
+            $this->private = $property->isPrivate();
+            $this->protected = $property->isProtected();
+            $this->public = $property->isPublic();
+            $this->writable = $this->public;
+            $this->readable = $this->public;
+            $this->type = 'mixed';
         }
 
-        if (strpos($class, '|') !== false){
-            $class = preg_replace('/\|+/', '|', $class);
-            $class = explode('|', $class);
-            foreach ($class as $classIndex => $classItem){
-                $class[$classIndex] = $this->classNameNormalization($classItem, $content);
+        if (is_array($property)){
+            foreach ($property as $name => $value){
+                $this->setter($name, $value);
             }
-            return implode('|', $class);
+        }
+    }
+
+    /**
+     * Setting values for virtual properties of the object.
+     *
+     * @param $name
+     * @param $value
+     *
+     * @return bool|string|null
+     */
+    public function __set($name, $value)
+    {
+        return $this->setter($name, $value);
+    }
+
+    /**
+     * Getting values virtual properties of the object.
+     *
+     * @param $name
+     * @return bool|string|null
+     */
+    public function __get($name)
+    {
+        return $this->getter($name);
+    }
+
+    /**
+     * Setter for properties of the object.
+     *
+     * @param $name
+     * @param $value
+     * @return bool|string|null
+     */
+    protected function setter($name, $value)
+    {
+        switch ($name){
+            case 'class':
+            case 'name':
+            case 'type':
+                $this->{$name} = $value = (string) $value;
+                break;
+
+            case 'private':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->protected = false;
+                    $this->public = false;
+
+                }
+                break;
+
+            case 'protected':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->private = false;
+                    $this->public = false;
+                }
+                break;
+
+            case 'public':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->private = false;
+                    $this->protected = false;
+                }
+                break;
+
+            case 'own':
+            case 'virtual':
+            case 'static':
+            case 'readable':
+            case 'writable':
+                $this->{$name} = $value = (boolean) $value;
+                break;
+
+            default:
+                return null;
         }
 
-        if (preg_match('/use\s+\\\\?' . preg_quote($class) . '\s*(?:as\s+([\w+]+))?;[^;]/is', $content, $matches)) {
-            if (!empty($matches[1])){
-                return $matches[1];
+        return $value;
+    }
+
+    /**
+     * Getter for properties of the object.
+     *
+     * @param $name
+     * @return bool|string|null
+     */
+    protected function getter($name)
+    {
+        return $this->{$name} ?? null;
+    }
+}
+
+/**
+ * Class ParameterMap
+ *
+ * @property string $name
+ * @property string $var
+ * @property string $type
+ * @property string $default
+ */
+class ParameterMap
+{
+    protected $name = '';
+
+    protected $var = '$value';
+
+    protected $type = 'mixed';
+
+    protected $default;
+
+    /**
+     * ParameterMap constructor.
+     *
+     * @param ReflectionParameter|array $parameter
+     */
+    public function __construct($parameter = null)
+    {
+        if ($parameter instanceof ReflectionParameter){
+            $this->name = $parameter->getName();
+            $this->var = $parameter->isVariadic() ? '...$' . $this->name : '$' . $this->name;
+            $this->type = $parameter->getType();
+
+            if (is_null($this->type)){
+                $this->type = 'mixed';
             }
-            return (new ReflectionClass($class))->getShortName();
+
+            if ($parameter->isDefaultValueAvailable()){
+                try {
+                    if ($parameter->isDefaultValueConstant()){
+                        $this->default = $parameter->getDefaultValueConstantName();
+                    } else {
+                        $this->default = json_encode($parameter->getDefaultValue());
+                        $this->default = str_replace(['{','}','"'], ['[',']','\''], $this->default);
+                    }
+                } catch (Exception $e){
+                    $this->default = null;
+                }
+            }
         }
 
-        if (strpos($class, '\\') === false){
-            return $class;
+        if (is_array($parameter)){
+            foreach ($parameter as $name => $value){
+                $this->setter($name, $value);
+            }
+        }
+    }
+
+    /**
+     * Setting values for virtual properties of the object.
+     *
+     * @param $name
+     * @param $value
+     * @return string|null
+     */
+    public function __set($name, $value)
+    {
+        return $this->setter($name, $value);
+    }
+
+    /**
+     * Getting values virtual properties of the object.
+     *
+     * @param $name
+     * @return string|null
+     */
+    public function __get($name)
+    {
+        return $this->getter($name);
+    }
+
+    /**
+     * Setter for properties of the object.
+     *
+     * @param $name
+     * @param $value
+     * @return string|null
+     */
+    protected function setter($name, $value)
+    {
+        switch ($name){
+            case 'name':
+            case 'var':
+                $this->{$name} = $value = (string) $value;
+                break;
+
+            case 'type':
+                $value = (string) $value;
+                $this->{$name} = empty($value) ? 'mixed' : $value;
+                break;
+
+            case 'default':
+                $this->{$name} = $value = is_null($value) ? null : (string) $value;
+                break;
+
+            default:
+                return null;
+
         }
 
-        if (strpos($class, $this->objectReflection->getNamespaceName()) === 0){
-            return str_replace($this->objectReflection->getNamespaceName().'\\', '', $class);
+        return $value;
+    }
+
+    /**
+     * Getter for properties of the object.
+     *
+     * @param $name
+     * @return string|null
+     */
+    protected function getter($name)
+    {
+        return $this->{$name} ?? null;
+    }
+}
+
+/**
+ * Class MethodMap
+ *
+ * @property string $name
+ * @property string $class
+ * @property boolean $own
+ * @property boolean $virtual
+ * @property boolean $static
+ * @property boolean $private
+ * @property boolean $protected
+ * @property boolean $public
+ * @property-read Collection $parameters
+ * @property string $return
+ */
+class MethodMap
+{
+    protected $name = '';
+
+    protected $class = '';
+
+    protected $own = false;
+
+    protected $virtual = false;
+
+    protected $static = false;
+
+    protected $private = false;
+
+    protected $protected = false;
+
+    protected $public = false;
+
+    protected $parameters;
+
+    protected $return = 'mixed';
+
+    /**
+     * MethodMap constructor.
+     *
+     * @param string $class
+     * @param ReflectionMethod|array $method
+     */
+    public function __construct(string $class, $method = null)
+    {
+        $this->class = $class;
+        $this->parameters = Collection::make();
+
+        if ($method instanceof ReflectionMethod){
+            $this->name = $method->getName();
+            $this->own = $method->class === $class;
+            $this->virtual = false;
+            $this->static = $method->isStatic();
+            $this->private = $method->isPrivate();
+            $this->protected = $method->isProtected();
+            $this->public = $method->isPublic();
+            $this->return = 'mixed';
+
+            if (!is_null($parameters = $method->getParameters())){
+                foreach ($parameters as $parameter) {
+                    $this->parameters->push(new ParameterMap($parameter));
+                }
+            }
+
+            if (!is_null($return = $method->getReturnType())){
+                $this->return = $return->getName();
+            }
         }
 
-        return '\\' . $class;
+        if (is_array($method)){
+            foreach ($method as $name => $value){
+                $this->setter($name, $value);
+            }
+        }
+    }
+
+    /**
+     * Setting values for virtual properties of the object.
+     *
+     * @param $name
+     * @param $value
+     * @return bool|string|null
+     */
+    public function __set($name, $value)
+    {
+        return $this->setter($name, $value);
+    }
+
+    /**
+     * Getting values virtual properties of the object.
+     *
+     * @param $name
+     * @return bool|string|null
+     */
+    public function __get($name)
+    {
+        return $this->getter($name);
+    }
+
+    /**
+     * Setter for properties of the object.
+     *
+     * @param $name
+     * @param $value
+     * @return bool|string|null
+     */
+    protected function setter($name, $value)
+    {
+        switch ($name){
+            case 'class':
+            case 'name':
+            case 'return':
+                $this->{$name} = $value = (string) $value;
+                break;
+
+            case 'private':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->protected = false;
+                    $this->public = false;
+
+                }
+                break;
+
+            case 'protected':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->private = false;
+                    $this->public = false;
+                }
+                break;
+
+            case 'public':
+                $value = (boolean) $value;
+                if ($value === true){
+                    $this->private = false;
+                    $this->protected = false;
+                }
+                break;
+
+            case 'own':
+            case 'virtual':
+            case 'static':
+                $this->{$name} = $value = (boolean) $value;
+                break;
+
+            case 'parameters':
+                $this->parameters->reset();
+
+                if (is_array($value)){
+                    foreach ($value as $parameter){
+                        $this->parameters->push(new ParameterMap($parameter));
+                    }
+                }
+
+                if ($value instanceof Collection){
+                    foreach ($value->all() as $parameter){
+                        if ($parameter instanceof ParameterMap){
+                            $this->parameters->push($parameter);
+                        }
+                    }
+                }
+
+                break;
+
+            default:
+                return null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Getter for properties of the object.
+     *
+     * @param $name
+     * @return bool|string|null
+     */
+    protected function getter($name)
+    {
+        return $this->{$name} ?? null;
+    }
+}
+
+/**
+ * Class ClassMap
+ *
+ * @property-read string $class
+ * @property-read string $name
+ * @property-read string $namespace
+ * @property-read File $file
+ * @property-read integer $startLine
+ * @property-read integer $endLine
+ * @property-read Collection $properties
+ * @property-read Collection $methods
+ * @property-read array $importedClasses
+ */
+class ClassMap
+{
+    /**
+     * Full class name.
+     *
+     * @var string
+     */
+    protected $class;
+
+    /**
+     * Short class name.
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Class namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
+    /**
+     * File in which the class has been defined.
+     *
+     * @var File
+     */
+    protected $file;
+
+    /**
+     * Line number with which the definition of the class in the file begins.
+     *
+     * @var int
+     */
+    protected $startLine;
+
+    /**
+     * Line number that ends the definition of the class in the file.
+     *
+     * @var int
+     */
+    protected $endLine;
+
+    /**
+     * Class properties.
+     *
+     * @var Collection
+     */
+    protected $properties;
+
+    /**
+     * Class methods.
+     *
+     * @var Collection
+     */
+    protected $methods;
+
+    /**
+     * Imported classes.
+     *
+     * @var
+     */
+    protected $importedClasses;
+
+    /**
+     * @var ConsoleLauncher
+     */
+    protected $console;
+
+    /**
+     * ClassMap constructor.
+     *
+     * @param string $class
+     */
+    public function __construct(string $class)
+    {
+        $source = new ReflectionClass($class);
+
+        $this->class = $class;
+        $this->name = $source->getShortName();
+        $this->namespace = $source->getNamespaceName();
+        $this->file = File::bind($source->getFileName());
+        $this->startLine = $source->getStartLine();
+        $this->endLine = $source->getEndLine();
+        $this->properties = Collection::make();
+        $this->methods = Collection::make();
+
+        $this->importedClasses = (function(){
+            $top = '';
+            $result = [];
+
+            for($i=0; $i <= $this->startLine - 2; $i++){
+                $top.= $this->file->readRow();
+            }
+
+            if (preg_match_all('/use\s+(?!function|const)([a-z0-9_\\\\]+\\\\)?([a-z0-9_]+)(?:\s+as\s+([a-z0-9_]+))?\s*;/i', $top, $matches)){
+                foreach ($matches[1] as $i => $namespace){
+                    $class = $namespace.$matches[2][$i];
+                    $alias = empty($matches[3][$i]) ? $matches[2][$i] : $matches[3][$i];
+                    $result[ltrim($class, '\\')] = $alias;
+                }
+            }
+
+            return $result;
+        })();
+
+        foreach ($source->getProperties() as $property){
+            $this->properties->push(new PropertyMap($class, $property));
+        }
+
+        foreach ($source->getMethods() as $method){
+            $this->methods->push(new MethodMap($class, $method));
+        }
+
+        $this->console = new ConsoleLauncher();
+    }
+
+    /**
+     * Getting values virtual properties of the object.
+     *
+     * @param $name
+     * @return  mixed
+     */
+    public function __get($name)
+    {
+        return $this->{$name} ?? null;
+    }
+
+    /**
+     * Returns phpDocumentation for a class.
+     *
+     * @return string
+     */
+    public function getDocumentation()
+    {
+        $list = [];
+
+        $normalizeClassNames = function(string $string){
+            if (preg_match_all('/\\\\?(?:[a-z0-9_]+\\\\)+[a-z0-9_]+/i', $string, $names)){
+                foreach ($names[0] as $name){
+
+                    $originalName = $name;
+                    $standardName = ltrim($name, '\\');
+
+                    if (isset($this->importedClasses[$standardName])){
+                        $string = str_replace($originalName, $this->importedClasses[$standardName], $string);
+                    } else {
+                        $string = str_replace($originalName, Str::begin($originalName, '\\'), $string);
+                    }
+                }
+            }
+
+            $string = preg_replace('/\\\\?' . preg_quote($this->namespace) . '\\\\/i', '', $string);
+
+            return $string;
+        };
+
+        $doc = '';
+
+        $docStat = [0,0];
+
+        $this->properties->each(function(PropertyMap $property) use (&$list, &$docStat, $normalizeClassNames){
+            if ($property->virtual){
+                if ($property->public or ($property->writable and $property->readable) or (!$property->writable and !$property->readable)){
+                    $tag = '@property';
+                } elseif ($property->writable){
+                    $tag = '@property-write';
+                } else {
+                    $tag = '@property-read';
+                }
+
+                if ($property->static){
+                    $tag.= ' static';
+                }
+
+                $type = trim($normalizeClassNames($property->type));
+                $name = '$' . trim($property->name);
+
+                $list[] = [$tag, $type, $name];
+                $docStat = [max(strlen($tag), $docStat[0]), max(strlen($type), $docStat[1])];
+            }
+        });
+
+        if (!empty($list)){
+            $list[] = ['','',''];
+        }
+
+        $this->methods->each(function(MethodMap $method) use (&$list, &$docStat, $normalizeClassNames){
+            if ($method->virtual){
+                if ($method->static){
+                    $tag = '@method static';
+                } else {
+                    $tag = '@method';
+                }
+
+                $return = trim($normalizeClassNames($method->return));
+                $name = trim($method->name);
+
+                if ($method->parameters->isNotEmpty()){
+                    $parameters = $method->parameters->map(function(ParameterMap $parameter){
+                        return ($parameter->type === 'mixed' ? '' : ($parameter->type) . ' ') . $parameter->var . (is_null($parameter->default) ? '' : ('=' . $parameter->default));
+                    });
+                    $parameters = '(' . implode(', ', $parameters->all()) . ')';
+                    $parameters = trim($normalizeClassNames($parameters));
+
+                } else {
+                    $parameters = '()';
+                }
+
+                $list[] = [$tag, $return, $name . $parameters];
+                $docStat = [max(strlen($tag), $docStat[0]), max(strlen($return), $docStat[1])];
+            }
+        });
+
+        $docStat = [$docStat[0] + 5, $docStat[1] + 5];
+
+        $doc.= "/** \n";
+        $doc.= " * Class ".$this->name." \n";
+
+        if (!empty($list)){
+            $doc.= " * \n";
+            foreach ($list as $line){
+                $doc.= ' * ';
+                $doc.= str_pad($line[0], $docStat[0]);
+                $doc.= str_pad($line[1], $docStat[1]);
+                $doc.= $line[2] . "\n";
+            }
+        }
+
+        $doc.= " * \n";
+        $doc.= " * @package {$this->namespace} \n";
+        $doc.= " */";
+
+        return $doc;
+    }
+
+    /**
+     * Writes phpDocumentation to the class definition file.
+     *
+     * @return void
+     */
+    public function applyDocumentation()
+    {
+        $doc = $this->getDocumentation();
+        $content = $this->file->content();
+
+        if (preg_match('/(\/\*\*.*?\*\/)\s*class\s+('.$this->name.')/s', $content, $match)){
+            $content = Str::replaceFirst($match[1], $doc, $content);
+            $this->file->put($content);
+            $this->console->message($this->name . ': OK');
+            return;
+        }
+
+        if (preg_match('/class\s+'.$this->name.'/s', $content, $match)){
+            $content = Str::replaceFirst($match[0], "{$doc}\n{$match[0]}", $content);
+            $this->file->put($content);
+            $this->console->message($this->name . ': OK');
+            return;
+        }
+    }
+}
+
+/**
+ * Class ModelMap
+ */
+class ModelMap extends ClassMap
+{
+    /**
+     * ModelMap constructor.
+     *
+     * @param string $class
+     */
+    public function __construct(string $class)
+    {
+        parent::__construct($class);
+
+        /**
+         * @var ModelInterface $modelClass
+         */
+
+        $modelClass = $this->class;
+        $modelPropertiesMeta = $modelClass::getPropertiesMeta();
+        $modelMethodsMeta = [
+            'static' => $modelClass::getStaticMethodsMeta(),
+            'dynamic' => $modelClass::getMethodsMeta()
+        ];
+
+        foreach ($modelMethodsMeta as $methodsType => $methodList){
+            foreach ($methodList as $methodAlias => $methodItem){
+
+                if (!class_exists($methodItem['service'])){
+                    $this->console->warning("Model [{$this->name}]. Service provider [{$methodItem['service']}] for the method [{$methodAlias}] does not exist.");
+                    continue;
+                }
+
+                $methodCheck = false;
+                $methodProvider = new ServiceMap($methodItem['service']);
+
+                $methodProvider->methods->each(function(MethodMap $serviceMethod) use ($methodAlias, $methodsType, &$methodCheck){
+                    if ($serviceMethod->name === $methodAlias){
+                        $this->methods->push(new MethodMap($this->class, [
+                            'name' => $methodAlias,
+                            'own' => false,
+                            'virtual' => true,
+                            'static' => ($methodsType === 'static'),
+                            'public' => true,
+                            'return' => $serviceMethod->return,
+                            'parameters' => $methodsType === 'static' ? $serviceMethod->parameters->copy() : $serviceMethod->parameters->slice(1)
+                        ]));
+                        $methodCheck = true;
+                    }
+                });
+
+                if ($methodCheck === false){
+                    $this->console->warning("Service provider [{$methodProvider->class}] does not implement method [{$methodAlias}], which is declared in model [{$this->name}].");
+                }
+            }
+        }
+
+        foreach ($modelPropertiesMeta as $propertyMeta){
+
+            switch ($propertyMeta['type']){
+                case 'enum': $propertyResultType = 'string'; break;
+                case 'set': $propertyResultType = 'string[]'; break;
+                case 'array':
+                    if (!empty($propertyMeta['permissibleValues']) and is_array($propertyMeta['permissibleValues'])){
+                        $propertyResultType = implode('[]|',$propertyMeta['permissibleValues']).'[]';
+                    } else {
+                        $propertyResultType = 'array';
+                    }
+                    break;
+
+                case 'object':
+                    if (!empty($propertyMeta['permissibleValues']) and is_array($propertyMeta['permissibleValues'])){
+                        $propertyResultType = implode('|',$propertyMeta['permissibleValues']);
+                    } else {
+                        $propertyResultType = 'object';
+                    }
+                    break;
+
+                case 'custom':
+                    if (!empty($propertyMeta['permissibleValues']) and is_array($propertyMeta['permissibleValues'])){
+                        $propertyResultType = implode('|',$propertyMeta['permissibleValues']);
+                    } else {
+                        $propertyResultType = 'mixed';
+                    }
+                    break;
+
+                default: $propertyResultType = $propertyMeta['type'];
+            }
+
+            if (!isset($propertyResultType)){
+                $propertyResultType = 'mixed';
+            }
+
+            $this->properties->push(new PropertyMap($this->class, [
+                'name' => $propertyMeta['name'],
+                'own' => false,
+                'virtual' => true,
+                'static' => false,
+                'readable' => $propertyMeta['readable'],
+                'writable' => $propertyMeta['writable'],
+                'type' => $propertyResultType
+            ]));
+
+            if ($propertyMeta['writable'] === true){
+                $this->methods->push(new MethodMap($this->class, [
+                    'name' => 'set'.ucfirst($propertyMeta['name']),
+                    'own' => false,
+                    'virtual' => true,
+                    'static' => false,
+                    'public' => true,
+                    'return' => '$this',
+                    'parameters' => [
+                        [
+                            'name' => $propertyMeta['name'],
+                            'var' => '$' . $propertyMeta['name'],
+                            'type' => $propertyResultType
+                        ]
+                    ]
+                ]));
+            }
+
+            if ($propertyMeta['readable'] === true){
+                $this->methods->push(new MethodMap($this->class, [
+                    'name' => 'get'.ucfirst($propertyMeta['name']),
+                    'own' => false,
+                    'virtual' => true,
+                    'static' => false,
+                    'public' => true,
+                    'return' => $propertyResultType
+                ]));
+            }
+        }
+    }
+}
+
+/**
+ * Class CollectionMap
+ */
+class CollectionMap extends ClassMap
+{
+    /**
+     * CollectionMap constructor.
+     *
+     * @param string $class
+     */
+    public function __construct(string $class)
+    {
+        parent::__construct($class);
+
+        /**
+         * @var ModelCollectionInterface $collectionClass
+         */
+
+        $collectionClass = $this->class;
+        $collectionCompatibleModel = $collectionClass::makeCompatibleModel();
+        $collectionMethodsMeta = [
+            'static' => $collectionClass::getStaticMethodsMeta(),
+            'dynamic' => $collectionClass::getMethodsMeta()
+        ];
+
+        if (is_null($collectionCompatibleModel)){
+            $this->console->warning("Collection [{$this->name}]. Compatible model not defined.");
+            return;
+        }
+
+        foreach ($collectionMethodsMeta as $methodsType => $methodList){
+            foreach ($methodList as $methodAlias => $methodItem){
+
+                if (!class_exists($methodItem['service'])){
+                    $this->console->warning("Collection [{$this->name}]. Service provider [{$methodItem['service']}] for the method [{$methodAlias}] does not exist.");
+                    continue;
+                }
+
+                $methodCheck = false;
+                $methodProvider = new ServiceMap($methodItem['service']);
+                $methodProvider->methods->each(function(MethodMap $serviceMethod) use ($methodAlias, $methodsType, &$methodCheck){
+                    if ($serviceMethod->name === $methodAlias){
+                        $this->methods->push(new MethodMap($this->class, [
+                            'name' => $methodAlias,
+                            'own' => false,
+                            'virtual' => true,
+                            'static' => ($methodsType === 'static'),
+                            'public' => true,
+                            'return' => $serviceMethod->return,
+                            'parameters' => $methodsType === 'static' ? $serviceMethod->parameters->copy() : $serviceMethod->parameters->slice(1)
+                        ]));
+                        $methodCheck = true;
+                    }
+                });
+
+                if ($methodCheck === false){
+                    $this->console->warning("Service provider [{$methodProvider->class}] does not implement method [{$methodAlias}], which is declared in model [{$this->name}].");
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Class ServiceMap
+ */
+class ServiceMap extends ClassMap
+{
+    /**
+     * ServiceMap constructor.
+     *
+     * @param string $serviceClass
+     */
+    public function __construct(string $serviceClass)
+    {
+        parent::__construct($serviceClass);
+
+        /** @var Service $serviceClass */
+        /** @var string $serviceModelClass */
+        /** @var string $serviceModelCollectionClass */
+
+        $serviceName = $serviceClass::getName();
+        $serviceModelClass = $serviceClass::getModelClass();
+        $serviceModelCollectionClass = $serviceClass::getModelCollectionClass();
+        $serviceMethodsMeta = $serviceClass::getMethodsMeta();
+
+        if (is_null($serviceName)){
+            $this->console->warning("Service provider [{$this->name}]. Service name is missing.");
+            return;
+        }
+
+        if (empty($serviceMethodsMeta)){
+            $this->console->warning("Service provider [{$this->name}]. Service methods is missing.");
+            return;
+        }
+
+        if (is_null($serviceModelClass) or is_null($serviceModelCollectionClass)){
+            $this->console->warning("Service provider [{$this->name}]. Dependent model or collection of models is not declared.");
+            return;
+        }
+
+        if (!class_exists($serviceModelClass)){
+            $this->console->warning("Service provider [{$this->name}]. The dependent model [{$serviceModelClass}] is not exist.");
+            return;
+        }
+
+        if (!class_exists($serviceModelCollectionClass)){
+            $this->console->warning("Service provider [{$this->name}]. The dependent model collection [{$serviceModelCollectionClass}] is not exist.");
+            return;
+        }
+
+        foreach ($serviceMethodsMeta as $alias => $method){
+            switch ($method['handler']){
+                case 'addCollection':
+                case 'updateCollection':
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $alias,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => true,
+                        'public' => true,
+                        'return' => Result::class,
+                        'parameters' => [
+                            [
+                                'name' => $parameterName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
+                                'var' => '$' . $parameterName,
+                                'type' => $serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class
+                            ]
+                        ]
+                    ]));
+                    break;
+
+                case 'addModel':
+                case 'updateModel':
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $alias,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => true,
+                        'public' => true,
+                        'return' => Result::class,
+                        'parameters' => [
+                            [
+                                'name' => $parameterName = lcfirst((new ReflectionClass($serviceModelClass))->getShortName()),
+                                'var' => '$' . $parameterName,
+                                'type' => $serviceModelClass.'|'.ModelInterface::class
+                            ]
+                        ]
+                    ]));
+                    break;
+
+                case 'actionByIds':
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $alias,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => true,
+                        'public' => true,
+                        'return' => Result::class,
+                        'parameters' => [
+                            [
+                                'name' => $parameterName = lcfirst((new ReflectionClass($serviceModelCollectionClass))->getShortName()),
+                                'var' => '$' . $parameterName,
+                                'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class
+                            ]
+                        ]
+                    ]));
+                    break;
+
+                case 'selectionElements':
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $alias,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => true,
+                        'public' => true,
+                        'return' => QueryBuilder::class,
+                    ]));
+                    break;
+
+                case 'selectionByIds':
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $alias,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => true,
+                        'public' => true,
+                        'return' => $serviceModelClass.'|'.$serviceModelCollectionClass.'|null',
+                        'parameters' => [
+                            [
+                                'name' => 'ids',
+                                'var' => '$ids',
+                                'type' => 'integer|integer[]|'.$serviceModelClass.'|'.$serviceModelCollectionClass.'|'.ModelCommonInterface::class
+                            ],
+                            [
+                                'name' => 'fields',
+                                'var' => '$fields',
+                                'type' => 'string[]'
+                            ]
+                        ]
+                    ]));
+                    break;
+
+                default:
+                    $this->console->warning("Service provider [{$this->name}] declares an unknown type of method [{$method['handler']}].");
+                    continue;
+            }
+        }
+
+        return;
     }
 }
 

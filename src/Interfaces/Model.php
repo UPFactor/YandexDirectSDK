@@ -43,18 +43,18 @@ interface Model extends ModelCommon
     /**
      * Setting a value for a model property.
      *
-     * @param string $propertyName
+     * @param string $property
      * @param mixed  $value
      * @return $this
      */
-    public function setPropertyValue($propertyName, $value);
+    public function setPropertyValue($property, $value);
 
     /**
      * Getting the value of the model property.
      *
-     * @param string $propertyName
+     * @param string $property
      * @return mixed|null
      */
-    public function getPropertyValue($propertyName);
+    public function getPropertyValue($property);
 
 }

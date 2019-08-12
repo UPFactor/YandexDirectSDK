@@ -1,0 +1,24 @@
+{
+    "method": "setAuto",
+    "params": {
+        "KeywordBids": [
+            {
+                "CampaignId": 1000009,
+                "AdGroupId": 1000010,
+                "KeywordId": 1000011,
+                "BiddingRule": {
+                    "SearchByTrafficVolume": {
+                        "TargetTrafficVolume": 10001,
+                        "IncreasePercent": 10002,
+                        "BidCeiling": 1000012
+                    },
+                    "NetworkByCoverage": {
+                        "TargetCoverage": 10003,
+                        "IncreasePercent": 10004,
+                        "BidCeiling": 1000013
+                    }
+                }
+            }
+        ]
+    }
+}

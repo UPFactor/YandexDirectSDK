@@ -6,14 +6,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextCampaignStrategy 
  * 
- * @property       DynamicTextCampaignSearchStrategy    $search
- * @property       DynamicTextCampaignNetworkStrategy   $network
- * 
- * @method         $this                                setSearch(DynamicTextCampaignSearchStrategy $search)
- * @method         $this                                setNetwork(DynamicTextCampaignNetworkStrategy $network)
- * 
- * @method         DynamicTextCampaignSearchStrategy    getSearch()
- * @method         DynamicTextCampaignNetworkStrategy   getNetwork()
+ * @property     DynamicTextCampaignSearchStrategy      $search
+ * @property     DynamicTextCampaignNetworkStrategy     $network
+ *                                                      
+ * @method       $this                                  setSearch(DynamicTextCampaignSearchStrategy $search)
+ * @method       DynamicTextCampaignSearchStrategy      getSearch()
+ * @method       $this                                  setNetwork(DynamicTextCampaignNetworkStrategy $network)
+ * @method       DynamicTextCampaignNetworkStrategy     getNetwork()
  * 
  * @package YandexDirectSDK\Models 
  */ 

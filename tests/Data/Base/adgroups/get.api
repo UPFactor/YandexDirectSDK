@@ -1,0 +1,63 @@
+{
+    "result": {
+        "AdGroups": [
+            {
+                "Id": 1000001,
+                "Name": "This is string #2",
+                "CampaignId": 1000002,
+                "RegionIds": [
+                    1000003,
+                    1000004
+                ],
+                "RestrictedRegionIds": {
+                    "Items": [
+                        1000005,
+                        1000006
+                    ]
+                },
+                "NegativeKeywords": {
+                    "Items": [
+                        "This is string #3",
+                        "This is string #4"
+                    ]
+                },
+                "NegativeKeywordSharedSetIds": {
+                    "Items": [
+                        1000007,
+                        1000008
+                    ]
+                },
+                "TrackingParams": "This is string #5",
+                "Status": "ACCEPTED",
+                "ServingStatus": "ELIGIBLE",
+                "Type": "TEXT_AD_GROUP",
+                "Subtype": "WEBPAGE",
+                "MobileAppAdGroup": {
+                    "StoreUrl": "This is string #6",
+                    "TargetDeviceType": [
+                        "DEVICE_TYPE_MOBILE",
+                        "DEVICE_TYPE_TABLET"
+                    ],
+                    "TargetCarrier": "WI_FI_ONLY",
+                    "TargetOperatingSystemVersion": "This is string #7",
+                    "AppIconModeration": {
+                        "Status": "ACCEPTED",
+                        "StatusClarification": "This is string #8"
+                    },
+                    "AppOperatingSystemType": "IOS",
+                    "AppAvailabilityStatus": "UNPROCESSED"
+                },
+                "DynamicTextAdGroup": {
+                    "DomainUrl": "This is string #9",
+                    "DomainUrlProcessingStatus": "EMPTY_RESULT"
+                },
+                "DynamicTextFeedAdGroup": {
+                    "Source": "This is string #10",
+                    "SourceType": "RETAIL_FEED",
+                    "SourceProcessingStatus": "EMPTY_RESULT"
+                }
+            }
+        ],
+        "LimitedBy": 1000009
+    }
+}

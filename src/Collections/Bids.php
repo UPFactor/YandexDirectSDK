@@ -10,8 +10,8 @@ use YandexDirectSDK\Services\BidsService;
 /** 
  * Class Bids 
  * 
- * @method   QueryBuilder   query()
- * @method   Result         set()
+ * @method static     QueryBuilder     query()
+ * @method            Result           set()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

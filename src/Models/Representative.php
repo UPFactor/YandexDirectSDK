@@ -7,13 +7,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Representative 
  * 
- * @property-read   string   $login
- * @property-read   string   $email
- * @property-read   string   $role
- * 
- * @method          string   getLogin()
- * @method          string   getEmail()
- * @method          string   getRole()
+ * @property-read     string     $login
+ * @property-read     string     $email
+ * @property-read     string     $role
+ *                               
+ * @method            string     getLogin()
+ * @method            string     getEmail()
+ * @method            string     getRole()
  * 
  * @package YandexDirectSDK\Models 
  */ 

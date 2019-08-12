@@ -7,17 +7,16 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class StrategyMaximumConversionRate 
  * 
- * @property       integer   $weeklySpendLimit
- * @property       integer   $bidCeiling
- * @property       integer   $goalId
- * 
- * @method         $this     setWeeklySpendLimit(integer $weeklySpendLimit)
- * @method         $this     setBidCeiling(integer $bidCeiling)
- * @method         $this     setGoalId(integer $goalId)
- * 
- * @method         integer   getWeeklySpendLimit()
- * @method         integer   getBidCeiling()
- * @method         integer   getGoalId()
+ * @property     integer     $weeklySpendLimit
+ * @property     integer     $bidCeiling
+ * @property     integer     $goalId
+ *                           
+ * @method       $this       setWeeklySpendLimit(integer $weeklySpendLimit)
+ * @method       integer     getWeeklySpendLimit()
+ * @method       $this       setBidCeiling(integer $bidCeiling)
+ * @method       integer     getBidCeiling()
+ * @method       $this       setGoalId(integer $goalId)
+ * @method       integer     getGoalId()
  * 
  * @package YandexDirectSDK\Models 
  */

@@ -1,0 +1,57 @@
+{
+    "result": {
+        "Clients": [
+            {
+                "AccountQuality": 101.1,
+                "Archived": "YES",
+                "ClientId": 1000001,
+                "ClientInfo": "This is string #2",
+                "CountryId": 10001,
+                "CreatedAt": "This is string #3",
+                "Currency": "RUB",
+                "Grants": [
+                    {
+                        "Privilege": "EDIT_CAMPAIGNS",
+                        "Value": "YES",
+                        "Agency": "This is string #4"
+                    }
+                ],
+                "Login": "This is string #5",
+                "Notification": {
+                    "Lang": "RU",
+                    "SmsPhoneNumber": "This is string #6",
+                    "Email": "This is string #7",
+                    "EmailSubscriptions": [
+                        {
+                            "Option": "RECEIVE_RECOMMENDATIONS",
+                            "Value": "YES"
+                        }
+                    ]
+                },
+                "OverdraftSumAvailable": 1000002,
+                "Phone": "This is string #8",
+                "Representatives": [
+                    {
+                        "Login": "This is string #9",
+                        "Email": "This is string #10",
+                        "Role": "CHIEF"
+                    }
+                ],
+                "Restrictions": [
+                    {
+                        "Element": "CAMPAIGNS_TOTAL_PER_CLIENT",
+                        "Value": 10002
+                    }
+                ],
+                "Settings": [
+                    {
+                        "Option": "CORRECT_TYPOS_AUTOMATICALLY",
+                        "Value": "YES"
+                    }
+                ],
+                "Type": "This is string #11",
+                "VatRate": 102.1
+            }
+        ]
+    }
+}

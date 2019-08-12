@@ -13,16 +13,16 @@ use YandexDirectSDK\Models\Ad;
 /** 
  * Class AdsService 
  * 
- * @method   Result         add(Ad|Ads|ModelCommonInterface $ads)
- * @method   QueryBuilder   query()
- * @method   Ad|Ads|null    find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
- * @method   Result         update(Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         archive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         delete(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         resume(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         suspend(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         unarchive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
- * @method   Result         moderate(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           add(Ad|Ads|ModelCommonInterface $ads)
+ * @method static     QueryBuilder     query()
+ * @method static     Ad|Ads|null      find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result           update(Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           archive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           delete(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           resume(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           suspend(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           unarchive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           moderate(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
  * 
  * @package YandexDirectSDK\Services 
  */

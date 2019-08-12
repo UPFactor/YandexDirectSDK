@@ -5,13 +5,17 @@ namespace YandexDirectSDK\Components;
 use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Common\CollectionBaseTrait;
 use YandexDirectSDK\Common\CollectionConversionTrait;
+use YandexDirectSDK\Common\CollectionFusionTrait;
 use YandexDirectSDK\Common\CollectionMathsTrait;
 use YandexDirectSDK\Common\CollectionMultipleTrait;
 use YandexDirectSDK\Common\CollectionSetTrait;
+use YandexDirectSDK\Common\CollectionSortingTrait;
 
 class Data
 {
     use CollectionBaseTrait,
+        CollectionSortingTrait,
+        CollectionFusionTrait,
         CollectionMultipleTrait,
         CollectionSetTrait,
         CollectionConversionTrait,

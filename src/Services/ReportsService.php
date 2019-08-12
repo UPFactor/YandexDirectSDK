@@ -6,8 +6,6 @@ use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
 
 /** 
  * Class ReportsService 
@@ -82,6 +80,12 @@ class ReportsService extends Service
      * @var string
      */
     protected static $name = 'reports';
+
+    protected static $modelClass;
+
+    protected static $modelCollectionClass;
+
+    protected static $methods = [];
 
     /**
      * Report name.
@@ -207,7 +211,6 @@ class ReportsService extends Service
      *
      * @param string|string[] $fields
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function select($fields)
     {
@@ -240,7 +243,6 @@ class ReportsService extends Service
      * @param string $dateFromOrDateRange
      * @param string|null $dateTo
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function dateRange(string $dateFromOrDateRange, string $dateTo = null){
         if (is_null($dateTo)){
@@ -269,7 +271,6 @@ class ReportsService extends Service
      * @param string $operator
      * @param mixed $values
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function where(string $field, string $operator, $values)
     {
@@ -409,7 +410,6 @@ class ReportsService extends Service
      * @param string $field
      * @param string|null $sortOrder
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function orderBy(string $field, string $sortOrder = null)
     {
@@ -454,7 +454,6 @@ class ReportsService extends Service
      *
      * @param string|string[] $goals
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function goals($goals)
     {
@@ -486,7 +485,6 @@ class ReportsService extends Service
      *
      * @param string|string[] $attributionModels
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function attributionModels($attributionModels)
     {
@@ -598,9 +596,6 @@ class ReportsService extends Service
 
     /**
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
     public function get()
     {
@@ -612,9 +607,6 @@ class ReportsService extends Service
      *
      * @param int $attempts Maximum number of calls to the API server
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
     public function getSync($attempts = 4)
     {

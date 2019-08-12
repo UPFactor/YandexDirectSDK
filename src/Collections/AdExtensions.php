@@ -3,16 +3,18 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AdExtension;
 use YandexDirectSDK\Services\AdExtensionsService;
 
 /** 
  * Class AdExtensions 
  * 
- * @method   QueryBuilder   query()
- * @method   Result         add()
- * @method   Result         delete()
+ * @method static     QueryBuilder                      query()
+ * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                            add()
+ * @method            Result                            delete()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

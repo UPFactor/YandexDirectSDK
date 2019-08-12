@@ -1,0 +1,25 @@
+{
+    "result": {
+        "SetAutoResults": [
+            {
+                "Warnings": [
+                    {
+                        "Code": 10061,
+                        "Message": "This is string #136",
+                        "Details": "This is string #137"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10062,
+                        "Message": "This is string #138",
+                        "Details": "This is string #139"
+                    }
+                ],
+                "CampaignId": 1000062,
+                "AdGroupId": 1000063,
+                "KeywordId": 1000064
+            }
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "method": "setAuto",
+    "params": {
+        "Bids": [
+            {
+                "CampaignId": 1000001,
+                "AdGroupId": 1000002,
+                "KeywordId": 1000003,
+                "MaxBid": 1000004,
+                "Position": "PREMIUMFIRST",
+                "IncreasePercent": 10001,
+                "CalculateBy": "VALUE",
+                "ContextCoverage": 10002,
+                "Scope": [
+                    "SEARCH",
+                    "NETWORK"
+                ]
+            }
+        ]
+    }
+}

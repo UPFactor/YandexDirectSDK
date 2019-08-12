@@ -34,7 +34,7 @@ class Result
      *
      * @var string
      */
-    protected $response;
+    protected $response = '';
 
     /**
      * Response code.
@@ -120,11 +120,21 @@ class Result
      * Result constructor.
      *
      * @param $resource
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     * @throws RequestException
      */
     public function __construct($resource)
+    {
+        $this->data = new Data();
+        $this->errors = new Data();
+        $this->warnings = new Data();
+        $this->bootstrap($resource);
+    }
+
+    /**
+     * Bootstrap of the object.
+     *
+     * @param $resource
+     */
+    protected function bootstrap($resource):void
     {
         if (!is_resource($resource)) {
             throw InvalidArgumentException::invalidType(static::class.'::constructor', 1, 'resource', gettype($resource));
@@ -135,9 +145,6 @@ class Result
         }
 
         $this->response = $response;
-        $this->data = new Data();
-        $this->errors = new Data();
-        $this->warnings = new Data();
 
         $responseHeadersSize = curl_getinfo($resource, CURLINFO_HEADER_SIZE);
         $this->setCode(curl_getinfo($resource, CURLINFO_RESPONSE_CODE));
@@ -355,7 +362,6 @@ class Result
      * Sets the value [$this->data].
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setResult($result):void
     {
@@ -401,7 +407,6 @@ class Result
      * Sets the value [$this->data] by JSON data.
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setJsonResult($result):void
     {
@@ -459,7 +464,6 @@ class Result
      * Sets the value [$this->data] by TSV data.
      *
      * @param string $result
-     * @throws RequestException
      */
     protected function setTsvResult($result):void
     {

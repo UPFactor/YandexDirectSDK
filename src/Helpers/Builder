@@ -1,20 +1,56 @@
 <?php
+namespace YandexDirectSDK\Helpers;
+
 require_once __DIR__ . "/../autoload.php";
 
+use Exception;
 use YandexDirectSDK\Common\ConsoleLauncher;
 use YandexDirectSDK\Common\Dir;
 use YandexDirectSDK\Common\File;
+use YandexDirectSDK\Common\FileInfo;
+use YandexDirectSDKTest\Helpers\Env;
+use YandexDirectSDKTest\Helpers\FakeApi;
 
 class Builder extends ConsoleLauncher
 {
+    /**
+     * Source code root directory.
+     *
+     * @var Dir
+     */
     protected $rootDir;
+
+    /**
+     * Service class directory.
+     *
+     * @var Dir
+     */
     protected $serviceDir;
+
+    /**
+     * Model class directory.
+     *
+     * @var Dir
+     */
     protected $modelDir;
+
+    /**
+     * Collection class directory.
+     *
+     * @var Dir
+     */
     protected $collectionDir;
 
     /**
+     * Local API directory.
+     *
+     * @var Dir
+     */
+    protected $localApiDir;
+
+    /**
      * Builder constructor.
-     * @throws Exception
+     *
      */
     public function __construct()
     {
@@ -22,8 +58,14 @@ class Builder extends ConsoleLauncher
         $this->serviceDir =  Dir::bind($this->rootDir->realPath)->change('Services');
         $this->modelDir =  Dir::bind($this->rootDir->realPath)->change('Models');
         $this->collectionDir =  Dir::bind($this->rootDir->realPath)->change('Collections');
+        $this->localApiDir = Dir::bind($this->rootDir->realPath)->change('../tests/Data');
     }
 
+    /**
+     * Handler run command from console
+     *
+     * @return void
+     */
     public function execute(): void
     {
         $this->bind('model', function($options){
@@ -52,7 +94,8 @@ class Builder extends ConsoleLauncher
             $content .= "class {$className} extends Model \n";
             $content .= "{ \n";
             $content .= "    protected static \$compatibleCollection; \n\n";
-            $content .= "    protected static \$serviceMethods = []; \n\n";
+            $content .= "    protected static \$methods = []; \n\n";
+            $content .= "    protected static \$staticMethods = []; \n\n";
             $content .= "    protected static \$properties = []; \n\n";
             $content .= "    protected static \$nonWritableProperties = []; \n\n";
             $content .= "    protected static \$nonReadableProperties = []; \n\n";
@@ -105,7 +148,8 @@ class Builder extends ConsoleLauncher
             $content .= "     * @var {$modelClassName} \n";
             $content .= "     */ \n";
             $content .= "    protected static \$compatibleModel = {$modelClassName}::class; \n\n";
-            $content .= "    protected static \$serviceMethods = []; \n";
+            $content .= "    protected static \$methods = []; \n\n";
+            $content .= "    protected static \$staticMethods = []; \n";
             $content .= "}";
 
             $file->create($content);
@@ -145,6 +189,31 @@ class Builder extends ConsoleLauncher
 
             $file->create($content);
             $this->message("{$class}: OK");
+        });
+
+        $this->bind('api', function(){
+            $counter = [
+                'success' => 0,
+                'fail' => 0
+            ];
+
+            $this->localApiDir->each(function(FileInfo $file) use (&$counter){
+                if ($file->extension !== 'api'){
+                    return;
+                }
+
+                try {
+                    FakeApi::get(str_replace(Env::getDataPath(), '', $file->path));
+                } catch (Exception $error){
+                    $counter['fail']++;
+                    $this->warning($error->getMessage());
+                    return;
+                }
+
+                $counter['success']++;
+            });
+
+            $this->message("Completed. Success: {$counter['success']}, Fail: {$counter['fail']}");
         });
 
         $this->start();

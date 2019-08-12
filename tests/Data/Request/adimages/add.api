@@ -1,0 +1,11 @@
+{
+    "method": "add",
+    "params": {
+        "AdImages": [
+            {
+                "ImageData": "This is string #2",
+                "Name": "This is string #3"
+            }
+        ]
+    }
+}

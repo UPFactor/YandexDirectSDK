@@ -1,0 +1,23 @@
+{
+    "result": {
+        "ModerateResults": [
+            {
+                "Id": 1000061,
+                "Warnings": [
+                    {
+                        "Code": 10059,
+                        "Message": "This is string #132",
+                        "Details": "This is string #133"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10060,
+                        "Message": "This is string #134",
+                        "Details": "This is string #135"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -16,4 +16,9 @@ class BaseException extends Exception
     public static function make(string $message = "", int $code = 0, Throwable $previous = null){
         return new static(...func_get_args());
     }
+
+    protected static function getValueType($value)
+    {
+        return is_object($value) ? get_class($value) : gettype($value);
+    }
 }

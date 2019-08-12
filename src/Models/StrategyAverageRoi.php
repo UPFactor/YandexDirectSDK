@@ -7,26 +7,25 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class StrategyAverageRoi 
  * 
- * @property       integer   $reserveReturn
- * @property       integer   $roiCoef
- * @property       integer   $goalId
- * @property       integer   $weeklySpendLimit
- * @property       integer   $bidCeiling
- * @property       integer   $profitability
- * 
- * @method         $this     setReserveReturn(integer $reserveReturn)
- * @method         $this     setRoiCoef(integer $roiCoef)
- * @method         $this     setGoalId(integer $goalId)
- * @method         $this     setWeeklySpendLimit(integer $weeklySpendLimit)
- * @method         $this     setBidCeiling(integer $bidCeiling)
- * @method         $this     setProfitability(integer $profitability)
- * 
- * @method         integer   getReserveReturn()
- * @method         integer   getRoiCoef()
- * @method         integer   getGoalId()
- * @method         integer   getWeeklySpendLimit()
- * @method         integer   getBidCeiling()
- * @method         integer   getProfitability()
+ * @property     integer     $reserveReturn
+ * @property     integer     $roiCoef
+ * @property     integer     $goalId
+ * @property     integer     $weeklySpendLimit
+ * @property     integer     $bidCeiling
+ * @property     integer     $profitability
+ *                           
+ * @method       $this       setReserveReturn(integer $reserveReturn)
+ * @method       integer     getReserveReturn()
+ * @method       $this       setRoiCoef(integer $roiCoef)
+ * @method       integer     getRoiCoef()
+ * @method       $this       setGoalId(integer $goalId)
+ * @method       integer     getGoalId()
+ * @method       $this       setWeeklySpendLimit(integer $weeklySpendLimit)
+ * @method       integer     getWeeklySpendLimit()
+ * @method       $this       setBidCeiling(integer $bidCeiling)
+ * @method       integer     getBidCeiling()
+ * @method       $this       setProfitability(integer $profitability)
+ * @method       integer     getProfitability()
  * 
  * @package YandexDirectSDK\Models 
  */

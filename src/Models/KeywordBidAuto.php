@@ -9,22 +9,20 @@ use YandexDirectSDK\Services\KeywordBidsService;
 /** 
  * Class KeywordBidAuto 
  * 
- * @property       integer       $campaignId
- * @property       integer       $adGroupId
- * @property       integer       $keywordId
- * @property       BiddingRule   $biddingRule
- * 
- * @method         Result        setAuto()
- * 
- * @method         $this         setCampaignId(integer $campaignId)
- * @method         $this         setAdGroupId(integer $adGroupId)
- * @method         $this         setKeywordId(integer $keywordId)
- * @method         $this         setBiddingRule(BiddingRule $biddingRule)
- * 
- * @method         integer       getCampaignId()
- * @method         integer       getAdGroupId()
- * @method         integer       getKeywordId()
- * @method         BiddingRule   getBiddingRule()
+ * @property     integer         $campaignId
+ * @property     integer         $adGroupId
+ * @property     integer         $keywordId
+ * @property     BiddingRule     $biddingRule
+ *                               
+ * @method       Result          setAuto()
+ * @method       $this           setCampaignId(integer $campaignId)
+ * @method       integer         getCampaignId()
+ * @method       $this           setAdGroupId(integer $adGroupId)
+ * @method       integer         getAdGroupId()
+ * @method       $this           setKeywordId(integer $keywordId)
+ * @method       integer         getKeywordId()
+ * @method       $this           setBiddingRule(BiddingRule $biddingRule)
+ * @method       BiddingRule     getBiddingRule()
  * 
  * @package YandexDirectSDK\Models 
  */ 

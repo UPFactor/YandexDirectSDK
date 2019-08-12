@@ -6,23 +6,22 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class StrategyCpMaximumImpressions 
  * 
- * @property       integer   $averageCpm
- * @property       integer   $spendLimit
- * @property       string    $startDate
- * @property       string    $endDate
- * @property       string    $autoContinue
- * 
- * @method         $this     setAverageCpm(integer $averageCpm)
- * @method         $this     setSpendLimit(integer $spendLimit)
- * @method         $this     setStartDate(string $startDate)
- * @method         $this     setEndDate(string $endDate)
- * @method         $this     setAutoContinue(string $autoContinue)
- * 
- * @method         integer   getAverageCpm()
- * @method         integer   getSpendLimit()
- * @method         string    getStartDate()
- * @method         string    getEndDate()
- * @method         string    getAutoContinue()
+ * @property     integer     $averageCpm
+ * @property     integer     $spendLimit
+ * @property     string      $startDate
+ * @property     string      $endDate
+ * @property     string      $autoContinue
+ *                           
+ * @method       $this       setAverageCpm(integer $averageCpm)
+ * @method       integer     getAverageCpm()
+ * @method       $this       setSpendLimit(integer $spendLimit)
+ * @method       integer     getSpendLimit()
+ * @method       $this       setStartDate(string $startDate)
+ * @method       string      getStartDate()
+ * @method       $this       setEndDate(string $endDate)
+ * @method       string      getEndDate()
+ * @method       $this       setAutoContinue(string $autoContinue)
+ * @method       string      getAutoContinue()
  * 
  * @package YandexDirectSDK\Models 
  */ 

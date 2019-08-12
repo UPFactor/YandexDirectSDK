@@ -1,0 +1,23 @@
+{
+    "method": "update",
+    "params": {
+        "RetargetingLists": [
+            {
+                "Id": 1000002,
+                "Name": "This is string #4",
+                "Description": "This is string #5",
+                "Rules": [
+                    {
+                        "Arguments": [
+                            {
+                                "MembershipLifeSpan": 10002,
+                                "ExternalId": 1000003
+                            }
+                        ],
+                        "Operator": "ALL"
+                    }
+                ]
+            }
+        ]
+    }
+}

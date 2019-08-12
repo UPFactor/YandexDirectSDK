@@ -1,0 +1,29 @@
+{
+    "result": {
+        "Webpages": [
+            {
+                "Id": 1000001,
+                "AdGroupId": 1000002,
+                "CampaignId": 1000003,
+                "Name": "This is string #2",
+                "Bid": 1000004,
+                "ContextBid": 1000005,
+                "StrategyPriority": "LOW",
+                "State": "ON",
+                "StatusClarification": "This is string #3",
+                "Conditions": [
+                    {
+                        "Operand": "DOMAIN",
+                        "Operator": "EQUALS_ANY",
+                        "Arguments": [
+                            "This is string #4",
+                            "This is string #5"
+                        ]
+                    }
+                ],
+                "ConditionType": "PAGES_ALL"
+            }
+        ],
+        "LimitedBy": 1000006
+    }
+}

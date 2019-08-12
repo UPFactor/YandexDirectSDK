@@ -49,10 +49,10 @@ interface ModelCommon
     /**
      * Converts to array.
      *
-     * @param int $filters
+     * @param int $filter
      * @return array
      */
-    public function toArray($filters = 0);
+    public function toArray($filter = 0);
 
     /**
      * Converts to a Data object.

@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class Statistics 
  * 
- * @property-read   integer   $impressions
- * @property-read   integer   $clicks
- * 
- * @method          integer   getImpressions()
- * @method          integer   getClicks()
+ * @property-read     integer     $impressions
+ * @property-read     integer     $clicks
+ *                                
+ * @method            integer     getImpressions()
+ * @method            integer     getClicks()
  * 
  * @package YandexDirectSDK\Models 
  */ 

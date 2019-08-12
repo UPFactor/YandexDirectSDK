@@ -144,7 +144,7 @@ trait CollectionMultipleTrait {
      * @return static
      */
     public function pluck($keys){
-        return $this->redeclare(Arr::pluck($this->items, $keys));
+        return static::wrap(Arr::pluck($this->items, $keys));
     }
 
     /**
@@ -157,7 +157,7 @@ trait CollectionMultipleTrait {
      * @return static
      */
     public function group($condition){
-        return $this->redeclare(Arr::group($this->items, $condition));
+        return static::wrap(Arr::group($this->items, $condition));
     }
 
     /**
@@ -182,7 +182,7 @@ trait CollectionMultipleTrait {
             $chunks[] = array_pad(array_pop($chunks), $size, $default);
         }
 
-        return $this->redeclare($chunks);
+        return static::wrap($chunks);
     }
 
     /**

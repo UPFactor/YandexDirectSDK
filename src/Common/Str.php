@@ -3,7 +3,6 @@
 namespace YandexDirectSDK\Common;
 
 use Closure;
-use Exception;
 
 /**
  * Class Str
@@ -377,7 +376,6 @@ class Str {
      *
      * @param  int $length
      * @return string
-     * @throws Exception
      */
     static public function random($length = 16){
         $string = '';

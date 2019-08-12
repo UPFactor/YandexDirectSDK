@@ -12,10 +12,10 @@ use YandexDirectSDK\Models\AdExtension;
 /** 
  * Class AdExtensionsService 
  * 
- * @method   Result                          add(AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
- * @method   QueryBuilder                    query()
- * @method   AdExtension|AdExtensions|null   find(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $ids, string[] $fields)
- * @method   Result                          delete(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
+ * @method static     Result                            add(AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
+ * @method static     QueryBuilder                      query()
+ * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result                            delete(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
  * 
  * @package YandexDirectSDK\Services 
  */

@@ -5,79 +5,78 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\AdsService;
 
 /** 
  * Class Ad 
  * 
- * @property        integer                $id
- * @property        integer                $adGroupId
- * @property        TextAd                 $textAd
- * @property        MobileAppAd            $mobileAppAd
- * @property        DynamicTextAd          $dynamicTextAd
- * @property        TextImageAd            $textImageAd
- * @property        MobileAppImageAd       $mobileAppImageAd
- * @property        TextAdBuilderAd        $textAdBuilderAd
- * @property        MobileAppAdBuilderAd   $mobileAppAdBuilderAd
- * @property        CpmBannerAdBuilderAd   $cpmBannerAdBuilderAd
- * @property        CpcVideoAdBuilderAd    $cpcVideoAdBuilderAd
- * @property        CpmVideoAdBuilderAd    $cpmVideoAdBuilderAd
- * 
- * @property-read   integer                $campaignId
- * @property-read   string                 $status
- * @property-read   string                 $statusClarification
- * @property-read   string                 $state
- * @property-read   string[]               $adCategories
- * @property-read   string                 $ageLabel
- * @property-read   string                 $type
- * @property-read   string                 $subtype
- * 
- * @method          QueryBuilder           query()
- * @method          Result                 add()
- * @method          Result                 update()
- * @method          Result                 delete()
- * @method          Result                 suspend()
- * @method          Result                 resume()
- * @method          Result                 archive()
- * @method          Result                 unarchive()
- * @method          Result                 moderate()
- * 
- * @method          $this                  setId(integer $id)
- * @method          $this                  setAdGroupId(integer $adGroupId)
- * @method          $this                  setTextAd(TextAd $textAd)
- * @method          $this                  setMobileAppAd(MobileAppAd $mobileAppAd)
- * @method          $this                  setDynamicTextAd(DynamicTextAd $dynamicTextAd)
- * @method          $this                  setTextImageAd(TextImageAd $textImageAd)
- * @method          $this                  setMobileAppImageAd(MobileAppImageAd $mobileAppImageAd)
- * @method          $this                  setTextAdBuilderAd(TextAdBuilderAd $textAdBuilderAd)
- * @method          $this                  setMobileAppAdBuilderAd(MobileAppAdBuilderAd $mobileAppAdBuilderAd)
- * @method          $this                  setCpmBannerAdBuilderAd(CpmBannerAdBuilderAd $cpmBannerAdBuilderAd)
- * @method          $this                  setCpcVideoAdBuilderAd(CpcVideoAdBuilderAd $cpcVideoAdBuilderAd)
- * @method          $this                  setCpmVideoAdBuilderAd(CpmVideoAdBuilderAd $cpmVideoAdBuilderAd)
- * 
- * @method          integer                getId()
- * @method          integer                getCampaignId()
- * @method          integer                getAdGroupId()
- * @method          TextAd                 getTextAd()
- * @method          MobileAppAd            getMobileAppAd()
- * @method          DynamicTextAd          getDynamicTextAd()
- * @method          TextImageAd            getTextImageAd()
- * @method          MobileAppImageAd       getMobileAppImageAd()
- * @method          TextAdBuilderAd        getTextAdBuilderAd()
- * @method          MobileAppAdBuilderAd   getMobileAppAdBuilderAd()
- * @method          CpmBannerAdBuilderAd   getCpmBannerAdBuilderAd()
- * @method          CpcVideoAdBuilderAd    getCpcVideoAdBuilderAd()
- * @method          CpmVideoAdBuilderAd    getCpmVideoAdBuilderAd()
- * @method          string                 getStatus()
- * @method          string                 getStatusClarification()
- * @method          string                 getState()
- * @method          string[]               getAdCategories()
- * @method          string                 getAgeLabel()
- * @method          string                 getType()
- * @method          string                 getSubtype()
+ * @property          integer                  $id
+ * @property-read     integer                  $campaignId
+ * @property          integer                  $adGroupId
+ * @property          TextAd                   $textAd
+ * @property          MobileAppAd              $mobileAppAd
+ * @property          DynamicTextAd            $dynamicTextAd
+ * @property          TextImageAd              $textImageAd
+ * @property          MobileAppImageAd         $mobileAppImageAd
+ * @property          TextAdBuilderAd          $textAdBuilderAd
+ * @property          MobileAppAdBuilderAd     $mobileAppAdBuilderAd
+ * @property          CpmBannerAdBuilderAd     $cpmBannerAdBuilderAd
+ * @property          CpcVideoAdBuilderAd      $cpcVideoAdBuilderAd
+ * @property          CpmVideoAdBuilderAd      $cpmVideoAdBuilderAd
+ * @property-read     string                   $status
+ * @property-read     string                   $statusClarification
+ * @property-read     string                   $state
+ * @property-read     string[]                 $adCategories
+ * @property-read     string                   $ageLabel
+ * @property-read     string                   $type
+ * @property-read     string                   $subtype
+ *                                             
+ * @method static     QueryBuilder             query()
+ * @method static     Ad|Ads|null              find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                   add()
+ * @method            Result                   update()
+ * @method            Result                   delete()
+ * @method            Result                   suspend()
+ * @method            Result                   resume()
+ * @method            Result                   archive()
+ * @method            Result                   unarchive()
+ * @method            Result                   moderate()
+ * @method            $this                    setId(integer $id)
+ * @method            integer                  getId()
+ * @method            integer                  getCampaignId()
+ * @method            $this                    setAdGroupId(integer $adGroupId)
+ * @method            integer                  getAdGroupId()
+ * @method            $this                    setTextAd(TextAd $textAd)
+ * @method            TextAd                   getTextAd()
+ * @method            $this                    setMobileAppAd(MobileAppAd $mobileAppAd)
+ * @method            MobileAppAd              getMobileAppAd()
+ * @method            $this                    setDynamicTextAd(DynamicTextAd $dynamicTextAd)
+ * @method            DynamicTextAd            getDynamicTextAd()
+ * @method            $this                    setTextImageAd(TextImageAd $textImageAd)
+ * @method            TextImageAd              getTextImageAd()
+ * @method            $this                    setMobileAppImageAd(MobileAppImageAd $mobileAppImageAd)
+ * @method            MobileAppImageAd         getMobileAppImageAd()
+ * @method            $this                    setTextAdBuilderAd(TextAdBuilderAd $textAdBuilderAd)
+ * @method            TextAdBuilderAd          getTextAdBuilderAd()
+ * @method            $this                    setMobileAppAdBuilderAd(MobileAppAdBuilderAd $mobileAppAdBuilderAd)
+ * @method            MobileAppAdBuilderAd     getMobileAppAdBuilderAd()
+ * @method            $this                    setCpmBannerAdBuilderAd(CpmBannerAdBuilderAd $cpmBannerAdBuilderAd)
+ * @method            CpmBannerAdBuilderAd     getCpmBannerAdBuilderAd()
+ * @method            $this                    setCpcVideoAdBuilderAd(CpcVideoAdBuilderAd $cpcVideoAdBuilderAd)
+ * @method            CpcVideoAdBuilderAd      getCpcVideoAdBuilderAd()
+ * @method            $this                    setCpmVideoAdBuilderAd(CpmVideoAdBuilderAd $cpmVideoAdBuilderAd)
+ * @method            CpmVideoAdBuilderAd      getCpmVideoAdBuilderAd()
+ * @method            string                   getStatus()
+ * @method            string                   getStatusClarification()
+ * @method            string                   getState()
+ * @method            string[]                 getAdCategories()
+ * @method            string                   getAgeLabel()
+ * @method            string                   getType()
+ * @method            string                   getSubtype()
  * 
  * @package YandexDirectSDK\Models 
- */ 
+ */
 class Ad extends Model 
 {
     protected static $compatibleCollection = Ads::class;

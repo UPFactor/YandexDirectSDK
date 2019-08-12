@@ -6,19 +6,17 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class RetargetingAdjustment 
  * 
- * @property        integer   $retargetingConditionId
- * @property        integer   $bidModifier
- * 
- * @property-read   string    $accessible
- * @property-read   string    $enabled
- * 
- * @method          $this     setRetargetingConditionId(integer $retargetingConditionId)
- * @method          $this     setBidModifier(integer $bidModifier)
- * 
- * @method          integer   getRetargetingConditionId()
- * @method          integer   getBidModifier()
- * @method          string    getAccessible()
- * @method          string    getEnabled()
+ * @property          integer     $retargetingConditionId
+ * @property          integer     $bidModifier
+ * @property-read     string      $accessible
+ * @property-read     string      $enabled
+ *                                
+ * @method            $this       setRetargetingConditionId(integer $retargetingConditionId)
+ * @method            integer     getRetargetingConditionId()
+ * @method            $this       setBidModifier(integer $bidModifier)
+ * @method            integer     getBidModifier()
+ * @method            string      getAccessible()
+ * @method            string      getEnabled()
  * 
  * @package YandexDirectSDK\Models 
  */ 

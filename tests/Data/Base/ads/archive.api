@@ -1,0 +1,23 @@
+{
+    "result": {
+        "ArchiveResults": [
+            {
+                "Id": 1000054,
+                "Warnings": [
+                    {
+                        "Code": 10045,
+                        "Message": "This is string #104",
+                        "Details": "This is string #105"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10046,
+                        "Message": "This is string #106",
+                        "Details": "This is string #107"
+                    }
+                ]
+            }
+        ]
+    }
+}

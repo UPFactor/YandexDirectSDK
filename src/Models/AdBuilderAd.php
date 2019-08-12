@@ -6,16 +6,14 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class AdBuilderAd 
  * 
- * @property        integer   $creativeId
- * 
- * @property-read   string    $thumbnailUrl
- * @property-read   string    $previewUrl
- * 
- * @method          $this     setCreativeId(integer $creativeId)
- * 
- * @method          integer   getCreativeId()
- * @method          string    getThumbnailUrl()
- * @method          string    getPreviewUrl()
+ * @property          integer     $creativeId
+ * @property-read     string      $thumbnailUrl
+ * @property-read     string      $previewUrl
+ *                                
+ * @method            $this       setCreativeId(integer $creativeId)
+ * @method            integer     getCreativeId()
+ * @method            string      getThumbnailUrl()
+ * @method            string      getPreviewUrl()
  * 
  * @package YandexDirectSDK\Models 
  */ 

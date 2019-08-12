@@ -1,0 +1,41 @@
+{
+    "result": {
+        "BidModifiers": [
+            {
+                "CampaignId": 1000001,
+                "AdGroupId": 1000002,
+                "Id": 1000003,
+                "Level": "CAMPAIGN",
+                "Type": "MOBILE_ADJUSTMENT",
+                "MobileAdjustment": {
+                    "BidModifier": 10001,
+                    "OperatingSystemType": "IOS"
+                },
+                "DesktopAdjustment": {
+                    "BidModifier": 10002
+                },
+                "DemographicsAdjustment": {
+                    "Gender": "GENDER_MALE",
+                    "Age": "AGE_0_17",
+                    "BidModifier": 10003,
+                    "Enabled": "YES"
+                },
+                "RetargetingAdjustment": {
+                    "RetargetingConditionId": 1000004,
+                    "BidModifier": 10004,
+                    "Accessible": "YES",
+                    "Enabled": "YES"
+                },
+                "RegionalAdjustment": {
+                    "RegionId": 1000005,
+                    "BidModifier": 10005,
+                    "Enabled": "YES"
+                },
+                "VideoAdjustment": {
+                    "BidModifier": 10006
+                }
+            }
+        ],
+        "LimitedBy": 1000006
+    }
+}

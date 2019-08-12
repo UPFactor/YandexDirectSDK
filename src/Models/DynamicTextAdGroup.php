@@ -6,14 +6,12 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextAdGroup 
  * 
- * @property        string   $domainUrl
- * 
- * @property-read   string   $domainUrlProcessingStatus
- * 
- * @method          $this    setDomainUrl(string $domainUrl)
- * 
- * @method          string   getDomainUrl()
- * @method          string   getDomainUrlProcessingStatus()
+ * @property          string     $domainUrl
+ * @property-read     string     $domainUrlProcessingStatus
+ *                               
+ * @method            $this      setDomainUrl(string $domainUrl)
+ * @method            string     getDomainUrl()
+ * @method            string     getDomainUrlProcessingStatus()
  * 
  * @package YandexDirectSDK\Models 
  */ 

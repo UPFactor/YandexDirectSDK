@@ -1,0 +1,114 @@
+{
+    "method": "add",
+    "params": {
+        "Ads": [
+            {
+                "AdGroupId": 1000001,
+                "TextAd": {
+                    "Title": "This is string #2",
+                    "Title2": "This is string #3",
+                    "Text": "This is string #4",
+                    "Href": "This is string #5",
+                    "Mobile": "YES",
+                    "DisplayUrlPath": "This is string #6",
+                    "VCardId": 1000002,
+                    "AdImageHash": "This is string #7",
+                    "SitelinkSetId": 1000003,
+                    "AdExtensionIds": [
+                        1000004,
+                        1000005
+                    ],
+                    "VideoExtension": {
+                        "CreativeId": 1000006
+                    },
+                    "PriceExtension": {
+                        "Price": 1000007,
+                        "OldPrice": 1000008,
+                        "PriceQualifier": "FROM",
+                        "PriceCurrency": "RUB"
+                    },
+                    "TurboPageId": 1000009
+                },
+                "DynamicTextAd": {
+                    "VCardId": 1000010,
+                    "AdImageHash": "This is string #8",
+                    "SitelinkSetId": 1000011,
+                    "AdExtensionIds": [
+                        1000012,
+                        1000013
+                    ],
+                    "Text": "This is string #9"
+                },
+                "MobileAppAd": {
+                    "AdImageHash": "This is string #10",
+                    "Text": "This is string #11",
+                    "Title": "This is string #12",
+                    "TrackingUrl": "This is string #13",
+                    "Action": "DOWNLOAD",
+                    "Features": [
+                        {
+                            "Feature": "PRICE",
+                            "Enabled": "YES"
+                        }
+                    ],
+                    "AgeLabel": "AGE_0"
+                },
+                "TextImageAd": {
+                    "AdImageHash": "This is string #14",
+                    "Href": "This is string #15",
+                    "TurboPageId": 1000014
+                },
+                "MobileAppImageAd": {
+                    "AdImageHash": "This is string #16",
+                    "TrackingUrl": "This is string #17"
+                },
+                "TextAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000015
+                    },
+                    "Href": "This is string #18",
+                    "TurboPageId": 1000016
+                },
+                "MobileAppAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000017
+                    },
+                    "TrackingUrl": "This is string #19"
+                },
+                "CpmBannerAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000018
+                    },
+                    "Href": "This is string #20",
+                    "TrackingPixels": {
+                        "Items": [
+                            "This is string #21",
+                            "This is string #22"
+                        ]
+                    },
+                    "TurboPageId": 1000019
+                },
+                "CpcVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000020
+                    },
+                    "Href": "This is string #23",
+                    "TurboPageId": 1000021
+                },
+                "CpmVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000022
+                    },
+                    "Href": "This is string #24",
+                    "TrackingPixels": {
+                        "Items": [
+                            "This is string #25",
+                            "This is string #26"
+                        ]
+                    },
+                    "TurboPageId": 1000023
+                }
+            }
+        ]
+    }
+}

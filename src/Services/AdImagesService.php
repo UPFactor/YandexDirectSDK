@@ -6,18 +6,14 @@ use YandexDirectSDK\Collections\AdImages;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AdImage;
 
 /** 
  * Class AdImagesService 
  * 
- * @method   Result         add(AdImage|AdImages|ModelCommonInterface $adImages)
- * @method   QueryBuilder   query()
+ * @method static     Result           add(AdImage|AdImages|ModelCommonInterface $adImages)
+ * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -37,14 +33,10 @@ class AdImagesService extends Service
     /**
      * @param ModelCommonInterface|string[]|string $adImages
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ModelException
      */
-    public function delete($adImages):Result
+    public static function delete($adImages):Result
     {
-        return $this->actionByProperty(
+        return static::actionByProperty(
             'delete',
             $adImages,
             'adImageHash',

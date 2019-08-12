@@ -7,20 +7,19 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class StrategyAverageCpa 
  * 
- * @property       integer   $weeklySpendLimit
- * @property       integer   $bidCeiling
- * @property       integer   $goalId
- * @property       integer   $averageCpa
- * 
- * @method         $this     setWeeklySpendLimit(integer $weeklySpendLimit)
- * @method         $this     setBidCeiling(integer $bidCeiling)
- * @method         $this     setGoalId(integer $goalId)
- * @method         $this     setAverageCpa(integer $averageCpa)
- * 
- * @method         integer   getWeeklySpendLimit()
- * @method         integer   getBidCeiling()
- * @method         integer   getGoalId()
- * @method         integer   getAverageCpa()
+ * @property     integer     $weeklySpendLimit
+ * @property     integer     $bidCeiling
+ * @property     integer     $goalId
+ * @property     integer     $averageCpa
+ *                           
+ * @method       $this       setWeeklySpendLimit(integer $weeklySpendLimit)
+ * @method       integer     getWeeklySpendLimit()
+ * @method       $this       setBidCeiling(integer $bidCeiling)
+ * @method       integer     getBidCeiling()
+ * @method       $this       setGoalId(integer $goalId)
+ * @method       integer     getGoalId()
+ * @method       $this       setAverageCpa(integer $averageCpa)
+ * @method       integer     getAverageCpa()
  * 
  * @package YandexDirectSDK\Models 
  */

@@ -3,16 +3,18 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\SitelinksSet;
 use YandexDirectSDK\Services\SitelinksService;
 
 /** 
  * Class SitelinksSets 
  * 
- * @method   Result         add()
- * @method   Result         delete()
- * @method   QueryBuilder   query()
+ * @method static     QueryBuilder                        query()
+ * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                              add()
+ * @method            Result                              delete()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

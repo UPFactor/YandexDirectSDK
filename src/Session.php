@@ -5,7 +5,6 @@ namespace YandexDirectSDK;
 use Exception;
 use YandexDirectSDK\Common\File;
 use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 
@@ -67,6 +66,13 @@ class Session
         'operatorUnits' => false,
         'logFile' => null
     ];
+
+    /**
+     * Custom API call handler.
+     *
+     * @var null
+     */
+    public static $callHandler = null;
 
     /**
      * Sets OAuth token.
@@ -184,7 +190,7 @@ class Session
     public static function usedSandbox()
     {
         if (!empty($_ENV['YD_SESSION_SANDBOX']) and ($_ENV['YD_SESSION_SANDBOX'] === '1' or $_ENV['YD_SESSION_SANDBOX'] === 'true')){
-            $options['sandbox'] = true;
+            return true;
         }
 
         return static::defaultOptions['sandbox'];
@@ -307,9 +313,6 @@ class Session
      * @param string $method API service method
      * @param array $params API service parameters
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
     public static function call($service, $method, $params = []): Result
     {
@@ -319,32 +322,44 @@ class Session
 
         $url = (static::usedSandbox() ? static::sandboxApi : static::api).$service;
         $params = json_encode(['method' => (string) $method,'params' => $params], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, true);
-        curl_setopt($curl, CURLINFO_HEADER_OUT, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . static::getToken(),
-            'Accept-Language: ' . static::getLanguage(),
-            'Client-Login: ' . static::getClient(),
-            'Use-Operator-Units: ' . static::usedOperatorUnits(),
-            'Content-Type: application/json; charset=utf-8'
-        ));
-
         $requestID = str_replace(['.',' '], '', microtime());
 
         static::requestLogging($requestID, $url, $params);
 
-        try {
-            $result = new Result($curl);
-        } catch (RequestException $exception){
-            static::exceptionLogging($requestID, $exception);
-            throw $exception;
+        if (is_null(static::$callHandler)){
+
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Authorization: Bearer ' . static::getToken(),
+                'Accept-Language: ' . static::getLanguage(),
+                'Client-Login: ' . static::getClient(),
+                'Use-Operator-Units: ' . static::usedOperatorUnits(),
+                'Content-Type: application/json; charset=utf-8'
+            ));
+
+            try {
+                $result = new Result($curl);
+            } catch (RequestException $exception){
+                static::exceptionLogging($requestID, $exception);
+                throw $exception;
+            }
+
+        } else {
+
+            try {
+                $result = call_user_func(static::$callHandler, $service, $method, $params);
+            } catch (Exception $exception){
+                static::exceptionLogging($requestID, $exception);
+                throw $exception;
+            }
+
         }
 
         static::responseLogging($requestID, $result);

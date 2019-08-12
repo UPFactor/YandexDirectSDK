@@ -1,0 +1,122 @@
+{
+    "method": "update",
+    "params": {
+        "Ads": [
+            {
+                "Id": 1000001,
+                "TextAd": {
+                    "Title": "This is string #2",
+                    "Title2": "This is string #3",
+                    "Text": "This is string #4",
+                    "Href": "This is string #5",
+                    "AgeLabel": "AGE_0",
+                    "DisplayUrlPath": "This is string #6",
+                    "VCardId": 1000002,
+                    "AdImageHash": "This is string #7",
+                    "SitelinkSetId": 1000003,
+                    "CalloutSetting": {
+                        "AdExtensions": [
+                            {
+                                "AdExtensionId": 1000004,
+                                "Operation": "ADD"
+                            }
+                        ]
+                    },
+                    "VideoExtension": {
+                        "CreativeId": 1000005
+                    },
+                    "PriceExtension": {
+                        "Price": 1000006,
+                        "OldPrice": 1000007,
+                        "PriceQualifier": "FROM",
+                        "PriceCurrency": "RUB"
+                    },
+                    "TurboPageId": 1000008
+                },
+                "DynamicTextAd": {
+                    "VCardId": 1000009,
+                    "AdImageHash": "This is string #8",
+                    "SitelinkSetId": 1000010,
+                    "CalloutSetting": {
+                        "AdExtensions": [
+                            {
+                                "AdExtensionId": 1000011,
+                                "Operation": "ADD"
+                            }
+                        ]
+                    },
+                    "Text": "This is string #9"
+                },
+                "MobileAppAd": {
+                    "Title": "This is string #10",
+                    "Text": "This is string #11",
+                    "TrackingUrl": "This is string #12",
+                    "Action": "DOWNLOAD",
+                    "AdImageHash": "This is string #13",
+                    "Features": [
+                        {
+                            "Feature": "PRICE",
+                            "Enabled": "YES"
+                        }
+                    ],
+                    "AgeLabel": "AGE_0"
+                },
+                "TextImageAd": {
+                    "AdImageHash": "This is string #14",
+                    "Href": "This is string #15",
+                    "TurboPageId": 1000012
+                },
+                "MobileAppImageAd": {
+                    "AdImageHash": "This is string #16",
+                    "TrackingUrl": "This is string #17"
+                },
+                "TextAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000013
+                    },
+                    "Href": "This is string #18",
+                    "TurboPageId": 1000014
+                },
+                "MobileAppAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000015
+                    },
+                    "TrackingUrl": "This is string #19"
+                },
+                "CpcVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000016
+                    },
+                    "Href": "This is string #20",
+                    "TurboPageId": 1000017
+                },
+                "CpmBannerAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000018
+                    },
+                    "Href": "This is string #21",
+                    "TrackingPixels": {
+                        "Items": [
+                            "This is string #22",
+                            "This is string #23"
+                        ]
+                    },
+                    "TurboPageId": 1000019
+                },
+                "CpmVideoAdBuilderAd": {
+                    "Creative": {
+                        "CreativeId": 1000020
+                    },
+                    "Href": "This is string #24",
+                    "TrackingPixels": {
+                        "Items": [
+                            "This is string #25",
+                            "This is string #26"
+                        ]
+                    },
+                    "TurboPageId": 1000021
+                }
+            }
+        ]
+    }
+}

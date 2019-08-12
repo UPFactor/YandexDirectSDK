@@ -21,7 +21,6 @@ class Dir extends FileInfo
      * Create document root directory instance
      *
      * @return Dir
-     * @throws Exception
      */
     public static function documentRoot(){
         if (!($path = realpath($_SERVER['DOCUMENT_ROOT']))){
@@ -52,7 +51,6 @@ class Dir extends FileInfo
      * Create a new directory with the given content if it does not exist.
      *
      * @return $this
-     * @throws Exception
      */
     public function existsOrCreate(){
         if (!$this->exists()) {
@@ -66,7 +64,6 @@ class Dir extends FileInfo
      * Delete directory if it exists
      *
      * @return $this
-     * @throws Exception
      */
     public function missingOrDelete(){
         if ($this->exists()){
@@ -81,7 +78,6 @@ class Dir extends FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isEmpty(callable $callable = null){
         if (count(scandir($this->path(), SCANDIR_SORT_NONE)) <= 2){
@@ -99,7 +95,6 @@ class Dir extends FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isNotEmpty(callable $callable = null){
         if (!$this->isEmpty()){
@@ -119,7 +114,6 @@ class Dir extends FileInfo
      * @param callable $callable
      * @param bool $childFirst
      * @return array
-     * @throws Exception
      */
     public function map(callable $callable, $childFirst = false){
 
@@ -140,7 +134,6 @@ class Dir extends FileInfo
      * @param callable $callable
      * @param bool $childFirst
      * @return array
-     * @throws Exception
      */
     public function filter(callable $callable, $childFirst = false){
 
@@ -163,7 +156,6 @@ class Dir extends FileInfo
      * @param callable $callable
      * @param bool $childFirst
      * @return $this
-     * @throws Exception
      */
     public function each(callable $callable, $childFirst = false){
 
@@ -179,7 +171,6 @@ class Dir extends FileInfo
      * Gets the total size of all files in the directory.
      *
      * @return int
-     * @throws Exception
      */
     public function size(){
         $size = 0;
@@ -200,7 +191,6 @@ class Dir extends FileInfo
      *
      * @param string $salt
      * @return string
-     * @throws Exception
      */
     public function hash($salt = ''){
         $base = $this->map(function(FileInfo $item){
@@ -219,7 +209,6 @@ class Dir extends FileInfo
      *
      * @param $name
      * @return $this
-     * @throws Exception
      */
     public function rename($name){
         $oldPath = $this->path();
@@ -240,7 +229,6 @@ class Dir extends FileInfo
      *
      * @param $path
      * @return $this
-     * @throws Exception
      */
     public function change($path){
 
@@ -263,7 +251,6 @@ class Dir extends FileInfo
      * Create the directory.
      *
      * @return $this
-     * @throws Exception
      */
     public function create(){
         if (mkdir($this->path,0777,true) === false) {
@@ -281,7 +268,6 @@ class Dir extends FileInfo
      * @param string $filename
      * @param string $content
      * @return File
-     * @throws Exception
      */
     public function createFile($filename, $content){
         $this->existsOrCreate();
@@ -293,7 +279,6 @@ class Dir extends FileInfo
      *
      * @param string $filename
      * @return File
-     * @throws Exception
      */
     public function getFile($filename){
         return (new File($this->realPath() . Str::begin($filename, DIRECTORY_SEPARATOR)));
@@ -304,7 +289,6 @@ class Dir extends FileInfo
      *
      * @param $dirname
      * @return mixed
-     * @throws Exception
      */
     public function createSubDirectory($dirname){
         $this->existsOrCreate();
@@ -316,7 +300,6 @@ class Dir extends FileInfo
      *
      * @param callable|null $callable
      * @return $this
-     * @throws Exception
      */
     public function clear(callable $callable = null){
 
@@ -352,7 +335,6 @@ class Dir extends FileInfo
      * Delete the directory.
      *
      * @return $this
-     * @throws Exception
      */
     public function delete(){
 
@@ -375,7 +357,6 @@ class Dir extends FileInfo
      *
      * @param $path
      * @return bool
-     * @throws Exception
      */
     protected function initialize($path){
         if (is_string($path)){
@@ -392,7 +373,6 @@ class Dir extends FileInfo
      *
      * @param bool $childFirst
      * @return RecursiveIteratorIterator
-     * @throws Exception
      */
     protected function iterator($childFirst = false){
 

@@ -6,17 +6,16 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class TimeTargeting 
  * 
- * @property       string[]                        $schedule
- * @property       string                          $considerWorkingWeekends
- * @property       TimeTargetingOnPublicHolidays   $holidaysSchedule
- * 
- * @method         $this                           setSchedule(string[] $schedule)
- * @method         $this                           setConsiderWorkingWeekends(string $considerWorkingWeekends)
- * @method         $this                           setHolidaysSchedule(TimeTargetingOnPublicHolidays $holidaysSchedule)
- * 
- * @method         string[]                        getSchedule()
- * @method         string                          getConsiderWorkingWeekends()
- * @method         TimeTargetingOnPublicHolidays   getHolidaysSchedule()
+ * @property     string[]                          $schedule
+ * @property     string                            $considerWorkingWeekends
+ * @property     TimeTargetingOnPublicHolidays     $holidaysSchedule
+ *                                                 
+ * @method       $this                             setSchedule(string[] $schedule)
+ * @method       string[]                          getSchedule()
+ * @method       $this                             setConsiderWorkingWeekends(string $considerWorkingWeekends)
+ * @method       string                            getConsiderWorkingWeekends()
+ * @method       $this                             setHolidaysSchedule(TimeTargetingOnPublicHolidays $holidaysSchedule)
+ * @method       TimeTargetingOnPublicHolidays     getHolidaysSchedule()
  * 
  * @package YandexDirectSDK\Models 
  */ 

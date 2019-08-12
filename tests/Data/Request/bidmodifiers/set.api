@@ -1,0 +1,11 @@
+{
+    "method": "set",
+    "params": {
+        "BidModifiers": [
+            {
+                "Id": 1000016,
+                "BidModifier": 10009
+            }
+        ]
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "result": {
+        "AudienceTargets": [
+            {
+                "Id": 1000001,
+                "AdGroupId": 1000002,
+                "CampaignId": 1000003,
+                "RetargetingListId": 1000004,
+                "InterestId": 1000005,
+                "State": "ON",
+                "ContextBid": 1000006,
+                "StrategyPriority": "LOW"
+            }
+        ],
+        "LimitedBy": 1000007
+    }
+}

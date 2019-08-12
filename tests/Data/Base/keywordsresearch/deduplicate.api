@@ -1,0 +1,40 @@
+{
+    "result": {
+        "Add": [
+            {
+                "Keyword": "This is string #92"
+            }
+        ],
+        "Update": [
+            {
+                "Id": 1000048,
+                "Keyword": "This is string #93"
+            }
+        ],
+        "Delete": {
+            "Ids": [
+                1000049,
+                1000050
+            ]
+        },
+        "Failure": [
+            {
+                "Position": 1000051,
+                "Warnings": [
+                    {
+                        "Code": 10041,
+                        "Message": "This is string #94",
+                        "Details": "This is string #95"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10042,
+                        "Message": "This is string #96",
+                        "Details": "This is string #97"
+                    }
+                ]
+            }
+        ]
+    }
+}

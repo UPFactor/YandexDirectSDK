@@ -6,27 +6,25 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAdGroup 
  * 
- * @property        string                $storeUrl
- * @property        string[]              $targetDeviceType
- * @property        string                $targetCarrier
- * @property        string                $targetOperatingSystemVersion
- * 
- * @property-read   ExtensionModeration   $appIconModeration
- * @property-read   string                $appOperatingSystemType
- * @property-read   string                $appAvailabilityStatus
- * 
- * @method          $this                 setStoreUrl(string $storeUrl)
- * @method          $this                 setTargetDeviceType(string[] $targetDeviceType)
- * @method          $this                 setTargetCarrier(string $targetCarrier)
- * @method          $this                 setTargetOperatingSystemVersion(string $targetOperatingSystemVersion)
- * 
- * @method          string                getStoreUrl()
- * @method          string[]              getTargetDeviceType()
- * @method          string                getTargetCarrier()
- * @method          string                getTargetOperatingSystemVersion()
- * @method          ExtensionModeration   getAppIconModeration()
- * @method          string                getAppOperatingSystemType()
- * @method          string                getAppAvailabilityStatus()
+ * @property          string                  $storeUrl
+ * @property          string[]                $targetDeviceType
+ * @property          string                  $targetCarrier
+ * @property          string                  $targetOperatingSystemVersion
+ * @property-read     ExtensionModeration     $appIconModeration
+ * @property-read     string                  $appOperatingSystemType
+ * @property-read     string                  $appAvailabilityStatus
+ *                                            
+ * @method            $this                   setStoreUrl(string $storeUrl)
+ * @method            string                  getStoreUrl()
+ * @method            $this                   setTargetDeviceType(string[] $targetDeviceType)
+ * @method            string[]                getTargetDeviceType()
+ * @method            $this                   setTargetCarrier(string $targetCarrier)
+ * @method            string                  getTargetCarrier()
+ * @method            $this                   setTargetOperatingSystemVersion(string $targetOperatingSystemVersion)
+ * @method            string                  getTargetOperatingSystemVersion()
+ * @method            ExtensionModeration     getAppIconModeration()
+ * @method            string                  getAppOperatingSystemType()
+ * @method            string                  getAppAvailabilityStatus()
  * 
  * @package YandexDirectSDK\Models 
  */ 

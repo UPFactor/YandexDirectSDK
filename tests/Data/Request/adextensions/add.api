@@ -1,0 +1,12 @@
+{
+    "method": "add",
+    "params": {
+        "AdExtensions": [
+            {
+                "Callout": {
+                    "CalloutText": "This is string #2"
+                }
+            }
+        ]
+    }
+}

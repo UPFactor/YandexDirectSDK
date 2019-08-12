@@ -11,73 +11,77 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 /** 
  * Class AdGroup 
  * 
- * @property        integer                  $id
- * @property        string                   $name
- * @property        integer                  $campaignId
- * @property        integer[]                $regionIds
- * @property        string[]                 $negativeKeywords
- * @property        string                   $trackingParams
- * @property        MobileAppAdGroup         $mobileAppAdGroup
- * @property        DynamicTextAdGroup       $dynamicTextAdGroup
- * @property        string                   $cpmBannerKeywordsAdGroup
- * @property        string                   $cpmBannerUserProfileAdGroup
- * 
- * @property-read   integer[]                $restrictedRegionIds
- * @property-read   DynamicTextFeedAdGroup   $dynamicTextFeedAdGroup
- * @property-read   string                   $status
- * @property-read   string                   $servingStatus
- * @property-read   string                   $type
- * @property-read   string                   $subtype
- * 
- * @method          QueryBuilder             query()
- * @method          Result                   add()
- * @method          Result                   update()
- * @method          Result                   delete()
- * @method          Result                   addRelatedAds(ModelCommonInterface $ads)
- * @method          Result                   getRelatedAds(array $fields)
- * @method          Result                   addRelatedAudienceTargets(ModelCommonInterface $audienceTargets)
- * @method          Result                   getRelatedAudienceTargets(array $fields)
- * @method          Result                   setRelatedBids($bid, $contextBid = null)
- * @method          Result                   setRelatedContextBids($contextBid)
- * @method          Result                   setRelatedStrategyPriority(string $strategyPriority)
- * @method          Result                   setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method          Result                   getRelatedBids(array $fields)
- * @method          Result                   addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
- * @method          Result                   enableBidModifiers(string $bidModifierType)
- * @method          Result                   disableBidModifiers(string $bidModifierType)
- * @method          Result                   getRelatedBidModifiers(array $fields)
- * @method          Result                   addRelatedKeywords(ModelCommonInterface $keywords)
- * @method          Result                   getRelatedKeywords(array $fields)
- * @method          Result                   addRelatedWebpages(ModelCommonInterface $webpages)
- * @method          Result                   getRelatedWebpages(array $fields)
- * 
- * @method          $this                    setId(integer $id)
- * @method          $this                    setName(string $name)
- * @method          $this                    setCampaignId(integer $campaignId)
- * @method          $this                    setRegionIds(integer[] $regionIds)
- * @method          $this                    setNegativeKeywords(string[] $negativeKeywords)
- * @method          $this                    setTrackingParams(string $trackingParams)
- * @method          $this                    setMobileAppAdGroup(MobileAppAdGroup $mobileAppAdGroup)
- * @method          $this                    setDynamicTextAdGroup(DynamicTextAdGroup $dynamicTextAdGroup)
- * @method          $this                    setCpmBannerKeywordsAdGroup(string $cpmBannerKeywordsAdGroup)
- * @method          $this                    setCpmBannerUserProfileAdGroup(string $cpmBannerUserProfileAdGroup)
- * 
- * @method          integer                  getId()
- * @method          string                   getName()
- * @method          integer                  getCampaignId()
- * @method          integer[]                getRegionIds()
- * @method          integer[]                getRestrictedRegionIds()
- * @method          string[]                 getNegativeKeywords()
- * @method          string                   getTrackingParams()
- * @method          MobileAppAdGroup         getMobileAppAdGroup()
- * @method          DynamicTextAdGroup       getDynamicTextAdGroup()
- * @method          DynamicTextFeedAdGroup   getDynamicTextFeedAdGroup()
- * @method          string                   getCpmBannerKeywordsAdGroup()
- * @method          string                   getCpmBannerUserProfileAdGroup()
- * @method          string                   getStatus()
- * @method          string                   getServingStatus()
- * @method          string                   getType()
- * @method          string                   getSubtype()
+ * @property          integer                    $id
+ * @property          string                     $name
+ * @property          integer                    $campaignId
+ * @property          integer[]                  $regionIds
+ * @property-read     integer[]                  $restrictedRegionIds
+ * @property          string[]                   $negativeKeywords
+ * @property          integer[]                  $negativeKeywordSharedSetIds
+ * @property          string                     $trackingParams
+ * @property          MobileAppAdGroup           $mobileAppAdGroup
+ * @property          DynamicTextAdGroup         $dynamicTextAdGroup
+ * @property-read     DynamicTextFeedAdGroup     $dynamicTextFeedAdGroup
+ * @property          string                     $cpmBannerKeywordsAdGroup
+ * @property          string                     $cpmBannerUserProfileAdGroup
+ * @property          string                     $cpmVideoAdGroup
+ * @property-read     string                     $status
+ * @property-read     string                     $servingStatus
+ * @property-read     string                     $type
+ * @property-read     string                     $subtype
+ *                                               
+ * @method static     QueryBuilder               query()
+ * @method static     AdGroup|AdGroups|null      find(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                     add()
+ * @method            Result                     update()
+ * @method            Result                     delete()
+ * @method            Result                     addRelatedAds(ModelCommonInterface $ads)
+ * @method            Result                     getRelatedAds(array $fields)
+ * @method            Result                     addRelatedAudienceTargets(ModelCommonInterface $audienceTargets)
+ * @method            Result                     getRelatedAudienceTargets(array $fields)
+ * @method            Result                     setRelatedBids($bid, $contextBid=null)
+ * @method            Result                     setRelatedContextBids($contextBid)
+ * @method            Result                     setRelatedStrategyPriority(string $strategyPriority)
+ * @method            Result                     setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
+ * @method            Result                     getRelatedBids(array $fields)
+ * @method            Result                     addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
+ * @method            Result                     enableBidModifiers(string $bidModifierType)
+ * @method            Result                     disableBidModifiers(string $bidModifierType)
+ * @method            Result                     getRelatedBidModifiers(array $fields)
+ * @method            Result                     addRelatedKeywords(ModelCommonInterface $keywords)
+ * @method            Result                     getRelatedKeywords(array $fields)
+ * @method            Result                     addRelatedWebpages(ModelCommonInterface $webpages)
+ * @method            Result                     getRelatedWebpages(array $fields)
+ * @method            $this                      setId(integer $id)
+ * @method            integer                    getId()
+ * @method            $this                      setName(string $name)
+ * @method            string                     getName()
+ * @method            $this                      setCampaignId(integer $campaignId)
+ * @method            integer                    getCampaignId()
+ * @method            $this                      setRegionIds(integer[] $regionIds)
+ * @method            integer[]                  getRegionIds()
+ * @method            integer[]                  getRestrictedRegionIds()
+ * @method            $this                      setNegativeKeywords(string[] $negativeKeywords)
+ * @method            string[]                   getNegativeKeywords()
+ * @method            $this                      setNegativeKeywordSharedSetIds(integer[] $negativeKeywordSharedSetIds)
+ * @method            integer[]                  getNegativeKeywordSharedSetIds()
+ * @method            $this                      setTrackingParams(string $trackingParams)
+ * @method            string                     getTrackingParams()
+ * @method            $this                      setMobileAppAdGroup(MobileAppAdGroup $mobileAppAdGroup)
+ * @method            MobileAppAdGroup           getMobileAppAdGroup()
+ * @method            $this                      setDynamicTextAdGroup(DynamicTextAdGroup $dynamicTextAdGroup)
+ * @method            DynamicTextAdGroup         getDynamicTextAdGroup()
+ * @method            DynamicTextFeedAdGroup     getDynamicTextFeedAdGroup()
+ * @method            $this                      setCpmBannerKeywordsAdGroup(string $cpmBannerKeywordsAdGroup)
+ * @method            string                     getCpmBannerKeywordsAdGroup()
+ * @method            $this                      setCpmBannerUserProfileAdGroup(string $cpmBannerUserProfileAdGroup)
+ * @method            string                     getCpmBannerUserProfileAdGroup()
+ * @method            $this                      setCpmVideoAdGroup(string $cpmVideoAdGroup)
+ * @method            string                     getCpmVideoAdGroup()
+ * @method            string                     getStatus()
+ * @method            string                     getServingStatus()
+ * @method            string                     getType()
+ * @method            string                     getSubtype()
  * 
  * @package YandexDirectSDK\Models 
  */
@@ -120,12 +124,14 @@ class AdGroup extends Model
         'regionIds' => 'stack:integer',
         'restrictedRegionIds' => 'array:integer',
         'negativeKeywords' => 'array:string',
+        'negativeKeywordSharedSetIds' => 'array:integer',
         'trackingParams' => 'string',
         'mobileAppAdGroup' => 'object:' . MobileAppAdGroup::class,
         'dynamicTextAdGroup' => 'object:' . DynamicTextAdGroup::class,
         'dynamicTextFeedAdGroup' => 'object:' . DynamicTextFeedAdGroup::class,
         'cpmBannerKeywordsAdGroup' => 'string',
         'cpmBannerUserProfileAdGroup' => 'string',
+        'cpmVideoAdGroup' => 'string',
         'status' => 'string',
         'servingStatus' => 'string',
         'type' => 'string',
@@ -136,7 +142,8 @@ class AdGroup extends Model
     protected static $nonUpdatableProperties = [
         'campaignId',
         'cpmBannerKeywordsAdGroup',
-        'cpmBannerUserProfileAdGroup'
+        'cpmBannerUserProfileAdGroup',
+        'cpmVideoAdGroup'
     ];
 
     protected static $nonWritableProperties = [

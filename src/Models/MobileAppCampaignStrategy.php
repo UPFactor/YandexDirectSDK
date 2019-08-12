@@ -6,14 +6,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppCampaignStrategy 
  * 
- * @property       MobileAppCampaignSearchStrategy    $search
- * @property       MobileAppCampaignNetworkStrategy   $network
- * 
- * @method         $this                              setSearch(MobileAppCampaignSearchStrategy $search)
- * @method         $this                              setNetwork(MobileAppCampaignNetworkStrategy $network)
- * 
- * @method         MobileAppCampaignSearchStrategy    getSearch()
- * @method         MobileAppCampaignNetworkStrategy   getNetwork()
+ * @property     MobileAppCampaignSearchStrategy      $search
+ * @property     MobileAppCampaignNetworkStrategy     $network
+ *                                                    
+ * @method       $this                                setSearch(MobileAppCampaignSearchStrategy $search)
+ * @method       MobileAppCampaignSearchStrategy      getSearch()
+ * @method       $this                                setNetwork(MobileAppCampaignNetworkStrategy $network)
+ * @method       MobileAppCampaignNetworkStrategy     getNetwork()
  * 
  * @package YandexDirectSDK\Models 
  */ 

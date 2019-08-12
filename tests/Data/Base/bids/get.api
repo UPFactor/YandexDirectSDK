@@ -1,0 +1,43 @@
+{
+    "result": {
+        "Bids": [
+            {
+                "CampaignId": 1000001,
+                "AdGroupId": 1000002,
+                "KeywordId": 1000003,
+                "ServingStatus": "ELIGIBLE",
+                "Bid": 1000004,
+                "ContextBid": 1000005,
+                "StrategyPriority": "LOW",
+                "CompetitorsBids": [
+                    1000006,
+                    1000007
+                ],
+                "SearchPrices": [
+                    {
+                        "Position": "PREMIUMFIRST",
+                        "Price": 1000008
+                    }
+                ],
+                "ContextCoverage": {
+                    "Items": [
+                        {
+                            "Probability": 101.1,
+                            "Price": 1000009
+                        }
+                    ]
+                },
+                "MinSearchPrice": 1000010,
+                "CurrentSearchPrice": 1000011,
+                "AuctionBids": [
+                    {
+                        "Position": "This is string #2",
+                        "Bid": 1000012,
+                        "Price": 1000013
+                    }
+                ]
+            }
+        ],
+        "LimitedBy": 1000014
+    }
+}

@@ -10,36 +10,33 @@ use YandexDirectSDK\Services\KeywordBidsService;
 /** 
  * Class KeywordBid 
  * 
- * @property        integer        $campaignId
- * @property        integer        $adGroupId
- * @property        integer        $keywordId
- * @property        integer        $searchBid
- * @property        integer        $networkBid
- * @property        string         $strategyPriority
- * 
- * @property-read   Search         $search
- * @property-read   Network        $network
- * @property-read   string         $servingStatus
- * 
- * @method          QueryBuilder   query()
- * @method          Result         set()
- * 
- * @method          $this          setCampaignId(integer $campaignId)
- * @method          $this          setAdGroupId(integer $adGroupId)
- * @method          $this          setKeywordId(integer $keywordId)
- * @method          $this          setSearchBid(integer $searchBid)
- * @method          $this          setNetworkBid(integer $networkBid)
- * @method          $this          setStrategyPriority(string $strategyPriority)
- * 
- * @method          integer        getCampaignId()
- * @method          integer        getAdGroupId()
- * @method          integer        getKeywordId()
- * @method          integer        getSearchBid()
- * @method          Search         getSearch()
- * @method          integer        getNetworkBid()
- * @method          Network        getNetwork()
- * @method          string         getStrategyPriority()
- * @method          string         getServingStatus()
+ * @property          integer          $campaignId
+ * @property          integer          $adGroupId
+ * @property          integer          $keywordId
+ * @property          integer          $searchBid
+ * @property-read     Search           $search
+ * @property          integer          $networkBid
+ * @property-read     Network          $network
+ * @property          string           $strategyPriority
+ * @property-read     string           $servingStatus
+ *                                     
+ * @method static     QueryBuilder     query()
+ * @method            Result           set()
+ * @method            $this            setCampaignId(integer $campaignId)
+ * @method            integer          getCampaignId()
+ * @method            $this            setAdGroupId(integer $adGroupId)
+ * @method            integer          getAdGroupId()
+ * @method            $this            setKeywordId(integer $keywordId)
+ * @method            integer          getKeywordId()
+ * @method            $this            setSearchBid(integer $searchBid)
+ * @method            integer          getSearchBid()
+ * @method            Search           getSearch()
+ * @method            $this            setNetworkBid(integer $networkBid)
+ * @method            integer          getNetworkBid()
+ * @method            Network          getNetwork()
+ * @method            $this            setStrategyPriority(string $strategyPriority)
+ * @method            string           getStrategyPriority()
+ * @method            string           getServingStatus()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -7,13 +7,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class AuctionBidItem 
  * 
- * @property-read   integer   $trafficVolume
- * @property-read   integer   $bid
- * @property-read   integer   $price
- * 
- * @method          integer   getTrafficVolume()
- * @method          integer   getBid()
- * @method          integer   getPrice()
+ * @property-read     integer     $trafficVolume
+ * @property-read     integer     $bid
+ * @property-read     integer     $price
+ *                                
+ * @method            integer     getTrafficVolume()
+ * @method            integer     getBid()
+ * @method            integer     getPrice()
  * 
  * @package YandexDirectSDK\Models 
  */ 

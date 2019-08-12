@@ -7,20 +7,18 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class ClientNotification 
  * 
- * @property        string               $lang
- * @property        string               $email
- * @property        EmailSubscriptions   $emailSubscriptions
- * 
- * @property-read   string               $smsPhoneNumber
- * 
- * @method          $this                setLang(string $lang)
- * @method          $this                setEmail(string $email)
- * @method          $this                setEmailSubscriptions(EmailSubscriptions $emailSubscriptions)
- * 
- * @method          string               getLang()
- * @method          string               getSmsPhoneNumber()
- * @method          string               getEmail()
- * @method          EmailSubscriptions   getEmailSubscriptions()
+ * @property          string                 $lang
+ * @property-read     string                 $smsPhoneNumber
+ * @property          string                 $email
+ * @property          EmailSubscriptions     $emailSubscriptions
+ *                                           
+ * @method            $this                  setLang(string $lang)
+ * @method            string                 getLang()
+ * @method            string                 getSmsPhoneNumber()
+ * @method            $this                  setEmail(string $email)
+ * @method            string                 getEmail()
+ * @method            $this                  setEmailSubscriptions(EmailSubscriptions $emailSubscriptions)
+ * @method            EmailSubscriptions     getEmailSubscriptions()
  * 
  * @package YandexDirectSDK\Models 
  */ 

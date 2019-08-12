@@ -1,0 +1,13 @@
+{
+    "method": "toggle",
+    "params": {
+        "BidModifierToggleItems": [
+            {
+                "CampaignId": 1000014,
+                "AdGroupId": 1000015,
+                "Type": "DEMOGRAPHICS_ADJUSTMENT",
+                "Enabled": "YES"
+            }
+        ]
+    }
+}

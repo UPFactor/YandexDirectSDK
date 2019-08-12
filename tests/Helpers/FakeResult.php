@@ -3,40 +3,22 @@
 
 namespace YandexDirectSDKTest\Helpers;
 
-use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
-use YandexDirectSDK\Exceptions\ModelException;
-use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 class FakeResult extends Result
 {
     /**
-     * @var Checklists
-     */
-    protected $checklists;
-
-    /**
-     * FakeResult constructor.
+     * Bootstrap of the object.
      *
      * @param $response
-     * @throws RequestException
      */
-    public function __construct($response)
+    protected function bootstrap($response): void
     {
-        $this->checklists = new Checklists();
-
-        $this->header = [
-            'Content-Type' => 'application/json'
-        ];
-
         $this->response = $response;
         $this->code = 200;
-        $this->data = new Data();
-        $this->errors = new Data();
-        $this->warnings = new Data();
-
+        $this->header = ['Content-Type' => 'application/json'];
         $this->setResult($response);
     }
 
@@ -47,7 +29,7 @@ class FakeResult extends Result
      */
     public function check()
     {
-        return $this->checklists->checkResult($this);
+        return Checklists::checkResult($this);
     }
 
     /**
@@ -56,10 +38,9 @@ class FakeResult extends Result
      * @param null $expectedClass
      * @param array $expectedProperties
      * @return ModelInterface|ModelCollectionInterface|null
-     * @throws ModelException
      */
     public function checkResource($expectedClass = null, $expectedProperties = [])
     {
-        return $this->checklists->checkResource($this, $expectedClass, $expectedProperties);
+        return Checklists::checkResource($this, $expectedClass, $expectedProperties);
     }
 }

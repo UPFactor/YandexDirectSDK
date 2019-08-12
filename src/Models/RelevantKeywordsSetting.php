@@ -7,14 +7,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class RelevantKeywordsSetting 
  * 
- * @property       integer   $budgetPercent
- * @property       integer   $optimizeGoalId
- * 
- * @method         $this     setBudgetPercent(integer $budgetPercent)
- * @method         $this     setOptimizeGoalId(integer $optimizeGoalId)
- * 
- * @method         integer   getBudgetPercent()
- * @method         integer   getOptimizeGoalId()
+ * @property     integer     $budgetPercent
+ * @property     integer     $optimizeGoalId
+ *                           
+ * @method       $this       setBudgetPercent(integer $budgetPercent)
+ * @method       integer     getBudgetPercent()
+ * @method       $this       setOptimizeGoalId(integer $optimizeGoalId)
+ * @method       integer     getOptimizeGoalId()
  * 
  * @package YandexDirectSDK\Models 
  */

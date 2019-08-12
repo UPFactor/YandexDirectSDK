@@ -7,29 +7,28 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class TextCampaignSearchStrategy 
  * 
- * @property       string                          $biddingStrategyType
- * @property       StrategyMaximumClicks           $wbMaximumClicks
- * @property       StrategyMaximumConversionRate   $wbMaximumConversionRate
- * @property       StrategyAverageCpc              $averageCpc
- * @property       StrategyAverageCpa              $averageCpa
- * @property       StrategyAverageRoi              $averageRoi
- * @property       StrategyWeeklyClickPackage      $weeklyClickPackage
- * 
- * @method         $this                           setBiddingStrategyType(string $biddingStrategyType)
- * @method         $this                           setWbMaximumClicks(StrategyMaximumClicks $wbMaximumClicks)
- * @method         $this                           setWbMaximumConversionRate(StrategyMaximumConversionRate $wbMaximumConversionRate)
- * @method         $this                           setAverageCpc(StrategyAverageCpc $averageCpc)
- * @method         $this                           setAverageCpa(StrategyAverageCpa $averageCpa)
- * @method         $this                           setAverageRoi(StrategyAverageRoi $averageRoi)
- * @method         $this                           setWeeklyClickPackage(StrategyWeeklyClickPackage $weeklyClickPackage)
- * 
- * @method         string                          getBiddingStrategyType()
- * @method         StrategyMaximumClicks           getWbMaximumClicks()
- * @method         StrategyMaximumConversionRate   getWbMaximumConversionRate()
- * @method         StrategyAverageCpc              getAverageCpc()
- * @method         StrategyAverageCpa              getAverageCpa()
- * @method         StrategyAverageRoi              getAverageRoi()
- * @method         StrategyWeeklyClickPackage      getWeeklyClickPackage()
+ * @property     string                            $biddingStrategyType
+ * @property     StrategyMaximumClicks             $wbMaximumClicks
+ * @property     StrategyMaximumConversionRate     $wbMaximumConversionRate
+ * @property     StrategyAverageCpc                $averageCpc
+ * @property     StrategyAverageCpa                $averageCpa
+ * @property     StrategyAverageRoi                $averageRoi
+ * @property     StrategyWeeklyClickPackage        $weeklyClickPackage
+ *                                                 
+ * @method       $this                             setBiddingStrategyType(string $biddingStrategyType)
+ * @method       string                            getBiddingStrategyType()
+ * @method       $this                             setWbMaximumClicks(StrategyMaximumClicks $wbMaximumClicks)
+ * @method       StrategyMaximumClicks             getWbMaximumClicks()
+ * @method       $this                             setWbMaximumConversionRate(StrategyMaximumConversionRate $wbMaximumConversionRate)
+ * @method       StrategyMaximumConversionRate     getWbMaximumConversionRate()
+ * @method       $this                             setAverageCpc(StrategyAverageCpc $averageCpc)
+ * @method       StrategyAverageCpc                getAverageCpc()
+ * @method       $this                             setAverageCpa(StrategyAverageCpa $averageCpa)
+ * @method       StrategyAverageCpa                getAverageCpa()
+ * @method       $this                             setAverageRoi(StrategyAverageRoi $averageRoi)
+ * @method       StrategyAverageRoi                getAverageRoi()
+ * @method       $this                             setWeeklyClickPackage(StrategyWeeklyClickPackage $weeklyClickPackage)
+ * @method       StrategyWeeklyClickPackage        getWeeklyClickPackage()
  * 
  * @package YandexDirectSDK\Models 
  */

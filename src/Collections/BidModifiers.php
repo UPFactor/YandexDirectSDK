@@ -3,17 +3,19 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifiers 
  * 
- * @method   Result         add()
- * @method   Result         set(int $value = null)
- * @method   Result         delete()
- * @method   QueryBuilder   query()
+ * @method static     QueryBuilder                      query()
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                            add()
+ * @method            Result                            set(int $value=null)
+ * @method            Result                            delete()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

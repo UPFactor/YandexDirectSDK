@@ -1,0 +1,15 @@
+{
+    "method": "set",
+    "params": {
+        "Bids": [
+            {
+                "CampaignId": 1000005,
+                "AdGroupId": 1000006,
+                "KeywordId": 1000007,
+                "Bid": 1000008,
+                "ContextBid": 1000009,
+                "StrategyPriority": "LOW"
+            }
+        ]
+    }
+}

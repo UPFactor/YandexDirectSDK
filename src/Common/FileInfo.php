@@ -72,7 +72,6 @@ class FileInfo
      *
      * @param string $name
      * @return mixed
-     * @throws Exception
      */
     public function __get($name){
         if (in_array($name, static::$arrProxyMethods)){
@@ -95,7 +94,6 @@ class FileInfo
      * Gets absolute path to file.
      *
      * @return string
-     * @throws Exception
      */
     public function path(){
         if (!$this->valid){
@@ -109,7 +107,6 @@ class FileInfo
      * Gets absolute path to file.
      *
      * @return string
-     * @throws Exception
      */
     public function realPath(){
         if (!$this->valid){
@@ -159,7 +156,6 @@ class FileInfo
      * Gets the filename.
      *
      * @return string
-     * @throws Exception
      */
     public function name(){
         return basename($this->path());
@@ -169,7 +165,6 @@ class FileInfo
      * Gets the file extension.
      *
      * @return string
-     * @throws Exception
      */
     public function extension(){
         return pathinfo($this->path(), PATHINFO_EXTENSION);
@@ -179,7 +174,6 @@ class FileInfo
      * Get the file's mimetype.
      *
      * @return string
-     * @throws Exception
      */
     public function type(){
         return mime_content_type($this->path());
@@ -189,7 +183,6 @@ class FileInfo
      * Get the absolute path of the parent directory.
      *
      * @return Dir
-     * @throws Exception
      */
     public function directory(){
         return new Dir(dirname($this->path()));
@@ -199,7 +192,6 @@ class FileInfo
      * Gets file permissions.
      *
      * @return string
-     * @throws Exception
      */
     public function permissions(){
         return substr(sprintf('%o', fileperms($this->path())), -4);
@@ -209,7 +201,6 @@ class FileInfo
      * Gets file size.
      *
      * @return int
-     * @throws Exception
      */
     public function size(){
         if ($this->isFile()){
@@ -227,7 +218,6 @@ class FileInfo
      * Gets the owner of the file.
      *
      * @return array
-     * @throws Exception
      */
     public function owner(){
         if ($owner = fileowner($this->path())){
@@ -241,7 +231,6 @@ class FileInfo
      * Gets the file group.
      *
      * @return array
-     * @throws Exception
      */
     public function group(){
         if ($group = filegroup($this->path())){
@@ -256,7 +245,6 @@ class FileInfo
      *
      * @param bool $from
      * @return int
-     * @throws Exception
      */
     public function accessTime($from = false){
         if ($from){
@@ -270,7 +258,6 @@ class FileInfo
      *
      * @param bool $from
      * @return int
-     * @throws Exception
      */
     public function modifiedTime($from = false){
         if ($from){
@@ -284,7 +271,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isWritable(callable $callable = null){
         if (is_writable($this->path())){
@@ -302,7 +288,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isReadable(callable $callable = null){
         if (is_readable($this->path())){
@@ -320,7 +305,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isExecutable(callable $callable = null){
         if (is_executable($this->path())){
@@ -338,7 +322,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isFile(callable $callable = null){
         if (is_file($this->path())){
@@ -356,7 +339,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isDirectory(callable $callable = null){
         if (is_dir($this->path())){
@@ -374,7 +356,6 @@ class FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isLink(callable $callable = null){
         $path = $this->path();

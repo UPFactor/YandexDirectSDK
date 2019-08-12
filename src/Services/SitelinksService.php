@@ -12,9 +12,9 @@ use YandexDirectSDK\Models\SitelinksSet;
 /** 
  * Class SitelinksService 
  * 
- * @method   Result                            add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
- * @method   Result                            delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
- * @method   SitelinksSet|SitelinksSets|null   find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result                              add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method static     Result                              delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -37,7 +37,7 @@ class SitelinksService extends Service
      */
     public function query() : QueryBuilder
     {
-        return $this->selectionElements('get', function($query){
+        return static::selectionElements('get', function($query){
             if (empty($query['SelectionCriteria'])){
                 unset($query['SelectionCriteria']);
             }

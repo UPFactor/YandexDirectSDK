@@ -7,8 +7,6 @@ use YandexDirectSDK\Common\Arr;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Models\Keyword;
 
 /** 
@@ -36,11 +34,8 @@ class KeywordsResearchService extends Service
      * @param array|string[]|Keyword[]|Keywords $keywords
      * @param string ...$operation
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function deduplicate($keywords, ...$operation)
+    public static function deduplicate($keywords, ...$operation)
     {
         $params = [];
 
@@ -70,7 +65,7 @@ class KeywordsResearchService extends Service
             $params['Operation'] = $operation;
         }
 
-        return $this->call('deduplicate', $params);
+        return static::call('deduplicate', $params);
     }
 
     /**
@@ -81,11 +76,8 @@ class KeywordsResearchService extends Service
      * @param string[]|Keyword[]|Keywords $keywords
      * @param string|string[] $regionIds
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function hasSearchVolume($fields, $keywords, $regionIds)
+    public static function hasSearchVolume($fields, $keywords, $regionIds)
     {
         $params = [
             'SelectionCriteria' => [
@@ -111,6 +103,6 @@ class KeywordsResearchService extends Service
             throw InvalidArgumentException::invalidType(static::class . "::hasSearchVolume", 2, "array|string[]|".Keyword::class."[]|".Keywords::class);
         }
 
-        return $this->call('hasSearchVolume', $params);
+        return static::call('hasSearchVolume', $params);
     }
 }

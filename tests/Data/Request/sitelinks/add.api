@@ -1,0 +1,17 @@
+{
+    "method": "add",
+    "params": {
+        "SitelinksSets": [
+            {
+                "Sitelinks": [
+                    {
+                        "Title": "This is string #2",
+                        "Href": "This is string #3",
+                        "Description": "This is string #4",
+                        "TurboPageId": 1000001
+                    }
+                ]
+            }
+        ]
+    }
+}

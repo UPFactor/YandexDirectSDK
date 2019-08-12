@@ -1,0 +1,23 @@
+{
+    "result": {
+        "SuspendResults": [
+            {
+                "Id": 1000100,
+                "Warnings": [
+                    {
+                        "Code": 10102,
+                        "Message": "This is string #245",
+                        "Details": "This is string #246"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10103,
+                        "Message": "This is string #247",
+                        "Details": "This is string #248"
+                    }
+                ]
+            }
+        ]
+    }
+}

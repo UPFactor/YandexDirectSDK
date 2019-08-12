@@ -54,7 +54,6 @@ class File extends FileInfo
      *
      * @param string $content
      * @return $this
-     * @throws Exception
      */
     public function existsOrCreate($content = ''){
         if (!$this->exists()){
@@ -68,7 +67,6 @@ class File extends FileInfo
      * Delete file if it exists
      *
      * @return $this
-     * @throws Exception
      */
     public function missingOrDelete(){
         if ($this->exists()){
@@ -83,7 +81,6 @@ class File extends FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isEmpty(callable $callable = null){
         $content = $this->content();
@@ -103,7 +100,6 @@ class File extends FileInfo
      *
      * @param callable|null $callable
      * @return bool
-     * @throws Exception
      */
     public function isNotEmpty(callable $callable = null){
         if (!$this->isEmpty()){
@@ -121,7 +117,6 @@ class File extends FileInfo
      *
      * @param string $salt
      * @return string
-     * @throws Exception
      */
     public function hash($salt = ''){
         return sha1($salt.$this->name().sha1_file($this->path()));
@@ -131,7 +126,6 @@ class File extends FileInfo
      * Encode base64 file.
      *
      * @return string
-     * @throws Exception
      */
     public function base64(){
         return base64_encode($this->content());
@@ -143,7 +137,6 @@ class File extends FileInfo
      * @param string $mode
      * @param null $context
      * @return $this
-     * @throws Exception
      */
     public function open($mode = 'r+', $context = null){
 
@@ -181,7 +174,6 @@ class File extends FileInfo
      * Returns the current position of the file read/write pointer.
      *
      * @return int
-     * @throws Exception
      */
     public function cursor(){
         if (is_null($this->resource)){
@@ -200,7 +192,6 @@ class File extends FileInfo
      *
      * @param integer $offset
      * @return $this
-     * @throws Exception
      */
     public function cursorOffset($offset){
         if (is_null($this->resource)){
@@ -218,7 +209,6 @@ class File extends FileInfo
      * Move the cursor to the beginning of the file.
      *
      * @return $this
-     * @throws Exception
      */
     public function cursorToBegin(){
         if (is_null($this->resource)){
@@ -236,7 +226,6 @@ class File extends FileInfo
      * Move the cursor to the end of the file.
      *
      * @return $this
-     * @throws Exception
      */
     public function cursorToEnd(){
         if (is_null($this->resource)){
@@ -255,7 +244,6 @@ class File extends FileInfo
      *
      * @param integer|null $length
      * @return bool|string
-     * @throws Exception
      */
     public function read($length = null){
         if (is_null($this->resource)){
@@ -276,7 +264,6 @@ class File extends FileInfo
      * If there is no more data to read in the file, then FALSE is returned.
      *
      * @return bool|string
-     * @throws Exception
      */
     public function readRow(){
         if (is_null($this->resource)){
@@ -291,7 +278,6 @@ class File extends FileInfo
      * If there is no more data to read in the file, then FALSE is returned.
      *
      * @return bool|string
-     * @throws Exception
      */
     public function readChar(){
         if (is_null($this->resource)){
@@ -309,7 +295,6 @@ class File extends FileInfo
      * @param string $content
      * @param integer|null $length
      * @return $this
-     * @throws Exception
      */
     public function write($content, $length = null){
         if (is_null($this->resource)){
@@ -329,7 +314,6 @@ class File extends FileInfo
      * Reads entire file into a string.
      *
      * @return string
-     * @throws Exception
      */
     public function content(){
         $content = file_get_contents($this->path());
@@ -348,7 +332,6 @@ class File extends FileInfo
      *
      * @param $content
      * @return $this
-     * @throws Exception
      */
     public function put($content){
         if (@file_put_contents($this->path, $content) === false){
@@ -366,7 +349,6 @@ class File extends FileInfo
      *
      * @param $content
      * @return $this
-     * @throws Exception
      */
     public function prepend($content){
         return $this->put($content . file_get_contents($this->path) ?? '');
@@ -378,7 +360,6 @@ class File extends FileInfo
      *
      * @param $content
      * @return $this
-     * @throws Exception
      */
     public function append($content){
         if (@file_put_contents($this->path, $content, FILE_APPEND) === false){
@@ -395,7 +376,6 @@ class File extends FileInfo
      *
      * @param $name
      * @return $this
-     * @throws Exception
      */
     public function rename($name){
         $oldPath = $this->path();
@@ -419,7 +399,6 @@ class File extends FileInfo
      *
      * @param string $content
      * @return $this
-     * @throws Exception
      */
     public function create($content = ''){
         return $this->put($content);
@@ -430,7 +409,6 @@ class File extends FileInfo
      *
      * @param string $path
      * @return File
-     * @throws Exception
      */
     public function save($path){
         if (copy($this->path(), $path)){
@@ -444,7 +422,6 @@ class File extends FileInfo
      * Delete the file.
      *
      * @return $this
-     * @throws Exception
      */
     public function delete(){
         $result = @unlink($this->path());
@@ -463,7 +440,6 @@ class File extends FileInfo
      *
      * @param $path
      * @return bool
-     * @throws Exception
      */
     protected function initialize($path){
         if (is_string($path)){

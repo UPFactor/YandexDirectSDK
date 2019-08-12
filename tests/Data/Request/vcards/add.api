@@ -1,0 +1,41 @@
+{
+    "method": "add",
+    "params": {
+        "VCards": [
+            {
+                "CampaignId": 1000001,
+                "Country": "This is string #2",
+                "City": "This is string #3",
+                "CompanyName": "This is string #4",
+                "WorkTime": "This is string #5",
+                "Phone": {
+                    "CountryCode": "This is string #6",
+                    "CityCode": "This is string #7",
+                    "PhoneNumber": "This is string #8",
+                    "Extension": "This is string #9"
+                },
+                "Street": "This is string #10",
+                "House": "This is string #11",
+                "Building": "This is string #12",
+                "Apartment": "This is string #13",
+                "InstantMessenger": {
+                    "MessengerClient": "This is string #14",
+                    "MessengerLogin": "This is string #15"
+                },
+                "ExtraMessage": "This is string #16",
+                "ContactEmail": "This is string #17",
+                "Ogrn": "This is string #18",
+                "MetroStationId": 1000002,
+                "PointOnMap": {
+                    "X": 101.1,
+                    "Y": 102.1,
+                    "X1": 103.1,
+                    "Y1": 104.1,
+                    "X2": 105.1,
+                    "Y2": 106.1
+                },
+                "ContactPerson": "This is string #19"
+            }
+        ]
+    }
+}

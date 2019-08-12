@@ -6,14 +6,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class MobileAdjustment 
  * 
- * @property       integer   $bidModifier
- * @property       string    $operatingSystemType
- * 
- * @method         $this     setBidModifier(integer $bidModifier)
- * @method         $this     setOperatingSystemType(string $operatingSystemType)
- * 
- * @method         integer   getBidModifier()
- * @method         string    getOperatingSystemType()
+ * @property     integer     $bidModifier
+ * @property     string      $operatingSystemType
+ *                           
+ * @method       $this       setBidModifier(integer $bidModifier)
+ * @method       integer     getBidModifier()
+ * @method       $this       setOperatingSystemType(string $operatingSystemType)
+ * @method       string      getOperatingSystemType()
  * 
  * @package YandexDirectSDK\Models 
  */ 

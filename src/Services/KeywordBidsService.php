@@ -6,16 +6,13 @@ use YandexDirectSDK\Collections\KeywordBids;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\KeywordBid;
 
 /** 
  * Class KeywordBidsService 
  * 
- * @method   QueryBuilder   query()
+ * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -34,24 +31,18 @@ class KeywordBidsService extends Service
     /**
      * @param ModelCommonInterface $keywordBids
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function set(ModelCommonInterface $keywordBids):Result
+    public static function set(ModelCommonInterface $keywordBids):Result
     {
-        return $this->updateCollection('set', $keywordBids, 'KeywordBids', 'SetResults');
+        return static::updateCollection('set', $keywordBids, 'KeywordBids', 'SetResults');
     }
 
     /**
      * @param ModelCommonInterface $keywordBidsAuto
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function setAuto(ModelCommonInterface $keywordBidsAuto):Result
+    public static function setAuto(ModelCommonInterface $keywordBidsAuto):Result
     {
-        return $this->updateCollection('setAuto', $keywordBidsAuto, 'KeywordBids', 'SetAutoResults');
+        return static::updateCollection('setAuto', $keywordBidsAuto, 'KeywordBids', 'SetAutoResults');
     }
 }

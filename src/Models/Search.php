@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class Search 
  * 
- * @property-read   integer       $bid
- * @property-read   AuctionBids   $auctionBids
- * 
- * @method          integer       getBid()
- * @method          AuctionBids   getAuctionBids()
+ * @property-read     integer         $bid
+ * @property-read     AuctionBids     $auctionBids
+ *                                    
+ * @method            integer         getBid()
+ * @method            AuctionBids     getAuctionBids()
  * 
  * @package YandexDirectSDK\Models 
  */ 

@@ -1,0 +1,29 @@
+{
+    "result": {
+        "Keywords": [
+            {
+                "Id": 1000001,
+                "Keyword": "This is string #2",
+                "AdGroupId": 1000002,
+                "CampaignId": 1000003,
+                "UserParam1": "This is string #3",
+                "UserParam2": "This is string #4",
+                "Bid": 1000004,
+                "ContextBid": 1000005,
+                "StrategyPriority": "LOW",
+                "State": "OFF",
+                "Status": "ACCEPTED",
+                "ServingStatus": "ELIGIBLE",
+                "StatisticsSearch": {
+                    "Clicks": 1000006,
+                    "Impressions": 1000007
+                },
+                "StatisticsNetwork": {
+                    "Clicks": 1000008,
+                    "Impressions": 1000009
+                }
+            }
+        ],
+        "LimitedBy": 1000010
+    }
+}

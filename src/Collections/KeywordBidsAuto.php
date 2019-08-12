@@ -9,7 +9,7 @@ use YandexDirectSDK\Services\KeywordBidsService;
 /** 
  * Class KeywordBidsAuto 
  * 
- * @method   Result   setAuto()
+ * @method     Result     setAuto()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

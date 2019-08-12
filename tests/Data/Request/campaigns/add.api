@@ -1,0 +1,336 @@
+{
+    "method": "add",
+    "params": {
+        "Campaigns": [
+            {
+                "ClientInfo": "This is string #2",
+                "Notification": {
+                    "SmsSettings": {
+                        "Events": [
+                            "MONITORING",
+                            "FINISHED"
+                        ],
+                        "TimeFrom": "This is string #3",
+                        "TimeTo": "This is string #4"
+                    },
+                    "EmailSettings": {
+                        "Email": "This is string #5",
+                        "CheckPositionInterval": 10001,
+                        "WarningBalance": 10002,
+                        "SendAccountNews": "YES",
+                        "SendWarnings": "YES"
+                    }
+                },
+                "TimeZone": "This is string #6",
+                "Name": "This is string #7",
+                "StartDate": "This is string #8",
+                "DailyBudget": {
+                    "Amount": 1000001,
+                    "Mode": "STANDARD"
+                },
+                "EndDate": "This is string #9",
+                "NegativeKeywords": {
+                    "Items": [
+                        "This is string #10",
+                        "This is string #11"
+                    ]
+                },
+                "BlockedIps": {
+                    "Items": [
+                        "This is string #12",
+                        "This is string #13"
+                    ]
+                },
+                "ExcludedSites": {
+                    "Items": [
+                        "This is string #14",
+                        "This is string #15"
+                    ]
+                },
+                "TextCampaign": {
+                    "BiddingStrategy": {
+                        "Search": {
+                            "BiddingStrategyType": "AVERAGE_CPA",
+                            "WbMaximumClicks": {
+                                "WeeklySpendLimit": 1000002,
+                                "BidCeiling": 1000003
+                            },
+                            "WbMaximumConversionRate": {
+                                "WeeklySpendLimit": 1000004,
+                                "BidCeiling": 1000005,
+                                "GoalId": 1000006
+                            },
+                            "AverageCpc": {
+                                "AverageCpc": 1000007,
+                                "WeeklySpendLimit": 1000008
+                            },
+                            "AverageCpa": {
+                                "AverageCpa": 1000009,
+                                "GoalId": 1000010,
+                                "WeeklySpendLimit": 1000011,
+                                "BidCeiling": 1000012
+                            },
+                            "WeeklyClickPackage": {
+                                "ClicksPerWeek": 1000013,
+                                "AverageCpc": 1000014,
+                                "BidCeiling": 1000015
+                            },
+                            "AverageRoi": {
+                                "ReserveReturn": 10003,
+                                "RoiCoef": 1000016,
+                                "GoalId": 1000017,
+                                "WeeklySpendLimit": 1000018,
+                                "BidCeiling": 1000019,
+                                "Profitability": 1000020
+                            }
+                        },
+                        "Network": {
+                            "BiddingStrategyType": "AVERAGE_CPA",
+                            "NetworkDefault": {
+                                "LimitPercent": 10004,
+                                "BidPercent": 10005
+                            },
+                            "WbMaximumClicks": {
+                                "WeeklySpendLimit": 1000021,
+                                "BidCeiling": 1000022
+                            },
+                            "WbMaximumConversionRate": {
+                                "WeeklySpendLimit": 1000023,
+                                "BidCeiling": 1000024,
+                                "GoalId": 1000025
+                            },
+                            "AverageCpc": {
+                                "AverageCpc": 1000026,
+                                "WeeklySpendLimit": 1000027
+                            },
+                            "AverageCpa": {
+                                "AverageCpa": 1000028,
+                                "GoalId": 1000029,
+                                "WeeklySpendLimit": 1000030,
+                                "BidCeiling": 1000031
+                            },
+                            "WeeklyClickPackage": {
+                                "ClicksPerWeek": 1000032,
+                                "AverageCpc": 1000033,
+                                "BidCeiling": 1000034
+                            },
+                            "AverageRoi": {
+                                "ReserveReturn": 10006,
+                                "RoiCoef": 1000035,
+                                "GoalId": 1000036,
+                                "WeeklySpendLimit": 1000037,
+                                "BidCeiling": 1000038,
+                                "Profitability": 1000039
+                            }
+                        }
+                    },
+                    "Settings": [
+                        {
+                            "Option": "ADD_METRICA_TAG",
+                            "Value": "YES"
+                        }
+                    ],
+                    "CounterIds": {
+                        "Items": [
+                            10007,
+                            10008
+                        ]
+                    },
+                    "RelevantKeywords": {
+                        "BudgetPercent": 10009,
+                        "OptimizeGoalId": 1000040
+                    },
+                    "PriorityGoals": {
+                        "Items": [
+                            {
+                                "GoalId": 1000041,
+                                "Value": 1000042
+                            }
+                        ]
+                    }
+                },
+                "MobileAppCampaign": {
+                    "BiddingStrategy": {
+                        "Search": {
+                            "BiddingStrategyType": "AVERAGE_CPC",
+                            "WbMaximumClicks": {
+                                "WeeklySpendLimit": 1000043,
+                                "BidCeiling": 1000044
+                            },
+                            "WbMaximumAppInstalls": {
+                                "WeeklySpendLimit": 1000045,
+                                "BidCeiling": 1000046
+                            },
+                            "AverageCpc": {
+                                "AverageCpc": 1000047,
+                                "WeeklySpendLimit": 1000048
+                            },
+                            "AverageCpi": {
+                                "AverageCpi": 1000049,
+                                "WeeklySpendLimit": 1000050,
+                                "BidCeiling": 1000051
+                            },
+                            "WeeklyClickPackage": {
+                                "ClicksPerWeek": 1000052,
+                                "AverageCpc": 1000053,
+                                "BidCeiling": 1000054
+                            }
+                        },
+                        "Network": {
+                            "BiddingStrategyType": "AVERAGE_CPC",
+                            "NetworkDefault": {
+                                "LimitPercent": 10010,
+                                "BidPercent": 10011
+                            },
+                            "WbMaximumClicks": {
+                                "WeeklySpendLimit": 1000055,
+                                "BidCeiling": 1000056
+                            },
+                            "WbMaximumAppInstalls": {
+                                "WeeklySpendLimit": 1000057,
+                                "BidCeiling": 1000058
+                            },
+                            "AverageCpc": {
+                                "AverageCpc": 1000059,
+                                "WeeklySpendLimit": 1000060
+                            },
+                            "AverageCpi": {
+                                "AverageCpi": 1000061,
+                                "WeeklySpendLimit": 1000062,
+                                "BidCeiling": 1000063
+                            },
+                            "WeeklyClickPackage": {
+                                "ClicksPerWeek": 1000064,
+                                "AverageCpc": 1000065,
+                                "BidCeiling": 1000066
+                            }
+                        }
+                    },
+                    "Settings": [
+                        {
+                            "Option": "ADD_TO_FAVORITES",
+                            "Value": "YES"
+                        }
+                    ]
+                },
+                "DynamicTextCampaign": {
+                    "BiddingStrategy": {
+                        "Search": {
+                            "BiddingStrategyType": "AVERAGE_CPA",
+                            "WbMaximumClicks": {
+                                "WeeklySpendLimit": 1000067,
+                                "BidCeiling": 1000068
+                            },
+                            "WbMaximumConversionRate": {
+                                "WeeklySpendLimit": 1000069,
+                                "BidCeiling": 1000070,
+                                "GoalId": 1000071
+                            },
+                            "AverageCpc": {
+                                "AverageCpc": 1000072,
+                                "WeeklySpendLimit": 1000073
+                            },
+                            "AverageCpa": {
+                                "AverageCpa": 1000074,
+                                "GoalId": 1000075,
+                                "WeeklySpendLimit": 1000076,
+                                "BidCeiling": 1000077
+                            },
+                            "WeeklyClickPackage": {
+                                "ClicksPerWeek": 1000078,
+                                "AverageCpc": 1000079,
+                                "BidCeiling": 1000080
+                            },
+                            "AverageRoi": {
+                                "ReserveReturn": 10012,
+                                "RoiCoef": 1000081,
+                                "GoalId": 1000082,
+                                "WeeklySpendLimit": 1000083,
+                                "BidCeiling": 1000084,
+                                "Profitability": 1000085
+                            }
+                        },
+                        "Network": {
+                            "BiddingStrategyType": "SERVING_OFF"
+                        }
+                    },
+                    "Settings": [
+                        {
+                            "Option": "ADD_METRICA_TAG",
+                            "Value": "YES"
+                        }
+                    ],
+                    "CounterIds": {
+                        "Items": [
+                            10013,
+                            10014
+                        ]
+                    }
+                },
+                "CpmBannerCampaign": {
+                    "BiddingStrategy": {
+                        "Search": {
+                            "BiddingStrategyType": "SERVING_OFF"
+                        },
+                        "Network": {
+                            "BiddingStrategyType": "MANUAL_CPM",
+                            "WbMaximumImpressions": {
+                                "AverageCpm": 1000086,
+                                "SpendLimit": 1000087
+                            },
+                            "CpMaximumImpressions": {
+                                "AverageCpm": 1000088,
+                                "SpendLimit": 1000089,
+                                "StartDate": "This is string #16",
+                                "EndDate": "This is string #17",
+                                "AutoContinue": "YES"
+                            },
+                            "WbDecreasedPriceForRepeatedImpressions": {
+                                "AverageCpm": 1000090,
+                                "SpendLimit": 1000091
+                            },
+                            "CpDecreasedPriceForRepeatedImpressions": {
+                                "AverageCpm": 1000092,
+                                "SpendLimit": 1000093,
+                                "StartDate": "This is string #18",
+                                "EndDate": "This is string #19",
+                                "AutoContinue": "YES"
+                            }
+                        }
+                    },
+                    "Settings": [
+                        {
+                            "Option": "ADD_METRICA_TAG",
+                            "Value": "YES"
+                        }
+                    ],
+                    "CounterIds": {
+                        "Items": [
+                            10015,
+                            10016
+                        ]
+                    },
+                    "FrequencyCap": {
+                        "Impressions": 10017,
+                        "PeriodDays": 10018
+                    }
+                },
+                "TimeTargeting": {
+                    "Schedule": {
+                        "Items": [
+                            "This is string #20",
+                            "This is string #21"
+                        ]
+                    },
+                    "ConsiderWorkingWeekends": "YES",
+                    "HolidaysSchedule": {
+                        "SuspendOnHolidays": "YES",
+                        "BidPercent": 10019,
+                        "StartHour": 10020,
+                        "EndHour": 10021
+                    }
+                }
+            }
+        ]
+    }
+}

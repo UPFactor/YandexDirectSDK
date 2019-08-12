@@ -7,10 +7,6 @@ use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AudienceTarget;
 use YandexDirectSDK\Models\AudienceTargetBid;
@@ -18,12 +14,12 @@ use YandexDirectSDK\Models\AudienceTargetBid;
 /** 
  * Class AudienceTargetsService 
  * 
- * @method   Result                                add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   QueryBuilder                          query()
- * @method   AudienceTarget|AudienceTargets|null   find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
- * @method   Result                                delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   Result                                resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
- * @method   Result                                suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method static     Result                                  add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method static     QueryBuilder                            query()
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result                                  delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method static     Result                                  resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method static     Result                                  suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -50,14 +46,10 @@ class AudienceTargetsService extends Service
      * @param integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets
      * @param integer $contextBid
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ModelException
      */
-    public function setRelatedContextBids($audienceTargets, $contextBid):Result
+    public static function setRelatedContextBids($audienceTargets, $contextBid):Result
     {
-        $audienceTargetIds = $this->extractIds($audienceTargets);
+        $audienceTargetIds = static::extractIds($audienceTargets);
         $audienceTargetBids = new AudienceTargetBids();
 
         foreach ($audienceTargetIds as $id){
@@ -68,7 +60,7 @@ class AudienceTargetsService extends Service
             );
         }
 
-        return $this->setBids($audienceTargetBids);
+        return static::setBids($audienceTargetBids);
     }
 
     /**
@@ -77,14 +69,10 @@ class AudienceTargetsService extends Service
      * @param integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets
      * @param string $strategyPriority
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ModelException
      */
-    public function setRelatedStrategyPriority($audienceTargets, $strategyPriority):Result
+    public static function setRelatedStrategyPriority($audienceTargets, $strategyPriority):Result
     {
-        $audienceTargetIds = $this->extractIds($audienceTargets);
+        $audienceTargetIds = static::extractIds($audienceTargets);
         $audienceTargetBids = new AudienceTargetBids();
 
         foreach ($audienceTargetIds as $id){
@@ -95,7 +83,7 @@ class AudienceTargetsService extends Service
             );
         }
 
-        return $this->setBids($audienceTargetBids);
+        return static::setBids($audienceTargetBids);
     }
 
     /**
@@ -103,12 +91,9 @@ class AudienceTargetsService extends Service
      *
      * @param AudienceTargetBid|AudienceTargetBids|ModelCommonInterface $audienceTargetBids
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function setBids(ModelCommonInterface $audienceTargetBids):Result
+    public static function setBids(ModelCommonInterface $audienceTargetBids):Result
     {
-        return $this->updateCollection('setBids', $audienceTargetBids, 'Bids', 'SetBidsResults');
+        return static::updateCollection('setBids', $audienceTargetBids, 'Bids', 'SetBidsResults');
     }
 }

@@ -46,6 +46,13 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
     public static function wrap(array $models);
 
     /**
+     * Get all of the items in the collection.
+     *
+     * @return ModelInterface[]
+     */
+    public function unwrap();
+
+    /**
      * Reset the collection.
      *
      * @param ModelInterface[] $models
@@ -84,9 +91,31 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
     public function isNotEmpty(Closure $callable = null);
 
     /**
+     * Get the keys of the collection items.
+     *
+     * @return array
+     */
+    public function keys();
+
+    /**
+     * Get the values of the collection items.
+     *
+     * @return ModelInterface[]
+     */
+    public function values();
+
+    /**
+     * Divide the collection into two arrays. One with keys,
+     * and the other with values.
+     *
+     * @return array
+     */
+    public function divide();
+
+    /**
      * Return the first item in the collection that passed a given truth test.
      *
-     * @param  mixed  $default
+     * @param  mixed|null  $default
      * @param  Closure $callback
      * @return ModelInterface|null
      */
@@ -95,27 +124,11 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
     /**
      * Return the last item in the collection that passed a given truth test.
      *
-     * @param  ModelInterface $default
+     * @param  mixed|null $default
      * @param  Closure $callback
      * @return ModelInterface|null
      */
     public function last($default = null, $callback = null);
-
-    /**
-     * Push an item onto the end of the collection.
-     *
-     * @param ModelInterface $value
-     * @return $this
-     */
-    public function push($value);
-
-    /**
-     * Extract the array of model property values from the collection.
-     *
-     * @param string|string[] $properties
-     * @return array
-     */
-    public function extract($properties);
 
     /**
      * Get and delete the first item from the collection.
@@ -132,6 +145,14 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
      * @return ModelInterface|null
      */
     public function pop($default = null);
+
+    /**
+     * Get a subset of the items from the given array.
+     *
+     * @param string|array $keys
+     * @return static
+     */
+    public function only($keys);
 
     /**
      * Returns all elements of the collection except the last.
@@ -188,4 +209,20 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
      * @return static
      */
     public function slice($offset, $length = null);
+
+    /**
+     * Push an item onto the end of the collection.
+     *
+     * @param ModelInterface $value
+     * @return $this
+     */
+    public function push($value);
+
+    /**
+     * Extract the array of model property values from the collection.
+     *
+     * @param string|string[] $properties
+     * @return array
+     */
+    public function extract($properties);
 }

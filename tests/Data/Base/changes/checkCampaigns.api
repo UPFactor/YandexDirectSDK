@@ -1,0 +1,15 @@
+{
+    "result": {
+        "Campaigns": [
+            {
+                "CampaignId": 1000008,
+                "ChangesIn": [
+                    "SELF",
+                    "CHILDREN",
+                    "STAT"
+                ]
+            }
+        ],
+        "Timestamp": "This is string #22"
+    }
+}

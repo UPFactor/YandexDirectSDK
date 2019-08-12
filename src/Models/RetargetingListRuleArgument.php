@@ -7,14 +7,13 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class RetargetingListRuleArgument 
  * 
- * @property       integer   $membershipLifeSpan
- * @property       integer   $externalId
- * 
- * @method         $this     setMembershipLifeSpan(integer $membershipLifeSpan)
- * @method         $this     setExternalId(integer $externalId)
- * 
- * @method         integer   getMembershipLifeSpan()
- * @method         integer   getExternalId()
+ * @property     integer     $membershipLifeSpan
+ * @property     integer     $externalId
+ *                           
+ * @method       $this       setMembershipLifeSpan(integer $membershipLifeSpan)
+ * @method       integer     getMembershipLifeSpan()
+ * @method       $this       setExternalId(integer $externalId)
+ * @method       integer     getExternalId()
  * 
  * @package YandexDirectSDK\Models 
  */ 

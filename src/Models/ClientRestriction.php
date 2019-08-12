@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class ClientRestriction 
  * 
- * @property-read   string   $element
- * @property-read   string   $value
- * 
- * @method          string   getElement()
- * @method          string   getValue()
+ * @property-read     string     $element
+ * @property-read     string     $value
+ *                               
+ * @method            string     getElement()
+ * @method            string     getValue()
  * 
  * @package YandexDirectSDK\Models 
  */ 

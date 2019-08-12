@@ -7,8 +7,6 @@ use DateTime;
 use DateTimeZone;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Data;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 
 /** 
@@ -20,11 +18,17 @@ class ChangesService extends Service
 {
     protected static $name = 'changes';
 
+    protected static $modelClass;
+
+    protected static $modelCollectionClass;
+
+    protected static $methods = [];
+
     /**
      * @param null $timestamp
      * @return string
      */
-    protected function timestampConverting($timestamp = null):string
+    protected static function timestampConverting($timestamp = null):string
     {
         try {
             return (new DateTime($timestamp))
@@ -39,13 +43,10 @@ class ChangesService extends Service
      * Getting the current service time.
      *
      * @return Data
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     * @throws RequestException
      */
-    public function getTimestamp():Data
+    public static function getTimestamp():Data
     {
-        return $this->call('checkDictionaries', (object)[])->data->get('Timestamp');
+        return static::call('checkDictionaries', (object)[])->data->get('Timestamp');
     }
 
     /**
@@ -53,13 +54,10 @@ class ChangesService extends Service
      *
      * @param $timestamp
      * @return Data
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function checkDictionaries($timestamp):Data
+    public static function checkDictionaries($timestamp):Data
     {
-        return $this->call('checkDictionaries', ['Timestamp' => $this->timestampConverting($timestamp)])->data;
+        return static::call('checkDictionaries', ['Timestamp' => static::timestampConverting($timestamp)])->data;
     }
 
     /**
@@ -67,13 +65,10 @@ class ChangesService extends Service
      *
      * @param $timestamp
      * @return Data
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function checkCampaigns($timestamp):Data
+    public static function checkCampaigns($timestamp):Data
     {
-        return $this->call('checkCampaigns', ['Timestamp' => $this->timestampConverting($timestamp)])->data;
+        return static::call('checkCampaigns', ['Timestamp' => static::timestampConverting($timestamp)])->data;
     }
 
     /**
@@ -83,14 +78,11 @@ class ChangesService extends Service
      * @param integer|integer[] $campaignIds
      * @param string[]|null $fieldNames
      * @return Data
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function checkCampaign($timestamp, $campaignIds, array $fieldNames = null):Data
+    public static function checkCampaign($timestamp, $campaignIds, array $fieldNames = null):Data
     {
-        return $this->call('check', [
-            'Timestamp' => $this->timestampConverting($timestamp),
+        return static::call('check', [
+            'Timestamp' => static::timestampConverting($timestamp),
             'CampaignIds' => is_array($campaignIds) ? $campaignIds : [$campaignIds],
             'FieldNames' => is_null($fieldNames) ? ['CampaignIds','CampaignsStat','AdGroupIds','AdIds'] : $fieldNames
         ])->data;
@@ -103,14 +95,11 @@ class ChangesService extends Service
      * @param integer|integer[] $adGroupIds
      * @param string[]|null $fieldNames
      * @return Data
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function checkAdGroup($timestamp, $adGroupIds, $fieldNames = null):Data
+    public static function checkAdGroup($timestamp, $adGroupIds, $fieldNames = null):Data
     {
-        return $this->call('check', [
-            'Timestamp' => $this->timestampConverting($timestamp),
+        return static::call('check', [
+            'Timestamp' => static::timestampConverting($timestamp),
             'AdGroupIds' => is_array($adGroupIds) ? $adGroupIds : [$adGroupIds],
             'FieldNames' => is_null($fieldNames) ? ['CampaignIds','CampaignsStat','AdGroupIds','AdIds'] : $fieldNames
         ])->data;
@@ -123,14 +112,11 @@ class ChangesService extends Service
      * @param integer|integer[] $adIds
      * @param string[]|null $fieldNames
      * @return Data
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function checkAd($timestamp, $adIds, $fieldNames = null):Data
+    public static function checkAd($timestamp, $adIds, $fieldNames = null):Data
     {
-        return $this->call('check', [
-            'Timestamp' => $this->timestampConverting($timestamp),
+        return static::call('check', [
+            'Timestamp' => static::timestampConverting($timestamp),
             'AdIds' => is_array($adIds) ? $adIds : [$adIds],
             'FieldNames' => is_null($fieldNames) ? ['CampaignIds','CampaignsStat','AdGroupIds','AdIds'] : $fieldNames
         ])->data;

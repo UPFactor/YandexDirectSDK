@@ -1,0 +1,26 @@
+{
+    "result": {
+        "AddResults": [
+            {
+                "Ids": [
+                    1000078,
+                    1000079
+                ],
+                "Warnings": [
+                    {
+                        "Code": 10066,
+                        "Message": "This is string #170",
+                        "Details": "This is string #171"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10067,
+                        "Message": "This is string #172",
+                        "Details": "This is string #173"
+                    }
+                ]
+            }
+        ]
+    }
+}

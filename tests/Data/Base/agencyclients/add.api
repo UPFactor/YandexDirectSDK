@@ -1,0 +1,22 @@
+{
+    "result": {
+        "Login": "This is string #26",
+        "Password": "This is string #27",
+        "Email": "This is string #28",
+        "ClientId": 1000028,
+        "Warnings": [
+            {
+                "Code": 10011,
+                "Message": "This is string #29",
+                "Details": "This is string #30"
+            }
+        ],
+        "Errors": [
+            {
+                "Code": 10012,
+                "Message": "This is string #31",
+                "Details": "This is string #32"
+            }
+        ]
+    }
+}

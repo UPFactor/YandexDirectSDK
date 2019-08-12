@@ -1,0 +1,24 @@
+{
+    "method": "add",
+    "params": {
+        "Webpages": [
+            {
+                "Name": "This is string #2",
+                "AdGroupId": 1000001,
+                "Conditions": [
+                    {
+                        "Operand": "DOMAIN",
+                        "Operator": "EQUALS_ANY",
+                        "Arguments": [
+                            "This is string #3",
+                            "This is string #4"
+                        ]
+                    }
+                ],
+                "Bid": 1000002,
+                "ContextBid": 1000003,
+                "StrategyPriority": "LOW"
+            }
+        ]
+    }
+}

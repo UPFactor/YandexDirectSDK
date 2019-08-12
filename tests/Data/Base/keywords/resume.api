@@ -1,0 +1,23 @@
+{
+    "result": {
+        "ResumeResults": [
+            {
+                "Id": 1000047,
+                "Warnings": [
+                    {
+                        "Code": 10039,
+                        "Message": "This is string #88",
+                        "Details": "This is string #89"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10040,
+                        "Message": "This is string #90",
+                        "Details": "This is string #91"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "method": "update",
+    "params": {
+        "Clients": [
+            {
+                "ClientInfo": "This is string #218",
+                "Notification": {
+                    "Lang": "RU",
+                    "Email": "This is string #219",
+                    "EmailSubscriptions": [
+                        {
+                            "Option": "RECEIVE_RECOMMENDATIONS",
+                            "Value": "YES"
+                        }
+                    ]
+                },
+                "Phone": "This is string #220",
+                "Settings": [
+                    {
+                        "Option": "CORRECT_TYPOS_AUTOMATICALLY",
+                        "Value": "YES"
+                    }
+                ]
+            }
+        ]
+    }
+}

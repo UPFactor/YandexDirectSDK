@@ -39,6 +39,17 @@ trait CollectionBaseTrait {
     }
 
     /**
+     * Get the collection of items as a plain array.
+     *
+     * @return array
+     */
+    public function unwrap(){
+        return Arr::map($this->items, function($item){
+            return $item instanceof self ? $item->unwrap() : $item;
+        });
+    }
+
+    /**
      * Convert the collection to its string representation.
      *
      * @return string
@@ -63,8 +74,11 @@ trait CollectionBaseTrait {
      * @param mixed $value
      * @return static
      */
-    public function redeclare($value){
-        return (new static())->reset($value);
+    protected function redeclare($value){
+        return (function($items){
+            $this->items = $items;
+            return $this;
+        })->bindTo(new static())($value);
     }
 
     /**
@@ -76,17 +90,6 @@ trait CollectionBaseTrait {
     public function reset($value = []){
         $this->items = $this->dataCreationController($value);
         return $this;
-    }
-
-    /**
-     * Get the collection of items as a plain array.
-     *
-     * @return array
-     */
-    public function unwrap(){
-        return Arr::map($this->items, function($item){
-            return $item instanceof self ? $item->unwrap() : $item;
-        });
     }
 
     /**
@@ -265,7 +268,7 @@ trait CollectionBaseTrait {
      * @return static
      */
     public function map(Closure $callable, $context = null){
-        return $this->redeclare(Arr::map($this->items, $callable, $context));
+        return static::wrap(Arr::map($this->items, $callable, $context));
     }
 
     /**
@@ -293,79 +296,6 @@ trait CollectionBaseTrait {
     }
 
     /**
-     * Removes duplicate values from a collection.
-     *
-     * @return static
-     */
-    public function unique(){
-        $this->items = Arr::unique($this->items);
-        return $this;
-    }
-
-    /**
-     * Retrieve a new collection with unique elements of all transferred arrays or collections.
-     * The order of the elements will be determined by the order of their appearance in the source arrays.
-     *
-     * @param mixed ...$values
-     * @return static
-     */
-    public function union(...$values){
-        foreach ($values as $key => $value){
-            $values[$key] = $this->dataFusionController($value);
-        }
-
-        $this->items = Arr::union($this->items, ...$values);
-
-        return $this;
-    }
-
-    /**
-     * Merge the collection with the given items.
-     *
-     * @param mixed ...$values
-     * @return static
-     */
-    public function merge(...$values){
-        foreach ($values as $key => $value){
-            $values[$key] = $this->dataFusionController($value);
-        }
-
-        $this->items = array_merge($this->items, ...$values);
-
-        return $this;
-    }
-
-    /**
-     * Returns a new collection containing all the values of the current collection that are missing
-     * in all transferred arrays or collections.
-     *
-     * @param mixed ...$values
-     * @return static
-     */
-    public function diff(...$values){
-        foreach ($values as $key => $value){
-            $values[$key] = $this->dataFusionController($value);
-        }
-
-        return $this->redeclare(Arr::diff($this->items, ...$values));
-    }
-
-    /**
-     * Returns a new collection containing all the values of the current collection that are present
-     * in all transferred arrays or collections.
-     *
-     * @param mixed ...$values
-     * @return static
-     */
-    public function intersect(...$values){
-        foreach ($values as $key => $value){
-            $values[$key] = $this->dataFusionController($value);
-        }
-
-        return $this->redeclare(Arr::intersect($this->items, ...$values));
-    }
-
-    /**
      * Slice the collection.
      *
      * @param $offset
@@ -374,27 +304,6 @@ trait CollectionBaseTrait {
      */
     public function slice($offset, $length = null){
         return $this->redeclare(array_slice($this->items, $offset, $length, true));
-    }
-
-    /**
-     * Reverse items order.
-     *
-     * @return $this
-     */
-    public function reverse(){
-        $this->items = array_reverse($this->items, true);
-        return $this;
-    }
-
-    /**
-     * Sort through each item with a callback.
-     *
-     * @param Closure|null $callback
-     * @return $this
-     */
-    public function sort(Closure $callback = null){
-        $callback ? uasort($this->items, $callback) : asort($this->items);
-        return $this;
     }
 
     /**

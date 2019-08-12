@@ -6,20 +6,19 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class PriceExtension 
  * 
- * @property       integer   $price
- * @property       integer   $oldPrice
- * @property       string    $priceQualifier
- * @property       string    $priceCurrency
- * 
- * @method         $this     setPrice(integer $price)
- * @method         $this     setOldPrice(integer $oldPrice)
- * @method         $this     setPriceQualifier(string $priceQualifier)
- * @method         $this     setPriceCurrency(string $priceCurrency)
- * 
- * @method         integer   getPrice()
- * @method         integer   getOldPrice()
- * @method         string    getPriceQualifier()
- * @method         string    getPriceCurrency()
+ * @property     integer     $price
+ * @property     integer     $oldPrice
+ * @property     string      $priceQualifier
+ * @property     string      $priceCurrency
+ *                           
+ * @method       $this       setPrice(integer $price)
+ * @method       integer     getPrice()
+ * @method       $this       setOldPrice(integer $oldPrice)
+ * @method       integer     getOldPrice()
+ * @method       $this       setPriceQualifier(string $priceQualifier)
+ * @method       string      getPriceQualifier()
+ * @method       $this       setPriceCurrency(string $priceCurrency)
+ * @method       string      getPriceCurrency()
  * 
  * @package YandexDirectSDK\Models 
  */ 

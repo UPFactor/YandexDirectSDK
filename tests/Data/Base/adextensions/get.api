@@ -1,0 +1,22 @@
+{
+    "result": {
+        "AdExtensions": [
+            {
+                "Id": 1000001,
+                "Associated": "YES",
+                "Type": "CALLOUT",
+                "Callout": {
+                    "CalloutText": "This is string #2"
+                },
+                "State": [
+                    "ON",
+                    "DELETED",
+                    "UNKNOWN"
+                ],
+                "Status": "ACCEPTED",
+                "StatusClarification": "This is string #3"
+            }
+        ],
+        "LimitedBy": 1000002
+    }
+}

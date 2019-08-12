@@ -6,14 +6,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAdBuilderAd 
  * 
- * @property       AdBuilderAd   $creative
- * @property       string        $trackingUrl
- * 
- * @method         $this         setCreative(AdBuilderAd $creative)
- * @method         $this         setTrackingUrl(string $trackingUrl)
- * 
- * @method         AdBuilderAd   getCreative()
- * @method         string        getTrackingUrl()
+ * @property     AdBuilderAd     $creative
+ * @property     string          $trackingUrl
+ *                               
+ * @method       $this           setCreative(AdBuilderAd $creative)
+ * @method       AdBuilderAd     getCreative()
+ * @method       $this           setTrackingUrl(string $trackingUrl)
+ * @method       string          getTrackingUrl()
  * 
  * @package YandexDirectSDK\Models 
  */ 

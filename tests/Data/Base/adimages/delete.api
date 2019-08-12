@@ -1,0 +1,23 @@
+{
+    "result": {
+        "DeleteResults": [
+            {
+                "AdImageHash": "This is string #99",
+                "Warnings": [
+                    {
+                        "Code": 10043,
+                        "Message": "This is string #100",
+                        "Details": "This is string #101"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10044,
+                        "Message": "This is string #102",
+                        "Details": "This is string #103"
+                    }
+                ]
+            }
+        ]
+    }
+}

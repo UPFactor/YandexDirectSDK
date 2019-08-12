@@ -3,17 +3,19 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\RetargetingList;
 use YandexDirectSDK\Services\RetargetingListsService;
 
 /** 
  * Class RetargetingLists 
  * 
- * @method   Result         add()
- * @method   Result         delete()
- * @method   QueryBuilder   query()
- * @method   Result         update()
+ * @method static     QueryBuilder                              query()
+ * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                                    add()
+ * @method            Result                                    delete()
+ * @method            Result                                    update()
  * 
  * @package YandexDirectSDK\Collections 
  */ 

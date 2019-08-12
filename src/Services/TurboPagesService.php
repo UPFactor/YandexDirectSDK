@@ -10,7 +10,7 @@ use YandexDirectSDK\Models\TurboPage;
 /** 
  * Class TurboPagesService 
  * 
- * @method   TurboPage|TurboPages|null   find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */ 
@@ -29,9 +29,9 @@ class TurboPagesService extends Service
     /**
      * @return QueryBuilder
      */
-    public function query() : QueryBuilder
+    public static function query() : QueryBuilder
     {
-        return $this->selectionElements('get', function($query){
+        return static::selectionElements('get', function($query){
             if (empty($query['SelectionCriteria'])){
                 unset($query['SelectionCriteria']);
             }

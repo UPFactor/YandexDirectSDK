@@ -1,0 +1,31 @@
+{
+    "method": "add",
+    "params": {
+        "Login": "This is string #2",
+        "FirstName": "This is string #3",
+        "LastName": "This is string #4",
+        "Currency": "RUB",
+        "Grants": [
+            {
+                "Privilege": "EDIT_CAMPAIGNS",
+                "Value": "YES"
+            }
+        ],
+        "Notification": {
+            "Lang": "RU",
+            "Email": "This is string #5",
+            "EmailSubscriptions": [
+                {
+                    "Option": "RECEIVE_RECOMMENDATIONS",
+                    "Value": "YES"
+                }
+            ]
+        },
+        "Settings": [
+            {
+                "Option": "CORRECT_TYPOS_AUTOMATICALLY",
+                "Value": "YES"
+            }
+        ]
+    }
+}

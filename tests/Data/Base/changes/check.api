@@ -1,0 +1,53 @@
+{
+    "result": {
+        "Modified": {
+            "CampaignIds": [
+                1000009,
+                1000010
+            ],
+            "AdGroupIds": [
+                1000011,
+                1000012
+            ],
+            "AdIds": [
+                1000013,
+                1000014
+            ],
+            "CampaignsStat": [
+                {
+                    "CampaignId": 1000015,
+                    "BorderDate": "This is string #24"
+                }
+            ]
+        },
+        "NotFound": {
+            "CampaignIds": [
+                1000016,
+                1000017
+            ],
+            "AdGroupIds": [
+                1000018,
+                1000019
+            ],
+            "AdIds": [
+                1000020,
+                1000021
+            ]
+        },
+        "Unprocessed": {
+            "CampaignIds": [
+                1000022,
+                1000023
+            ],
+            "AdGroupIds": [
+                1000024,
+                1000025
+            ],
+            "AdIds": [
+                1000026,
+                1000027
+            ]
+        },
+        "Timestamp": "This is string #25"
+    }
+}

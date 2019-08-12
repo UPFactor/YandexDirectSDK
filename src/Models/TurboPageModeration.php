@@ -6,11 +6,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class TurboPageModeration 
  * 
- * @property-read   string   $status
- * @property-read   string   $statusClarification
- * 
- * @method          string   getStatus()
- * @method          string   getStatusClarification()
+ * @property-read     string     $status
+ * @property-read     string     $statusClarification
+ *                               
+ * @method            string     getStatus()
+ * @method            string     getStatusClarification()
  * 
  * @package YandexDirectSDK\Models 
  */ 

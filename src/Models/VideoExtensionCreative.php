@@ -6,9 +6,9 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class VideoExtensionCreative 
  * 
- * @property-read   integer   $duration
- * 
- * @method          integer   getDuration()
+ * @property-read     integer     $duration
+ *                                
+ * @method            integer     getDuration()
  * 
  * @package YandexDirectSDK\Models 
  */ 

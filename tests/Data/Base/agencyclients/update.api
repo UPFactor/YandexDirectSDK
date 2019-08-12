@@ -1,0 +1,34 @@
+{
+    "method": "update",
+    "params": {
+        "Clients": [
+            {
+                "ClientId": 1000029,
+                "ClientInfo": "This is string #33",
+                "Grants": [
+                    {
+                        "Privilege": "EDIT_CAMPAIGNS",
+                        "Value": "YES"
+                    }
+                ],
+                "Notification": {
+                    "Lang": "RU",
+                    "Email": "This is string #34",
+                    "EmailSubscriptions": [
+                        {
+                            "Option": "RECEIVE_RECOMMENDATIONS",
+                            "Value": "YES"
+                        }
+                    ]
+                },
+                "Phone": "This is string #35",
+                "Settings": [
+                    {
+                        "Option": "DISPLAY_STORE_RATING",
+                        "Value": "YES"
+                    }
+                ]
+            }
+        ]
+    }
+}

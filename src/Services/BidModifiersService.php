@@ -2,7 +2,6 @@
 
 namespace YandexDirectSDK\Services;
 
-use ReflectionException;
 use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Collections\BidModifierSets;
 use YandexDirectSDK\Collections\BidModifierToggles;
@@ -11,11 +10,6 @@ use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\Service;
-use YandexDirectSDK\Exceptions\InvalidArgumentException;
-use YandexDirectSDK\Exceptions\ModelException;
-use YandexDirectSDK\Exceptions\RequestException;
-use YandexDirectSDK\Exceptions\RuntimeException;
-use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\BidModifier;
@@ -25,9 +19,9 @@ use YandexDirectSDK\Models\BidModifierToggle;
 /** 
  * Class BidModifiersService 
  * 
- * @method   Result                          delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
- * @method   QueryBuilder                    query()
- * @method   BidModifier|BidModifiers|null   find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result                            delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
+ * @method static     QueryBuilder                      query()
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -50,12 +44,8 @@ class BidModifiersService extends Service
      *
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ReflectionException
      */
-    public function add(ModelCommonInterface $bidModifiers) : Result
+    public static function add(ModelCommonInterface $bidModifiers) : Result
     {
         //If the model is transferred, it must be converted to
         //the appropriate collection.
@@ -130,7 +120,7 @@ class BidModifiersService extends Service
         $arrBidModifiers = array_values($arrBidModifiers);
 
         //Request to API Yandex.Direct
-        $result = $this->call('add', [$bidModifiers::getClassName() => $arrBidModifiers]);
+        $result = static::call('add', [$bidModifiers::getClassName() => $arrBidModifiers]);
         $resultData = $result->data->all();
         $modelData = [];
 
@@ -158,19 +148,14 @@ class BidModifiersService extends Service
      * @param int|int[]|string|string[]|BidModifier|BidModifiers|BidModifierSet|BidModifierSets|ModelCommonInterface $bidModifiers
      * @param int $value
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
-     * @throws ServiceException
-     * @throws ModelException
      */
-    public function set($bidModifiers, int $value = null): Result
+    public static function set($bidModifiers, int $value = null): Result
     {
         //Converting BidModifier (BidModifiers) objects into
         //corresponding BidModifierSet (BidModifierSets) objects.
 
         if (!($bidModifiers instanceof BidModifierSet) and !($bidModifiers instanceof BidModifierSets)){
-            $bidModifiers = $this->bind(
+            $bidModifiers = static::bind(
                 $bidModifiers,
                 BidModifierSet::make()->setBidModifier($value),
                 'Id'
@@ -179,7 +164,7 @@ class BidModifiersService extends Service
 
         //Request to API Yandex.Direct
 
-        return $this->updateCollection(
+        return static::updateCollection(
             'set',
             $bidModifiers,
             'BidModifiers',
@@ -192,13 +177,10 @@ class BidModifiersService extends Service
      *
      * @param BidModifierToggle|BidModifierToggles|ModelCommonInterface $bidModifiers
      * @return Result
-     * @throws InvalidArgumentException
-     * @throws RequestException
-     * @throws RuntimeException
      */
-    public function toggle($bidModifiers): Result
+    public static function toggle($bidModifiers): Result
     {
-        return $this->updateCollection(
+        return static::updateCollection(
             'toggle',
             $bidModifiers,
             'BidModifierToggleItems',

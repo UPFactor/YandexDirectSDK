@@ -2,7 +2,6 @@
 <phpunit bootstrap="../vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="Base">
-            <file>Units/Environment/EnvironmentTest.php</file>
             <file>Units/Session/SessionTest.php</file>
         </testsuite>
 
@@ -11,7 +10,7 @@
         </testsuite>
 
         <testsuite name="Models">
-            <file>Units/Models/CampaignTest.php</file>
+            <file>Units/Models/ModelsTest.php</file>
         </testsuite>
 
         <testsuite name="ModelCollections">

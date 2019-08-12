@@ -12,10 +12,10 @@ use YandexDirectSDK\Models\VCard;
 /** 
  * Class VCardsService 
  * 
- * @method   Result              add(VCard|VCards|ModelCommonInterface $vCards)
- * @method   QueryBuilder        query()
- * @method   VCard|VCards|null   find(integer|integer[]|VCard|VCards|ModelCommonInterface $ids, string[] $fields)
- * @method   Result              delete(integer|integer[]|VCard|VCards|ModelCommonInterface $vCards)
+ * @method static     Result                add(VCard|VCards|ModelCommonInterface $vCards)
+ * @method static     QueryBuilder          query()
+ * @method static     VCard|VCards|null     find(integer|integer[]|VCard|VCards|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Result                delete(integer|integer[]|VCard|VCards|ModelCommonInterface $vCards)
  * 
  * @package YandexDirectSDK\Services 
  */

@@ -1,0 +1,26 @@
+{
+    "result": {
+        "RetargetingLists": [
+            {
+                "Type": "RETARGETING",
+                "Id": 1000001,
+                "IsAvailable": "YES",
+                "Name": "This is string #2",
+                "Description": "This is string #3",
+                "Rules": [
+                    {
+                        "Arguments": [
+                            {
+                                "MembershipLifeSpan": 10001,
+                                "ExternalId": 1000002
+                            }
+                        ],
+                        "Operator": "ALL"
+                    }
+                ],
+                "Scope": "FOR_TARGETS_AND_ADJUSTMENTS"
+            }
+        ],
+        "LimitedBy": 1000003
+    }
+}

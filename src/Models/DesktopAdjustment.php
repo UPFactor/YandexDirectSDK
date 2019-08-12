@@ -6,11 +6,10 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class DesktopAdjustment 
  * 
- * @property       integer   $bidModifier
- * 
- * @method         $this     setBidModifier(integer $bidModifier)
- * 
- * @method         integer   getBidModifier()
+ * @property     integer     $bidModifier
+ *                           
+ * @method       $this       setBidModifier(integer $bidModifier)
+ * @method       integer     getBidModifier()
  * 
  * @package YandexDirectSDK\Models 
  */ 

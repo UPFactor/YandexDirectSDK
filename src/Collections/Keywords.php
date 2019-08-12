@@ -11,17 +11,18 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 /** 
  * Class Keywords 
  * 
- * @method   Result         add()
- * @method   Result         delete()
- * @method   QueryBuilder   query()
- * @method   Result         resume()
- * @method   Result         suspend()
- * @method   Result         update()
- * @method   Result         setRelatedBids($bid, $contextBid = null)
- * @method   Result         setRelatedContextBids($contextBid)
- * @method   Result         setRelatedStrategyPriority(string $strategyPriority)
- * @method   Result         setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method   Result         getRelatedBids(array $fields)
+ * @method static     QueryBuilder              query()
+ * @method static     Keyword|Keywords|null     find(integer|integer[]|Keyword|Keywords|ModelCommonInterface $ids, string[] $fields)
+ * @method            Result                    add()
+ * @method            Result                    delete()
+ * @method            Result                    resume()
+ * @method            Result                    suspend()
+ * @method            Result                    update()
+ * @method            Result                    setRelatedBids($bid, $contextBid=null)
+ * @method            Result                    setRelatedContextBids($contextBid)
+ * @method            Result                    setRelatedStrategyPriority(string $strategyPriority)
+ * @method            Result                    setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
+ * @method            Result                    getRelatedBids(array $fields)
  * 
  * @package YandexDirectSDK\Collections 
  */ 

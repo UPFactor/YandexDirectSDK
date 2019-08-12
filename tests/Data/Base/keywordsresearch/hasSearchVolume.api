@@ -1,0 +1,17 @@
+{
+    "result": {
+        "HasSearchVolumeResults": [
+            {
+                "Keyword": "This is string #2",
+                "RegionIds": [
+                    1000001,
+                    1000002
+                ],
+                "AllDevices": "YES",
+                "MobilePhones": "YES",
+                "Tablets": "YES",
+                "Desktops": "YES"
+            }
+        ]
+    }
+}

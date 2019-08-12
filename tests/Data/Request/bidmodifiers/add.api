@@ -1,0 +1,40 @@
+{
+    "method": "add",
+    "params": {
+        "BidModifiers": [
+            {
+                "MobileAdjustment": {
+                    "BidModifier": 10003,
+                    "OperatingSystemType": "IOS"
+                },
+                "DesktopAdjustment": {
+                    "BidModifier": 10004
+                },
+                "DemographicsAdjustments": [
+                    {
+                        "Gender": "GENDER_MALE",
+                        "Age": "AGE_0_17",
+                        "BidModifier": 10005
+                    }
+                ],
+                "RetargetingAdjustments": [
+                    {
+                        "RetargetingConditionId": 1000010,
+                        "BidModifier": 10006
+                    }
+                ],
+                "RegionalAdjustments": [
+                    {
+                        "RegionId": 1000011,
+                        "BidModifier": 10007
+                    }
+                ],
+                "VideoAdjustment": {
+                    "BidModifier": 10008
+                },
+                "CampaignId": 1000012,
+                "AdGroupId": 1000013
+            }
+        ]
+    }
+}

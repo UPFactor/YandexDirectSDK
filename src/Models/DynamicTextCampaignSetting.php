@@ -7,14 +7,13 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class DynamicTextCampaignSetting 
  * 
- * @property       string   $option
- * @property       string   $value
- * 
- * @method         $this    setOption(string $option)
- * @method         $this    setValue(string $value)
- * 
- * @method         string   getOption()
- * @method         string   getValue()
+ * @property     string     $option
+ * @property     string     $value
+ *                          
+ * @method       $this      setOption(string $option)
+ * @method       string     getOption()
+ * @method       $this      setValue(string $value)
+ * @method       string     getValue()
  * 
  * @package YandexDirectSDK\Models 
  */ 

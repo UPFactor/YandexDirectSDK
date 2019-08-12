@@ -7,23 +7,22 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class AudienceTargetBid 
  * 
- * @property       integer   $id
- * @property       integer   $adGroupId
- * @property       integer   $campaignId
- * @property       integer   $contextBid
- * @property       string    $strategyPriority
- * 
- * @method         $this     setId(integer $id)
- * @method         $this     setAdGroupId(integer $adGroupId)
- * @method         $this     setCampaignId(integer $campaignId)
- * @method         $this     setContextBid(integer $contextBid)
- * @method         $this     setStrategyPriority(string $strategyPriority)
- * 
- * @method         integer   getId()
- * @method         integer   getAdGroupId()
- * @method         integer   getCampaignId()
- * @method         integer   getContextBid()
- * @method         string    getStrategyPriority()
+ * @property     integer     $id
+ * @property     integer     $adGroupId
+ * @property     integer     $campaignId
+ * @property     integer     $contextBid
+ * @property     string      $strategyPriority
+ *                           
+ * @method       $this       setId(integer $id)
+ * @method       integer     getId()
+ * @method       $this       setAdGroupId(integer $adGroupId)
+ * @method       integer     getAdGroupId()
+ * @method       $this       setCampaignId(integer $campaignId)
+ * @method       integer     getCampaignId()
+ * @method       $this       setContextBid(integer $contextBid)
+ * @method       integer     getContextBid()
+ * @method       $this       setStrategyPriority(string $strategyPriority)
+ * @method       string      getStrategyPriority()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -41,9 +40,5 @@ class AudienceTargetBid extends Model
         'campaignId' => 'integer',
         'contextBid' => 'integer',
         'strategyPriority' => 'enum:' . self::LOW . ',' . self::NORMAL . ',' . self::HIGH,
-    ];
-
-    protected static $nonAddableProperties = [
-        'id'
     ];
 }

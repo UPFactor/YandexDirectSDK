@@ -1,0 +1,23 @@
+{
+    "result": {
+        "DeleteResults": [
+            {
+                "Id": 1000080,
+                "Warnings": [
+                    {
+                        "Code": 10068,
+                        "Message": "This is string #174",
+                        "Details": "This is string #175"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10069,
+                        "Message": "This is string #176",
+                        "Details": "This is string #177"
+                    }
+                ]
+            }
+        ]
+    }
+}

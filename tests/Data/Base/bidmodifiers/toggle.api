@@ -1,0 +1,25 @@
+{
+    "result": {
+        "ToggleResults": [
+            {
+                "CampaignId": 1000081,
+                "AdGroupId": 1000082,
+                "Type": "DEMOGRAPHICS_ADJUSTMENT",
+                "Warnings": [
+                    {
+                        "Code": 10070,
+                        "Message": "This is string #178",
+                        "Details": "This is string #179"
+                    }
+                ],
+                "Errors": [
+                    {
+                        "Code": 10071,
+                        "Message": "This is string #180",
+                        "Details": "This is string #181"
+                    }
+                ]
+            }
+        ]
+    }
+}
