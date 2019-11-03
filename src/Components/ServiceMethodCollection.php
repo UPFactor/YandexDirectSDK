@@ -3,9 +3,9 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
-use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\CollectionBaseTrait;
-use YandexDirectSDK\Common\CollectionMapTrait;
+use UPTools\Arr;
+use UPTools\CollectionBaseTrait;
+use UPTools\CollectionMapTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 
 /**

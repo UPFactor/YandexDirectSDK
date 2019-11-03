@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RuntimeException;
 

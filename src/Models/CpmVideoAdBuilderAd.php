@@ -102,7 +102,7 @@ class CpmVideoAdBuilderAd extends Model
      *
      * @param $currentValue
      * @param $currentFilter
-     * @return array|null
+     * @return TrackingPixels|array|null
      */
     protected function exportTrackingPixels($currentValue, $currentFilter)
     {

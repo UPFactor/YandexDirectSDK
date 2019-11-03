@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;

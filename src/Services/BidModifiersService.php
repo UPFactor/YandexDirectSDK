@@ -5,7 +5,7 @@ namespace YandexDirectSDK\Services;
 use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Collections\BidModifierSets;
 use YandexDirectSDK\Collections\BidModifierToggles;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\Result;

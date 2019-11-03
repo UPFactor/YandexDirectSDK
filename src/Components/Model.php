@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
@@ -447,7 +447,7 @@ abstract class Model implements ModelInterface
                 continue;
             }
 
-            $this->data[$sourceKey] = $sourceValue;
+            $this->data[$sourceKey] = $property->cast($sourceValue);
         }
 
         return $this;
@@ -481,7 +481,7 @@ abstract class Model implements ModelInterface
             return $this;
         }
 
-        if (!$property->check($value)){
+        if (!$property->check($value, $castedValue)){
             throw InvalidArgumentException::modelPropertyValue(
                 static::class,
                 $property->name,
@@ -491,7 +491,7 @@ abstract class Model implements ModelInterface
             );
         }
 
-        $this->data[$property->name] = $value;
+        $this->data[$property->name] = $castedValue;
         return $this;
     }
 

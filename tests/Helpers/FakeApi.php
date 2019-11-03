@@ -3,9 +3,9 @@
 namespace YandexDirectSDKTest\Helpers;
 
 use Exception;
-use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\File;
-use YandexDirectSDK\Common\Str;
+use UPTools\Arr;
+use UPTools\File;
+use UPTools\Str;
 use YandexDirectSDK\Components\Data;
 
 class FakeApi

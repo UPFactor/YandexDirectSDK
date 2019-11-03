@@ -8,13 +8,13 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionProperty;
-use YandexDirectSDK\Common\Collection;
-use YandexDirectSDK\Common\ConsoleLauncher;
-use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\Str;
-use YandexDirectSDK\Common\Dir;
-use YandexDirectSDK\Common\File;
-use YandexDirectSDK\Common\FileInfo;
+use UPTools\Collection;
+use UPTools\ConsoleLauncher;
+use UPTools\Arr;
+use UPTools\Str;
+use UPTools\Dir;
+use UPTools\File;
+use UPTools\FileInfo;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -1025,32 +1025,48 @@ class ModelMap extends ClassMap
             ]));
 
             if ($propertyMeta['writable'] === true){
-                $this->methods->push(new MethodMap($this->class, [
-                    'name' => 'set'.ucfirst($propertyMeta['name']),
-                    'own' => false,
-                    'virtual' => true,
-                    'static' => false,
-                    'public' => true,
-                    'return' => '$this',
-                    'parameters' => [
-                        [
-                            'name' => $propertyMeta['name'],
-                            'var' => '$' . $propertyMeta['name'],
-                            'type' => $propertyResultType
+                $derivedMethod = 'set'.ucfirst($propertyMeta['name']);
+
+                $duplicate = $this->methods->filter(function(MethodMap $method) use ($derivedMethod){
+                    return $method->public and $method->name === $derivedMethod;
+                });
+
+                if ($duplicate->count() === 0){
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => $derivedMethod,
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => false,
+                        'public' => true,
+                        'return' => '$this',
+                        'parameters' => [
+                            [
+                                'name' => $propertyMeta['name'],
+                                'var' => '$' . $propertyMeta['name'],
+                                'type' => $propertyResultType
+                            ]
                         ]
-                    ]
-                ]));
+                    ]));
+                }
             }
 
             if ($propertyMeta['readable'] === true){
-                $this->methods->push(new MethodMap($this->class, [
-                    'name' => 'get'.ucfirst($propertyMeta['name']),
-                    'own' => false,
-                    'virtual' => true,
-                    'static' => false,
-                    'public' => true,
-                    'return' => $propertyResultType
-                ]));
+                $derivedMethod = 'get'.ucfirst($propertyMeta['name']);
+
+                $duplicate = $this->methods->filter(function(MethodMap $method) use ($derivedMethod){
+                    return $method->public and $method->name === $derivedMethod;
+                });
+
+                if ($duplicate->count() === 0){
+                    $this->methods->push(new MethodMap($this->class, [
+                        'name' => 'get'.ucfirst($propertyMeta['name']),
+                        'own' => false,
+                        'virtual' => true,
+                        'static' => false,
+                        'public' => true,
+                        'return' => $propertyResultType
+                    ]));
+                }
             }
         }
     }

@@ -7,10 +7,10 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class NetworkCoverageItem 
  * 
- * @property-read     integer     $probability
+ * @property-read     double      $probability
  * @property-read     integer     $bid
  *                                
- * @method            integer     getProbability()
+ * @method            double      getProbability()
  * @method            integer     getBid()
  * 
  * @package YandexDirectSDK\Models 
@@ -20,7 +20,7 @@ class NetworkCoverageItem extends Model
     protected static $compatibleCollection = NetworkCoverageItems::class;
 
     protected static $properties = [
-        'probability' => 'integer',
+        'probability' => 'double',
         'bid' => 'integer'
     ];
 

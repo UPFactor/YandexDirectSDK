@@ -3,7 +3,7 @@ namespace YandexDirectSDK\Models;
 
 use Exception;
 use YandexDirectSDK\Collections\AdImages;
-use YandexDirectSDK\Common\File;
+use UPTools\File;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;

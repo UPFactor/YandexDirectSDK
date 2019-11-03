@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use Closure;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Session;
@@ -195,7 +195,7 @@ abstract class Service
                 $elements[] = array_merge($related->toArray(), [$foreignKey => $key]);
             }
 
-            if (is_null($related = $related::makeCompatibleCollection())){
+            if (is_null($related = $related::getCompatibleCollectionClass())){
                 throw ServiceException::modelNotSupportBinding($related);
             }
         } elseif ($related instanceof ModelCollectionInterface){
@@ -240,7 +240,7 @@ abstract class Service
     protected static function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::makeCompatibleCollection())){
+            if (is_null($modelCollection = $collection::getCompatibleCollectionClass())){
                 throw ServiceException::modelNotSupportMethod($collection, $methodName);
             }
 
@@ -289,7 +289,7 @@ abstract class Service
     protected static function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::makeCompatibleCollection())){
+            if (is_null($modelCollection = $collection::getCompatibleCollectionClass())){
                 throw ServiceException::modelNotSupportMethod($collection, $methodName);
             }
 

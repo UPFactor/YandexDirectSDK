@@ -4,7 +4,7 @@
 namespace YandexDirectSDKTest\Helpers;
 
 use PHPUnit\Framework\Assert;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;

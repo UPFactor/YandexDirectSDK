@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use Exception;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Exceptions\ModelPropertyException;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
@@ -118,6 +118,11 @@ class ModelProperty
                 break;
         }
 
+        if ($this->type === 'boolean'){
+            $this->permissibleValues = [];
+            return;
+        }
+
         if (in_array($this->type, ['enum','set'], true)){
             if (empty($this->permissibleValues)){
                 throw ModelPropertyException::inconsistentEnumTypeInSignature($signature[0] . ':' . $signature[1]);
@@ -217,14 +222,269 @@ class ModelProperty
     }
 
     /**
+     * Casting a value to the type specified in a property.
+     *
+     * @param $value
+     * @return array|bool|float|int|object|string|null
+     */
+    public function cast($value)
+    {
+        return $this->castTo($this->type, $value);
+    }
+
+    /**
+     * Casting a value to a given type.
+     *
+     * @param string $type
+     * @param $value
+     * @return array|bool|float|int|string|ModelCommonInterface|null
+     */
+    public function castTo(string $type, $value)
+    {
+        if (is_null($value)){
+            return null;
+        }
+
+        switch ($type){
+            case 'boolean': return $this->castToBoolean($value); break;
+            case 'string': return $this->castToString($value); break;
+            case 'double': return $this->castToDouble($value); break;
+            case 'integer': return $this->castToInteger($value); break;
+            case 'array': return $this->castToArray($value); break;
+            case 'enum': return $this->castToEnum($value); break;
+            case 'set': return $this->castToSet($value); break;
+            case 'object': return $this->castToObject($value); break;
+            case 'mixed': return $this->castToMixed($value); break;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "boolean".
+     *
+     * @param $value
+     * @return bool|null
+     */
+    public function castToBoolean($value)
+    {
+        if (in_array($value, [true,'true',1,'1'], true)){
+            return true;
+        }
+
+        if (in_array($value, [false,'false',0,'0'], true)){
+            return false;
+        }
+
+        return null;
+    }
+
+    /**
+     * Cast to type "string".
+     *
+     * @param $value
+     * @return string|null
+     */
+    public function castToString($value)
+    {
+        if (!in_array(gettype($value), ['string','integer','double','boolean'])){
+            return null;
+        }
+
+        $value = (string) $value;
+
+        if (!empty($this->permissibleValues)){
+            $permissibleValues = [];
+            foreach ($this->permissibleValues as $permissibleValue){
+                if (!is_string($permissibleValue) and !is_numeric($permissibleValue)){
+                    continue;
+                }
+                $permissibleValues[] = (string) $permissibleValue;
+            }
+
+            if (!in_array($value, $permissibleValues, true)){
+                return null;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "double".
+     *
+     * @param $value
+     * @return float|null
+     */
+    public function castToDouble($value)
+    {
+        if (!is_numeric($value)){
+            return null;
+        }
+
+        if (($value = filter_var($value, FILTER_VALIDATE_FLOAT)) === false){
+            return null;
+        }
+
+        if (!empty($this->permissibleValues)){
+            $permissibleValues = [];
+            foreach ($this->permissibleValues as $permissibleValue){
+                if (($permissibleValue = filter_var($permissibleValue, FILTER_VALIDATE_FLOAT)) === false){
+                    continue;
+                }
+                $permissibleValues[] = $permissibleValue;
+            }
+
+            if (!in_array($value, $permissibleValues, true)){
+                return null;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "integer".
+     *
+     * @param $value
+     * @return int|null
+     */
+    public function castToInteger($value)
+    {
+        if (!is_numeric($value)){
+            return null;
+        }
+
+        $value = (int) $value;
+
+        if (!empty($this->permissibleValues)){
+            $permissibleValues = [];
+            foreach ($this->permissibleValues as $permissibleValue){
+                if (($permissibleValue = filter_var($permissibleValue, FILTER_VALIDATE_INT)) === false){
+                    continue;
+                }
+                $permissibleValues[] = $permissibleValue;
+            }
+
+            if (!in_array($value, $permissibleValues, true)){
+                return null;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "array".
+     *
+     * @param $value
+     * @return array|null
+     */
+    public function castToArray($value)
+    {
+        if (!is_array($value)){
+            return null;
+        }
+
+        if (!empty($this->permissibleValues)){
+            foreach ($value as $item){
+                if (!in_array(gettype($item), $this->permissibleValues, true)) {
+                    return null;
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "enum".
+     *
+     * @param $value
+     * @return mixed|null
+     */
+    public function castToEnum($value)
+    {
+        if ((!is_string($value) and !is_numeric($value)) or empty($this->permissibleValues)){
+            return null;
+        }
+
+        $value = (string) $value;
+        if (!in_array($value, $this->permissibleValues, true)){
+            return null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "set".
+     *
+     * @param $value
+     * @return array|null
+     */
+    public function castToSet($value)
+    {
+        if (!is_array($value) or empty($this->permissibleValues)) {
+            return null;
+        }
+
+        foreach ($value as $index => $item){
+            if (!is_string($item) and !is_numeric($item)){
+                return null;
+            }
+
+            $item = (string) $item;
+            if (!in_array($item, $this->permissibleValues, true)){
+                return null;
+            }
+
+            $value[$index] = $item;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "object".
+     *
+     * @param $value
+     * @return ModelCommonInterface|null
+     */
+    public function castToObject($value)
+    {
+        if (is_object($value) and $value instanceof $this->permissibleValues[0]) {
+            return null;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Cast to type "mixed".
+     *
+     * @param $value
+     * @return mixed|null
+     */
+    public function castToMixed($value)
+    {
+        if (!empty($this->permissibleValues) and !in_array($value, $this->permissibleValues)){
+            return null;
+        }
+
+        return $value;
+    }
+
+    /**
      * Checks the value against the property.
      *
      * @param mixed $value
+     * @param mixed|null $cast
      * @return bool
      */
-    public function check($value)
+    public function check($value, &$cast = null)
     {
-        return $this->checkAs($this->type, $value);
+        return $this->checkAs($this->type, $value, $cast);
     }
 
     /**
@@ -232,180 +492,16 @@ class ModelProperty
      *
      * @param string $type
      * @param mixed $value
+     * @param mixed|null $cast
      * @return bool
      */
-    public function checkAs(string $type, $value)
+    public function checkAs(string $type, $value, &$cast = null)
     {
-        if (is_null($value)){
+        if (is_null($cast = $value)){
             return true;
         }
 
-        switch ($type){
-            case 'boolean': $this->checkAsBoolean($value); break;
-            case 'string': $this->checkAsString($value); break;
-            case 'double': $this->checkAsDouble($value); break;
-            case 'integer': $this->checkAsInteger($value); break;
-            case 'array': $this->checkAsArray($value); break;
-            case 'enum': $this->checkAsEnum($value); break;
-            case 'set': $this->checkAsSet($value); break;
-            case 'object': $this->checkAsObject($value); break;
-            case 'mixed': $this->checkAsMixed($value); break;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Boolean".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsBoolean($value)
-    {
-        return is_bool($value);
-    }
-
-    /**
-     * Checks the value against a property with type - "String".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsString($value)
-    {
-        if (!is_string($value)){
-            return false;
-        }
-
-        if (!empty($this->permissibleValues) and !in_array($value, $this->permissibleValues)){
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Double".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsDouble($value)
-    {
-        if (filter_var($value, FILTER_VALIDATE_FLOAT) === false){
-            return false;
-        }
-
-        if (!empty($this->permissibleValues) and !in_array($value, $this->permissibleValues)){
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Integer".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsInteger($value)
-    {
-        if (filter_var($value, FILTER_VALIDATE_INT) === false){
-            return false;
-        }
-
-        if (!empty($this->permissibleValues) and !in_array($value, $this->permissibleValues)){
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Array".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsArray($value)
-    {
-        if (!is_array($value)){
-            return false;
-        }
-
-        if (!empty($this->permissibleValues)){
-            foreach ($value as $item){
-                if (!in_array(gettype($item), $this->permissibleValues, true)) {
-                    return false;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks the value against a property with type - "Enum".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsEnum($value)
-    {
-        if (!in_array($value, $this->permissibleValues)){
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Set".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsSet($value)
-    {
-        if (!is_array($value)) {
-            return false;
-        }
-
-        foreach ($value as $item){
-            if (!in_array($item,  $this->permissibleValues)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Checks the value against a property with type - "Object".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsObject($value)
-    {
-        if (is_object($value) and $value instanceof $this->permissibleValues[0]) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks the value against a property with type - "Mixed".
-     *
-     * @param $value
-     * @return bool
-     */
-    public function checkAsMixed($value)
-    {
-        if (!empty($this->permissibleValues) and !in_array($value, $this->permissibleValues)){
+        if (is_null($cast = $this->castTo($type, $value))){
             return false;
         }
 

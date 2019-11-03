@@ -9,7 +9,7 @@ use YandexDirectSDK\Interfaces\ModelCommon;
 use YandexDirectSDK\Models\NegativeKeywordSharedSet;
 
 /** 
- * Class NegativeKeywordSharedSetsServiceService 
+ * Class NegativeKeywordSharedSetsService 
  * 
  * @method static     Result                                                      add(NegativeKeywordSharedSet|NegativeKeywordSharedSets|ModelCommon $negativeKeywordSharedSets)
  * @method static     QueryBuilder                                                query()
@@ -19,7 +19,7 @@ use YandexDirectSDK\Models\NegativeKeywordSharedSet;
  * 
  * @package YandexDirectSDK\Services 
  */ 
-class NegativeKeywordSharedSetsServiceService extends Service 
+class NegativeKeywordSharedSetsService extends Service
 { 
     protected static $name = 'negativekeywordsharedsets';
 

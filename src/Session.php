@@ -3,7 +3,7 @@
 namespace YandexDirectSDK;
 
 use Exception;
-use YandexDirectSDK\Common\File;
+use UPTools\File;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Exceptions\RequestException;
 use YandexDirectSDK\Exceptions\RuntimeException;

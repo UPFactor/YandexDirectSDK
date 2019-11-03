@@ -15,7 +15,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  * @property-read     string                            $associated
  * @property-read     string                            $type
  * @property          Callout                           $callout
- * @property-read     string                            $state
+ * @property-read     array                             $state
  * @property-read     string                            $status
  * @property-read     string                            $statusClarification
  *                                                      
@@ -29,7 +29,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  * @method            string                            getType()
  * @method            $this                             setCallout(Callout $callout)
  * @method            Callout                           getCallout()
- * @method            string                            getState()
+ * @method            array                             getState()
  * @method            string                            getStatus()
  * @method            string                            getStatusClarification()
  * 
@@ -54,7 +54,7 @@ class AdExtension extends Model
         'associated' => 'string',
         'type' => 'string',
         'callout' => 'object:' . Callout::class,
-        'state' => 'string',
+        'state' => 'stack',
         'status' => 'string',
         'statusClarification' => 'string'
     ];

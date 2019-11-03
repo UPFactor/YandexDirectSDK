@@ -6,37 +6,37 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class MapPoint 
  * 
- * @property     integer     $x
- * @property     integer     $y
- * @property     integer     $x1
- * @property     integer     $y1
- * @property     integer     $x2
- * @property     integer     $y2
- *                           
- * @method       $this       setX(integer $x)
- * @method       integer     getX()
- * @method       $this       setY(integer $y)
- * @method       integer     getY()
- * @method       $this       setX1(integer $x1)
- * @method       integer     getX1()
- * @method       $this       setY1(integer $y1)
- * @method       integer     getY1()
- * @method       $this       setX2(integer $x2)
- * @method       integer     getX2()
- * @method       $this       setY2(integer $y2)
- * @method       integer     getY2()
+ * @property     double     $x
+ * @property     double     $y
+ * @property     double     $x1
+ * @property     double     $y1
+ * @property     double     $x2
+ * @property     double     $y2
+ *                          
+ * @method       $this      setX(double $x)
+ * @method       double     getX()
+ * @method       $this      setY(double $y)
+ * @method       double     getY()
+ * @method       $this      setX1(double $x1)
+ * @method       double     getX1()
+ * @method       $this      setY1(double $y1)
+ * @method       double     getY1()
+ * @method       $this      setX2(double $x2)
+ * @method       double     getX2()
+ * @method       $this      setY2(double $y2)
+ * @method       double     getY2()
  * 
  * @package YandexDirectSDK\Models 
  */ 
 class MapPoint extends Model 
 { 
     protected static $properties = [
-        'x' => 'integer',
-        'y' => 'integer',
-        'x1' => 'integer',
-        'y1' => 'integer',
-        'x2' => 'integer',
-        'y2' => 'integer'
+        'x' => 'double',
+        'y' => 'double',
+        'x1' => 'double',
+        'y1' => 'double',
+        'x2' => 'double',
+        'y2' => 'double'
     ];
 
     /**

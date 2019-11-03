@@ -4,10 +4,10 @@ namespace YandexDirectSDK\Helpers;
 require_once __DIR__ . "/../autoload.php";
 
 use Exception;
-use YandexDirectSDK\Common\ConsoleLauncher;
-use YandexDirectSDK\Common\Dir;
-use YandexDirectSDK\Common\File;
-use YandexDirectSDK\Common\FileInfo;
+use UPTools\ConsoleLauncher;
+use UPTools\Dir;
+use UPTools\File;
+use UPTools\FileInfo;
 use YandexDirectSDKTest\Helpers\Env;
 use YandexDirectSDKTest\Helpers\FakeApi;
 

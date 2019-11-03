@@ -34,9 +34,9 @@
                 "DynamicTextAdGroup": {
                     "DomainUrl": "This is string #8"
                 },
-                "CpmBannerKeywordsAdGroup": [],
-                "CpmBannerUserProfileAdGroup": [],
-                "CpmVideoAdGroup": []
+                "CpmBannerKeywordsAdGroup": {},
+                "CpmBannerUserProfileAdGroup": {},
+                "CpmVideoAdGroup": {}
             }
         ]
     }

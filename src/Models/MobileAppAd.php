@@ -7,7 +7,7 @@ use YandexDirectSDK\Components\Model as Model;
 /** 
  * Class MobileAppAd 
  * 
- * @property          string[]                $title
+ * @property          string                  $title
  * @property          string                  $text
  * @property          string                  $trackingUrl
  * @property          MobileAppAdFeatures     $features
@@ -16,8 +16,8 @@ use YandexDirectSDK\Components\Model as Model;
  * @property          string                  $adImageHash
  * @property-read     ExtensionModeration     $adImageModeration
  *                                            
- * @method            $this                   setTitle(string[] $title)
- * @method            string[]                getTitle()
+ * @method            $this                   setTitle(string $title)
+ * @method            string                  getTitle()
  * @method            $this                   setText(string $text)
  * @method            string                  getText()
  * @method            $this                   setTrackingUrl(string $trackingUrl)
@@ -46,7 +46,7 @@ class MobileAppAd extends Model
     const BUY_AUTODETECT = 'BUY_AUTODETECT';
 
     protected static $properties = [
-        'title' => 'stack:string',
+        'title' => 'string',
         'text' => 'string',
         'trackingUrl' => 'string',
         'features' => 'object:' . MobileAppAdFeatures::class,

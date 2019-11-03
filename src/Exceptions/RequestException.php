@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK\Exceptions;
 
-use YandexDirectSDK\Common\Str;
+use UPTools\Str;
 
 class RequestException extends BaseException
 {

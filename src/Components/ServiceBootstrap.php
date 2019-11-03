@@ -3,7 +3,7 @@
 namespace YandexDirectSDK\Components;
 
 use Exception;
-use YandexDirectSDK\Common\Arr;
+use UPTools\Arr;
 use YandexDirectSDK\Exceptions\ServiceBootstrapException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;

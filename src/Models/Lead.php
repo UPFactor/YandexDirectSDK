@@ -12,14 +12,14 @@ use YandexDirectSDK\Services\LeadsService;
  * 
  * @property-read     integer          $id
  * @property-read     string           $submittedAt
- * @property-read     integer          $turboPageId
+ * @property-read     string           $turboPageId
  * @property-read     string           $turboPageName
  * @property-read     LeadData         $data
  *                                     
  * @method static     QueryBuilder     query()
  * @method            integer          getId()
  * @method            string           getSubmittedAt()
- * @method            integer          getTurboPageId()
+ * @method            string           getTurboPageId()
  * @method            string           getTurboPageName()
  * @method            LeadData         getData()
  * 
@@ -36,7 +36,7 @@ class Lead extends Model
     protected static $properties = [
         'id' => 'integer',
         'submittedAt' => 'string',
-        'turboPageId' => 'integer',
+        'turboPageId' => 'string',
         'turboPageName' => 'string',
         'data' => 'object:' . LeadData::class
     ];

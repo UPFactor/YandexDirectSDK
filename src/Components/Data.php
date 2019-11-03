@@ -2,14 +2,14 @@
 
 namespace YandexDirectSDK\Components;
 
-use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\CollectionBaseTrait;
-use YandexDirectSDK\Common\CollectionConversionTrait;
-use YandexDirectSDK\Common\CollectionFusionTrait;
-use YandexDirectSDK\Common\CollectionMathsTrait;
-use YandexDirectSDK\Common\CollectionMultipleTrait;
-use YandexDirectSDK\Common\CollectionSetTrait;
-use YandexDirectSDK\Common\CollectionSortingTrait;
+use UPTools\Arr;
+use UPTools\CollectionBaseTrait;
+use UPTools\CollectionConversionTrait;
+use UPTools\CollectionFusionTrait;
+use UPTools\CollectionMathsTrait;
+use UPTools\CollectionMultipleTrait;
+use UPTools\CollectionSetTrait;
+use UPTools\CollectionSortingTrait;
 
 class Data
 {

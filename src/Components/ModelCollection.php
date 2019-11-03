@@ -3,8 +3,8 @@
 namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
-use YandexDirectSDK\Common\Arr;
-use YandexDirectSDK\Common\CollectionBaseTrait;
+use UPTools\Arr;
+use UPTools\CollectionBaseTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;

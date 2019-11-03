@@ -6,7 +6,7 @@ use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Interfaces\ModelCommon;
-use YandexDirectSDK\Services\NegativeKeywordSharedSetsServiceService;
+use YandexDirectSDK\Services\NegativeKeywordSharedSetsService;
 
 /** 
  * Class NegativeKeywordSharedSet 
@@ -36,14 +36,14 @@ class NegativeKeywordSharedSet extends Model
     protected static $compatibleCollection = NegativeKeywordSharedSets::class;
 
     protected static $methods = [
-        'add' => NegativeKeywordSharedSetsServiceService::class,
-        'query' => NegativeKeywordSharedSetsServiceService::class,
-        'update' => NegativeKeywordSharedSetsServiceService::class,
-        'delete' => NegativeKeywordSharedSetsServiceService::class
+        'add' => NegativeKeywordSharedSetsService::class,
+        'query' => NegativeKeywordSharedSetsService::class,
+        'update' => NegativeKeywordSharedSetsService::class,
+        'delete' => NegativeKeywordSharedSetsService::class
     ];
 
     protected static $staticMethods = [
-        'find' => NegativeKeywordSharedSetsServiceService::class
+        'find' => NegativeKeywordSharedSetsService::class
     ];
 
     protected static $properties = [
