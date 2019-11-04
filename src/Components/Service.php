@@ -328,7 +328,7 @@ abstract class Service
             $result = static::call($methodName, is_null($handler) ? $query->toArray() : $handler($query->toArray()));
 
             return $result->setResource(
-                static::boot()->modelClass::make()
+                static::boot()->modelCollectionClass::make()
                     ->insert($result->data->get(static::boot()->modelCollectionClass::getClassName()))
             );
         });

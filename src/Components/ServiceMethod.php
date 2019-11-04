@@ -140,7 +140,7 @@ class ServiceMethod
     public function call(...$arguments)
     {
         return (function($method, $handler, $arguments){
-            static::{$handler}($method, ...$arguments);
+            return static::{$handler}($method, ...$arguments);
         })->bindTo(null, $this->service)($this->method, $this->handler, $arguments);
     }
 }
