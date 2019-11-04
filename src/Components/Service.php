@@ -350,7 +350,7 @@ abstract class Service
             ->get()
             ->getResource();
 
-        if (count($elements) === 1){
+        if (!is_array($elements) or count($elements) === 1){
             return $result->first();
         }
 
