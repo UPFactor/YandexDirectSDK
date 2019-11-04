@@ -454,10 +454,10 @@ class ModelProperty
     public function castToObject($value)
     {
         if (is_object($value) and $value instanceof $this->permissibleValues[0]) {
-            return null;
+            return $value;
         }
 
-        return $value;
+        return null;
     }
 
     /**

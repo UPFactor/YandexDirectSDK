@@ -87,8 +87,7 @@
                         "Network": {
                             "BiddingStrategyType": "AVERAGE_CPA",
                             "NetworkDefault": {
-                                "LimitPercent": 10004,
-                                "BidPercent": 10005
+                                "LimitPercent": 10004
                             },
                             "WbMaximumClicks": {
                                 "WeeklySpendLimit": 1000021,
@@ -179,8 +178,7 @@
                         "Network": {
                             "BiddingStrategyType": "AVERAGE_CPC",
                             "NetworkDefault": {
-                                "LimitPercent": 10010,
-                                "BidPercent": 10011
+                                "LimitPercent": 10010
                             },
                             "WbMaximumClicks": {
                                 "WeeklySpendLimit": 1000055,

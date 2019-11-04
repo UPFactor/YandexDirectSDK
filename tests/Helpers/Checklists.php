@@ -5,6 +5,7 @@ namespace YandexDirectSDKTest\Helpers;
 
 use PHPUnit\Framework\Assert;
 use UPTools\Arr;
+use UPTools\Validator;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -55,40 +56,13 @@ class Checklists extends Assert
      * Checklist for [Model] properties.
      *
      * @param ModelInterface $model
-     * @param array|string $expectedProperties
+     * @param array $rules
      * @return ModelInterface
      */
-    public static function checkModel(ModelInterface $model, $expectedProperties)
+    public static function checkModel(ModelInterface $model, array $rules)
     {
-        $arrModel = $model->toArray();
-
-        if (is_string($expectedProperties)){
-
-            $expectedProperties = explode(':', $expectedProperties, 2);
-            $path = $expectedProperties[0];
-            $key = $expectedProperties[1] ?? null;
-
-            static::assertEquals(
-                FakeApi::get($path, $key),
-                $arrModel
-            );
-
-        } else if (is_array($expectedProperties)){
-
-            foreach ($expectedProperties as $index => $property){
-                if (is_integer($index)){
-                    $value = Arr::get($arrModel, $property);
-                    static::assertNotNull($value, $property);
-                } else {
-                    $type = $property;
-                    $value = Arr::get($arrModel, $index);
-                    static::assertEquals($type, gettype($value), $index);
-                    static::assertNotNull($value, $index);
-                }
-            }
-
-        }
-
+        $validator = Validator::make($model->toArray(), $rules);
+        static::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
         return $model;
     }
 
@@ -96,32 +70,15 @@ class Checklists extends Assert
      * Checklist for [Model] properties in [ModelCollection].
      *
      * @param ModelCollectionInterface $collection
-     * @param array|string $expectedProperties
+     * @param array $rules
      * @return ModelCollectionInterface
      */
-    public static function checkModelCollection(ModelCollectionInterface $collection, $expectedProperties)
+    public static function checkModelCollection(ModelCollectionInterface $collection, array $rules)
     {
         static::assertTrue($collection->isNotEmpty(), 'Collection is empty');
-
-        if (is_string($expectedProperties)){
-
-            $arrCollection = $collection->toArray();
-            $expectedProperties = explode(':', $expectedProperties, 2);
-            $path = $expectedProperties[0];
-            $key = $expectedProperties[1] ?? null;
-
-            static::assertEquals(
-                FakeApi::get($path, $key),
-                $arrCollection
-            );
-
-        } else if (is_array($expectedProperties)){
-
-            $collection->each(function(ModelInterface $model) use ($expectedProperties){
-                Checklists::checkModel($model, $expectedProperties);
-            });
-
-        }
+        $collection->each(function(ModelInterface $model) use ($rules){
+            Checklists::checkModel($model, $rules);
+        });
 
         return $collection;
     }
