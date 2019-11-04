@@ -10,6 +10,7 @@ use YandexDirectSDK\Exceptions\ServiceMethodException;
  * Class ServiceMethod
  *
  * @property-read string $name
+ * @property-read string $service
  * @property-read string $method
  * @property-read string $handler
  *
@@ -23,6 +24,13 @@ class ServiceMethod
      * @var string
      */
     protected $name;
+
+    /**
+     * Service provider for the method.
+     *
+     * @var Service
+     */
+    protected $service;
 
     /**
      * API Method.
@@ -42,9 +50,10 @@ class ServiceMethod
      * ServiceMethod constructor.
      *
      * @param string $name
+     * @param string $service
      * @param string $signature
      */
-    public function __construct(string $name, string $signature)
+    public function __construct(string $name, string $service, string $signature)
     {
         if (empty($signature)){
             throw ServiceMethodException::signatureIsEmpty();
@@ -53,6 +62,7 @@ class ServiceMethod
         $signature = explode(':', $signature, 2);
 
         $this->name = $name;
+        $this->service = $service;
         $this->method = trim($signature[0]);
         $this->handler = trim($signature[1] ?? '');
 
@@ -105,6 +115,7 @@ class ServiceMethod
     {
         return [
             'name' => $this->name,
+            'service' => $this->service,
             'method' => $this->method,
             'handler' => $this->handler
         ];
@@ -130,6 +141,6 @@ class ServiceMethod
     {
         return (function($method, $handler, $arguments){
             static::{$handler}($method, ...$arguments);
-        })->bindTo(null, Service::class)($this->method, $this->handler, $arguments);
+        })->bindTo(null, $this->service)($this->method, $this->handler, $arguments);
     }
 }

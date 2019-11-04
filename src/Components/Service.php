@@ -138,8 +138,8 @@ abstract class Service
 
         self::$boot->set($class, new ServiceBootstrap([
             'name' => static::$name,
-            'methods' => new ServiceMethodCollection(Arr::map(static::$methods, function($signature, $name){
-                return new ServiceMethod($name, $signature);
+            'methods' => new ServiceMethodCollection(Arr::map(static::$methods, function($signature, $name) use ($class){
+                return new ServiceMethod($name, $class, $signature);
             })),
             'modelClass' => static::$modelClass,
             'modelCollectionClass' => static::$modelCollectionClass
