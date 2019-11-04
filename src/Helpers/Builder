@@ -1,7 +1,8 @@
 <?php
 namespace YandexDirectSDK\Helpers;
 
-require_once __DIR__ . "/../autoload.php";
+require_once __DIR__ . str_replace('\\', DIRECTORY_SEPARATOR, '/../autoload.php');
+require_once __DIR__ . str_replace('\\', DIRECTORY_SEPARATOR, '/../../vendor/upfactor/uptools-pack/autoload.php');
 
 use Exception;
 use UPTools\ConsoleLauncher;
