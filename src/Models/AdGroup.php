@@ -31,7 +31,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @property-read      string                     $subtype
  *                                                
  * @method static      QueryBuilder               query()
- * @method static      AdGroup|AdGroups|null      find(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $ids, string[] $fields)
+ * @method static      AdGroup|AdGroups|null      find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method             Result                     add()
  * @method             Result                     update()
  * @method             Result                     delete()

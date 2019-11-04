@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Models;
 use YandexDirectSDK\Collections\Creatives;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\CreativesService;
 
 /** 
@@ -23,7 +22,7 @@ use YandexDirectSDK\Services\CreativesService;
  * @property-read     CpmVideoCreative            $cpmVideoCreative
  *                                                
  * @method static     QueryBuilder                query()
- * @method static     Creative|Creatives|null     find(integer|integer[]|Creative|Creatives|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Creative|Creatives|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            integer                     getId()
  * @method            string                      getType()
  * @method            string                      getName()

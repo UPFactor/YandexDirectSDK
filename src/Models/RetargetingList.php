@@ -6,7 +6,6 @@ use YandexDirectSDK\Collections\RetargetingLists;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\RetargetingListsService;
 
 /** 
@@ -21,7 +20,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * @property-read     string                                    $scope
  *                                                              
  * @method static     QueryBuilder                              query()
- * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $ids, string[] $fields)
+ * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                                    add()
  * @method            Result                                    delete()
  * @method            Result                                    update()

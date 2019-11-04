@@ -5,7 +5,6 @@ use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\AudienceTargetsService;
 
 /** 
@@ -21,7 +20,7 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * @property-read     string                                  $state
  *                                                            
  * @method static     QueryBuilder                            query()
- * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                                  add()
  * @method            Result                                  delete()
  * @method            Result                                  resume()

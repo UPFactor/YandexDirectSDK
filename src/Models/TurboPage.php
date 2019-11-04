@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Models;
 use YandexDirectSDK\Collections\TurboPages;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\TurboPagesService;
 
 /** 
@@ -16,7 +15,7 @@ use YandexDirectSDK\Services\TurboPagesService;
  * @property-read     string                        $previewHref
  *                                                  
  * @method static     QueryBuilder                  query()
- * @method static     TurboPage|TurboPages|null     find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            integer                       getId()
  * @method            string                        getName()
  * @method            string                        getHref()

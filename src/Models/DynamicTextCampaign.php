@@ -2,6 +2,7 @@
 namespace YandexDirectSDK\Models; 
 
 use YandexDirectSDK\Collections\DynamicTextCampaignSettings;
+use YandexDirectSDK\Collections\PriorityGoals;
 use YandexDirectSDK\Components\Model as Model;
 
 /** 
@@ -10,6 +11,8 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     DynamicTextCampaignStrategy     $biddingStrategy
  * @property     DynamicTextCampaignSettings     $settings
  * @property     integer[]                       $counterIds
+ * @property     PriorityGoals                   $priorityGoals
+ * @property     string                          $attributionModel
  *                                               
  * @method       $this                           setBiddingStrategy(DynamicTextCampaignStrategy $biddingStrategy)
  * @method       DynamicTextCampaignStrategy     getBiddingStrategy()
@@ -17,14 +20,25 @@ use YandexDirectSDK\Components\Model as Model;
  * @method       DynamicTextCampaignSettings     getSettings()
  * @method       $this                           setCounterIds(integer[] $counterIds)
  * @method       integer[]                       getCounterIds()
+ * @method       $this                           setPriorityGoals(PriorityGoals $priorityGoals)
+ * @method       PriorityGoals                   getPriorityGoals()
+ * @method       $this                           setAttributionModel(string $attributionModel)
+ * @method       string                          getAttributionModel()
  * 
  * @package YandexDirectSDK\Models 
  */ 
 class DynamicTextCampaign extends Model 
 {
+    const FC = 'FC';
+    const LC = 'LC';
+    const LSC = 'LSC';
+    const LYDC = 'LYDC';
+
     protected static $properties = [
         'biddingStrategy' => 'object:' . DynamicTextCampaignStrategy::class,
         'settings' => 'object:' . DynamicTextCampaignSettings::class,
-        'counterIds' => 'array:integer'
+        'counterIds' => 'array:integer',
+        'priorityGoals' => 'arrayOfObject:' . PriorityGoals::class,
+        'attributionModel' => 'enum:'.self::FC.','.self::LC.','.self::LSC.','.self::LYDC
     ];
 }

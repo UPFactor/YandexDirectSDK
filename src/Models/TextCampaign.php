@@ -14,6 +14,7 @@ use YandexDirectSDK\Components\Model;
  * @property     integer[]                   $counterIds
  * @property     RelevantKeywordsSetting     $relevantKeywords
  * @property     PriorityGoals               $priorityGoals
+ * @property     string                      $attributionModel
  *                                           
  * @method       $this                       setBiddingStrategy(TextCampaignStrategy $biddingStrategy)
  * @method       TextCampaignStrategy        getBiddingStrategy()
@@ -25,16 +26,24 @@ use YandexDirectSDK\Components\Model;
  * @method       RelevantKeywordsSetting     getRelevantKeywords()
  * @method       $this                       setPriorityGoals(PriorityGoals $priorityGoals)
  * @method       PriorityGoals               getPriorityGoals()
+ * @method       $this                       setAttributionModel(string $attributionModel)
+ * @method       string                      getAttributionModel()
  * 
  * @package YandexDirectSDK\Models 
  */
 class TextCampaign extends Model
 {
+    const FC = 'FC';
+    const LC = 'LC';
+    const LSC = 'LSC';
+    const LYDC = 'LYDC';
+
     protected static $properties = [
         'biddingStrategy' => 'object:' . TextCampaignStrategy::class,
         'settings' => 'object:' . TextCampaignSettings::class,
         'counterIds' => 'array:integer',
         'relevantKeywords' => 'object:' . RelevantKeywordsSetting::class,
         'priorityGoals' => 'arrayOfObject:' . PriorityGoals::class,
+        'attributionModel' => 'enum:'.self::FC.','.self::LC.','.self::LSC.','.self::LYDC
     ];
 }

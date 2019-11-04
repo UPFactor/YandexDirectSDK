@@ -5,7 +5,6 @@ use YandexDirectSDK\Collections\AdExtensions;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\AdExtensionsService;
 
 /** 
@@ -20,7 +19,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  * @property-read     string                            $statusClarification
  *                                                      
  * @method static     QueryBuilder                      query()
- * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                            add()
  * @method            Result                            delete()
  * @method            $this                             setId(integer $id)

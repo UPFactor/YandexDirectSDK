@@ -5,7 +5,6 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\AdsService;
 
 /** 
@@ -33,7 +32,7 @@ use YandexDirectSDK\Services\AdsService;
  * @property-read     string                   $subtype
  *                                             
  * @method static     QueryBuilder             query()
- * @method static     Ad|Ads|null              find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Ad|Ads|null              find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                   add()
  * @method            Result                   update()
  * @method            Result                   delete()

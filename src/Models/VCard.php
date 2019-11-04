@@ -5,7 +5,6 @@ use YandexDirectSDK\Collections\VCards;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\VCardsService;
 
 /** 
@@ -31,7 +30,7 @@ use YandexDirectSDK\Services\VCardsService;
  * @property          string                $contactPerson
  *                                          
  * @method static     QueryBuilder          query()
- * @method static     VCard|VCards|null     find(integer|integer[]|VCard|VCards|ModelCommonInterface $ids, string[] $fields)
+ * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                add()
  * @method            Result                delete()
  * @method            $this                 setId(integer $id)

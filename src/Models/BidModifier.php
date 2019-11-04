@@ -5,7 +5,6 @@ use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
@@ -24,7 +23,7 @@ use YandexDirectSDK\Services\BidModifiersService;
  * @property-read     string                            $type
  *                                                      
  * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                            add()
  * @method            Result                            set(int $value=null)
  * @method            Result                            delete()

@@ -6,7 +6,6 @@ use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 
 
@@ -26,7 +25,7 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  * @property-read     string                    $statusClarification
  *                                              
  * @method static     QueryBuilder              query()
- * @method static     Webpage|Webpages|null     find(integer|integer[]|Webpage|Webpages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Webpage|Webpages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method            Result                    add()
  * @method            Result                    delete()
  * @method            Result                    resume()
