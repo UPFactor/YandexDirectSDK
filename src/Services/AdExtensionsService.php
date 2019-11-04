@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\AdExtension;
  * 
  * @method static     Result                            add(AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
  * @method static     QueryBuilder                      query()
- * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result                            delete(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
  * 
  * @package YandexDirectSDK\Services 

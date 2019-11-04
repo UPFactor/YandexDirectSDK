@@ -15,7 +15,7 @@ use YandexDirectSDK\Models\Ad;
  * 
  * @method static     Result           add(Ad|Ads|ModelCommonInterface $ads)
  * @method static     QueryBuilder     query()
- * @method static     Ad|Ads|null      find(integer|integer[]|Ad|Ads|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Ad|Ads|null      find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result           update(Ad|Ads|ModelCommonInterface $ads)
  * @method static     Result           archive(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)
  * @method static     Result           delete(integer|integer[]|Ad|Ads|ModelCommonInterface $ads)

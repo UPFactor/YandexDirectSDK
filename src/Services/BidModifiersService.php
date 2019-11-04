@@ -21,7 +21,7 @@ use YandexDirectSDK\Models\BidModifierToggle;
  * 
  * @method static     Result                            delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
  * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $ids, string[] $fields)
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */

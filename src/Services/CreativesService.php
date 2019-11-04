@@ -5,14 +5,13 @@ namespace YandexDirectSDK\Services;
 use YandexDirectSDK\Collections\Creatives;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Creative;
 
 /** 
  * Class CreativesService 
  * 
  * @method static     QueryBuilder                query()
- * @method static     Creative|Creatives|null     find(integer|integer[]|Creative|Creatives|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Creative|Creatives|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */

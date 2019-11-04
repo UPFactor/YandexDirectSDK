@@ -4,13 +4,12 @@ namespace YandexDirectSDK\Services;
 use YandexDirectSDK\Collections\TurboPages;
 use YandexDirectSDK\Components\Service; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\TurboPage;
 
 /** 
  * Class TurboPagesService 
  * 
- * @method static     TurboPage|TurboPages|null     find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */ 

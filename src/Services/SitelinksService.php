@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\SitelinksSet;
  * 
  * @method static     Result                              add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
  * @method static     Result                              delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
- * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $ids, string[] $fields)
+ * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * 
  * @package YandexDirectSDK\Services 
  */

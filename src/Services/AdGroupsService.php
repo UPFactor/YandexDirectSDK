@@ -31,7 +31,7 @@ use YandexDirectSDK\Models\Webpage;
  * @method static     Result                    add(AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * @method static     Result                    update(AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * @method static     QueryBuilder              query()
- * @method static     AdGroup|AdGroups|null     find(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AdGroup|AdGroups|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result                    delete(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * 
  * @package YandexDirectSDK\Services 

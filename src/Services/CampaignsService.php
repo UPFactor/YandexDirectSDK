@@ -24,7 +24,7 @@ use YandexDirectSDK\Models\Campaign;
  * 
  * @method static     Result                      add(Campaign|Campaigns|ModelCommonInterface $campaigns)
  * @method static     QueryBuilder                query()
- * @method static     Campaign|Campaigns|null     find(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Campaign|Campaigns|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result                      update(Campaign|Campaigns|ModelCommonInterface $campaigns)
  * @method static     Result                      archive(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)
  * @method static     Result                      delete(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns)

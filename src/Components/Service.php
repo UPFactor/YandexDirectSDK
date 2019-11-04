@@ -338,11 +338,11 @@ abstract class Service
      * Typical data selection method by ID.
      *
      * @param string $methodName
-     * @param $elements
+     * @param integer|integer[]|string|string[] $elements
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    protected static function selectionByIds(string $methodName, array $elements, array $fields)
+    protected static function selectionByIds(string $methodName, $elements, array $fields)
     {
         $result = static::selectionElements($methodName)
             ->select($fields)

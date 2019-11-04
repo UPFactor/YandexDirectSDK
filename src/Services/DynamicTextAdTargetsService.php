@@ -16,7 +16,7 @@ use YandexDirectSDK\Models\WebpageBid;
  * 
  * @method static     Result                    add(Webpage|Webpages|ModelCommonInterface $webpages)
  * @method static     QueryBuilder              query()
- * @method static     Webpage|Webpages|null     find(integer|integer[]|Webpage|Webpages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Webpage|Webpages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result                    delete(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
  * @method static     Result                    resume(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
  * @method static     Result                    suspend(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)

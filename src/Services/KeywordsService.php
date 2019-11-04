@@ -19,7 +19,7 @@ use YandexDirectSDK\Models\Keyword;
  * @method static     Result                    add(Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     Result                    delete(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     QueryBuilder              query()
- * @method static     Keyword|Keywords|null     find(integer|integer[]|Keyword|Keywords|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
  * @method static     Result                    resume(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     Result                    suspend(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     Result                    update(Keyword|Keywords|ModelCommonInterface $keywords)
