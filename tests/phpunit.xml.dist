@@ -12,5 +12,9 @@
         <testsuite name="Models">
             <file>Units/Models/ModelsTest.php</file>
         </testsuite>
+
+        <testsuite name="Examples">
+            <file>Examples/Campaigns/ModelExamplesTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

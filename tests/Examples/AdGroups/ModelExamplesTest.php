@@ -1,6 +1,6 @@
 <?php
 
-namespace YandexDirectSDKTest\Examples\AdGroup;
+namespace YandexDirectSDKTest\Examples\AdGroups;
 
 use PHPUnit\Framework\TestCase;
 use YandexDirectSDKTest\Helpers\Env;
