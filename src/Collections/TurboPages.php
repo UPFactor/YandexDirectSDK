@@ -3,7 +3,6 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\TurboPage;
 use YandexDirectSDK\Services\TurboPagesService;
 
@@ -11,7 +10,7 @@ use YandexDirectSDK\Services\TurboPagesService;
  * Class TurboPages 
  * 
  * @method static     QueryBuilder                  query()
- * @method static     TurboPage|TurboPages|null     find(integer|integer[]|TurboPage|TurboPages|ModelCommonInterface $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * 
  * @package YandexDirectSDK\Collections 
  */ 

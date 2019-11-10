@@ -15,7 +15,7 @@ use YandexDirectSDK\Services\TurboPagesService;
  * @property-read     string                        $previewHref
  *                                                  
  * @method static     QueryBuilder                  query()
- * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            integer                       getId()
  * @method            string                        getName()
  * @method            string                        getHref()

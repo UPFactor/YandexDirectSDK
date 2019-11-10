@@ -15,7 +15,7 @@ use YandexDirectSDK\Services\NegativeKeywordSharedSetsService;
  * @property          array                                                       $negativeKeywords
  * @property-read     string                                                      $associated
  *                                                                                
- * @method static     NegativeKeywordSharedSet|NegativeKeywordSharedSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     NegativeKeywordSharedSet|NegativeKeywordSharedSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                                                      add()
  * @method            QueryBuilder                                                query()
  * @method            Result                                                      update()

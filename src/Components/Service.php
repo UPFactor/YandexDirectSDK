@@ -204,13 +204,11 @@ abstract class Service
                     $elements[] = array_merge($item, [$foreignKey => $key]);
                 }
             }
-
-            $related = $related::make();
         } else {
             throw ServiceException::invalidObjectToBind();
         }
 
-        return $related->insert($elements);
+        return $related::make()->insert($elements);
     }
 
     /**
@@ -342,7 +340,7 @@ abstract class Service
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    protected static function selectionByIds(string $methodName, $elements, array $fields)
+    protected static function selectionByIds(string $methodName, $elements, array $fields = ['Id'])
     {
         $result = static::selectionElements($methodName)
             ->select($fields)

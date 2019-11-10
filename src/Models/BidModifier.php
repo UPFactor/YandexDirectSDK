@@ -23,7 +23,7 @@ use YandexDirectSDK\Services\BidModifiersService;
  * @property-read     string                            $type
  *                                                      
  * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                            add()
  * @method            Result                            set(int $value=null)
  * @method            Result                            delete()

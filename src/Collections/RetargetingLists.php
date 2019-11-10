@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Collections;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\RetargetingList;
 use YandexDirectSDK\Services\RetargetingListsService;
 
@@ -12,7 +11,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * Class RetargetingLists 
  * 
  * @method static     QueryBuilder                              query()
- * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $ids, string[] $fields)
+ * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                                    add()
  * @method            Result                                    delete()
  * @method            Result                                    update()

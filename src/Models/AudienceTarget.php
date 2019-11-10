@@ -20,7 +20,7 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * @property-read     string                                  $state
  *                                                            
  * @method static     QueryBuilder                            query()
- * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                                  add()
  * @method            Result                                  delete()
  * @method            Result                                  resume()

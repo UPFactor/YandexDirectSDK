@@ -13,7 +13,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * Class Campaigns 
  * 
  * @method static     QueryBuilder                query()
- * @method static     Campaign|Campaigns|null     find(integer|integer[]|Campaign|Campaigns|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Campaign|Campaigns|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                      add()
  * @method            Result                      update()
  * @method            Result                      delete()

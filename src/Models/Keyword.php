@@ -27,7 +27,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @property-read     Statistics                $statisticsNetwork
  *                                              
  * @method static     QueryBuilder              query()
- * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                    add()
  * @method            Result                    delete()
  * @method            Result                    resume()

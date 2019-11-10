@@ -16,7 +16,7 @@ use YandexDirectSDK\Models\AudienceTargetBid;
  * 
  * @method static     Result                                  add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * @method static     QueryBuilder                            query()
- * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                                  delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * @method static     Result                                  resume(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * @method static     Result                                  suspend(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)

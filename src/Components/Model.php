@@ -145,7 +145,7 @@ abstract class Model implements ModelInterface
     /**
      * Returns class of compatible collection.
      *
-     * @return ModelCollectionInterface|ModelInterface|string|null
+     * @return ModelCollectionInterface|string|null
      */
     public static function getCompatibleCollectionClass()
     {
@@ -155,7 +155,7 @@ abstract class Model implements ModelInterface
     /**
      * Retrieve instance of compatible collection.
      *
-     * @return ModelCommonInterface|null
+     * @return ModelCollectionInterface|null
      */
     public static function makeCompatibleCollection()
     {

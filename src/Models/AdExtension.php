@@ -19,7 +19,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  * @property-read     string                            $statusClarification
  *                                                      
  * @method static     QueryBuilder                      query()
- * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                            add()
  * @method            Result                            delete()
  * @method            $this                             setId(integer $id)

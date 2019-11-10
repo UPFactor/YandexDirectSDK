@@ -1270,7 +1270,8 @@ class ServiceMap extends ClassMap
                             [
                                 'name' => 'fields',
                                 'var' => '$fields',
-                                'type' => 'string[]'
+                                'type' => 'string[]',
+                                'default' => 'null'
                             ]
                         ]
                     ]));

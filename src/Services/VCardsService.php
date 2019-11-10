@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\VCard;
  * 
  * @method static     Result                add(VCard|VCards|ModelCommonInterface $vCards)
  * @method static     QueryBuilder          query()
- * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                delete(integer|integer[]|VCard|VCards|ModelCommonInterface $vCards)
  * 
  * @package YandexDirectSDK\Services 

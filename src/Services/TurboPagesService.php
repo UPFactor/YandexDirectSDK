@@ -9,7 +9,7 @@ use YandexDirectSDK\Models\TurboPage;
 /** 
  * Class TurboPagesService 
  * 
- * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     TurboPage|TurboPages|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * 
  * @package YandexDirectSDK\Services 
  */ 

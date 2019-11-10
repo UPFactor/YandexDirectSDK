@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Collections;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\VCard;
 use YandexDirectSDK\Services\VCardsService;
 
@@ -12,7 +11,7 @@ use YandexDirectSDK\Services\VCardsService;
  * Class VCards 
  * 
  * @method static     QueryBuilder          query()
- * @method static     VCard|VCards|null     find(integer|integer[]|VCard|VCards|ModelCommonInterface $ids, string[] $fields)
+ * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                add()
  * @method            Result                delete()
  * 

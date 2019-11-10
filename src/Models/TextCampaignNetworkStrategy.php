@@ -50,7 +50,6 @@ class TextCampaignNetworkStrategy extends Model
 
     protected static $properties = [
         'biddingStrategyType' => 'enum:' . self::NETWORK_DEFAULT . ',' . self::MAXIMUM_COVERAGE . ',' . self::WB_MAXIMUM_CLICKS . ',' . self::WB_MAXIMUM_CONVERSION_RATE . ',' . self::AVERAGE_CPC . ',' . self::AVERAGE_CPA . ',' . self::AVERAGE_ROI . ',' . self::WEEKLY_CLICK_PACKAGE . ',' . self::SERVING_OFF,
-        //'networkDefault' => 'object:' . StrategyNetworkDefault::class,
         'networkDefault' => 'custom:' . StrategyNetworkDefault::class . ',null,object',
         'wbMaximumClicks' => 'object:' . StrategyMaximumClicks::class,
         'wbMaximumConversionRate' => 'object:' . StrategyMaximumConversionRate::class,

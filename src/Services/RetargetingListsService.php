@@ -15,7 +15,7 @@ use YandexDirectSDK\Models\RetargetingList;
  * @method static     Result                                    add(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * @method static     Result                                    delete(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * @method static     QueryBuilder                              query()
- * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                                    update(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * 
  * @package YandexDirectSDK\Services 

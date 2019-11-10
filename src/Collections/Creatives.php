@@ -3,7 +3,6 @@ namespace YandexDirectSDK\Collections;
 
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Creative;
 use YandexDirectSDK\Services\CreativesService;
 
@@ -11,7 +10,7 @@ use YandexDirectSDK\Services\CreativesService;
  * Class Creatives 
  * 
  * @method static     QueryBuilder                query()
- * @method static     Creative|Creatives|null     find(integer|integer[]|Creative|Creatives|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Creative|Creatives|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * 
  * @package YandexDirectSDK\Collections 
  */ 

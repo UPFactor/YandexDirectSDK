@@ -10,7 +10,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
-class Checklists extends Assert
+class Checklists
 {
     /**
      * Checklist for [Result] object.
@@ -20,9 +20,9 @@ class Checklists extends Assert
      */
     public static function checkResult(Result $result)
     {
-        static::assertEquals(200, $result->code);
-        static::assertTrue($result->errors->isEmpty(), 'Result errors: ' . $result->errors->toJson());
-        static::assertTrue($result->warnings->isEmpty(), 'Result warnings: ' . $result->warnings->toJson());
+        Assert::assertEquals(200, $result->code);
+        Assert::assertTrue($result->errors->isEmpty(), 'Result errors: ' . $result->errors->toJson());
+        Assert::assertTrue($result->warnings->isEmpty(), 'Result warnings: ' . $result->warnings->toJson());
         return $result;
     }
 
@@ -40,9 +40,9 @@ class Checklists extends Assert
         static::checkResult($result);
 
         if (is_null($expectedClass)){
-            static::assertNull($resource);
+            Assert::assertNull($resource);
         } else {
-            static::assertInstanceOf($expectedClass, $resource);
+            Assert::assertInstanceOf($expectedClass, $resource);
         }
 
         if (!empty($expectedProperties)){
@@ -62,7 +62,7 @@ class Checklists extends Assert
     public static function checkModel(ModelInterface $model, array $rules)
     {
         $validator = Validator::make($model->toArray(), $rules);
-        static::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
+        Assert::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
         return $model;
     }
 
@@ -75,9 +75,9 @@ class Checklists extends Assert
      */
     public static function checkModelCollection(ModelCollectionInterface $collection, array $rules)
     {
-        static::assertTrue($collection->isNotEmpty(), 'Collection is empty');
+        Assert::assertTrue($collection->isNotEmpty(), 'Collection is empty');
         $collection->each(function(ModelInterface $model) use ($rules){
-            Checklists::checkModel($model, $rules);
+            static::checkModel($model, $rules);
         });
 
         return $collection;

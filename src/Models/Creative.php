@@ -22,7 +22,7 @@ use YandexDirectSDK\Services\CreativesService;
  * @property-read     CpmVideoCreative            $cpmVideoCreative
  *                                                
  * @method static     QueryBuilder                query()
- * @method static     Creative|Creatives|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     Creative|Creatives|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            integer                     getId()
  * @method            string                      getType()
  * @method            string                      getName()

@@ -12,7 +12,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * Class Keywords 
  * 
  * @method static     QueryBuilder              query()
- * @method static     Keyword|Keywords|null     find(integer|integer[]|Keyword|Keywords|ModelCommonInterface $ids, string[] $fields)
+ * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                    add()
  * @method            Result                    delete()
  * @method            Result                    resume()

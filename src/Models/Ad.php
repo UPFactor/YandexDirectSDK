@@ -32,7 +32,7 @@ use YandexDirectSDK\Services\AdsService;
  * @property-read     string                   $subtype
  *                                             
  * @method static     QueryBuilder             query()
- * @method static     Ad|Ads|null              find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     Ad|Ads|null              find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                   add()
  * @method            Result                   update()
  * @method            Result                   delete()

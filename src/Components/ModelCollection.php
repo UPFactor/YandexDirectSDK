@@ -92,7 +92,7 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Returns class of compatible model.
      *
-     * @return ModelInterface
+     * @return ModelInterface|string|null
      */
     public static function getCompatibleModelClass()
     {
@@ -102,7 +102,7 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Retrieve instance of compatible model.
      *
-     * @return ModelInterface
+     * @return ModelInterface|null
      */
     public static function makeCompatibleModel()
     {

@@ -20,7 +20,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * @property-read     string                                    $scope
  *                                                              
  * @method static     QueryBuilder                              query()
- * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                                    add()
  * @method            Result                                    delete()
  * @method            Result                                    update()

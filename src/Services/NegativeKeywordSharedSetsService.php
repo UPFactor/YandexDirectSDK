@@ -13,7 +13,7 @@ use YandexDirectSDK\Models\NegativeKeywordSharedSet;
  * 
  * @method static     Result                                                      add(NegativeKeywordSharedSet|NegativeKeywordSharedSets|ModelCommon $negativeKeywordSharedSets)
  * @method static     QueryBuilder                                                query()
- * @method static     NegativeKeywordSharedSet|NegativeKeywordSharedSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     NegativeKeywordSharedSet|NegativeKeywordSharedSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                                                      update(NegativeKeywordSharedSet|NegativeKeywordSharedSets|ModelCommon $negativeKeywordSharedSets)
  * @method static     Result                                                      delete(integer|integer[]|NegativeKeywordSharedSet|NegativeKeywordSharedSets|ModelCommon $negativeKeywordSharedSets)
  * 

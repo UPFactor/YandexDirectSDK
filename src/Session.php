@@ -423,12 +423,12 @@ class Session
             'sandbox: ' . static::usedSandbox(),
             'client: ' . static::getClient(),
             'requestId: ' . $result->requestId,
-            'errors' . $result->errors->count(),
-            'warnings' . $result->warnings->count(),
-            'unitsUsedLogin' . $result->unitsUsedLogin,
-            'unitsSpent' . $result->unitsSpent,
-            'unitsBalance' . $result->unitsBalance,
-            'unitsLimit' . $result->unitsLimit
+            'errors: ' . $result->errors->count(),
+            'warnings: ' . $result->warnings->count(),
+            'unitsUsedLogin: ' . $result->unitsUsedLogin,
+            'unitsSpent: ' . $result->unitsSpent,
+            'unitsBalance: ' . $result->unitsBalance,
+            'unitsLimit: ' . $result->unitsLimit
 
         ];
 

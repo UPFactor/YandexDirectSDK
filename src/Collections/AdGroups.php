@@ -12,7 +12,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * Class AdGroups 
  * 
  * @method static     QueryBuilder              query()
- * @method static     AdGroup|AdGroups|null     find(integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AdGroup|AdGroups|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                    add()
  * @method            Result                    update()
  * @method            Result                    delete()

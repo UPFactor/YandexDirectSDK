@@ -15,7 +15,7 @@ use YandexDirectSDK\Services\SitelinksService;
  * @property          Sitelinks                           $sitelinks
  *                                                        
  * @method static     QueryBuilder                        query()
- * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields)
+ * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                              add()
  * @method            Result                              delete()
  * @method            $this                               setId(integer $id)

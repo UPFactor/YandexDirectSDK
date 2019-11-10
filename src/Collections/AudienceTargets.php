@@ -4,7 +4,6 @@ namespace YandexDirectSDK\Collections;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
-use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\AudienceTarget;
 use YandexDirectSDK\Services\AudienceTargetsService;
 
@@ -12,7 +11,7 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * Class AudienceTargets 
  * 
  * @method static     QueryBuilder                            query()
- * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $ids, string[] $fields)
+ * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method            Result                                  add()
  * @method            Result                                  delete()
  * @method            Result                                  resume()
