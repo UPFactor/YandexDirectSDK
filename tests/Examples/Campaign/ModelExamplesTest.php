@@ -1162,6 +1162,82 @@ class ModelExamplesTest extends TestCase
     /*
      |-------------------------------------------------------------------------------
      |
+     | Getting
+     |
+     |-------------------------------------------------------------------------------
+    */
+
+    /**
+     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
+     * @depends testAdd_DynamicTextCampaign_HighestPosition_ServingOff
+     * @depends testAdd_MobileAppCampaign_HighestPosition_NetworkDefault
+     * @depends testAdd_CpmBannerCampaign_ServingOff_ManualCpm
+     */
+    public static function testFind():void
+    {
+        // [ Pre processing ] ==========================================================================================
+
+        $ids = Arr::map(static::$buffer, function(Campaign $campaign){
+            return $campaign->id;
+        });
+
+        // [ Example ] =================================================================================================
+
+        $campaigns = Campaign::find($ids, [
+            'Id',
+            'Name',
+            'State',
+            'TextCampaign.BiddingStrategy',
+            'DynamicTextCampaign.BiddingStrategy',
+            'MobileAppCampaign.BiddingStrategy',
+            'CpmBannerCampaign.BiddingStrategy'
+        ]);
+
+        // [ Post processing ] =========================================================================================
+
+        Checklists::checkModelCollection($campaigns, [
+            'Id' => 'required|integer',
+            'Name' => 'required|string',
+            'State' => 'required|string',
+            'TextCampaign.BiddingStrategy' => 'required_without_all:DynamicTextCampaign,MobileAppCampaign,CpmBannerCampaign|array',
+            'DynamicTextCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,MobileAppCampaign,CpmBannerCampaign|array',
+            'MobileAppCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,DynamicTextCampaign,CpmBannerCampaign|array',
+            'CpmBannerCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,DynamicTextCampaign,MobileAppCampaign|array'
+        ]);
+    }
+
+    /**
+     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
+     * @depends testAdd_DynamicTextCampaign_HighestPosition_ServingOff
+     */
+    public static function testQuery():void
+    {
+        $result = Campaign::query()
+            ->select([
+                'Id',
+                'Name',
+                'State',
+                'TextCampaign.BiddingStrategy',
+                'DynamicTextCampaign.BiddingStrategy',
+            ])
+            ->whereIn('Types', ['TEXT_CAMPAIGN', 'DYNAMIC_TEXT_CAMPAIGN'])
+            ->whereIn('States', ['SUSPENDED','OFF'])
+            ->get();
+
+        // [ Post processing ] =========================================================================================
+
+        Checklists::checkResource($result, Campaigns::class, [
+            'Id' => 'required|integer',
+            'Name' => 'required|string',
+            'State' => 'required|string',
+            'TextCampaign.BiddingStrategy' => 'required_without:DynamicTextCampaign|array',
+            'DynamicTextCampaign.BiddingStrategy' => 'required_without:TextCampaign|array',
+        ]);
+    }
+
+    /*
+     |-------------------------------------------------------------------------------
+     |
      | Actions
      |
      |-------------------------------------------------------------------------------
