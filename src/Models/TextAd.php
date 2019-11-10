@@ -3,6 +3,7 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\AdExtensionsAd;
 use YandexDirectSDK\Components\Model as Model;
+use YandexDirectSDK\Models\Traits\SetAdImage;
 
 /** 
  * Class TextAd 
@@ -71,7 +72,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @package YandexDirectSDK\Models 
  */ 
 class TextAd extends Model 
-{ 
+{
+    use SetAdImage;
+
     const YES = 'YES';
     const NO = 'NO';
 

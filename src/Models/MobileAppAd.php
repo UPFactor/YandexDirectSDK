@@ -3,6 +3,7 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\MobileAppAdFeatures;
 use YandexDirectSDK\Components\Model as Model;
+use YandexDirectSDK\Models\Traits\SetAdImage;
 
 /** 
  * Class MobileAppAd 
@@ -35,7 +36,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @package YandexDirectSDK\Models 
  */ 
 class MobileAppAd extends Model 
-{ 
+{
+    use SetAdImage;
+
     const DOWNLOAD = 'DOWNLOAD';
     const GET = 'GET';
     const INSTALL = 'INSTALL';
@@ -59,16 +62,4 @@ class MobileAppAd extends Model
     protected static $nonWritableProperties = [
         'adImageModeration'
     ];
-
-    public function setAdImage(string $name, string $filePath)
-    {
-        $adImage = AdImage::make()
-            ->setName($name)
-            ->setImageFile($filePath);
-
-        $adImage->add();
-        $this->data['adImageHash'] = $adImage->adImageHash;
-
-        return $this;
-    }
 }

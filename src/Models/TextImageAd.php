@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Components\Model as Model;
+use YandexDirectSDK\Models\Traits\SetAdImage;
 
 /** 
  * Class TextImageAd 
@@ -22,7 +23,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @package YandexDirectSDK\Models 
  */ 
 class TextImageAd extends Model 
-{ 
+{
+    use SetAdImage;
+
     protected static $properties = [
         'turboPageId' => 'integer',
         'turboPageModeration' => 'object:' . TurboPageModeration::class,

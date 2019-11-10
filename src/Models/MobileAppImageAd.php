@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
-use YandexDirectSDK\Components\Model as Model; 
+use YandexDirectSDK\Components\Model as Model;
+use YandexDirectSDK\Models\Traits\SetAdImage;
 
 /** 
  * Class MobileAppImageAd 
@@ -18,6 +19,8 @@ use YandexDirectSDK\Components\Model as Model;
  */ 
 class MobileAppImageAd extends Model 
 { 
+    use SetAdImage;
+    
     protected static $properties = [
         'trackingUrl' => 'string',
         'adImageHash' => 'string'

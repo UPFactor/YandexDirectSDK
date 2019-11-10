@@ -21,8 +21,6 @@ class Checklists
     public static function checkResult(Result $result)
     {
         Assert::assertEquals(200, $result->code);
-        Assert::assertTrue($result->errors->isEmpty(), 'Result errors: ' . $result->errors->toJson());
-        Assert::assertTrue($result->warnings->isEmpty(), 'Result warnings: ' . $result->warnings->toJson());
         return $result;
     }
 
@@ -34,15 +32,29 @@ class Checklists
      * @param array $expectedProperties
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    public static function checkResource(Result $result, $expectedClass = null, $expectedProperties = [])
+    public static function checkResource(Result $result, $expectedClass = null, array $expectedProperties = null, array $expectedWarnings = null, array $expectedErrors = null)
     {
-        $resource = $result->getResource();
         static::checkResult($result);
+        $resource = $result->getResource();
 
         if (is_null($expectedClass)){
             Assert::assertNull($resource);
         } else {
             Assert::assertInstanceOf($expectedClass, $resource);
+        }
+
+        if (!empty($expectedWarnings)){
+            $validator = Validator::make($result->warnings->all(), $expectedWarnings);
+            Assert::assertFalse($validator->fails, 'Inconsistent warnings: ' . Arr::first($validator->failed) ?? '');
+        } else {
+            Assert::assertTrue($result->warnings->isEmpty(), 'Result warnings: ' . $result->warnings->toJson());
+        }
+
+        if (!empty($expectedErrors)){
+            $validator = Validator::make($result->errors->all(), $expectedErrors);
+            Assert::assertFalse($validator->fails, 'Inconsistent errors: ' . Arr::first($validator->failed) ?? '');
+        } else {
+            Assert::assertTrue($result->errors->isEmpty(), 'Result errors: ' . $result->errors->toJson());
         }
 
         if (!empty($expectedProperties)){
