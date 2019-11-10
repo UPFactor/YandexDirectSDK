@@ -82,26 +82,14 @@ class AdImage extends Model
     public $imageFile;
 
     /**
-     * @param string $name
-     * @param string $imageFile
-     * @return AdImage
-     */
-    public static function image(string $name, string $imageFile)
-    {
-        return static::make()
-            ->setName($name)
-            ->setImageFile($imageFile);
-    }
-
-    /**
-     * @param string $imageFile
+     * @param string $filePath
      * @return $this
      */
-    public function setImageFile(string $imageFile)
+    public function setImageFile(string $filePath)
     {
         try {
-            $this->data['imageData'] = File::bind($imageFile)->base64();
-            $this->imageFile = $imageFile;
+            $this->data['imageData'] = File::bind($filePath)->base64();
+            $this->imageFile = $filePath;
         } catch (Exception $error){
             throw ModelException::make($error->getMessage(), $error->getCode());
         }

@@ -60,7 +60,7 @@ use YandexDirectSDKTest\Helpers\Env;
 
 class ModelExamplesTest extends TestCase
 {
-    protected static $buffer = [];
+    public static $buffer = [];
 
     /*
      |-------------------------------------------------------------------------------
@@ -72,23 +72,15 @@ class ModelExamplesTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        Env::setUpSession();
         static::$buffer = [];
+        Env::setUpSession();
     }
 
     public static function tearDownAfterClass(): void
     {
-        $ids = Arr::map(static::$buffer, function(Campaign $campaign){
+        Campaign::find(Arr::map(static::$buffer, function(Campaign $campaign){
             return $campaign->id;
-        });
-
-        $campaigns = Campaign::query()
-            ->select('Id')
-            ->whereIn('Ids', $ids)
-            ->get()
-            ->getResource();
-
-        $campaigns->delete();
+        }))->delete();
 
         static::$buffer = [];
     }
@@ -203,6 +195,7 @@ class ModelExamplesTest extends TestCase
 
     public static function testAdd_TextCampaign_HighestPosition_MaximumCoverage(): Campaign
     {
+
         $campaign = Campaign::make()
             ->setName('TextCampaign_HighestPosition_MaximumCoverage')
             ->setStartDate('2029-10-01')
@@ -1522,7 +1515,6 @@ class ModelExamplesTest extends TestCase
                     ->setTargetDeviceType(['DEVICE_TYPE_MOBILE','DEVICE_TYPE_TABLET'])
                     ->setTargetCarrier('WI_FI_AND_CELLULAR')
                     ->setTargetOperatingSystemVersion('2.3')
-
             );
 
         $result = $campaign->addRelatedAdGroups($adGroup);
