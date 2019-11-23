@@ -444,6 +444,12 @@ class ModelExamplesTest extends TestCase
      */
     public static function testAddRelatedAds_TextGroup_TextAd(AdGroup $adGroup):void
     {
+        // [ Pre processing ] ==========================================================================================
+
+        $imgLocalPath = Env::getFilesPath('img1080x607.png');
+
+        // [ Example ] =================================================================================================
+
         $ad = Ad::make()
             ->setTextAd(
                 TextAd::make()
@@ -452,7 +458,7 @@ class ModelExamplesTest extends TestCase
                     ->setText('My text')
                     ->setHref('https://mysite.com/page/')
                     ->setMobile('NO')
-                    ->setAdImage('TextAd Image', '../../Files/img1080x607.png')
+                    ->setAdImage('TextAd Image', $imgLocalPath)
             );
 
         $result = $adGroup->addRelatedAds($ad);
@@ -488,11 +494,17 @@ class ModelExamplesTest extends TestCase
      */
     public static function testAddRelatedAds_TextGroup_TextImageAd(AdGroup $adGroup):void
     {
+        // [ Pre processing ] ==========================================================================================
+
+        $imgLocalPath = Env::getFilesPath('img240x400.png');
+
+        // [ Example ] =================================================================================================
+
         $ad = Ad::make()
             ->setTextImageAd(
                 TextImageAd::make()
                     ->setHref('https://mysite.com/page/')
-                    ->setAdImage('TextAd Image', '../../Files/img240x400.png')
+                    ->setAdImage('TextAd Image', $imgLocalPath)
             );
 
         $result = $adGroup->addRelatedAds($ad);
@@ -611,6 +623,12 @@ class ModelExamplesTest extends TestCase
      */
     public static function testAddRelatedAds_MobileAppAdGroup_MobileAppAd(AdGroup $adGroup):void
     {
+        // [ Pre processing ] ==========================================================================================
+
+        $imgLocalPath = Env::getFilesPath('img1080x607.png');
+
+        // [ Example ] =================================================================================================
+
         $ad = Ad::make()
             ->setMobileAppAd(
                 MobileAppAd::make()
@@ -618,7 +636,7 @@ class ModelExamplesTest extends TestCase
                     ->setText('My text')
                     ->setAction('INSTALL')
                     ->setAgeLabel('AGE_18')
-                    ->setAdImage('MobileAppAd Image', '../../Files/img1080x607.png')
+                    ->setAdImage('MobileAppAd Image', $imgLocalPath)
             );
 
         $result = $adGroup->addRelatedAds($ad);
@@ -643,10 +661,16 @@ class ModelExamplesTest extends TestCase
      */
     public static function testAddRelatedAds_MobileAppAdGroup_MobileAppImageAd(AdGroup $adGroup):void
     {
+        // [ Pre processing ] ==========================================================================================
+
+        $imgLocalPath = Env::getFilesPath('img240x400.png');
+
+        // [ Example ] =================================================================================================
+
         $ad = Ad::make()
             ->setMobileAppImageAd(
                 MobileAppImageAd::make()
-                    ->setAdImage('MobileAppAd Image', '../../Files/img240x400.png')
+                    ->setAdImage('MobileAppAd Image', $imgLocalPath)
             );
 
         $result = $adGroup->addRelatedAds($ad);

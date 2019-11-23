@@ -247,4 +247,16 @@ class Env
     {
         return static::getPath(__DIR__ . '/../Data', $path, $required);
     }
+
+    /**
+     * Path constructor for [files] directory.
+     *
+     * @param string $path
+     * @param bool $required
+     * @return string
+     */
+    public static function getFilesPath(string $path = '', $required = false):string
+    {
+        return static::getPath(__DIR__ . '/../Files', $path, $required);
+    }
 }
