@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\Result; 
+use UPTools\Arr;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection; 
 use YandexDirectSDK\Models\Keyword;
@@ -55,4 +56,17 @@ class Keywords extends ModelCollection
         'setRelatedBidsAuto' => KeywordsService::class,
         'getRelatedBids' => KeywordsService::class,
     ];
+
+    /**
+     * @param array $keywords
+     * @return Keywords
+     */
+    public static function makeByList(array $keywords)
+    {
+        return static::make()->insert(Arr::map($keywords, function(string $keyword){
+            return [
+                'Keyword' => $keyword
+            ];
+        }));
+    }
 }

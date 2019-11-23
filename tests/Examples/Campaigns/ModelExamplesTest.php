@@ -14,6 +14,7 @@ use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Collections\Campaigns;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Collections\TextCampaignSettings;
+use YandexDirectSDK\Collections\WebpageConditions;
 use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Models\Ad;
 use YandexDirectSDK\Models\AdGroup;
@@ -55,12 +56,17 @@ use YandexDirectSDK\Models\TextCampaignNetworkStrategy;
 use YandexDirectSDK\Models\TextCampaignSearchStrategy;
 use YandexDirectSDK\Models\TextCampaignSetting;
 use YandexDirectSDK\Models\TextCampaignStrategy;
+use YandexDirectSDK\Models\Webpage;
+use YandexDirectSDK\Models\WebpageCondition;
 use YandexDirectSDKTest\Helpers\Checklists;
 use YandexDirectSDKTest\Helpers\Env;
 
 class ModelExamplesTest extends TestCase
 {
-    public static $buffer = [];
+    /**
+     * @var Campaign[]
+     */
+    public static $campaigns = [];
 
     /*
      |-------------------------------------------------------------------------------
@@ -72,17 +78,17 @@ class ModelExamplesTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        static::$buffer = [];
+        static::$campaigns = [];
         Env::setUpSession();
     }
 
     public static function tearDownAfterClass(): void
     {
-        Campaign::find(Arr::map(static::$buffer, function(Campaign $campaign){
+        Campaign::find(Arr::map(static::$campaigns, function(Campaign $campaign){
             return $campaign->id;
         }))->delete();
 
-        static::$buffer = [];
+        static::$campaigns = [];
     }
 
     /*
@@ -221,7 +227,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_WbMaximumClicks_NetworkDefault(): Campaign
@@ -257,7 +263,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_WbMaximumConversionRate_NetworkDefault(): Campaign
@@ -294,7 +300,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_AverageCpc_NetworkDefault(): Campaign
@@ -330,7 +336,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_AverageCpa_NetworkDefault(): Campaign
@@ -368,7 +374,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_AverageRoi_NetworkDefault(): Campaign
@@ -408,7 +414,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
@@ -444,7 +450,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_TextCampaign_ServingOff_WbMaximumClicks(): Campaign
@@ -479,7 +485,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
 
@@ -510,7 +516,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_WbMaximumClicks_ServingOff(): Campaign
@@ -545,7 +551,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_WbMaximumConversionRate_ServingOff(): Campaign
@@ -581,7 +587,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_AverageCpc_ServingOff(): Campaign
@@ -616,7 +622,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_AverageCpa_ServingOff(): Campaign
@@ -653,7 +659,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_AverageRoi_ServingOff(): Campaign
@@ -692,7 +698,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_DynamicTextCampaign_WeeklyClickPackage_ServingOff(): Campaign
@@ -727,7 +733,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
 
@@ -761,7 +767,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_WbMaximumClicks_NetworkDefault(): Campaign
@@ -797,7 +803,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_WbMaximumAppInstalls_NetworkDefault(): Campaign
@@ -833,7 +839,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_AverageCpc_NetworkDefault(): Campaign
@@ -869,7 +875,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_AverageCpi_NetworkDefault(): Campaign
@@ -906,7 +912,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
@@ -942,7 +948,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_MobileAppCampaign_ServingOff_WbMaximumClicks(): Campaign
@@ -977,7 +983,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
 
@@ -1007,7 +1013,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_CpmBannerCampaign_ServingOff_WbMaximumImpressions(): Campaign
@@ -1041,7 +1047,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_CpmBannerCampaign_ServingOff_CpMaximumImpressions(): Campaign
@@ -1078,7 +1084,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_CpmBannerCampaign_ServingOff_WbDecreasedPriceForRepeatedImpressions(): Campaign
@@ -1112,7 +1118,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     public static function testAdd_CpmBannerCampaign_ServingOff_CpDecreasedPriceForRepeatedImpressions(): Campaign
@@ -1149,7 +1155,7 @@ class ModelExamplesTest extends TestCase
         // [ Post processing ] =========================================================================================
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$buffer[] = $campaign;
+        return static::$campaigns[] = $campaign;
     }
 
     /*
@@ -1170,12 +1176,26 @@ class ModelExamplesTest extends TestCase
     {
         // [ Pre processing ] ==========================================================================================
 
-        $ids = Arr::map(static::$buffer, function(Campaign $campaign){
+        $id = Arr::first(static::$campaigns)->id;
+
+        $ids = Arr::map(static::$campaigns, function(Campaign $campaign){
             return $campaign->id;
         });
 
         // [ Example ] =================================================================================================
 
+        /**
+         * @var integer $id
+         * @var Campaign $adGroup
+         */
+        $campaign = Campaign::find($id, ['Id', 'Name', 'State']);
+
+        // [ Example ] =================================================================================================
+
+        /**
+         * @var integer[] $id
+         * @var Campaigns $adGroups
+         */
         $campaigns = Campaign::find($ids, [
             'Id',
             'Name',
@@ -1187,6 +1207,12 @@ class ModelExamplesTest extends TestCase
         ]);
 
         // [ Post processing ] =========================================================================================
+
+        Checklists::checkModel($campaign, [
+            'Id' => 'required|integer',
+            'Name' => 'required|string',
+            'State' => 'required|string'
+        ]);
 
         Checklists::checkModelCollection($campaigns, [
             'Id' => 'required|integer',
@@ -1209,6 +1235,7 @@ class ModelExamplesTest extends TestCase
             ->select([
                 'Id',
                 'Name',
+                'Type',
                 'State',
                 'TextCampaign.BiddingStrategy',
                 'DynamicTextCampaign.BiddingStrategy',
@@ -1222,7 +1249,8 @@ class ModelExamplesTest extends TestCase
         Checklists::checkResource($result, Campaigns::class, [
             'Id' => 'required|integer',
             'Name' => 'required|string',
-            'State' => 'required|string',
+            'Type' => 'required|string:TEXT_CAMPAIGN,DYNAMIC_TEXT_CAMPAIGN',
+            'State' => 'required|string:SUSPENDED,OFF',
             'TextCampaign.BiddingStrategy' => 'required_without:DynamicTextCampaign|array',
             'DynamicTextCampaign.BiddingStrategy' => 'required_without:TextCampaign|array',
         ]);
@@ -1868,35 +1896,61 @@ class ModelExamplesTest extends TestCase
     }
 
     /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
+     * @depends testAdd_DynamicTextCampaign_WbMaximumClicks_ServingOff
      * @param Campaign $campaign
      */
     public static function testGetRelatedWebpages(Campaign $campaign): void
     {
-        $result = $campaign->getRelatedWebpages(['Id','Name','CampaignId','AdGroupId']);
+        // [ Pre processing ] ==========================================================================================
+
+        $adGroup = AdGroup::make()
+            ->setName('Test')
+            ->setCampaignId($campaign->id)
+            ->setRegionIds([225])
+            ->setDynamicTextAdGroup(
+                DynamicTextAdGroup::make()
+                    ->setDomainUrl('yandex.ru')
+            );
+
+        Checklists::checkResource(
+            $adGroup->add(),
+            AdGroups::class
+        );
+
+        Checklists::checkResource(
+            $adGroup->addRelatedWebpages(
+                Webpage::make()
+                    ->setName('MyTargetingCondition')
+                    ->setConditions(
+                        WebpageConditions::make(
+                            WebpageCondition::domainContain(['mysite.com']),
+                            WebpageCondition::pageNotContain(['home', 'main'])
+                        )
+                    )
+            ),
+            Webpages::class
+        );
+
+        // [ Example ] =================================================================================================
+
+        $result = $campaign->getRelatedWebpages([
+            'Id',
+            'Name',
+            'CampaignId',
+            'AdGroupId',
+            'Conditions'
+        ]);
 
         // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Webpages::class);
-
-        Env::useLocalApi(true);
-        $result = $campaign->getRelatedWebpages(['Id','Name','CampaignId','AdGroupId']);
-        Env::useLocalApi(false);
 
         Checklists::checkResource($result, Webpages::class, [
             'Id' => 'required|integer',
             'AdGroupId' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'Bid' => 'required|integer',
-            'ContextBid' => 'required|integer',
-            'StrategyPriority' => 'required|string',
-            'State' => 'required|string',
-            'StatusClarification' => 'required|string',
+            'Name' => 'string',
+            'Conditions' => 'required|size:2',
             'Conditions.*.Operand' => 'required|string',
             'Conditions.*.Operator' => 'required|string',
-            'Conditions.*.Arguments' => 'required|array',
-            'ConditionType' => 'required|string'
+            'Conditions.*.Arguments' => 'required|array_of:string'
         ]);
     }
 

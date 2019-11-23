@@ -15,6 +15,7 @@
 
         <testsuite name="Examples">
             <file>Examples/Campaigns/ModelExamplesTest.php</file>
+            <file>Examples/AdGroups/ModelExamplesTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
