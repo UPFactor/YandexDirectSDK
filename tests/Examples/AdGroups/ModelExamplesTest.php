@@ -57,6 +57,8 @@ class ModelExamplesTest extends TestCase
 
     public static function init()
     {
+        static::$adGroups = [];
+        static::$campaigns = [];
         static::$campaigns['TextCampaign_HighestPosition_MaximumCoverage'] = CampaignsModelExamplesTest::testAdd_TextCampaign_HighestPosition_MaximumCoverage();
         static::$campaigns['TextCampaign_WbMaximumClicks_NetworkDefault'] = CampaignsModelExamplesTest::testAdd_TextCampaign_WbMaximumClicks_NetworkDefault();
         static::$campaigns['DynamicTextCampaign_WbMaximumClicks_ServingOff'] = CampaignsModelExamplesTest::testAdd_DynamicTextCampaign_WbMaximumClicks_ServingOff();
@@ -72,6 +74,7 @@ class ModelExamplesTest extends TestCase
         }))->delete();
 
         static::$campaigns = [];
+        static::$adGroups = [];
     }
 
     /*
@@ -100,6 +103,111 @@ class ModelExamplesTest extends TestCase
      |
      |-------------------------------------------------------------------------------
     */
+
+    public static function testMakeAndAdd_TextGroup():void
+    {
+        // [ Pre processing ] ==========================================================================================
+
+        $campaign = static::$campaigns['TextCampaign_HighestPosition_MaximumCoverage'];
+
+        // [ Example ] =================================================================================================
+
+        $adGroup = AdGroup::make([
+            'Name' => 'TextGroup',
+            'CampaignId' => $campaign->id,
+            'RegionIds' => [225],
+            'NegativeKeywords' => [
+                'Items' => ['set','negative','keywords']
+            ],
+            'TrackingParams' => 'from=direct&ad={ad_id}'
+        ]);
+
+        $result = $adGroup->add();
+
+        // [ Post processing ] =========================================================================================
+
+        Checklists::checkResource($result, AdGroups::class, [
+            'Id' => 'required|integer',
+            'CampaignId' => 'required|integer',
+            'Name' => 'required|string',
+            'RegionIds' => 'required|array_of:integer',
+            'NegativeKeywords.Items' => 'required|array_of:string',
+            'TrackingParams' => 'required|string'
+        ]);
+
+        $adGroup->delete();
+    }
+
+    public static function testMakeAndAdd_DynamicTextAdGroup():void
+    {
+        // [ Pre processing ] ==========================================================================================
+
+        $campaign = static::$campaigns['DynamicTextCampaign_WbMaximumClicks_ServingOff'];
+
+        // [ Example ] =================================================================================================
+
+        $adGroup = AdGroup::make([
+            'Name' => 'TextGroup',
+            'CampaignId' => $campaign->id,
+            'RegionIds' => [225],
+            'NegativeKeywords' => [
+                'Items' => ['set','negative','keywords']
+            ],
+            'TrackingParams' => 'from=direct&ad={ad_id}',
+            'DynamicTextAdGroup' => [
+                'DomainUrl' => 'yandex.ru'
+            ]
+        ]);
+
+        $result = $adGroup->add();
+
+        // [ Post processing ] =========================================================================================
+
+        Checklists::checkResource($result, AdGroups::class, [
+            'Id' => 'required|integer',
+            'CampaignId' => 'required|integer',
+            'Name' => 'required|string',
+            'RegionIds' => 'required|array_of:integer',
+            'NegativeKeywords.Items' => 'required|array_of:string',
+            'TrackingParams' => 'required|string',
+            'DynamicTextAdGroup.DomainUrl' => 'required|string'
+        ]);
+
+        $adGroup->delete();
+    }
+
+    public static function testMakeAndAdd_CpmVideoAdGroup():void
+    {
+        // [ Pre processing ] ==========================================================================================
+
+        $campaign = static::$campaigns['CpmBannerCampaign_ServingOff_ManualCpm'];
+
+        // [ Example ] =================================================================================================
+
+        $adGroup = AdGroup::make([
+            'Name' => 'TextGroup',
+            'CampaignId' => $campaign->id,
+            'RegionIds' => [225],
+            'TrackingParams' => 'from=direct&ad={ad_id}',
+            'CpmVideoAdGroup' => []
+        ]);
+
+        $result = $adGroup->add();
+
+        // [ Post processing ] =========================================================================================
+
+        Checklists::checkResource($result, AdGroups::class, [
+            'Id' => 'required|integer',
+            'CampaignId' => 'required|integer',
+            'Name' => 'required|string',
+            'RegionIds' => 'required|array_of:integer',
+            'TrackingParams' => 'required|string',
+            'CpmVideoAdGroup' => 'required'
+        ]);
+
+        $adGroup->delete();
+    }
+
 
     public static function testAdd_TextGroup():AdGroup
     {
@@ -355,7 +463,7 @@ class ModelExamplesTest extends TestCase
         // [ Example ] =================================================================================================
 
         /**
-         * @var integer[] $id
+         * @var integer[] $ids
          * @var AdGroups $adGroups
          */
         $adGroups = AdGroup::find($ids, [
