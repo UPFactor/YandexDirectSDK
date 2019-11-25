@@ -1,6 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Collections;
 
+use YandexDirectSDK\Collections\Foundation\On;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\ModelCollection;
@@ -17,28 +18,30 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method            Result                    update()
  * @method            Result                    delete()
  * @method            Result                    addRelatedAds(ModelCommonInterface $ads)
- * @method            Result                    getRelatedAds(array $fields)
+ * @method            Ads                       getRelatedAds(array $fields=[])
  * @method            Result                    addRelatedAudienceTargets(ModelCommonInterface $audienceTargets)
- * @method            Result                    getRelatedAudienceTargets(array $fields)
+ * @method            AudienceTargets           getRelatedAudienceTargets(array $fields=[])
  * @method            Result                    setRelatedBids($bid, $contextBid=null)
  * @method            Result                    setRelatedContextBids($contextBid)
  * @method            Result                    setRelatedStrategyPriority(string $strategyPriority)
  * @method            Result                    setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method            Result                    getRelatedBids(array $fields)
+ * @method            Bids                      getRelatedBids(array $fields=[])
  * @method            Result                    addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
  * @method            Result                    enableBidModifiers(string $bidModifierType)
  * @method            Result                    disableBidModifiers(string $bidModifierType)
- * @method            Result                    getRelatedBidModifiers(array $fields)
+ * @method            BidModifiers              getRelatedBidModifiers(array $fields=[])
  * @method            Result                    addRelatedKeywords(ModelCommonInterface $keywords)
- * @method            Result                    getRelatedKeywords(array $fields)
+ * @method            Keywords                  getRelatedKeywords(array $fields=[])
  * @method            Result                    addRelatedWebpages(ModelCommonInterface $webpages)
- * @method            Result                    getRelatedWebpages(array $fields)
+ * @method            Webpages                  getRelatedWebpages(array $fields=[])
  * 
  * @package YandexDirectSDK\Collections 
  */ 
 class AdGroups extends ModelCollection 
 { 
-    /** 
+    use On;
+
+    /**
      * @var AdGroup[] 
      */ 
     protected $items = []; 

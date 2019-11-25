@@ -2,6 +2,7 @@
 namespace YandexDirectSDK\Collections; 
 
 use UPTools\Arr;
+use YandexDirectSDK\Collections\Foundation\On;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection; 
@@ -23,13 +24,15 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method            Result                    setRelatedContextBids($contextBid)
  * @method            Result                    setRelatedStrategyPriority(string $strategyPriority)
  * @method            Result                    setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method            Result                    getRelatedBids(array $fields)
+ * @method            Bids                      getRelatedBids(array $fields=[])
  * 
  * @package YandexDirectSDK\Collections 
  */ 
 class Keywords extends ModelCollection 
 { 
-    /** 
+    use On;
+
+    /**
      * @var Keyword[] 
      */ 
     protected $items = []; 

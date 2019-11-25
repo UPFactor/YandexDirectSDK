@@ -5,6 +5,7 @@ use YandexDirectSDK\Collections\VCards;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\VCardsService;
 
 /** 
@@ -73,7 +74,9 @@ use YandexDirectSDK\Services\VCardsService;
  * @package YandexDirectSDK\Models 
  */ 
 class VCard extends Model 
-{ 
+{
+    use On;
+
     protected static $compatibleCollection = VCards::class;
 
     protected static $staticMethods = [

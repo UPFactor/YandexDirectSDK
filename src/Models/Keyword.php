@@ -1,10 +1,12 @@
 <?php 
 namespace YandexDirectSDK\Models; 
 
+use YandexDirectSDK\Collections\Bids;
 use YandexDirectSDK\Collections\Keywords;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\KeywordsService;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
@@ -37,7 +39,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method            Result                    setRelatedContextBids($contextBid)
  * @method            Result                    setRelatedStrategyPriority(string $strategyPriority)
  * @method            Result                    setRelatedBidsAuto(ModelCommonInterface $bidsAuto)
- * @method            Result                    getRelatedBids(array $fields)
+ * @method            Bids                      getRelatedBids(array $fields=[])
  * @method            $this                     setId(integer $id)
  * @method            integer                   getId()
  * @method            $this                     setAdGroupId(integer $adGroupId)
@@ -65,6 +67,8 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */ 
 class Keyword extends Model 
 {
+    use On;
+
     const LOW = 'LOW';
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';

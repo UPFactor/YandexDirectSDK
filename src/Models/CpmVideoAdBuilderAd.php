@@ -3,7 +3,7 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\TrackingPixels;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Models\Traits\SetTrackingPixels;
+use YandexDirectSDK\Models\Foundation\SetTrackingPixels;
 
 /** 
  * Class CpmVideoAdBuilderAd 

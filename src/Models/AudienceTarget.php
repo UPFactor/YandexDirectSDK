@@ -5,6 +5,7 @@ use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\AudienceTargetsService;
 
 /** 
@@ -46,6 +47,8 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  */ 
 class AudienceTarget extends Model 
 {
+    use On;
+
     const LOW = 'LOW';
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';

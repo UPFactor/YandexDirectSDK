@@ -142,12 +142,12 @@ class KeywordsService extends Service
      *
      * @param integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords
      * @param array $fields
-     * @return Result
+     * @return Bids|ModelCommonInterface
      */
-    public static function getRelatedBids($keywords, array $fields): Result
+    public static function getRelatedBids($keywords, array $fields = []): Bids
     {
         return BidsService::query()
-            ->select($fields)
+            ->select('KeywordId', ...$fields)
             ->whereIn('KeywordIds', static::extractIds($keywords))
             ->get();
     }

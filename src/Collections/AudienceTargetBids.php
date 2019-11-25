@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Models\AudienceTargetBid;
 
 /** 
@@ -11,7 +12,9 @@ use YandexDirectSDK\Models\AudienceTargetBid;
  */ 
 class AudienceTargetBids extends ModelCollection 
 { 
-    /** 
+    use On;
+
+    /**
      * @var AudienceTargetBid[] 
      */ 
     protected $items = []; 

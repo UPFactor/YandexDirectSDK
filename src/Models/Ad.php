@@ -5,6 +5,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\AdsService;
 
 /** 
@@ -78,6 +79,8 @@ use YandexDirectSDK\Services\AdsService;
  */
 class Ad extends Model 
 {
+    use On;
+
     protected static $compatibleCollection = Ads::class;
 
     protected static $staticMethods = [

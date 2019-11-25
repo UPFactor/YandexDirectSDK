@@ -3,6 +3,7 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\AudienceTargetBids;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Models\Foundation\On;
 
 /** 
  * Class AudienceTargetBid 
@@ -28,6 +29,8 @@ use YandexDirectSDK\Components\Model;
  */ 
 class AudienceTargetBid extends Model 
 {
+    use On;
+
     const LOW = 'LOW';
     const NORMAL = 'NORMAL';
     const HIGH = 'HIGH';

@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\Result; 
+use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Models\VCard;
@@ -19,7 +20,9 @@ use YandexDirectSDK\Services\VCardsService;
  */ 
 class VCards extends ModelCollection 
 { 
-    /** 
+    use On;
+
+    /**
      * @var VCard[] 
      */ 
     protected $items = []; 

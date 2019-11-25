@@ -1,6 +1,6 @@
 <?php
 
-namespace YandexDirectSDK\Models\Traits;
+namespace YandexDirectSDK\Models\Foundation;
 
 use YandexDirectSDK\Collections\TrackingPixels;
 use YandexDirectSDK\Components\Model;

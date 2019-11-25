@@ -6,6 +6,7 @@ use YandexDirectSDK\Collections\SitelinksSets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\SitelinksService;
 
 /** 
@@ -26,7 +27,9 @@ use YandexDirectSDK\Services\SitelinksService;
  * @package YandexDirectSDK\Models 
  */ 
 class SitelinksSet extends Model 
-{ 
+{
+    use On;
+
     protected static $compatibleCollection = SitelinksSets::class;
 
     protected static $staticMethods = [

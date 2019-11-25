@@ -1,7 +1,7 @@
 <?php
 
 
-namespace YandexDirectSDK\Models\Traits;
+namespace YandexDirectSDK\Models\Foundation;
 
 
 use YandexDirectSDK\Models\AdImage;

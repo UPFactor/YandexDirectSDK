@@ -3,10 +3,14 @@
 namespace YandexDirectSDK\Services;
 
 use YandexDirectSDK\Collections\AdGroups;
+use YandexDirectSDK\Collections\Ads;
+use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Collections\Bids;
 use YandexDirectSDK\Collections\BidsAuto;
+use YandexDirectSDK\Collections\Keywords;
+use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
@@ -71,12 +75,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return AdGroups|ModelCommonInterface
      */
-    public static function getRelatedAdGroups($campaigns, array $fields): Result
+    public static function getRelatedAdGroups($campaigns, array $fields = []): AdGroups
     {
         return AdGroupsService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds',  static::extractIds($campaigns))
             ->get();
 
@@ -87,12 +91,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return Ads|ModelCommonInterface
      */
-    public static function getRelatedAds($campaigns, array $fields): Result
+    public static function getRelatedAds($campaigns, array $fields = []): Ads
     {
         return AdsService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds',  static::extractIds($campaigns))
             ->get();
 
@@ -103,12 +107,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return AudienceTargets|ModelCommonInterface
      */
-    public static function getRelatedAudienceTargets($campaigns, array $fields): Result
+    public static function getRelatedAudienceTargets($campaigns, array $fields = []): AudienceTargets
     {
         return AudienceTargetsService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds',  static::extractIds($campaigns))
             ->get();
     }
@@ -211,12 +215,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return Bids|ModelCommonInterface
      */
-    public static function getRelatedBids($campaigns, array $fields): Result
+    public static function getRelatedBids($campaigns, array $fields = []): Bids
     {
         return BidsService::query()
-            ->select($fields)
+            ->select('CampaignId', ...$fields)
             ->whereIn('CampaignIds',  static::extractIds($campaigns))
             ->get();
     }
@@ -286,12 +290,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return BidModifiers|ModelCommonInterface
      */
-    public static function getRelatedBidModifiers($campaigns, array $fields): Result
+    public static function getRelatedBidModifiers($campaigns, array $fields = []): BidModifiers
     {
         return BidModifiersService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds', static::extractIds($campaigns))
             ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
             ->get();
@@ -302,12 +306,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return Keywords|ModelCommonInterface
      */
-    public static function getRelatedKeywords($campaigns, array $fields): Result
+    public static function getRelatedKeywords($campaigns, array $fields = []): Keywords
     {
         return KeywordsService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds', static::extractIds($campaigns))
             ->get();
     }
@@ -317,12 +321,12 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
-     * @return Result
+     * @return Webpages|ModelCommonInterface
      */
-    public static function getRelatedWebpages($campaigns, array $fields): Result
+    public static function getRelatedWebpages($campaigns, array $fields = []): Webpages
     {
         return DynamicTextAdTargetsService::query()
-            ->select($fields)
+            ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds', static::extractIds($campaigns))
             ->get();
     }

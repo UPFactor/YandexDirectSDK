@@ -166,9 +166,13 @@ class Mapper extends ConsoleLauncher{
     protected function getFiles($path, $file = null){
         if (is_null($file)){
             $dir = Dir::bind($path);
-            return $dir->map(function(FileInfo $file){
-                return File::bind($file->realPath);
-            });
+            return Arr::compact(Arr::map($dir->scan(), function(FileInfo $file){
+                if ($file->isFile()){
+                    return File::bind($file->realPath);
+                } else {
+                    return null;
+                }
+            }));
         } else {
             $file = File::bind($path.DIRECTORY_SEPARATOR.$file);
             $file->missing(function($file){

@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\Result; 
+use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Models\Webpage;
@@ -24,7 +25,9 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  */ 
 class Webpages extends ModelCollection 
 { 
-    /** 
+    use On;
+
+    /**
      * @var Webpage[] 
      */ 
     protected $items = []; 

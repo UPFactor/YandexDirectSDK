@@ -5,6 +5,7 @@ use YandexDirectSDK\Collections\BidModifiers;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
@@ -51,7 +52,9 @@ use YandexDirectSDK\Services\BidModifiersService;
  * @package YandexDirectSDK\Models 
  */ 
 class BidModifier extends Model 
-{ 
+{
+    use On;
+
     protected static $compatibleCollection = BidModifiers::class;
 
     protected static $staticMethods = [

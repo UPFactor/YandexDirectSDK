@@ -5,6 +5,7 @@ use YandexDirectSDK\Collections\NegativeKeywordSharedSets;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Models\Foundation\On;
 use YandexDirectSDK\Services\NegativeKeywordSharedSetsService;
 
 /** 
@@ -31,7 +32,9 @@ use YandexDirectSDK\Services\NegativeKeywordSharedSetsService;
  * @package YandexDirectSDK\Models 
  */ 
 class NegativeKeywordSharedSet extends Model 
-{ 
+{
+    use On;
+
     protected static $compatibleCollection = NegativeKeywordSharedSets::class;
 
     protected static $methods = [

@@ -1,7 +1,8 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\Result; 
+use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Models\AudienceTarget;
@@ -20,7 +21,9 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * @package YandexDirectSDK\Collections 
  */ 
 class AudienceTargets extends ModelCollection 
-{ 
+{
+    use On;
+
     /** 
      * @var AudienceTarget[] 
      */ 

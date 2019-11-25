@@ -69,12 +69,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return Ads|ModelCommonInterface
      */
-    public static function getRelatedAds($adGroups, array $fields): Result
+    public static function getRelatedAds($adGroups, array $fields = []): Ads
     {
         return AdsService::query()
-            ->select($fields)
+            ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->get();
     }
@@ -96,12 +96,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return AudienceTargets|ModelCommonInterface
      */
-    public static function getRelatedAudienceTargets($adGroups, array $fields): Result
+    public static function getRelatedAudienceTargets($adGroups, array $fields = []): AudienceTargets
     {
         return AudienceTargetsService::query()
-            ->select($fields)
+            ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->get();
     }
@@ -204,12 +204,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return Bids|ModelCommonInterface
      */
-    public static function getRelatedBids($adGroups, array $fields): Result
+    public static function getRelatedBids($adGroups, array $fields = []): Bids
     {
         return BidsService::query()
-            ->select($fields)
+            ->select('AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->get();
     }
@@ -279,12 +279,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return BidModifiers|ModelCommonInterface
      */
-    public static function getRelatedBidModifiers($adGroups, array $fields): Result
+    public static function getRelatedBidModifiers($adGroups, array $fields = []): BidModifiers
     {
         return BidModifiersService::query()
-            ->select($fields)
+            ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
             ->get();
@@ -307,12 +307,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return Keywords|ModelCommonInterface
      */
-    public static function getRelatedKeywords($adGroups, array $fields): Result
+    public static function getRelatedKeywords($adGroups, array $fields = []): Keywords
     {
         return KeywordsService::query()
-            ->select($fields)
+            ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->get();
     }
@@ -334,12 +334,12 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
-     * @return Result
+     * @return Webpages|ModelCommonInterface
      */
-    public static function getRelatedWebpages($adGroups, array $fields): Result
+    public static function getRelatedWebpages($adGroups, array $fields = []): Webpages
     {
         return DynamicTextAdTargetsService::query()
-            ->select($fields)
+            ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
             ->get();
     }

@@ -148,7 +148,6 @@ abstract class Service
         return self::$boot->get($class);
     }
 
-
     /**
      * Gets an array of identifiers from the passed source.
      *
@@ -322,18 +321,30 @@ abstract class Service
             throw ServiceException::serviceNotSupportMethod(static::class, $methodName);
         }
 
-        return new QueryBuilder(function (QueryBuilder $query) use ($methodName, $handler){
-            $result = static::call($methodName, is_null($handler) ? $query->toArray() : $handler($query->toArray()));
+        return new QueryBuilder(
+            function (QueryBuilder $query, $modifier) use ($methodName, $handler){
+                $result = static::call($methodName, is_null($handler) ? $query->toArray() : $handler($query->toArray()));
+                $result = $result->data->get(static::boot()->modelCollectionClass::getClassName());
 
-            return $result->setResource(
-                static::boot()->modelCollectionClass::make()
-                    ->insert($result->data->get(static::boot()->modelCollectionClass::getClassName()))
-            );
-        });
+                if (is_null($result)){
+                    return $modifier === 'first' ? null : static::boot()->modelCollectionClass::make();
+                }
+
+                if ($modifier === 'first'){
+                    return static::boot()
+                        ->modelClass::make()
+                        ->insert($result->first());
+                } else {
+                    return static::boot()
+                        ->modelCollectionClass::make()
+                        ->insert($result);
+                }
+            }
+        );
     }
 
     /**
-     * Typical data selection method by ID.
+     * Typical data selection method by id.
      *
      * @param string $methodName
      * @param integer|integer[]|string|string[] $elements
@@ -342,21 +353,19 @@ abstract class Service
      */
     protected static function selectionByIds(string $methodName, $elements, array $fields = ['Id'])
     {
-        $result = static::selectionElements($methodName)
+        $query = static::selectionElements($methodName)
             ->select($fields)
-            ->whereIn('Ids', $elements)
-            ->get()
-            ->getResource();
+            ->whereIn('Ids', $elements);
 
         if (!is_array($elements) or count($elements) === 1){
-            return $result->first();
+            return $query->first();
+        } else {
+            return $query->get();
         }
-
-        return $result;
     }
 
     /**
-     * Typical method for action based on object property values.
+     * Typical method for action by property values.
      *
      * @param string $methodName
      * @param ModelCommonInterface|string[]|integer[]|string|integer $elements
@@ -382,7 +391,7 @@ abstract class Service
     }
 
     /**
-     * Typical method for action based on object ids.
+     * Typical method for action by id.
      *
      * @param string $methodName
      * @param ModelCommonInterface|string[]|integer[]|string|integer $elements

@@ -2,7 +2,7 @@
 namespace YandexDirectSDK\Models; 
 
 use YandexDirectSDK\Components\Model as Model;
-use YandexDirectSDK\Models\Traits\SetAdImage;
+use YandexDirectSDK\Models\Foundation\SetAdImage;
 
 /** 
  * Class TextImageAd 

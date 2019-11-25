@@ -6,6 +6,8 @@ use Closure;
 use UPTools\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RuntimeException;
+use YandexDirectSDK\Interfaces\Model as ModelInterface;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
  * Class QueryBuilder
@@ -184,16 +186,30 @@ class QueryBuilder
      * Run an API request.
      * Available if the [$this->getter] parameter is set.
      *
-     * @return Result
+     * @return ModelCollectionInterface
      */
     public function get()
     {
-        $getter = $this->getter;
-
-        if (is_null($getter)){
+        if (is_null($getter = $this->getter)){
             throw RuntimeException::make(static::class.'::get. Undefined Getter for request.');
         }
 
-        return $getter($this);
+        return $getter($this, 'get');
+    }
+
+    /**
+     * Run an API request.
+     * Available if the [$this->getter] parameter is set.
+     *
+     * @return ModelInterface
+     */
+    public function first()
+    {
+        if (is_null($getter = $this->getter)){
+            throw RuntimeException::make(static::class.'::first. Undefined Getter for request.');
+        }
+
+        $this->limit(1);
+        return $getter($this, 'first');
     }
 }
