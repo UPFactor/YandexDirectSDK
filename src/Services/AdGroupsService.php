@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Services;
 
+use UPTools\Arr;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Collections\AudienceTargets;
 use YandexDirectSDK\Collections\BidModifiers;
@@ -295,11 +296,20 @@ class AdGroupsService extends Service
      * Add keywords for given ad groups.
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
-     * @param Keyword|Keywords|ModelCommonInterface $keywords
+     * @param string[]|Keyword|Keywords|ModelCommonInterface $keywords
      * @return Result
      */
-    public static function addRelatedKeywords($adGroups, ModelCommonInterface $keywords): Result
+    public static function addRelatedKeywords($adGroups, $keywords): Result
     {
+        if (is_array($keywords)){
+            $keywords = (KeywordsService::getModelCollectionClass())::make()
+                ->insert(
+                    Arr::map($keywords, function(string $keyword){
+                        return ['Keyword' => $keyword];
+                    })
+                );
+        }
+
         return KeywordsService::create(static::bind($adGroups, $keywords, 'AdGroupId'));
     }
 

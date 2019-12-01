@@ -82,7 +82,7 @@ abstract class Service
     /**
      * Returns class of the model that is used by the service.
      *
-     * @return string|null
+     * @return ModelInterface|string|null
      */
     public static function getModelClass()
     {
@@ -92,7 +92,7 @@ abstract class Service
     /**
      * Returns class of the collection that is used by the service.
      *
-     * @return string|null
+     * @return ModelCollectionInterface|string|null
      */
     public static function getModelCollectionClass()
     {

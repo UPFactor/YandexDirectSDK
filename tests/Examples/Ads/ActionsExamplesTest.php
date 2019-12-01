@@ -7,7 +7,6 @@ use UPTools\Arr;
 use YandexDirectSDK\Collections\Ads;
 use YandexDirectSDK\Models\Ad;
 use YandexDirectSDK\Models\Campaign;
-use YandexDirectSDKTest\Examples\Ads\CreateExamplesTest as AdsCreateExamplesTest;
 use YandexDirectSDKTest\Helpers\Checklists;
 use YandexDirectSDKTest\Helpers\Env;
 
@@ -65,7 +64,7 @@ class ActionsExamplesTest extends TestCase
         Env::setUpSession();
 
         return [
-            'TextAd' => [static::$ads['TextAd'] ?? static::$ads['TextAd'] = AdsCreateExamplesTest::createTextAd()]
+            'TextAd' => [static::$ads['TextAd'] ?? static::$ads['TextAd'] = CreateExamplesTest::createTextAd()]
         ];
     }
 

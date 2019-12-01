@@ -29,5 +29,22 @@
             <file>Examples/AdGroups/UpdateExamplesTest.php</file>
             <file>Examples/AdGroups/DeleteExamplesTest.php</file>
         </testsuite>
+
+        <testsuite name="AdsExamples">
+            <file>Examples/Ads/CreateExamplesTest.php</file>
+            <file>Examples/Ads/ActionsExamplesTest.php</file>
+            <file>Examples/Ads/SelectionExamplesTest.php</file>
+            <file>Examples/Ads/UpdateExamplesTest.php</file>
+            <file>Examples/Ads/DeleteExamplesTest.php</file>
+        </testsuite>
+
+        <testsuite name="KeywordsExamples">
+            <file>Examples/Keywords/CreateExamplesTest.php</file>
+            <file>Examples/Keywords/ActionsExamplesTest.php</file>
+            <file>Examples/Keywords/SelectionExamplesTest.php</file>
+            <file>Examples/Keywords/RelatedExamplesTest.php</file>
+            <file>Examples/Keywords/UpdateExamplesTest.php</file>
+            <file>Examples/Keywords/DeleteExamplesTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

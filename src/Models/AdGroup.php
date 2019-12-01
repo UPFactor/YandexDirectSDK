@@ -55,7 +55,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method             Result                     enableBidModifiers(string $bidModifierType)
  * @method             Result                     disableBidModifiers(string $bidModifierType)
  * @method             BidModifiers               getRelatedBidModifiers(array $fields=[], array $levels=['CAMPAIGN','AD_GROUP'])
- * @method             Result                     addRelatedKeywords(ModelCommonInterface $keywords)
+ * @method             Result                     addRelatedKeywords($keywords)
  * @method             Keywords                   getRelatedKeywords(array $fields=[])
  * @method             Result                     addRelatedWebpages(ModelCommonInterface $webpages)
  * @method             Webpages                   getRelatedWebpages(array $fields=[])

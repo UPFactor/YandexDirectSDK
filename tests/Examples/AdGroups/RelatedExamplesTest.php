@@ -693,11 +693,9 @@ class RelatedExamplesTest extends TestCase
      * @depends addRelatedAds_TextAd
      * @param AdGroup $adGroup
      */
-    public static function addRelatedKeywords_ByList(AdGroup $adGroup):void
+    public static function addRelatedKeywords(AdGroup $adGroup):void
     {
-        $result = $adGroup->addRelatedKeywords(
-            Keywords::makeByList(['keyword1','keyword2','keyword3'])
-        );
+        $result = $adGroup->addRelatedKeywords(['keyword1','keyword2','keyword3']);
 
         // [ Post processing ]
 

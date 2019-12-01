@@ -405,11 +405,15 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Preprocessor adding new items to the collection.
      *
-     * @param ModelInterface $model
+     * @param ModelInterface|array $model
      * @return ModelInterface
      */
     protected function dataItemController($model)
     {
+        if (is_array($model)){
+            return (static::$compatibleModel)::make()->insert($model);
+        }
+
         if (!is_object($model) or get_class($model) !== static::$compatibleModel){
             throw InvalidArgumentException::modelCollectionItem(static::class, static::$compatibleModel, $model);
         }
