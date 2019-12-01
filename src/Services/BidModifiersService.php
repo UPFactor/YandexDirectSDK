@@ -45,7 +45,7 @@ class BidModifiersService extends Service
      * @param BidModifier|BidModifiers|ModelCommonInterface $bidModifiers
      * @return Result
      */
-    public static function add(ModelCommonInterface $bidModifiers) : Result
+    public static function create(ModelCommonInterface $bidModifiers) : Result
     {
         //If the model is transferred, it must be converted to
         //the appropriate collection.
@@ -149,7 +149,7 @@ class BidModifiersService extends Service
      * @param int $value
      * @return Result
      */
-    public static function set($bidModifiers, int $value = null): Result
+    public static function update($bidModifiers, int $value = null): Result
     {
         //Converting BidModifier (BidModifiers) objects into
         //corresponding BidModifierSet (BidModifierSets) objects.

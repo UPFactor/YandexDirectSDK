@@ -21,7 +21,6 @@ use YandexDirectSDK\Services\KeywordBidsService;
  * @property-read     string           $servingStatus
  *                                     
  * @method static     QueryBuilder     query()
- * @method            Result           set()
  * @method            $this            setCampaignId(integer $campaignId)
  * @method            integer          getCampaignId()
  * @method            $this            setAdGroupId(integer $adGroupId)
@@ -52,10 +51,6 @@ class KeywordBid extends Model
         'query' => KeywordBidsService::class
     ];
 
-    protected static $methods = [
-        'set' => KeywordBidsService::class
-    ];
-
     protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
@@ -73,4 +68,9 @@ class KeywordBid extends Model
         'network',
         'servingStatus'
     ];
+
+    public function apply():Result
+    {
+        return KeywordBidsService::set($this);
+    }
 }

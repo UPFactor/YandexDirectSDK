@@ -13,9 +13,21 @@
             <file>Units/Models/ModelsTest.php</file>
         </testsuite>
 
-        <testsuite name="Examples">
-            <file>Examples/Campaigns/ModelExamplesTest.php</file>
-            <file>Examples/AdGroups/ModelExamplesTest.php</file>
+        <testsuite name="CampaignExamples">
+            <file>Examples/Campaigns/CreateExamplesTest.php</file>
+            <file>Examples/Campaigns/SelectionExamplesTest.php</file>
+            <file>Examples/Campaigns/ActionsExamplesTest.php</file>
+            <file>Examples/Campaigns/RelatedExamplesTest.php</file>
+            <file>Examples/Campaigns/UpdateExamplesTest.php</file>
+            <file>Examples/Campaigns/DeleteExamplesTest.php</file>
+        </testsuite>
+
+        <testsuite name="AdGroupExamples">
+            <file>Examples/AdGroups/CreateExamplesTest.php</file>
+            <file>Examples/AdGroups/SelectionExamplesTest.php</file>
+            <file>Examples/AdGroups/RelatedExamplesTest.php</file>
+            <file>Examples/AdGroups/UpdateExamplesTest.php</file>
+            <file>Examples/AdGroups/DeleteExamplesTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

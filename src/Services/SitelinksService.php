@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\SitelinksSet;
 /** 
  * Class SitelinksService 
  * 
- * @method static     Result                              add(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
+ * @method static     Result                              create(SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
  * @method static     Result                              delete(integer|integer[]|SitelinksSet|SitelinksSets|ModelCommonInterface $sitelinksSets)
  * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * 
@@ -27,7 +27,7 @@ class SitelinksService extends Service
     protected static $modelCollectionClass = SitelinksSets::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'find' => 'get:selectionByIds'
     ];

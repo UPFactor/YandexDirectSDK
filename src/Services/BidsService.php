@@ -3,11 +3,13 @@
 namespace YandexDirectSDK\Services;
 
 use YandexDirectSDK\Collections\Bids;
+use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Components\Service;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 use YandexDirectSDK\Models\Bid;
+use YandexDirectSDK\Models\BidAuto;
 
 /** 
  * Class BidsService 
@@ -29,7 +31,7 @@ class BidsService extends Service
     ];
 
     /**
-     * @param ModelCommonInterface $bids
+     * @param Bid|Bids|ModelCommonInterface $bids
      * @return Result
      */
     public static function set(ModelCommonInterface $bids):Result
@@ -38,7 +40,7 @@ class BidsService extends Service
     }
 
     /**
-     * @param ModelCommonInterface $bidsAuto
+     * @param BidAuto|BidsAuto|ModelCommonInterface $bidsAuto
      * @return Result
      */
     public static function setAuto(ModelCommonInterface $bidsAuto):Result

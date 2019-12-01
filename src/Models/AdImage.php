@@ -23,7 +23,7 @@ use YandexDirectSDK\Services\AdImagesService;
  * @property-read     string           $previewUrl
  *                                     
  * @method static     QueryBuilder     query()
- * @method            Result           add()
+ * @method            Result           create()
  * @method            Result           delete()
  * @method            string           getAdImageHash()
  * @method            $this            setImageData(string $imageData)
@@ -47,7 +47,7 @@ class AdImage extends Model
     ];
 
     protected static $methods = [
-        'add' => AdImagesService::class,
+        'create' => AdImagesService::class,
         'delete' => AdImagesService::class
     ];
 

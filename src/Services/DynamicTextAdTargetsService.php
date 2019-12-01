@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\WebpageBid;
 /** 
  * Class DynamicTextAdTargetsService 
  * 
- * @method static     Result                    add(Webpage|Webpages|ModelCommonInterface $webpages)
+ * @method static     Result                    create(Webpage|Webpages|ModelCommonInterface $webpages)
  * @method static     QueryBuilder              query()
  * @method static     Webpage|Webpages|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                    delete(integer|integer[]|Webpage|Webpages|ModelCommonInterface $webpages)
@@ -32,7 +32,7 @@ class DynamicTextAdTargetsService extends Service
     protected static $modelCollectionClass = Webpages::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds',

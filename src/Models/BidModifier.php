@@ -25,8 +25,8 @@ use YandexDirectSDK\Services\BidModifiersService;
  *                                                      
  * @method static     QueryBuilder                      query()
  * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                            add()
- * @method            Result                            set(int $value=null)
+ * @method            Result                            create()
+ * @method            Result                            update(int $value=null)
  * @method            Result                            delete()
  * @method            $this                             setId(integer $id)
  * @method            integer                           getId()
@@ -63,8 +63,8 @@ class BidModifier extends Model
     ];
 
     protected static $methods = [
-        'add' => BidModifiersService::class,
-        'set' => BidModifiersService::class,
+        'create' => BidModifiersService::class,
+        'update' => BidModifiersService::class,
         'delete' => BidModifiersService::class
     ];
 

@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\AdImage;
 /** 
  * Class AdImagesService 
  * 
- * @method static     Result           add(AdImage|AdImages|ModelCommonInterface $adImages)
+ * @method static     Result           create(AdImage|AdImages|ModelCommonInterface $adImages)
  * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Services 
@@ -26,7 +26,7 @@ class AdImagesService extends Service
     protected static $modelCollectionClass = AdImages::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
     ];
 

@@ -12,7 +12,7 @@ use YandexDirectSDK\Services\NegativeKeywordSharedSetsService;
  * Class NegativeKeywordSharedSets 
  * 
  * @method static     NegativeKeywordSharedSet|NegativeKeywordSharedSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                                                      add()
+ * @method            Result                                                      create()
  * @method            QueryBuilder                                                query()
  * @method            Result                                                      update()
  * @method            Result                                                      delete()
@@ -34,7 +34,7 @@ class NegativeKeywordSharedSets extends ModelCollection
     protected static $compatibleModel = NegativeKeywordSharedSet::class;
 
     protected static $methods = [
-        'add' => NegativeKeywordSharedSetsService::class,
+        'create' => NegativeKeywordSharedSetsService::class,
         'query' => NegativeKeywordSharedSetsService::class,
         'update' => NegativeKeywordSharedSetsService::class,
         'delete' => NegativeKeywordSharedSetsService::class

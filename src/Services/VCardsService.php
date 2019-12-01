@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\VCard;
 /** 
  * Class VCardsService 
  * 
- * @method static     Result                add(VCard|VCards|ModelCommonInterface $vCards)
+ * @method static     Result                create(VCard|VCards|ModelCommonInterface $vCards)
  * @method static     QueryBuilder          query()
  * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                delete(integer|integer[]|VCard|VCards|ModelCommonInterface $vCards)
@@ -28,7 +28,7 @@ class VCardsService extends Service
     protected static $modelCollectionClass = VCards::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds'

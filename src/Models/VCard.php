@@ -32,7 +32,7 @@ use YandexDirectSDK\Services\VCardsService;
  *                                          
  * @method static     QueryBuilder          query()
  * @method static     VCard|VCards|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                add()
+ * @method            Result                create()
  * @method            Result                delete()
  * @method            $this                 setId(integer $id)
  * @method            integer               getId()
@@ -85,7 +85,7 @@ class VCard extends Model
     ];
 
     protected static $methods = [
-        'add' => VCardsService::class,
+        'create' => VCardsService::class,
         'delete' => VCardsService::class
     ];
 

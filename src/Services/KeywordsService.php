@@ -16,7 +16,7 @@ use YandexDirectSDK\Models\Keyword;
 /** 
  * Class KeywordsService 
  * 
- * @method static     Result                    add(Keyword|Keywords|ModelCommonInterface $keywords)
+ * @method static     Result                    create(Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     Result                    delete(integer|integer[]|Keyword|Keywords|ModelCommonInterface $keywords)
  * @method static     QueryBuilder              query()
  * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
@@ -35,7 +35,7 @@ class KeywordsService extends Service
     protected static $modelCollectionClass = Keywords::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

@@ -34,7 +34,7 @@ use YandexDirectSDK\Services\AdsService;
  *                                             
  * @method static     QueryBuilder             query()
  * @method static     Ad|Ads|null              find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                   add()
+ * @method            Result                   create()
  * @method            Result                   update()
  * @method            Result                   delete()
  * @method            Result                   suspend()
@@ -89,7 +89,7 @@ class Ad extends Model
     ];
 
     protected static $methods = [
-        'add' => AdsService::class,
+        'create' => AdsService::class,
         'update' => AdsService::class,
         'delete' => AdsService::class,
         'suspend' => AdsService::class,

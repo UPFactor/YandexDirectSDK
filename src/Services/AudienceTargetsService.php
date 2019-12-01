@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\AudienceTargetBid;
 /** 
  * Class AudienceTargetsService 
  * 
- * @method static     Result                                  add(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
+ * @method static     Result                                  create(AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
  * @method static     QueryBuilder                            query()
  * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                                  delete(integer|integer[]|AudienceTarget|AudienceTargets|ModelCommonInterface $audienceTargets)
@@ -32,7 +32,7 @@ class AudienceTargetsService extends Service
     protected static $modelCollectionClass = AudienceTargets::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds',

@@ -9,23 +9,22 @@ use YandexDirectSDK\Services\KeywordBidsService;
 /** 
  * Class KeywordBidsAuto 
  * 
- * @method     Result     setAuto()
- * 
  * @package YandexDirectSDK\Collections 
  */ 
-class KeywordBidsAuto extends ModelCollection 
-{ 
-    /** 
-     * @var KeywordBidAuto[] 
-     */ 
-    protected $items = []; 
+class KeywordBidsAuto extends ModelCollection
+{
+    /**
+     * @var KeywordBidAuto[]
+     */
+    protected $items = [];
 
-    /** 
-     * @var KeywordBidAuto 
-     */ 
+    /**
+     * @var KeywordBidAuto
+     */
     protected static $compatibleModel = KeywordBidAuto::class;
 
-    protected static $methods = [
-        'setAuto' => KeywordBidsService::class
-    ];
+    public function apply(): Result
+    {
+        return KeywordBidsService::setAuto($this);
+    }
 }

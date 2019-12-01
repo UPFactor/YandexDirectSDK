@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\RetargetingList;
 /** 
  * Class RetargetingListsService 
  * 
- * @method static     Result                                    add(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
+ * @method static     Result                                    create(RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * @method static     Result                                    delete(integer|integer[]|RetargetingList|RetargetingLists|ModelCommonInterface $retargetingLists)
  * @method static     QueryBuilder                              query()
  * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
@@ -29,7 +29,7 @@ class RetargetingListsService extends Service
     protected static $modelCollectionClass = RetargetingLists::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'delete' => 'delete:actionByIds',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',

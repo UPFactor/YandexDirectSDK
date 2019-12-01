@@ -11,7 +11,6 @@ use YandexDirectSDK\Services\KeywordBidsService;
  * Class KeywordBids 
  * 
  * @method static     QueryBuilder     query()
- * @method            Result           set()
  * 
  * @package YandexDirectSDK\Collections 
  */ 
@@ -31,7 +30,8 @@ class KeywordBids extends ModelCollection
         'query' => KeywordBidsService::class
     ];
 
-    protected static $methods = [
-        'set' => KeywordBidsService::class
-    ];
+    public function apply():Result
+    {
+        return KeywordBidsService::set($this);
+    }
 }

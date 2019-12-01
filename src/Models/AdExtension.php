@@ -21,7 +21,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  *                                                      
  * @method static     QueryBuilder                      query()
  * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                            add()
+ * @method            Result                            create()
  * @method            Result                            delete()
  * @method            $this                             setId(integer $id)
  * @method            integer                           getId()
@@ -47,7 +47,7 @@ class AdExtension extends Model
     ];
 
     protected static $methods = [
-        'add' => AdExtensionsService::class,
+        'create' => AdExtensionsService::class,
         'delete' => AdExtensionsService::class
     ];
 

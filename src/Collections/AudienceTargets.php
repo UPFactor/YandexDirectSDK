@@ -13,10 +13,12 @@ use YandexDirectSDK\Services\AudienceTargetsService;
  * 
  * @method static     QueryBuilder                            query()
  * @method static     AudienceTarget|AudienceTargets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                                  add()
+ * @method            Result                                  create()
  * @method            Result                                  delete()
  * @method            Result                                  resume()
  * @method            Result                                  suspend()
+ * @method            Result                                  setRelatedContextBids($contextBid)
+ * @method            Result                                  setRelatedStrategyPriority($strategyPriority)
  * 
  * @package YandexDirectSDK\Collections 
  */ 
@@ -40,9 +42,11 @@ class AudienceTargets extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => AudienceTargetsService::class,
+        'create' => AudienceTargetsService::class,
         'delete' => AudienceTargetsService::class,
         'resume' => AudienceTargetsService::class,
-        'suspend' => AudienceTargetsService::class
+        'suspend' => AudienceTargetsService::class,
+        'setRelatedContextBids' => AudienceTargetsService::class,
+        'setRelatedStrategyPriority' => AudienceTargetsService::class
     ];
 }

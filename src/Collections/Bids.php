@@ -11,7 +11,6 @@ use YandexDirectSDK\Services\BidsService;
  * Class Bids 
  * 
  * @method static     QueryBuilder     query()
- * @method            Result           set()
  * 
  * @package YandexDirectSDK\Collections 
  */ 
@@ -31,7 +30,8 @@ class Bids extends ModelCollection
         'query' => BidsService::class
     ];
 
-    protected static $methods = [
-        'set' => BidsService::class
-    ];
+    public function apply():Result
+    {
+        return BidsService::set($this);
+    }
 }

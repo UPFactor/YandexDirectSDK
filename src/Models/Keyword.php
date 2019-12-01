@@ -30,7 +30,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  *                                              
  * @method static     QueryBuilder              query()
  * @method static     Keyword|Keywords|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                    add()
+ * @method            Result                    create()
  * @method            Result                    delete()
  * @method            Result                    resume()
  * @method            Result                    suspend()
@@ -81,7 +81,7 @@ class Keyword extends Model
     ];
 
     protected static $methods = [
-        'add' => KeywordsService::class,
+        'create' => KeywordsService::class,
         'delete' => KeywordsService::class,
         'resume' => KeywordsService::class,
         'suspend' => KeywordsService::class,

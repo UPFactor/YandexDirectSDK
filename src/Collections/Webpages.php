@@ -13,7 +13,7 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  * 
  * @method static     QueryBuilder              query()
  * @method static     Webpage|Webpages|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                    add()
+ * @method            Result                    create()
  * @method            Result                    delete()
  * @method            Result                    resume()
  * @method            Result                    suspend()
@@ -43,7 +43,7 @@ class Webpages extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => DynamicTextAdTargetsService::class,
+        'create' => DynamicTextAdTargetsService::class,
         'delete' => DynamicTextAdTargetsService::class,
         'resume' => DynamicTextAdTargetsService::class,
         'suspend' => DynamicTextAdTargetsService::class,

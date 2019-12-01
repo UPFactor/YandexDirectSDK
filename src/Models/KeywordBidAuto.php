@@ -14,7 +14,6 @@ use YandexDirectSDK\Services\KeywordBidsService;
  * @property     integer         $keywordId
  * @property     BiddingRule     $biddingRule
  *                               
- * @method       Result          setAuto()
  * @method       $this           setCampaignId(integer $campaignId)
  * @method       integer         getCampaignId()
  * @method       $this           setAdGroupId(integer $adGroupId)
@@ -30,14 +29,15 @@ class KeywordBidAuto extends Model
 { 
     protected static $compatibleCollection = KeywordBidsAuto::class;
 
-    protected static $methods = [
-        'setAuto' => KeywordBidsService::class
-    ];
-
     protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
         'keywordId' => 'integer',
         'biddingRule' => 'object:' . BiddingRule::class
     ];
+
+    public function apply():Result
+    {
+        return KeywordBidsService::setAuto($this);
+    }
 }

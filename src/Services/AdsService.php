@@ -13,7 +13,7 @@ use YandexDirectSDK\Models\Ad;
 /** 
  * Class AdsService 
  * 
- * @method static     Result           add(Ad|Ads|ModelCommonInterface $ads)
+ * @method static     Result           create(Ad|Ads|ModelCommonInterface $ads)
  * @method static     QueryBuilder     query()
  * @method static     Ad|Ads|null      find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result           update(Ad|Ads|ModelCommonInterface $ads)
@@ -35,7 +35,7 @@ class AdsService extends Service
     protected static $modelCollectionClass = Ads::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'update' => 'update:updateCollection',

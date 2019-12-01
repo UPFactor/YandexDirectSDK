@@ -5,17 +5,23 @@ namespace YandexDirectSDK\Models\Foundation;
 
 
 use YandexDirectSDK\Models\AdImage;
+use YandexDirectSDK\Services\AdImagesService;
 
 trait SetAdImage
 {
     public function setAdImage(string $name, string $filePath)
     {
-        $adImage = AdImage::make()
-            ->setName($name)
-            ->setImageFile($filePath);
+        $result = AdImagesService::create(
+            AdImage::make()
+                ->setName($name)
+                ->setImageFile($filePath)
+        );
 
-        $adImage->add();
-        $this->data['adImageHash'] = $adImage->adImageHash;
+        if (!is_null($result = $result->getResource())){
+            $this->data['adImageHash'] = $result
+                ->first()
+                ->getPropertyValue('adImageHash');
+        }
 
         return $this;
     }

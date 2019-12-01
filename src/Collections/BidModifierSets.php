@@ -1,8 +1,10 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Components\ModelCollection; 
+use YandexDirectSDK\Components\ModelCollection;
+use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Models\BidModifierSet;
+use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifierSets 
@@ -20,4 +22,9 @@ class BidModifierSets extends ModelCollection
      * @var BidModifierSet 
      */ 
     protected static $compatibleModel = BidModifierSet::class;
+
+    public function apply():Result
+    {
+        return BidModifiersService::update($this);
+    }
 }

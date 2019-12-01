@@ -11,7 +11,7 @@ use YandexDirectSDK\Services\AdImagesService;
  * Class AdImages 
  * 
  * @method static     QueryBuilder     query()
- * @method            Result           add()
+ * @method            Result           create()
  * @method            Result           delete()
  * 
  * @package YandexDirectSDK\Collections 
@@ -33,7 +33,7 @@ class AdImages extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => AdImagesService::class,
+        'create' => AdImagesService::class,
         'delete' => AdImagesService::class
     ];
 }

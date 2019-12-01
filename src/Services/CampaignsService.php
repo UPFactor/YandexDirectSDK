@@ -26,7 +26,7 @@ use YandexDirectSDK\Models\Campaign;
 /** 
  * Class CampaignsService 
  * 
- * @method static     Result                      add(Campaign|Campaigns|ModelCommonInterface $campaigns)
+ * @method static     Result                      create(Campaign|Campaigns|ModelCommonInterface $campaigns)
  * @method static     QueryBuilder                query()
  * @method static     Campaign|Campaigns|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                      update(Campaign|Campaigns|ModelCommonInterface $campaigns)
@@ -47,7 +47,7 @@ class CampaignsService extends Service
     protected static $modelCollectionClass = Campaigns::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'update' => 'update:updateCollection',
@@ -67,7 +67,7 @@ class CampaignsService extends Service
      */
     public static function addRelatedAdGroups($campaigns, ModelCommonInterface $adGroups): Result
     {
-        return AdGroupsService::add(static::bind($campaigns, $adGroups, 'CampaignId'));
+        return AdGroupsService::create(static::bind($campaigns, $adGroups, 'CampaignId'));
     }
 
     /**
@@ -234,7 +234,7 @@ class CampaignsService extends Service
      */
     public static function addRelatedBidModifiers($campaigns, ModelCommonInterface $bidModifiers): Result
     {
-        return BidModifiersService::add(static::bind($campaigns, $bidModifiers, 'CampaignId'));
+        return BidModifiersService::create(static::bind($campaigns, $bidModifiers, 'CampaignId'));
     }
 
     /**
@@ -290,14 +290,15 @@ class CampaignsService extends Service
      *
      * @param integer|integer[]|Campaign|Campaigns|ModelCommonInterface $campaigns
      * @param array $fields
+     * @param array $levels
      * @return BidModifiers|ModelCommonInterface
      */
-    public static function getRelatedBidModifiers($campaigns, array $fields = []): BidModifiers
+    public static function getRelatedBidModifiers($campaigns, array $fields = [], array $levels = ['CAMPAIGN','AD_GROUP']): BidModifiers
     {
         return BidModifiersService::query()
             ->select('Id','CampaignId', ...$fields)
             ->whereIn('CampaignIds', static::extractIds($campaigns))
-            ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
+            ->whereIn('Levels', $levels)
             ->get();
     }
 

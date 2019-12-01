@@ -3,6 +3,8 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\BidsService;
 
 /** 
  * Class BidAuto 
@@ -70,4 +72,9 @@ class BidAuto extends Model
         'calculateBy' => 'enum:' . self::VALUE . ',' . self::DIFF,
         'contextCoverage' => 'integer'
     ];
+
+    public function apply():Result
+    {
+        return BidsService::setAuto($this);
+    }
 }

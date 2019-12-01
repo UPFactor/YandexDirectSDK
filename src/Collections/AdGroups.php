@@ -14,7 +14,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * 
  * @method static     QueryBuilder              query()
  * @method static     AdGroup|AdGroups|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                    add()
+ * @method            Result                    create()
  * @method            Result                    update()
  * @method            Result                    delete()
  * @method            Result                    addRelatedAds(ModelCommonInterface $ads)
@@ -29,7 +29,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method            Result                    addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
  * @method            Result                    enableBidModifiers(string $bidModifierType)
  * @method            Result                    disableBidModifiers(string $bidModifierType)
- * @method            BidModifiers              getRelatedBidModifiers(array $fields=[])
+ * @method            BidModifiers              getRelatedBidModifiers(array $fields=[], array $levels=['CAMPAIGN','AD_GROUP'])
  * @method            Result                    addRelatedKeywords(ModelCommonInterface $keywords)
  * @method            Keywords                  getRelatedKeywords(array $fields=[])
  * @method            Result                    addRelatedWebpages(ModelCommonInterface $webpages)
@@ -54,7 +54,7 @@ class AdGroups extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => AdGroupsService::class,
+        'create' => AdGroupsService::class,
         'update' => AdGroupsService::class,
         'delete' => AdGroupsService::class,
         'addRelatedAds' => AdGroupsService::class,

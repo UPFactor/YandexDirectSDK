@@ -28,7 +28,6 @@ use YandexDirectSDK\Services\BidsService;
  * @property-read     AuctionBids          $auctionBids
  *                                         
  * @method static     QueryBuilder         query()
- * @method            Result               set()
  * @method            $this                setCampaignId(integer $campaignId)
  * @method            integer              getCampaignId()
  * @method            $this                setAdGroupId(integer $adGroupId)
@@ -63,10 +62,6 @@ class Bid extends Model
         'query' => BidsService::class
     ];
 
-    protected static $methods = [
-        'set' => BidsService::class
-    ];
-
     protected static $properties = [
         'campaignId' => 'integer',
         'adGroupId' => 'integer',
@@ -92,4 +87,9 @@ class Bid extends Model
         'currentSearchPrice',
         'auctionBids'
     ];
+
+    public function apply():Result
+    {
+        return BidsService::set($this);
+    }
 }

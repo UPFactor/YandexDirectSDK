@@ -28,11 +28,11 @@ class Checklists
      * Checklist for [Result.resource] property.
      *
      * @param Result $result
-     * @param null $expectedClass
-     * @param array $expectedProperties
+     * @param string|null $expectedClass
+     * @param array|null $expectedProperties
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    public static function checkResource(Result $result, $expectedClass = null, array $expectedProperties = null, array $expectedWarnings = null, array $expectedErrors = null)
+    public static function checkResource(Result $result, string $expectedClass = null, array $expectedProperties = null, array $expectedWarnings = null, array $expectedErrors = null)
     {
         static::checkResult($result);
         $resource = $result->getResource();
@@ -58,7 +58,7 @@ class Checklists
         }
 
         if (!empty($expectedProperties)){
-            static::checkModelCollection($resource, $expectedProperties);
+            static::checkModelCollection($resource, null, $expectedProperties);
         }
 
         return $resource;
@@ -68,13 +68,23 @@ class Checklists
      * Checklist for [Model] properties.
      *
      * @param ModelInterface $model
+     * @param string $expectedClass
      * @param array $rules
      * @return ModelInterface
      */
-    public static function checkModel(ModelInterface $model, array $rules)
+    public static function checkModel($model, string $expectedClass = null, array $rules = null)
     {
-        $validator = Validator::make($model->toArray(), $rules);
-        Assert::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
+        if (is_null($expectedClass)){
+            Assert::assertInstanceOf(ModelInterface::class, $model);
+        } else {
+            Assert::assertInstanceOf($expectedClass, $model);
+        }
+
+        if (!is_null($rules)){
+            $validator = Validator::make($model->toArray(), $rules);
+            Assert::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
+        }
+
         return $model;
     }
 
@@ -82,14 +92,24 @@ class Checklists
      * Checklist for [Model] properties in [ModelCollection].
      *
      * @param ModelCollectionInterface $collection
+     * @param string $expectedClass
      * @param array $rules
      * @return ModelCollectionInterface
      */
-    public static function checkModelCollection(ModelCollectionInterface $collection, array $rules)
+    public static function checkModelCollection($collection, string $expectedClass = null, array $rules = null)
     {
-        Assert::assertTrue($collection->isNotEmpty(), 'Collection is empty');
-        $collection->each(function(ModelInterface $model) use ($rules){
-            static::checkModel($model, $rules);
+        if (is_null($expectedClass)){
+            Assert::assertInstanceOf(ModelCollectionInterface::class, $collection);
+        } else {
+            Assert::assertInstanceOf($expectedClass, $collection);
+        }
+
+        if (!is_null($rules)) {
+            Assert::assertTrue($collection->isNotEmpty(), 'Collection is empty');
+        }
+
+        $collection->each(function(ModelInterface $model) use ($collection, $expectedClass, $rules){
+            static::checkModel($model, $collection::getCompatibleModelClass(), $rules);
         });
 
         return $collection;

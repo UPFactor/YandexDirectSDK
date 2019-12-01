@@ -13,7 +13,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * 
  * @method static     QueryBuilder                              query()
  * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                                    add()
+ * @method            Result                                    create()
  * @method            Result                                    delete()
  * @method            Result                                    update()
  * 
@@ -39,7 +39,7 @@ class RetargetingLists extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => RetargetingListsService::class,
+        'create' => RetargetingListsService::class,
         'delete' => RetargetingListsService::class,
         'update' => RetargetingListsService::class
     ];

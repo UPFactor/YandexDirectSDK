@@ -3,6 +3,8 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\BidModifierSets;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifierSet 
@@ -29,4 +31,9 @@ class BidModifierSet extends Model
     protected static $nonAddableProperties = [
         'id'
     ];
+
+    public function apply():Result
+    {
+        return BidModifiersService::update($this);
+    }
 }

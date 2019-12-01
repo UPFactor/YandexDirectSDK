@@ -15,7 +15,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * 
  * @method static     QueryBuilder                query()
  * @method static     Campaign|Campaigns|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                      add()
+ * @method            Result                      create()
  * @method            Result                      update()
  * @method            Result                      delete()
  * @method            Result                      suspend()
@@ -34,7 +34,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  * @method            Result                      addRelatedBidModifiers(ModelCommonInterface $bidModifiers)
  * @method            Result                      enableBidModifiers(string $bidModifierType)
  * @method            Result                      disableBidModifiers(string $bidModifierType)
- * @method            BidModifiers                getRelatedBidModifiers(array $fields=[])
+ * @method            BidModifiers                getRelatedBidModifiers(array $fields=[], array $levels=['CAMPAIGN','AD_GROUP'])
  * @method            Keywords                    getRelatedKeywords(array $fields=[])
  * @method            Webpages                    getRelatedWebpages(array $fields=[])
  * 
@@ -57,7 +57,7 @@ class Campaigns extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => CampaignsService::class,
+        'create' => CampaignsService::class,
         'update' => CampaignsService::class,
         'delete' => CampaignsService::class,
         'suspend' => CampaignsService::class,

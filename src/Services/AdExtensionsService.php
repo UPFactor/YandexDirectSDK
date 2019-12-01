@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\AdExtension;
 /** 
  * Class AdExtensionsService 
  * 
- * @method static     Result                            add(AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
+ * @method static     Result                            create(AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
  * @method static     QueryBuilder                      query()
  * @method static     AdExtension|AdExtensions|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
  * @method static     Result                            delete(integer|integer[]|AdExtension|AdExtensions|ModelCommonInterface $adExtensions)
@@ -28,7 +28,7 @@ class AdExtensionsService extends Service
     protected static $modelCollectionClass = AdExtensions::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
         'delete' => 'delete:actionByIds'

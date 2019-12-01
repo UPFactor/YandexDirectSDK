@@ -13,7 +13,7 @@ use YandexDirectSDK\Models\Client;
 /** 
  * Class AgencyClientsService 
  * 
- * @method static     Result           add(Client|Model $client)
+ * @method static     Result           create(Client|Model $client)
  * @method static     Result           update(Client|Clients|ModelCommonInterface $clients)
  * @method static     QueryBuilder     query()
  * 
@@ -28,7 +28,7 @@ class AgencyClientsService extends Service
     protected static $modelCollectionClass = Clients::class;
 
     protected static $methods = [
-        'add' => 'add:addModel',
+        'create' => 'add:addModel',
         'update' => 'update:updateCollection',
         'query' => 'get:selectionElements'
     ];

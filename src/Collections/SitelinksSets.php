@@ -13,7 +13,7 @@ use YandexDirectSDK\Services\SitelinksService;
  * 
  * @method static     QueryBuilder                        query()
  * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                              add()
+ * @method            Result                              create()
  * @method            Result                              delete()
  * 
  * @package YandexDirectSDK\Collections 
@@ -38,7 +38,7 @@ class SitelinksSets extends ModelCollection
     ];
 
     protected static $methods = [
-        'add' => SitelinksService::class,
+        'create' => SitelinksService::class,
         'delete' => SitelinksService::class
     ];
 }

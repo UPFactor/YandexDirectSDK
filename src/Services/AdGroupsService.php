@@ -28,7 +28,7 @@ use YandexDirectSDK\Models\Webpage;
 /** 
  * Class AdGroupsService 
  * 
- * @method static     Result                    add(AdGroup|AdGroups|ModelCommonInterface $adGroups)
+ * @method static     Result                    create(AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * @method static     Result                    update(AdGroup|AdGroups|ModelCommonInterface $adGroups)
  * @method static     QueryBuilder              query()
  * @method static     AdGroup|AdGroups|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
@@ -45,7 +45,7 @@ class AdGroupsService extends Service
     protected static $modelCollectionClass = AdGroups::class;
 
     protected static $methods = [
-        'add' => 'add:addCollection',
+        'create' => 'add:addCollection',
         'update' => 'update:updateCollection',
         'query' => 'get:selectionElements',
         'find' => 'get:selectionByIds',
@@ -61,7 +61,7 @@ class AdGroupsService extends Service
      */
     public static function addRelatedAds($adGroups, ModelCommonInterface $ads): Result
     {
-        return AdsService::add(static::bind($adGroups, $ads, 'AdGroupId'));
+        return AdsService::create(static::bind($adGroups, $ads, 'AdGroupId'));
     }
 
     /**
@@ -88,7 +88,7 @@ class AdGroupsService extends Service
      */
     public static function addRelatedAudienceTargets($adGroups, ModelCommonInterface $audienceTargets): Result
     {
-        return AudienceTargetsService::add(static::bind($adGroups, $audienceTargets, 'AdGroupId'));
+        return AudienceTargetsService::create(static::bind($adGroups, $audienceTargets, 'AdGroupId'));
     }
 
     /**
@@ -223,7 +223,7 @@ class AdGroupsService extends Service
      */
     public static function addRelatedBidModifiers($adGroups, ModelCommonInterface $bidModifiers): Result
     {
-        return BidModifiersService::add(static::bind($adGroups, $bidModifiers, 'AdGroupId'));
+        return BidModifiersService::create(static::bind($adGroups, $bidModifiers, 'AdGroupId'));
     }
 
     /**
@@ -279,14 +279,15 @@ class AdGroupsService extends Service
      *
      * @param integer|integer[]|AdGroup|AdGroups|ModelCommonInterface $adGroups
      * @param array $fields
+     * @param array $levels
      * @return BidModifiers|ModelCommonInterface
      */
-    public static function getRelatedBidModifiers($adGroups, array $fields = []): BidModifiers
+    public static function getRelatedBidModifiers($adGroups, array $fields = [], array $levels = ['CAMPAIGN','AD_GROUP']): BidModifiers
     {
         return BidModifiersService::query()
             ->select('Id','AdGroupId', ...$fields)
             ->whereIn('AdGroupIds', static::extractIds($adGroups))
-            ->whereIn('Levels', ['CAMPAIGN','AD_GROUP'])
+            ->whereIn('Levels', $levels)
             ->get();
     }
 
@@ -299,7 +300,7 @@ class AdGroupsService extends Service
      */
     public static function addRelatedKeywords($adGroups, ModelCommonInterface $keywords): Result
     {
-        return KeywordsService::add(static::bind($adGroups, $keywords, 'AdGroupId'));
+        return KeywordsService::create(static::bind($adGroups, $keywords, 'AdGroupId'));
     }
 
     /**
@@ -326,7 +327,7 @@ class AdGroupsService extends Service
      */
     public static function addRelatedWebpages($adGroups, ModelCommonInterface $webpages): Result
     {
-        return DynamicTextAdTargetsService::add(static::bind($adGroups, $webpages, 'AdGroupId'));
+        return DynamicTextAdTargetsService::create(static::bind($adGroups, $webpages, 'AdGroupId'));
     }
 
     /**

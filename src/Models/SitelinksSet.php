@@ -17,7 +17,7 @@ use YandexDirectSDK\Services\SitelinksService;
  *                                                        
  * @method static     QueryBuilder                        query()
  * @method static     SitelinksSet|SitelinksSets|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                              add()
+ * @method            Result                              create()
  * @method            Result                              delete()
  * @method            $this                               setId(integer $id)
  * @method            integer                             getId()
@@ -38,7 +38,7 @@ class SitelinksSet extends Model
     ];
 
     protected static $methods = [
-        'add' => SitelinksService::class,
+        'create' => SitelinksService::class,
         'delete' => SitelinksService::class
     ];
 

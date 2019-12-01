@@ -3,6 +3,8 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\BidModifierToggles;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\BidModifiersService;
 
 /** 
  * Class BidModifierToggle 
@@ -39,4 +41,9 @@ class BidModifierToggle extends Model
         'type' => 'enum:' . self::DEMOGRAPHICS_ADJUSTMENT . ',' . self::RETARGETING_ADJUSTMENT . ',' . self::REGIONAL_ADJUSTMENT,
         'enabled' => 'enum:' . self::YES . ',' . self::NO
     ];
+
+    public function apply():Result
+    {
+        return BidModifiersService::toggle($this);
+    }
 }

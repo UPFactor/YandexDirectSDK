@@ -4,39 +4,20 @@ namespace YandexDirectSDKTest\Examples\Campaigns;
 
 use PHPUnit\Framework\TestCase;
 use UPTools\Arr;
-use YandexDirectSDK\Collections\AdGroups;
-use YandexDirectSDK\Collections\Ads;
-use YandexDirectSDK\Collections\AudienceTargets;
-use YandexDirectSDK\Collections\BidModifiers;
-use YandexDirectSDK\Collections\BidModifierToggles;
-use YandexDirectSDK\Collections\Bids;
-use YandexDirectSDK\Collections\BidsAuto;
 use YandexDirectSDK\Collections\Campaigns;
-use YandexDirectSDK\Collections\Keywords;
-use YandexDirectSDK\Collections\TextCampaignSettings;
-use YandexDirectSDK\Collections\WebpageConditions;
-use YandexDirectSDK\Collections\Webpages;
-use YandexDirectSDK\Models\Ad;
-use YandexDirectSDK\Models\AdGroup;
-use YandexDirectSDK\Models\BidAuto;
-use YandexDirectSDK\Models\BidModifier;
 use YandexDirectSDK\Models\Campaign;
 use YandexDirectSDK\Models\CpmBannerCampaign;
 use YandexDirectSDK\Models\CpmBannerCampaignNetworkStrategy;
 use YandexDirectSDK\Models\CpmBannerCampaignSearchStrategy;
 use YandexDirectSDK\Models\CpmBannerCampaignStrategy;
-use YandexDirectSDK\Models\DynamicTextAdGroup;
 use YandexDirectSDK\Models\DynamicTextCampaign;
 use YandexDirectSDK\Models\DynamicTextCampaignNetworkStrategy;
 use YandexDirectSDK\Models\DynamicTextCampaignSearchStrategy;
 use YandexDirectSDK\Models\DynamicTextCampaignStrategy;
-use YandexDirectSDK\Models\Keyword;
-use YandexDirectSDK\Models\MobileAppAdGroup;
 use YandexDirectSDK\Models\MobileAppCampaign;
 use YandexDirectSDK\Models\MobileAppCampaignNetworkStrategy;
 use YandexDirectSDK\Models\MobileAppCampaignSearchStrategy;
 use YandexDirectSDK\Models\MobileAppCampaignStrategy;
-use YandexDirectSDK\Models\RegionalAdjustment;
 use YandexDirectSDK\Models\StrategyAverageCpa;
 use YandexDirectSDK\Models\StrategyAverageCpc;
 use YandexDirectSDK\Models\StrategyAverageCpi;
@@ -50,23 +31,19 @@ use YandexDirectSDK\Models\StrategyNetworkDefault;
 use YandexDirectSDK\Models\StrategyWbDecreasedPriceForRepeatedImpressions;
 use YandexDirectSDK\Models\StrategyWbMaximumImpressions;
 use YandexDirectSDK\Models\StrategyWeeklyClickPackage;
-use YandexDirectSDK\Models\TextAd;
 use YandexDirectSDK\Models\TextCampaign;
 use YandexDirectSDK\Models\TextCampaignNetworkStrategy;
 use YandexDirectSDK\Models\TextCampaignSearchStrategy;
-use YandexDirectSDK\Models\TextCampaignSetting;
 use YandexDirectSDK\Models\TextCampaignStrategy;
-use YandexDirectSDK\Models\Webpage;
-use YandexDirectSDK\Models\WebpageCondition;
 use YandexDirectSDKTest\Helpers\Checklists;
 use YandexDirectSDKTest\Helpers\Env;
 
-class ModelExamplesTest extends TestCase
+class CreateExamplesTest extends TestCase
 {
     /**
      * @var Campaign[]
      */
-    public static $campaigns = [];
+    private static $campaigns = [];
 
     /*
      |-------------------------------------------------------------------------------
@@ -76,12 +53,20 @@ class ModelExamplesTest extends TestCase
      |-------------------------------------------------------------------------------
     */
 
+    /**
+     * Constructor
+     * @return void
+     */
     public static function setUpBeforeClass(): void
     {
-        static::$campaigns = [];
         Env::setUpSession();
+        static::$campaigns = [];
     }
 
+    /**
+     * Destructor
+     * @return void
+     */
     public static function tearDownAfterClass(): void
     {
         Campaign::find(Arr::map(static::$campaigns, function(Campaign $campaign){
@@ -94,12 +79,21 @@ class ModelExamplesTest extends TestCase
     /*
      |-------------------------------------------------------------------------------
      |
-     | Add
+     | Examples
      |
      |-------------------------------------------------------------------------------
     */
 
-    public static function testMakeAndAdd_TextCampaign_HighestPosition_NetworkDefault(): void
+    /*
+     | Make
+     | -------------------------------------------------------------------------------
+     */
+
+    /**
+     * @test
+     * @return void
+     */
+    public static function makeTextCampaign_HighestPosition_MaximumCoverage():void
     {
         $campaign = Campaign::make([
             'Name' => 'TextCampaign_HighestPosition_NetworkDefault',
@@ -123,15 +117,20 @@ class ModelExamplesTest extends TestCase
             ]
         ]);
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ]
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
         $campaign->delete();
+
     }
 
-    public static function testMakeAndAdd_TextCampaign_WbMaximumClicks_NetworkDefault(): void
+    /**
+     * @test
+     * @return void
+     */
+    public static function makeTextCampaign_WbMaximumClicks_NetworkDefault():void
     {
         $campaign = Campaign::make([
             'Name' => 'TextCampaign_WbMaximumClicks_NetworkDefault',
@@ -157,15 +156,19 @@ class ModelExamplesTest extends TestCase
             ]
         ]);
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ]
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
         $campaign->delete();
     }
 
-    public static function testMakeAndAdd_TextCampaign_ServingOff_WbMaximumClicks(): void
+    /**
+     * @test
+     * @return void
+     */
+    public static function makeTextCampaign_ServingOff_WbMaximumClicks():void
     {
         $campaign = Campaign::make([
             'Name' => 'TextCampaign_ServingOff_WbMaximumClicks',
@@ -190,18 +193,25 @@ class ModelExamplesTest extends TestCase
             ]
         ]);
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ]
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
         $campaign->delete();
     }
 
+    /*
+     | TextCampaign
+     | -------------------------------------------------------------------------------
+     */
 
-    public static function testAdd_TextCampaign_HighestPosition_MaximumCoverage(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_HighestPosition_MaximumCoverage(): Campaign
     {
-
         $campaign = Campaign::make()
             ->setName('TextCampaign_HighestPosition_MaximumCoverage')
             ->setStartDate('2029-10-01')
@@ -222,15 +232,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_HighestPosition_MaximumCoverage'] =  $campaign;
     }
 
-    public static function testAdd_TextCampaign_WbMaximumClicks_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_WbMaximumClicks_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_WbMaximumClicks_NetworkDefault')
@@ -258,15 +272,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_WbMaximumClicks_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_WbMaximumConversionRate_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_WbMaximumConversionRate_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_WbMaximumConversionRate_NetworkDefault')
@@ -295,15 +313,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_WbMaximumConversionRate_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_AverageCpc_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_AverageCpc_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_AverageCpc_NetworkDefault')
@@ -331,15 +353,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_AverageCpc_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_AverageCpa_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_AverageCpa_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_AverageCpa_NetworkDefault')
@@ -369,15 +395,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_AverageCpa_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_AverageRoi_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_AverageRoi_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_AverageRoi_NetworkDefault')
@@ -409,15 +439,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_AverageRoi_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_WeeklyClickPackage_NetworkDefault')
@@ -445,15 +479,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_WeeklyClickPackage_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_TextCampaign_ServingOff_WbMaximumClicks(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createTextCampaign_ServingOff_WbMaximumClicks(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('TextCampaign_ServingOff_WbMaximumClicks')
@@ -480,16 +518,24 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['TextCampaign_ServingOff_WbMaximumClicks'] = $campaign;
     }
 
+    /*
+     | DynamicTextCampaign
+     | -------------------------------------------------------------------------------
+     */
 
-    public static function testAdd_DynamicTextCampaign_HighestPosition_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_HighestPosition_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_HighestPosition_ServingOff')
@@ -511,15 +557,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_HighestPosition_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_WbMaximumClicks_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_WbMaximumClicks_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_WbMaximumClicks_ServingOff')
@@ -546,15 +596,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_WbMaximumClicks_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_WbMaximumConversionRate_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_WbMaximumConversionRate_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_WbMaximumConversionRate_ServingOff')
@@ -582,15 +636,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_WbMaximumConversionRate_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_AverageCpc_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_AverageCpc_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_AverageCpc_ServingOff')
@@ -617,15 +675,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_AverageCpc_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_AverageCpa_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_AverageCpa_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_AverageCpa_ServingOff')
@@ -654,15 +716,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_AverageCpa_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_AverageRoi_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_AverageRoi_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_AverageRoi_ServingOff')
@@ -693,15 +759,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_AverageRoi_ServingOff'] = $campaign;
     }
 
-    public static function testAdd_DynamicTextCampaign_WeeklyClickPackage_ServingOff(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createDynamicTextCampaign_WeeklyClickPackage_ServingOff(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('DynamicTextCampaign_WeeklyClickPackage_ServingOff')
@@ -728,16 +798,24 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['DynamicTextCampaign_WeeklyClickPackage_ServingOff'] = $campaign;
     }
 
+    /*
+     | MobileAppCampaign
+     | -------------------------------------------------------------------------------
+     */
 
-    public static function testAdd_MobileAppCampaign_HighestPosition_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_HighestPosition_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_HighestPosition_NetworkDefault')
@@ -762,15 +840,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_HighestPosition_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_WbMaximumClicks_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_WbMaximumClicks_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_WbMaximumClicks_NetworkDefault')
@@ -798,15 +880,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_WbMaximumClicks_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_WbMaximumAppInstalls_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_WbMaximumAppInstalls_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_WbMaximumAppInstalls_NetworkDefault')
@@ -834,15 +920,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_WbMaximumAppInstalls_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_AverageCpc_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_AverageCpc_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_AverageCpc_NetworkDefault')
@@ -870,15 +960,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_AverageCpc_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_AverageCpi_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_AverageCpi_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_AverageCpi_NetworkDefault')
@@ -907,15 +1001,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_AverageCpi_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_WeeklyClickPackage_NetworkDefault(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_WeeklyClickPackage_NetworkDefault')
@@ -943,15 +1041,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_WeeklyClickPackage_NetworkDefault'] = $campaign;
     }
 
-    public static function testAdd_MobileAppCampaign_ServingOff_WbMaximumClicks(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createMobileAppCampaign_ServingOff_WbMaximumClicks(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('MobileAppCampaign_ServingOff_WbMaximumClicks')
@@ -978,16 +1080,24 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['MobileAppCampaign_ServingOff_WbMaximumClicks'] = $campaign;
     }
 
+    /*
+     | CpmBannerCampaign
+     | -------------------------------------------------------------------------------
+     */
 
-    public static function testAdd_CpmBannerCampaign_ServingOff_ManualCpm(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createCpmBannerCampaign_ServingOff_ManualCpm(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('CpmBannerCampaign_ServingOff_ManualCpm')
@@ -1008,15 +1118,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['CpmBannerCampaign_ServingOff_ManualCpm'] = $campaign;
     }
 
-    public static function testAdd_CpmBannerCampaign_ServingOff_WbMaximumImpressions(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createCpmBannerCampaign_ServingOff_WbMaximumImpressions(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('CpmBannerCampaign_ServingOff_WbMaximumImpressions')
@@ -1042,15 +1156,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['CpmBannerCampaign_ServingOff_WbMaximumImpressions'] = $campaign;
     }
 
-    public static function testAdd_CpmBannerCampaign_ServingOff_CpMaximumImpressions(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createCpmBannerCampaign_ServingOff_CpMaximumImpressions(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('CpmBannerCampaign_ServingOff_CpMaximumImpressions')
@@ -1079,15 +1197,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['CpmBannerCampaign_ServingOff_CpMaximumImpressions'] = $campaign;
     }
 
-    public static function testAdd_CpmBannerCampaign_ServingOff_WbDecreasedPriceForRepeatedImpressions(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createCpmBannerCampaign_ServingOff_WbDecreasedPriceForRepeatedImpressions(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('CpmBannerCampaign_ServingOff_WbDecreasedPriceForRepeatedImpressions')
@@ -1113,15 +1235,19 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
+        return static::$campaigns['CpmBannerCampaign_ServingOff_WbDecreasedPriceForRepeatedImpressions'] = $campaign;
     }
 
-    public static function testAdd_CpmBannerCampaign_ServingOff_CpDecreasedPriceForRepeatedImpressions(): Campaign
+    /**
+     * @test
+     * @return Campaign
+     */
+    public static function createCpmBannerCampaign_ServingOff_CpDecreasedPriceForRepeatedImpressions(): Campaign
     {
         $campaign = Campaign::make()
             ->setName('CpmBannerCampaign_ServingOff_CpDecreasedPriceForRepeatedImpressions')
@@ -1150,878 +1276,11 @@ class ModelExamplesTest extends TestCase
                     )
             );
 
-        $result = $campaign->add();
+        $result = $campaign->create();
 
-        // [ Post processing ] =========================================================================================
+        // [ Post processing ] 
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
-        return static::$campaigns[] = $campaign;
-    }
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
-     | Getting
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAdd_DynamicTextCampaign_HighestPosition_ServingOff
-     * @depends testAdd_MobileAppCampaign_HighestPosition_NetworkDefault
-     * @depends testAdd_CpmBannerCampaign_ServingOff_ManualCpm
-     */
-    public static function testFind():void
-    {
-        // [ Pre processing ] ==========================================================================================
-
-        $id = Arr::first(static::$campaigns)->id;
-
-        $ids = Arr::map(static::$campaigns, function(Campaign $campaign){
-            return $campaign->id;
-        });
-
-        // [ Example ] =================================================================================================
-
-        /**
-         * @var integer $id
-         * @var Campaign $adGroup
-         */
-        $campaign = Campaign::find($id, ['Id', 'Name', 'State']);
-
-        // [ Example ] =================================================================================================
-
-        /**
-         * @var integer[] $id
-         * @var Campaigns $adGroups
-         */
-        $campaigns = Campaign::find($ids, [
-            'Id',
-            'Name',
-            'State',
-            'TextCampaign.BiddingStrategy',
-            'DynamicTextCampaign.BiddingStrategy',
-            'MobileAppCampaign.BiddingStrategy',
-            'CpmBannerCampaign.BiddingStrategy'
-        ]);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkModel($campaign, [
-            'Id' => 'required|integer',
-            'Name' => 'required|string',
-            'State' => 'required|string'
-        ]);
-
-        Checklists::checkModelCollection($campaigns, [
-            'Id' => 'required|integer',
-            'Name' => 'required|string',
-            'State' => 'required|string',
-            'TextCampaign.BiddingStrategy' => 'required_without_all:DynamicTextCampaign,MobileAppCampaign,CpmBannerCampaign|array',
-            'DynamicTextCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,MobileAppCampaign,CpmBannerCampaign|array',
-            'MobileAppCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,DynamicTextCampaign,CpmBannerCampaign|array',
-            'CpmBannerCampaign.BiddingStrategy' => 'required_without_all:TextCampaign,DynamicTextCampaign,MobileAppCampaign|array'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAdd_DynamicTextCampaign_HighestPosition_ServingOff
-     */
-    public static function testQuery():void
-    {
-        $result = Campaign::query()
-            ->select([
-                'Id',
-                'Name',
-                'Type',
-                'State',
-                'TextCampaign.BiddingStrategy',
-                'DynamicTextCampaign.BiddingStrategy',
-            ])
-            ->whereIn('Types', ['TEXT_CAMPAIGN', 'DYNAMIC_TEXT_CAMPAIGN'])
-            ->whereIn('States', ['SUSPENDED','OFF'])
-            ->get();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Campaigns::class, [
-            'Id' => 'required|integer',
-            'Name' => 'required|string',
-            'Type' => 'required|string:TEXT_CAMPAIGN,DYNAMIC_TEXT_CAMPAIGN',
-            'State' => 'required|string:SUSPENDED,OFF',
-            'TextCampaign.BiddingStrategy' => 'required_without:DynamicTextCampaign|array',
-            'DynamicTextCampaign.BiddingStrategy' => 'required_without:TextCampaign|array',
-        ]);
-    }
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
-     | Actions
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testSuspend(Campaign $campaign): void
-    {
-        $result = $campaign->suspend();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResult($result);
-        sleep(10);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testSuspend
-     * @param Campaign $campaign
-     */
-    public static function testArchive(Campaign $campaign): void
-    {
-        $result = $campaign->archive();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResult($result);
-        sleep(10);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testArchive
-     * @param Campaign $campaign
-     */
-    public static function testUnarchive(Campaign $campaign): void
-    {
-        $result = $campaign->unarchive();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResult($result);
-        sleep(10);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testUnarchive
-     * @param Campaign $campaign
-     */
-    public function testResume(Campaign $campaign): void
-    {
-        $result = $campaign->resume();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResult($result);
-        sleep(10);
-    }
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
-     | Related
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroups(Campaign $campaign): void
-    {
-        $adGroups = AdGroups::wrap([
-            AdGroup::make()
-                ->setName('MyAdGroup one')
-                ->setRegionIds([225])
-                ->setNegativeKeywords(['negative','keywords'])
-                ->setTrackingParams('from=direct&ad={ad_id}'),
-            AdGroup::make()
-                ->setName('MyAdGroup two')
-                ->setRegionIds([225])
-        ]);
-
-        $result = $campaign->addRelatedAdGroups($adGroups);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'array_of:string',
-            'TrackingParams' => 'string'
-        ]);
-
-        Checklists::checkResult(
-            $result->getResource()->delete()
-        );
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('TextAdGroup')
-            ->setRegionIds([225])
-            ->setNegativeKeywords(['negative','keywords'])
-            ->setTrackingParams('from=direct&ad={ad_id}');
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'required|array_of:string',
-            'TrackingParams' => 'required|string'
-        ]);
-
-        $adGroups = $campaign
-            ->getRelatedAdGroups(['Id', 'Name'])
-            ->getResource();
-
-        $result = $adGroups->addRelatedAds(
-            Ad::make()
-                ->setTextAd(
-                    TextAd::make()
-                        ->setTitle('Title of my ad')
-                        ->setTitle2('Title of my second ad')
-                        ->setText('My ad text')
-                        ->setHref('https://mysite.com/page/')
-                        ->setMobile('NO')
-                )
-        );
-
-        Checklists::checkResource($result, Ads::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'TextAd.Title' => 'required|string',
-            'TextAd.Title2' => 'required|string',
-            'TextAd.Text' => 'required|string',
-            'TextAd.Href' => 'required|string',
-            'TextAd.Mobile' => 'required|string'
-        ]);
-
-        $result = $adGroups->addRelatedKeywords(
-            Keywords::make(
-                Keyword::make()->setKeyword('yandex api'),
-                Keyword::make()->setKeyword('yandex direct')
-            )
-        );
-
-        Checklists::checkResource($result, Keywords::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'Keyword' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_WbMaximumClicks_NetworkDefault
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_TextCampaign_WbMaximumClicks_NetworkDefault_TextAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('TextAdGroup')
-            ->setRegionIds([225])
-            ->setNegativeKeywords(['negative','keywords'])
-            ->setTrackingParams('from=direct&ad={ad_id}');
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'required|array_of:string',
-            'TrackingParams' => 'required|string'
-        ]);
-
-        $adGroups = $campaign
-            ->getRelatedAdGroups(['Id', 'Name'])
-            ->getResource();
-
-        $result = $adGroups->addRelatedAds(
-            Ad::make()
-                ->setTextAd(
-                    TextAd::make()
-                        ->setTitle('Title of my ad')
-                        ->setTitle2('Title of my second ad')
-                        ->setText('My ad text')
-                        ->setHref('https://mysite.com/page/')
-                        ->setMobile('NO')
-                )
-        );
-
-        Checklists::checkResource($result, Ads::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'TextAd.Title' => 'required|string',
-            'TextAd.Title2' => 'required|string',
-            'TextAd.Text' => 'required|string',
-            'TextAd.Href' => 'required|string',
-            'TextAd.Mobile' => 'required|string'
-        ]);
-
-        $result = $adGroups->addRelatedKeywords(
-            Keywords::make(
-                Keyword::make()->setKeyword('yandex api'),
-                Keyword::make()->setKeyword('yandex direct')
-            )
-        );
-
-        Checklists::checkResource($result, Keywords::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'Keyword' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_DynamicTextCampaign_HighestPosition_ServingOff
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_DynamicTextCampaign_HighestPosition_ServingOff_DynamicTextAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('DynamicTextAdGroup')
-            ->setRegionIds([225])
-            ->setNegativeKeywords(['negative','keywords'])
-            ->setTrackingParams('from=direct&ad={ad_id}')
-            ->setDynamicTextAdGroup(
-                DynamicTextAdGroup::make()
-                    ->setDomainUrl('yandex.ru')
-            );
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'required|array_of:string',
-            'TrackingParams' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_MobileAppCampaign_HighestPosition_NetworkDefault
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_MobileAppCampaign_HighestPosition_NetworkDefault_MobileAppAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('MobileAppAdGroup')
-            ->setRegionIds([225])
-            ->setNegativeKeywords(['negative','keywords'])
-            ->setTrackingParams('from=direct&ad={ad_id}')
-            ->setMobileAppAdGroup(
-                MobileAppAdGroup::make()
-                    ->setStoreUrl('https://play.google.com/store/apps/details?id=ru.yandex.direct')
-                    ->setTargetDeviceType(['DEVICE_TYPE_MOBILE','DEVICE_TYPE_TABLET'])
-                    ->setTargetCarrier('WI_FI_AND_CELLULAR')
-                    ->setTargetOperatingSystemVersion('2.3')
-            );
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'required|array_of:string',
-            'TrackingParams' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_CpmBannerCampaign_ServingOff_ManualCpm
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_CpmBannerCampaign_ServingOff_ManualCpm_CpmBannerKeywordsAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('CpmBannerKeywordsAdGroup')
-            ->setRegionIds([225])
-            ->setNegativeKeywords(['negative','keywords'])
-            ->setTrackingParams('from=direct&ad={ad_id}')
-            ->setCpmBannerKeywordsAdGroup();
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'NegativeKeywords.Items' => 'required|array_of:string',
-            'TrackingParams' => 'required|string',
-            'CpmBannerKeywordsAdGroup' => 'required'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_CpmBannerCampaign_ServingOff_ManualCpm
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_CpmBannerCampaign_ServingOff_ManualCpm_CpmBannerUserProfileAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('CpmBannerUserProfileAdGroup')
-            ->setRegionIds([225])
-            ->setTrackingParams('from=direct&ad={ad_id}')
-            ->setCpmBannerUserProfileAdGroup();
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'TrackingParams' => 'required|string',
-            'CpmBannerUserProfileAdGroup' => 'required'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_CpmBannerCampaign_ServingOff_ManualCpm
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedAdGroup_CpmBannerCampaign_ServingOff_ManualCpm_CpmVideoAdGroup(Campaign $campaign): void
-    {
-        $adGroup = AdGroup::make()
-            ->setName('CpmVideoAdGroup')
-            ->setRegionIds([225])
-            ->setTrackingParams('from=direct&ad={ad_id}')
-            ->setCpmVideoAdGroup();
-
-        $result = $campaign->addRelatedAdGroups($adGroup);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'Name' => 'required|string',
-            'RegionIds' => 'required|array_of:integer',
-            'TrackingParams' => 'required|string',
-            'CpmVideoAdGroup' => 'required'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedAdGroups(Campaign $campaign): void
-    {
-        $result = $campaign->getRelatedAdGroups(['Id', 'Name']);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AdGroups::class, [
-            'Id' => 'required|integer',
-            'Name' => 'required|string',
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedAds(Campaign $campaign): void
-    {
-        // [ Preprocessing ] ===========================================================================================
-
-        $result = $campaign->getRelatedAds(['Id','TextAd.Title']);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Ads::class, [
-            'Id' => 'required|integer',
-            'TextAd.Title' => 'required|string',
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testAddRelatedBidModifiers(Campaign $campaign): void
-    {
-        $bidModifier = BidModifier::make()
-            ->setRegionalAdjustment(
-                RegionalAdjustment::make()
-                    ->setRegionId(225)
-                    ->setBidModifier(50)
-            );
-
-        $result = $campaign->addRelatedBidModifiers($bidModifier);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, BidModifiers::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'RegionalAdjustment.RegionId' => 'required|integer',
-            'RegionalAdjustment.BidModifier' => 'required|integer'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedBidModifiers
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedBidModifiers(Campaign $campaign): void
-    {
-        $result = $campaign->getRelatedBidModifiers([
-            'Id',
-            'CampaignId',
-            'RegionalAdjustment.RegionId',
-            'RegionalAdjustment.BidModifier'
-        ]);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, BidModifiers::class, [
-            'Id' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'RegionalAdjustment.RegionId' => 'required|integer',
-            'RegionalAdjustment.BidModifier' => 'required|integer'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedBidModifiers
-     * @param Campaign $campaign
-     */
-    public static function testDisableBidModifiers(Campaign $campaign): void
-    {
-        $result = $campaign->disableBidModifiers('REGIONAL_ADJUSTMENT');
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, BidModifierToggles::class);
-        sleep(10);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testDisableBidModifiers
-     * @param Campaign $campaign
-     */
-    public static function testEnableBidModifiers(Campaign $campaign): void
-    {
-        $result = $campaign->enableBidModifiers('REGIONAL_ADJUSTMENT');
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, BidModifierToggles::class);
-        sleep(10);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedAudienceTarget(Campaign $campaign): void
-    {
-        $result = $campaign->getRelatedAudienceTargets(['Id','AdGroupId','State']);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, AudienceTargets::class);
-
-        Env::useLocalApi(true);
-        $result = $campaign->getRelatedAudienceTargets(['Id','AdGroupId','State']);
-        Env::useLocalApi(false);
-
-        Checklists::checkResource($result, AudienceTargets::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'RetargetingListId' => 'required|integer',
-            'InterestId' => 'required|integer',
-            'State' => 'required|string',
-            'ContextBid' => 'required|integer',
-            'StrategyPriority' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testSetRelatedBids(Campaign $campaign): void
-    {
-        $result = $campaign->setRelatedBids(30000000, 10000000);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Bids::class, [
-            'CampaignId' => 'required|integer',
-            'Bid' => 'required|integer',
-            'ContextBid' => 'required|integer'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testSetRelatedContextBids(Campaign $campaign): void
-    {
-        $result = $campaign->setRelatedContextBids(10000000);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Bids::class, [
-            'CampaignId' => 'required|integer',
-            'ContextBid' => 'required|integer'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_WbMaximumClicks_NetworkDefault
-     * @depends testAddRelatedAdGroup_TextCampaign_WbMaximumClicks_NetworkDefault_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testSetRelatedStrategyPriority(Campaign $campaign): void
-    {
-        $result = $campaign->setRelatedStrategyPriority('LOW');
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Bids::class, [
-            'CampaignId' => 'required|integer',
-            'StrategyPriority' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testSetRelatedBidsAuto(Campaign $campaign): void
-    {
-        $bidAuto = BidAuto::make()
-            ->setScope(['SEARCH'])
-            ->setPosition('PREMIUMBLOCK');
-
-        $result = $campaign->setRelatedBidsAuto($bidAuto);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, BidsAuto::class, [
-            'CampaignId' => 'required|integer',
-            'Scope' => 'required|array',
-            'Position' => 'string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testSetRelatedBids
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedBids(Campaign $campaign): void
-    {
-        $result = $campaign->getRelatedBids(['Bid','CampaignId','AdGroupId','KeywordId']);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Bids::class, [
-            'Bid' => 'required|integer',
-            'CampaignId' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'KeywordId' => 'required|integer'
-        ]);
-
-    }
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @depends testAddRelatedAdGroup_TextCampaign_HighestPosition_MaximumCoverage_TextAdGroup
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedKeywords(Campaign $campaign): void
-    {
-        $result = $campaign->getRelatedKeywords(['Id','Keyword','Status']);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Keywords::class, [
-            'Id' => 'required|integer',
-            'Keyword' => 'required|string',
-            'Status' => 'required|string'
-        ]);
-    }
-
-    /**
-     * @depends testAdd_DynamicTextCampaign_WbMaximumClicks_ServingOff
-     * @param Campaign $campaign
-     */
-    public static function testGetRelatedWebpages(Campaign $campaign): void
-    {
-        // [ Pre processing ] ==========================================================================================
-
-        $adGroup = AdGroup::make()
-            ->setName('Test')
-            ->setCampaignId($campaign->id)
-            ->setRegionIds([225])
-            ->setDynamicTextAdGroup(
-                DynamicTextAdGroup::make()
-                    ->setDomainUrl('yandex.ru')
-            );
-
-        Checklists::checkResource(
-            $adGroup->add(),
-            AdGroups::class
-        );
-
-        Checklists::checkResource(
-            $adGroup->addRelatedWebpages(
-                Webpage::make()
-                    ->setName('MyTargetingCondition')
-                    ->setConditions(
-                        WebpageConditions::make(
-                            WebpageCondition::domainContain(['mysite.com']),
-                            WebpageCondition::pageNotContain(['home', 'main'])
-                        )
-                    )
-            ),
-            Webpages::class
-        );
-
-        // [ Example ] =================================================================================================
-
-        $result = $campaign->getRelatedWebpages([
-            'Id',
-            'Name',
-            'CampaignId',
-            'AdGroupId',
-            'Conditions'
-        ]);
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Webpages::class, [
-            'Id' => 'required|integer',
-            'AdGroupId' => 'required|integer',
-            'Name' => 'string',
-            'Conditions' => 'required|size:2',
-            'Conditions.*.Operand' => 'required|string',
-            'Conditions.*.Operator' => 'required|string',
-            'Conditions.*.Arguments' => 'required|array_of:string'
-        ]);
-    }
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
-     | Update
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testUpdateCampaign(Campaign $campaign): void
-    {
-        // [ Pre processing ] ==========================================================================================
-
-        $campaignID = $campaign->id;
-
-        // [ Example ] =================================================================================================
-
-        $campaign = Campaign::find($campaignID, [
-            'Id',
-            'Name',
-            'NegativeKeywords',
-            'TextCampaign.CounterIds',
-            'TextCampaign.Settings'
-        ]);
-
-        $campaign->textCampaign->setCounterIds([1234, 4321]);
-        $campaign->textCampaign->setSettings(
-            TextCampaignSettings::make(
-                TextCampaignSetting::addMetricaTag(true),
-                TextCampaignSetting::addToFavorites(true)
-            )
-        );
-
-        $result = $campaign->update();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResource($result, Campaigns::class);
-    }
-
-
-    /*
-     |-------------------------------------------------------------------------------
-     |
-     | Delete
-     |
-     |-------------------------------------------------------------------------------
-    */
-
-    /**
-     * @depends testAdd_TextCampaign_HighestPosition_MaximumCoverage
-     * @param Campaign $campaign
-     */
-    public static function testDeleteCampaign(Campaign $campaign): void
-    {
-        // [ Pre processing ] ==========================================================================================
-
-        $campaignID = $campaign->id;
-
-        // [ Example ] =================================================================================================
-
-        $result = Campaign::find($campaignID)->delete();
-
-        // [ Post processing ] =========================================================================================
-
-        Checklists::checkResult($result);
+        return static::$campaigns['CpmBannerCampaign_ServingOff_CpDecreasedPriceForRepeatedImpressions'] = $campaign;
     }
 }
