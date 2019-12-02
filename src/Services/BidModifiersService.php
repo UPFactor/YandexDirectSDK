@@ -19,9 +19,8 @@ use YandexDirectSDK\Models\BidModifierToggle;
 /** 
  * Class BidModifiersService 
  * 
- * @method static     Result                            delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
- * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
+ * @method static     Result           delete(integer|integer[]|BidModifier|BidModifiers|ModelCommonInterface $bidModifiers)
+ * @method static     QueryBuilder     query()
  * 
  * @package YandexDirectSDK\Services 
  */
@@ -35,8 +34,7 @@ class BidModifiersService extends Service
 
     protected static $methods = [
         'delete' => 'delete:actionByIds',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds'
+        'query' => 'get:selectionElements'
     ];
 
     /**
@@ -146,10 +144,10 @@ class BidModifiersService extends Service
      * Changes the values of coefficients in rate adjustments.
      *
      * @param int|int[]|string|string[]|BidModifier|BidModifiers|BidModifierSet|BidModifierSets|ModelCommonInterface $bidModifiers
-     * @param int $value
+     * @param int $coefficient
      * @return Result
      */
-    public static function update($bidModifiers, int $value = null): Result
+    public static function applyCoefficient($bidModifiers, int $coefficient = null): Result
     {
         //Converting BidModifier (BidModifiers) objects into
         //corresponding BidModifierSet (BidModifierSets) objects.
@@ -157,7 +155,7 @@ class BidModifiersService extends Service
         if (!($bidModifiers instanceof BidModifierSet) and !($bidModifiers instanceof BidModifierSets)){
             $bidModifiers = static::bind(
                 $bidModifiers,
-                BidModifierSet::make()->setBidModifier($value),
+                BidModifierSet::make()->setBidModifier($coefficient),
                 'Id'
             );
         }
@@ -175,14 +173,14 @@ class BidModifiersService extends Service
     /**
      * Enables/disables the set of adjustments.
      *
-     * @param BidModifierToggle|BidModifierToggles|ModelCommonInterface $bidModifiers
+     * @param BidModifierToggle|BidModifierToggles|ModelCommonInterface $bidModifierToggles
      * @return Result
      */
-    public static function toggle($bidModifiers): Result
+    public static function toggle($bidModifierToggles): Result
     {
         return static::updateCollection(
             'toggle',
-            $bidModifiers,
+            $bidModifierToggles,
             'BidModifierToggleItems',
             'ToggleResults'
         );

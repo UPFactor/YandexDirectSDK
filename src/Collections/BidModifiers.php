@@ -11,11 +11,10 @@ use YandexDirectSDK\Services\BidModifiersService;
 /** 
  * Class BidModifiers 
  * 
- * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                            create()
- * @method            Result                            update(int $value=null)
- * @method            Result                            delete()
+ * @method static     QueryBuilder     query()
+ * @method            Result           create()
+ * @method            Result           delete()
+ * @method            Result           applyCoefficient(int $coefficient=null)
  * 
  * @package YandexDirectSDK\Collections 
  */ 
@@ -34,13 +33,12 @@ class BidModifiers extends ModelCollection
     protected static $compatibleModel = BidModifier::class;
 
     protected static $staticMethods = [
-        'query' => BidModifiersService::class,
-        'find' => BidModifiersService::class
+        'query' => BidModifiersService::class
     ];
 
     protected static $methods = [
         'create' => BidModifiersService::class,
-        'update' => BidModifiersService::class,
-        'delete' => BidModifiersService::class
+        'delete' => BidModifiersService::class,
+        'applyCoefficient' => BidModifiersService::class
     ];
 }

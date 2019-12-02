@@ -51,5 +51,9 @@
             <file>Examples/Bids/ExamplesTest.php</file>
         </testsuite>
 
+        <testsuite name="BidModifiersExamples">
+            <file>Examples/BidModifiers/ExamplesTest.php</file>
+        </testsuite>
+
     </testsuites>
 </phpunit>

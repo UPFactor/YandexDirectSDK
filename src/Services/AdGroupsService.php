@@ -283,7 +283,7 @@ class AdGroupsService extends Service
      * @param array $levels
      * @return BidModifiers|ModelCommonInterface
      */
-    public static function getRelatedBidModifiers($adGroups, array $fields = [], array $levels = ['CAMPAIGN','AD_GROUP']): BidModifiers
+    public static function getRelatedBidModifiers($adGroups, array $fields = [], array $levels = ['AD_GROUP']): BidModifiers
     {
         return BidModifiersService::query()
             ->select('Id','AdGroupId', ...$fields)

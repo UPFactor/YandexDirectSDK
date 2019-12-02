@@ -11,43 +11,42 @@ use YandexDirectSDK\Services\BidModifiersService;
 /** 
  * Class BidModifier 
  * 
- * @property          integer                           $id
- * @property          integer                           $campaignId
- * @property          integer                           $adGroupId
- * @property          MobileAdjustment                  $mobileAdjustment
- * @property          DesktopAdjustment                 $desktopAdjustment
- * @property          DemographicsAdjustment            $demographicsAdjustment
- * @property          RetargetingAdjustment             $retargetingAdjustment
- * @property          RegionalAdjustment                $regionalAdjustment
- * @property          VideoAdjustment                   $videoAdjustment
- * @property-read     string                            $level
- * @property-read     string                            $type
- *                                                      
- * @method static     QueryBuilder                      query()
- * @method static     BidModifier|BidModifiers|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
- * @method            Result                            create()
- * @method            Result                            update(int $value=null)
- * @method            Result                            delete()
- * @method            $this                             setId(integer $id)
- * @method            integer                           getId()
- * @method            $this                             setCampaignId(integer $campaignId)
- * @method            integer                           getCampaignId()
- * @method            $this                             setAdGroupId(integer $adGroupId)
- * @method            integer                           getAdGroupId()
- * @method            $this                             setMobileAdjustment(MobileAdjustment $mobileAdjustment)
- * @method            MobileAdjustment                  getMobileAdjustment()
- * @method            $this                             setDesktopAdjustment(DesktopAdjustment $desktopAdjustment)
- * @method            DesktopAdjustment                 getDesktopAdjustment()
- * @method            $this                             setDemographicsAdjustment(DemographicsAdjustment $demographicsAdjustment)
- * @method            DemographicsAdjustment            getDemographicsAdjustment()
- * @method            $this                             setRetargetingAdjustment(RetargetingAdjustment $retargetingAdjustment)
- * @method            RetargetingAdjustment             getRetargetingAdjustment()
- * @method            $this                             setRegionalAdjustment(RegionalAdjustment $regionalAdjustment)
- * @method            RegionalAdjustment                getRegionalAdjustment()
- * @method            $this                             setVideoAdjustment(VideoAdjustment $videoAdjustment)
- * @method            VideoAdjustment                   getVideoAdjustment()
- * @method            string                            getLevel()
- * @method            string                            getType()
+ * @property          integer                    $id
+ * @property          integer                    $campaignId
+ * @property          integer                    $adGroupId
+ * @property          MobileAdjustment           $mobileAdjustment
+ * @property          DesktopAdjustment          $desktopAdjustment
+ * @property          DemographicsAdjustment     $demographicsAdjustment
+ * @property          RetargetingAdjustment      $retargetingAdjustment
+ * @property          RegionalAdjustment         $regionalAdjustment
+ * @property          VideoAdjustment            $videoAdjustment
+ * @property-read     string                     $level
+ * @property-read     string                     $type
+ *                                               
+ * @method static     QueryBuilder               query()
+ * @method            Result                     create()
+ * @method            Result                     delete()
+ * @method            Result                     applyCoefficient(int $coefficient=null)
+ * @method            $this                      setId(integer $id)
+ * @method            integer                    getId()
+ * @method            $this                      setCampaignId(integer $campaignId)
+ * @method            integer                    getCampaignId()
+ * @method            $this                      setAdGroupId(integer $adGroupId)
+ * @method            integer                    getAdGroupId()
+ * @method            $this                      setMobileAdjustment(MobileAdjustment $mobileAdjustment)
+ * @method            MobileAdjustment           getMobileAdjustment()
+ * @method            $this                      setDesktopAdjustment(DesktopAdjustment $desktopAdjustment)
+ * @method            DesktopAdjustment          getDesktopAdjustment()
+ * @method            $this                      setDemographicsAdjustment(DemographicsAdjustment $demographicsAdjustment)
+ * @method            DemographicsAdjustment     getDemographicsAdjustment()
+ * @method            $this                      setRetargetingAdjustment(RetargetingAdjustment $retargetingAdjustment)
+ * @method            RetargetingAdjustment      getRetargetingAdjustment()
+ * @method            $this                      setRegionalAdjustment(RegionalAdjustment $regionalAdjustment)
+ * @method            RegionalAdjustment         getRegionalAdjustment()
+ * @method            $this                      setVideoAdjustment(VideoAdjustment $videoAdjustment)
+ * @method            VideoAdjustment            getVideoAdjustment()
+ * @method            string                     getLevel()
+ * @method            string                     getType()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -58,14 +57,13 @@ class BidModifier extends Model
     protected static $compatibleCollection = BidModifiers::class;
 
     protected static $staticMethods = [
-        'query' => BidModifiersService::class,
-        'find' => BidModifiersService::class
+        'query' => BidModifiersService::class
     ];
 
     protected static $methods = [
         'create' => BidModifiersService::class,
-        'update' => BidModifiersService::class,
-        'delete' => BidModifiersService::class
+        'delete' => BidModifiersService::class,
+        'applyCoefficient' => BidModifiersService::class
     ];
 
     protected static $properties = [

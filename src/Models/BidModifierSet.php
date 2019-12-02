@@ -28,12 +28,8 @@ class BidModifierSet extends Model
         'bidModifier' => 'integer'
     ];
 
-    protected static $nonAddableProperties = [
-        'id'
-    ];
-
     public function apply():Result
     {
-        return BidModifiersService::update($this);
+        return BidModifiersService::applyCoefficient($this);
     }
 }

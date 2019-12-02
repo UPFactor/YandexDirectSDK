@@ -12,8 +12,8 @@ use YandexDirectSDK\Services\BidModifiersService;
  * @package YandexDirectSDK\Collections 
  */ 
 class BidModifierSets extends ModelCollection 
-{ 
-    /** 
+{
+    /**
      * @var BidModifierSet[] 
      */ 
     protected $items = []; 
@@ -25,6 +25,6 @@ class BidModifierSets extends ModelCollection
 
     public function apply():Result
     {
-        return BidModifiersService::update($this);
+        return BidModifiersService::applyCoefficient($this);
     }
 }
