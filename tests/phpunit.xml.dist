@@ -46,5 +46,10 @@
             <file>Examples/Keywords/UpdateExamplesTest.php</file>
             <file>Examples/Keywords/DeleteExamplesTest.php</file>
         </testsuite>
+
+        <testsuite name="BidsExamples">
+            <file>Examples/Bids/ExamplesTest.php</file>
+        </testsuite>
+
     </testsuites>
 </phpunit>
