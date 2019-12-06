@@ -2,13 +2,13 @@
 
 namespace YandexDirectSDK\Models\Foundation;
 
-trait On
+trait To
 {
     /**
      * @param integer|string $id
      * @return static
      */
-    public static function on($id)
+    public static function to($id)
     {
         return static::make(['Id' => $id]);
     }

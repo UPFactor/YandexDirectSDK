@@ -48,7 +48,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function domainContain(array $arguments){
+    public static function domainContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::DOMAIN)
             ->setOperator(self::CONTAINS_ANY)
@@ -62,7 +63,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function domainNotContain(array $arguments){
+    public static function domainNotContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::DOMAIN)
             ->setOperator(self::NOT_CONTAINS_ALL)
@@ -76,7 +78,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function urlContain(array $arguments){
+    public static function urlContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::URL)
             ->setOperator(self::CONTAINS_ANY)
@@ -90,7 +93,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function urlNotContain(array $arguments){
+    public static function urlNotContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::URL)
             ->setOperator(self::NOT_CONTAINS_ALL)
@@ -104,7 +108,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function pageTitleContain(array $arguments){
+    public static function pageTitleContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::PAGE_TITLE)
             ->setOperator(self::CONTAINS_ANY)
@@ -118,7 +123,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function pageTitleNotContain(array $arguments){
+    public static function pageTitleNotContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::PAGE_TITLE)
             ->setOperator(self::NOT_CONTAINS_ALL)
@@ -132,7 +138,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function pageContain(array $arguments){
+    public static function pageContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::PAGE_CONTENT)
             ->setOperator(self::CONTAINS_ANY)
@@ -146,7 +153,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function pageNotContain(array $arguments){
+    public static function pageNotContain(array $arguments)
+    {
         return (new static())
             ->setOperand(self::PAGE_CONTENT)
             ->setOperator(self::NOT_CONTAINS_ALL)
@@ -160,7 +168,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function offersUrlEquals(array $arguments){
+    public static function offersUrlEquals(array $arguments)
+    {
         return (new static())
             ->setOperand(self::OFFERS_LIST_URL)
             ->setOperator(self::EQUALS_ANY)
@@ -174,7 +183,8 @@ class WebpageCondition extends Model
      * @param array $arguments
      * @return WebpageCondition
      */
-    public static function offersUrlNotEquals(array $arguments){
+    public static function offersUrlNotEquals(array $arguments)
+    {
         return (new static())
             ->setOperand(self::OFFERS_LIST_URL)
             ->setOperator(self::NOT_EQUALS_ALL)

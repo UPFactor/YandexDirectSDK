@@ -114,7 +114,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Campaign::on($campaignId)->delete();
+        $result = Campaign::to($campaignId)->delete();
 
         // [ Post processing ]
 
@@ -136,7 +136,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Campaigns::on($campaignsIds)->delete();
+        $result = Campaigns::to($campaignsIds)->delete();
 
         // [ Post processing ]
 

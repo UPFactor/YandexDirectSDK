@@ -118,7 +118,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Ad::on($adId)->delete();
+        $result = Ad::to($adId)->delete();
 
         // [ Post processing ]
 
@@ -140,7 +140,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Ads::on($adIds)->delete();
+        $result = Ads::to($adIds)->delete();
 
         // [ Post processing ]
 

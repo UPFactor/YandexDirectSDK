@@ -1,7 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Collections\Foundation\To;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder; 
 use YandexDirectSDK\Components\ModelCollection;
@@ -25,7 +25,7 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  */ 
 class Webpages extends ModelCollection 
 { 
-    use On;
+    use To;
 
     /**
      * @var Webpage[] 

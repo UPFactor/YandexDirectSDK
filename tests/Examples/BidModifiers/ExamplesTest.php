@@ -243,7 +243,7 @@ class ExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Campaigns::on($campaignIds)
+        $result = Campaigns::to($campaignIds)
             ->getRelatedBidModifiers()
             ->applyCoefficient('50');
 

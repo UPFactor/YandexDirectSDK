@@ -11,7 +11,7 @@ use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Collections\AdGroups;
 use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Models\Foundation\On;
+use YandexDirectSDK\Models\Foundation\To;
 use YandexDirectSDK\Services\AdGroupsService;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
@@ -88,7 +88,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 class AdGroup extends Model 
 { 
-    use On;
+    use To;
 
     protected static $compatibleCollection = AdGroups::class;
 

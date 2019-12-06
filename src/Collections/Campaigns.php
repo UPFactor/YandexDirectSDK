@@ -2,7 +2,7 @@
 
 namespace YandexDirectSDK\Collections;
 
-use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Collections\Foundation\To;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\ModelCollection;
@@ -42,7 +42,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 class Campaigns extends ModelCollection
 {
-    use On;
+    use To;
 
     /**
      * @var Campaign[]

@@ -5,7 +5,7 @@ use YandexDirectSDK\Collections\AdExtensions;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Components\Result; 
 use YandexDirectSDK\Components\QueryBuilder;
-use YandexDirectSDK\Models\Foundation\On;
+use YandexDirectSDK\Models\Foundation\To;
 use YandexDirectSDK\Services\AdExtensionsService;
 
 /** 
@@ -37,7 +37,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  */ 
 class AdExtension extends Model 
 {
-    use On;
+    use To;
 
     protected static $compatibleCollection = AdExtensions::class;
 

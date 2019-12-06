@@ -259,6 +259,46 @@ class CreateExamplesTest extends TestCase
      * @test
      * @return AdGroup
      */
+    public static function createDynamicTextAdGroup_HighestPosition_ServingOff():AdGroup
+    {
+        // [ Pre processing ]
+
+        static::$campaigns[] = $campaign = CampaignCreateExamplesTest::createDynamicTextCampaign_HighestPosition_ServingOff();
+
+        // [ Example ]
+
+        $adGroup = AdGroup::make()
+            ->setName('DynamicTextAdGroup')
+            ->setCampaignId($campaign->id)
+            ->setRegionIds([225])
+            ->setNegativeKeywords(['set','negative','keywords'])
+            ->setTrackingParams('from=direct&ad={ad_id}')
+            ->setDynamicTextAdGroup(
+                DynamicTextAdGroup::make()
+                    ->setDomainUrl('yandex.ru')
+            );
+
+        $result = $adGroup->create();
+
+        // [ Post processing ]
+
+        Checklists::checkResource($result, AdGroups::class, [
+            'Id' => 'required|integer',
+            'CampaignId' => 'required|integer',
+            'Name' => 'required|string',
+            'RegionIds' => 'required|array_of:integer',
+            'NegativeKeywords.Items' => 'required|array_of:string',
+            'TrackingParams' => 'required|string',
+            'DynamicTextAdGroup.DomainUrl' => 'required|string'
+        ]);
+
+        return $adGroup;
+    }
+
+    /**
+     * @test
+     * @return AdGroup
+     */
     public static function createDynamicTextAdGroup_WbMaximumClicks_ServingOff():AdGroup
     {
         // [ Pre processing ]

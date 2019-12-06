@@ -1,7 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Collections;
 
-use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Collections\Foundation\To;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Components\ModelCollection as ModelCollection;
@@ -26,7 +26,7 @@ use YandexDirectSDK\Services\AdsService;
  */ 
 class Ads extends ModelCollection 
 { 
-    use On;
+    use To;
 
     /**
      * @var Ad[] 

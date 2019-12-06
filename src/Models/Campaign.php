@@ -12,7 +12,7 @@ use YandexDirectSDK\Collections\Webpages;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Components\QueryBuilder;
 use YandexDirectSDK\Collections\Campaigns;
-use YandexDirectSDK\Models\Foundation\On;
+use YandexDirectSDK\Models\Foundation\To;
 use YandexDirectSDK\Services\CampaignsService;
 use YandexDirectSDK\Components\Model;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
@@ -119,7 +119,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 class Campaign extends Model
 {
-    use On;
+    use To;
 
     protected static $compatibleCollection = Campaigns::class;
 

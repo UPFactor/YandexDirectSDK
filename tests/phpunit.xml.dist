@@ -55,5 +55,9 @@
             <file>Examples/BidModifiers/ExamplesTest.php</file>
         </testsuite>
 
+        <testsuite name="KeywordBidsExamples">
+            <file>Examples/KeywordBids/ExamplesTest.php</file>
+        </testsuite>
+
     </testsuites>
 </phpunit>

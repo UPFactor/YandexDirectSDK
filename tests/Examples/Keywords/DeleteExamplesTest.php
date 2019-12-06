@@ -119,7 +119,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Keyword::on($keywordId)->delete();
+        $result = Keyword::to($keywordId)->delete();
 
         // [ Post processing ]
 
@@ -141,7 +141,7 @@ class DeleteExamplesTest extends TestCase
 
         // [ Example ]
 
-        $result = Keywords::on($keywordIds)->delete();
+        $result = Keywords::to($keywordIds)->delete();
 
         // [ Post processing ]
 

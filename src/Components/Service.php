@@ -351,10 +351,10 @@ abstract class Service
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    protected static function selectionByIds(string $methodName, $elements, array $fields = ['Id'])
+    protected static function selectionByIds(string $methodName, $elements, array $fields = [])
     {
         $query = static::selectionElements($methodName)
-            ->select($fields)
+            ->select('Id', ...$fields)
             ->whereIn('Ids', $elements);
 
         if (!is_array($elements) or count($elements) === 1){

@@ -3,6 +3,8 @@ namespace YandexDirectSDK\Models;
 
 use YandexDirectSDK\Collections\WebpageBids;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\DynamicTextAdTargetsService;
 
 /** 
  * Class WebpageBid 
@@ -49,4 +51,9 @@ class WebpageBid extends Model
     protected static $nonAddableProperties = [
         'id'
     ];
+
+    public function apply():Result
+    {
+        return DynamicTextAdTargetsService::setBids($this);
+    }
 }

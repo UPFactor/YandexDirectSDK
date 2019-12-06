@@ -1,7 +1,7 @@
 <?php 
 namespace YandexDirectSDK\Collections; 
 
-use YandexDirectSDK\Collections\Foundation\On;
+use YandexDirectSDK\Collections\Foundation\To;
 use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Models\AudienceTargetBid;
 
@@ -12,7 +12,7 @@ use YandexDirectSDK\Models\AudienceTargetBid;
  */ 
 class AudienceTargetBids extends ModelCollection 
 { 
-    use On;
+    use To;
 
     /**
      * @var AudienceTargetBid[] 
