@@ -59,5 +59,13 @@
             <file>Examples/KeywordBids/ExamplesTest.php</file>
         </testsuite>
 
+        <testsuite name="WebpagesExamples">
+            <file>Examples/Webpages/ExamplesTest.php</file>
+        </testsuite>
+
+        <testsuite name="AudienceTargetsExamples">
+            <file>Examples/AudienceTargets/ExamplesTest.php</file>
+        </testsuite>
+
     </testsuites>
 </phpunit>

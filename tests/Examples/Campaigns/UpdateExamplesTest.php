@@ -77,7 +77,8 @@ class UpdateExamplesTest extends TestCase
      */
     public static function update(Campaign $campaign):void
     {
-        $result = $campaign->setName('New campaign name')
+        $result = $campaign
+            ->setName('New campaign name')
             ->setStartDate('2029-11-01')
             ->setEndDate('2029-11-10')
             ->setNegativeKeywords(null)

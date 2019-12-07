@@ -16,13 +16,6 @@ use YandexDirectSDK\Exceptions\RuntimeException;
 class Session
 {
     /**
-     * YandexDirectSDK version.
-     *
-     * @var string
-     */
-    const version = '1.2.0';
-
-    /**
      * API URL v5
      *
      * @var string
@@ -73,6 +66,18 @@ class Session
      * @var null
      */
     public static $callHandler = null;
+
+    /**
+     * Session initialization.
+     *
+     * @param string $token
+     * @param array $options
+     */
+    public static function init(string $token, array $options = [])
+    {
+        $options['token'] = $token;
+        static::reset($options);
+    }
 
     /**
      * Sets OAuth token.

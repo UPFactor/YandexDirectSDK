@@ -31,7 +31,7 @@ class SessionTest extends TestCase
     /**
      * @return array
      */
-    public function fetchDataProvider(){
+    public static function fetchDataProvider(){
         return [
             [
                 'set' => [],
@@ -104,7 +104,7 @@ class SessionTest extends TestCase
     /**
      * @return array
      */
-    public function setDataProvider(){
+    public static function setDataProvider(){
         return [
             [
                 'set-1' => [],
@@ -166,7 +166,7 @@ class SessionTest extends TestCase
     /**
      * @return array
      */
-    public function resetDataProvider(){
+    public static function resetDataProvider(){
         return [
             [
                 'set' => [],
@@ -281,31 +281,33 @@ class SessionTest extends TestCase
     */
 
     /**
+     * @test
      * @dataProvider fetchDataProvider
      *
      * @param array $set
      * @param array $expected
      */
-    public function testFetch(array $set, array $expected)
+    public static function fetch(array $set, array $expected):void
     {
         foreach ($set as $key => $value){
             $_ENV[$key] = $value;
         }
 
-        $this->assertEquals(
+        static::assertEquals(
             $expected,
             Session::fetch()
         );
     }
 
     /**
+     * @test
      * @dataProvider setDataProvider
      *
      * @param array $options
      */
-    public function testSet(...$options)
+    public static function set(...$options):void
     {
-        $this->assertTrue(
+        static::assertTrue(
             count($options) > 1,
             'Data provider is invalid'
         );
@@ -314,115 +316,124 @@ class SessionTest extends TestCase
             Session::set($set);
         }
 
-        $this->assertEquals(
+        static::assertEquals(
             Arr::last($options),
             Session::fetch()
         );
     }
 
     /**
+     * @test
      * @dataProvider resetDataProvider
-     * @depends testFetch
+     * @depends fetch
      *
      * @param array $set
      * @param array $reset
      * @param array $expected
      */
-    public function testReset(array $set, array $reset, array $expected)
+    public static function reset(array $set, array $reset, array $expected):void
     {
         Session::set($set);
         Session::reset($reset);
 
-        $this->assertEquals(
+        static::assertEquals(
             $expected,
             Session::fetch()
         );
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetToken(): void
+    public static function setAndGetToken(): void
     {
         Session::setToken('testString');
-        $this->assertEquals('testString', Session::getToken());
+        static::assertEquals('testString', Session::getToken());
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetClient(): void
+    public static function setAndGetClient(): void
     {
         Session::setClient('testString');
-        $this->assertEquals('testString', Session::getClient());
+        static::assertEquals('testString', Session::getClient());
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetLanguage(): void
+    public static function setAndGetLanguage(): void
     {
         Session::setLanguage('testString');
-        $this->assertEquals('testString', Session::getLanguage());
+        static::assertEquals('testString', Session::getLanguage());
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetSandbox(): void
+    public static function setAndGetSandbox(): void
     {
         Session::useSandbox(true);
-        $this->assertEquals(true, Session::usedSandbox());
+        static::assertEquals(true, Session::usedSandbox());
 
         Session::useSandbox(false);
-        $this->assertEquals(false, Session::usedSandbox());
+        static::assertEquals(false, Session::usedSandbox());
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetOperatorUnits(): void
+    public static function setAndGetOperatorUnits(): void
     {
         Session::useOperatorUnits(true);
-        $this->assertEquals(true, Session::usedOperatorUnits());
+        static::assertEquals(true, Session::usedOperatorUnits());
 
         Session::useOperatorUnits(false);
-        $this->assertEquals(false, Session::usedOperatorUnits());
+        static::assertEquals(false, Session::usedOperatorUnits());
     }
 
     /**
+     * @test
      * @return void
      */
-    public function testSetAndGetLogFile(): void
+    public static function setAndGetLogFile(): void
     {
         Session::useLogFile(true, 'filePath');
-        $this->assertEquals('filePath', Session::getLogFile());
+        static::assertEquals('filePath', Session::getLogFile());
 
         Session::useLogFile(false);
-        $this->assertEquals(null, Session::getLogFile());
+        static::assertEquals(null, Session::getLogFile());
     }
 
     /**
      * Calling the Yandex.Direct API method.
      *
+     * @test
      * @return void
      */
-    public function testCall(): void
+    public static function call(): void
     {
         Env::setUpSession();
         $result = Session::call('dictionaries', 'get', [
             'DictionaryNames' => ['Currencies']
         ]);
 
-        $this->assertTrue($result instanceof Result);
+        static::assertTrue($result instanceof Result);
     }
 
     /**
      * Yandex.Direct API method exception: Bad Request.
      *
+     * @test
      * @return void
      */
-    public function testCall_RequestException_BadRequest(): void
+    public function call_RequestException_BadRequest(): void
     {
         Env::setUpSession();
         $this->expectException(RequestException::class);
@@ -432,9 +443,10 @@ class SessionTest extends TestCase
     /**
      * Yandex.Direct API method exception: Not Found.
      *
+     * @test
      * @return void
      */
-    public function testCall_RequestException_NotFound(): void
+    public function call_RequestException_NotFound(): void
     {
         Env::setUpSession();
         $this->expectException(RequestException::class);
@@ -446,9 +458,10 @@ class SessionTest extends TestCase
     /**
      * Yandex.Direct API method exception: URI Too Long.
      *
+     * @test
      * @return void
      */
-    public function testCall_RequestException_URILong(): void
+    public function call_RequestException_URILong(): void
     {
         Env::setUpSession();
         $this->expectException(RequestException::class);
@@ -459,9 +472,10 @@ class SessionTest extends TestCase
     /**
      * Yandex.Direct API method exception: Lack of access to the log file.
      *
+     * @test
      * @return void
      */
-    public function testCall_RuntimeException_LogFileUnavailable(): void
+    public function call_RuntimeException_LogFileUnavailable(): void
     {
         Env::setUpSession();
         $this->expectException(RuntimeException::class);

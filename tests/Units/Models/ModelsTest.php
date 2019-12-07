@@ -39,7 +39,7 @@ class ModelsTest extends TestCase
     |--------------------------------------------------------------------------
     */
 
-    public function apiDataProvider(): array
+    public static function apiDataProvider(): array
     {
         return [
             'AdExtensions' => [
@@ -214,23 +214,23 @@ class ModelsTest extends TestCase
         ];
     }
 
-    public function apiResponseDataProvider(): array
+    public static function apiResponseDataProvider(): array
     {
-        return Arr::filter($this->apiDataProvider(), function($item){
+        return Arr::filter(static::apiDataProvider(), function($item){
             return isset($item['properties']['get']);
         });
     }
 
-    public function apiAddRequestDataProvider(): array
+    public static function apiAddRequestDataProvider(): array
     {
-        return Arr::filter($this->apiDataProvider(), function($item){
+        return Arr::filter(static::apiDataProvider(), function($item){
             return isset($item['properties']['get']) and isset($item['properties']['add']);
         });
     }
 
-    public function apiUpdateRequestDataProvider(): array
+    public static function apiUpdateRequestDataProvider(): array
     {
-        return Arr::filter($this->apiDataProvider(), function($item){
+        return Arr::filter(static::apiDataProvider(), function($item){
             return isset($item['properties']['get']) and isset($item['properties']['update']);
         });
     }
@@ -242,7 +242,7 @@ class ModelsTest extends TestCase
     |--------------------------------------------------------------------------
     */
 
-    public function arrayTyping($array)
+    public static function arrayTyping($array)
     {
         foreach ($array as $key => $value){
             if (!is_array($value)){
@@ -259,18 +259,18 @@ class ModelsTest extends TestCase
                 if (!is_array($value[0]) or !Arr::isAssoc($value[0])){
                     $array[$key] = gettype($value);
                 } else {
-                    $array[$key][0] = $this->arrayTyping($value[0]);
+                    $array[$key][0] = static::arrayTyping($value[0]);
                 }
                 continue;
             }
 
-            $array[$key] = $this->arrayTyping($value);
+            $array[$key] = static::arrayTyping($value);
         }
 
         return $array;
     }
 
-    public function arrayMerge($array1, $array2)
+    public static function arrayMerge($array1, $array2)
     {
         foreach ($array2 as $key => $value){
             if (!isset($array1[$key])){
@@ -279,7 +279,7 @@ class ModelsTest extends TestCase
             }
 
             if (is_array($array1[$key]) and is_array($value)){
-                $array1[$key] = $this->arrayMerge($array1[$key], $value);
+                $array1[$key] = static::arrayMerge($array1[$key], $value);
                 continue;
             }
 
@@ -303,56 +303,58 @@ class ModelsTest extends TestCase
     // TrackingPixels +
     // NegativeKeywordSharedSetsService
 
-
     /**
+     * @test
      * @dataProvider apiResponseDataProvider
      *
      * @param ModelCollectionInterface $collection
      * @param array $properties
      */
-    public function testResponseParsing($collection, array $properties)
+    public static function responseParsing($collection, array $properties):void
     {
-        $this->assertEquals(
+        static::assertEquals(
             $properties['get'],
             $collection::make()->insert($properties['get'])->toArray()
         );
     }
 
     /**
+     * @test
      * @dataProvider apiAddRequestDataProvider
      *
      * @param ModelCollectionInterface $collection
      * @param array $properties
      */
-    public function testCreatingAddRequest($collection, array $properties)
+    public static function creatingAddRequest($collection, array $properties):void
     {
-        $this->assertEquals(
-            $this->arrayTyping(
+        static::assertEquals(
+            static::arrayTyping(
                 $properties['add']
             ),
-            $this->arrayTyping(
+            static::arrayTyping(
                 $collection::make()
-                    ->insert($this->arrayMerge($properties['get'], $properties['add']))
+                    ->insert(static::arrayMerge($properties['get'], $properties['add']))
                     ->toArray(Model::IS_ADDABLE)
             )
         );
     }
 
     /**
+     * @test
      * @dataProvider apiUpdateRequestDataProvider
      *
      * @param ModelCollectionInterface $collection
      * @param array $properties
      */
-    public function testCreatingUpdateRequest($collection, array $properties)
+    public static function creatingUpdateRequest($collection, array $properties)
     {
-        $this->assertEquals(
-            $this->arrayTyping(
+        static::assertEquals(
+            static::arrayTyping(
                 $properties['update']
             ),
-            $this->arrayTyping(
+            static::arrayTyping(
                 $collection::make()
-                    ->insert($this->arrayMerge($properties['get'], $properties['update']))
+                    ->insert(static::arrayMerge($properties['get'], $properties['update']))
                     ->toArray(Model::IS_UPDATABLE)
             )
         );

@@ -19,7 +19,7 @@ class ModelTest extends TestCase
     /**
      * @return array
      */
-    public function insertDataProvider(): array
+    public static function insertDataProvider(): array
     {
 
         $childModelClass = Env::setUpModel('TestChildrenModel');
@@ -165,7 +165,7 @@ class ModelTest extends TestCase
     /**
      * @return array
      */
-    public function convertingDataProvider(): array
+    public static function convertingDataProvider(): array
     {
 
         $childModelClass = Env::setUpModel('TestChildrenModel', [
@@ -325,7 +325,7 @@ class ModelTest extends TestCase
     /**
      * @return array
      */
-    public function modelDataProvider(): array
+    public static function modelDataProvider(): array
     {
         $model = Env::setUpModel('TestNonAddableProperties', [
             'properties' => [
@@ -367,53 +367,56 @@ class ModelTest extends TestCase
     */
 
     /**
+     * @test
      * @dataProvider insertDataProvider
      *
      * @param array $properties
      * @param $value
      * @param $expected
      */
-    public function testInsertProperties(array $properties, $value, $expected)
+    public static function insertProperties(array $properties, $value, $expected):void
     {
         $model = Env::setUpModel('ModelTest', ['properties' => $properties]);
         $model = $model::make(['test' => $value]);
         $actual = $model->getPropertyValue('test');
 
         if (is_object($actual)){
-            $this->assertSame($expected, get_class($actual));
+            static::assertSame($expected, get_class($actual));
         } else {
-            $this->assertSame($expected, $actual);
+            static::assertSame($expected, $actual);
         }
     }
 
     /**
+     * @test
      * @dataProvider convertingDataProvider
      *
      * @param array $properties
      * @param $value
      * @param $expected
      */
-    public function testConvertingProperties(array $properties, $value, $expected)
+    public static function convertingProperties(array $properties, $value, $expected):void
     {
         $model = Env::setUpModel('ModelTest', ['properties' => $properties]);
         $model = $model::make(['test' => $value]);
         $actual = $model->toArray()['Test'];
 
         if (is_object($actual)){
-            $this->assertEquals('object', $expected);
+            static::assertEquals('object', $expected);
         } else {
-            $this->assertSame($expected, $actual);
+            static::assertSame($expected, $actual);
         }
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testNonAddableProperties(ModelInterface $model)
+    public static function nonAddableProperties(ModelInterface $model):void
     {
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'NonReadable' => 'nonReadableValue',
                 'NonUpdatable' => 'nonUpdatableValue'
@@ -423,13 +426,14 @@ class ModelTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testNonUpdatableProperties(ModelInterface $model)
+    public static function nonUpdatableProperties(ModelInterface $model):void
     {
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'NonReadable' => 'nonReadableValue',
                 'NonAddable' => 'nonAddableValue'
@@ -439,13 +443,14 @@ class ModelTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testNonReadableProperties(ModelInterface $model)
+    public static function nonReadableProperties(ModelInterface $model):void
     {
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'NonUpdatable' => 'nonUpdatableValue',
                 'NonAddable' => 'nonAddableValue',
@@ -456,13 +461,14 @@ class ModelTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testNonWritableProperties(ModelInterface $model)
+    public static function nonWritableProperties(ModelInterface $model):void
     {
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'NonReadable' => 'nonReadableValue',
                 'NonUpdatable' => 'nonUpdatableValue',
@@ -473,33 +479,36 @@ class ModelTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testAccessToNonReadableProperties(ModelInterface $model)
+    public function accessToNonReadableProperties(ModelInterface $model):void
     {
         $this->expectException(ModelException::class);
         $model->getPropertyValue('nonReadable');
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testAccessToNonWritableProperties(ModelInterface $model)
+    public function accessToNonWritableProperties(ModelInterface $model):void
     {
         $this->expectException(ModelException::class);
         $model->setPropertyValue('nonWritable', 'new value');
     }
 
     /**
+     * @test
      * @dataProvider modelDataProvider
      *
      * @param ModelInterface $model
      */
-    public function testAccessToNonExistentProperties(ModelInterface $model)
+    public function accessToNonExistentProperties(ModelInterface $model):void
     {
         $this->expectException(ModelException::class);
         $model->getPropertyValue('nonexistentProperties');

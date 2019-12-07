@@ -6,6 +6,7 @@ namespace YandexDirectSDKTest\Helpers;
 use PHPUnit\Framework\Assert;
 use UPTools\Arr;
 use UPTools\Validator;
+use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Result;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
@@ -113,5 +114,39 @@ class Checklists
         });
 
         return $collection;
+    }
+
+    /**
+     * Checklist for [array].
+     *
+     * @param $array
+     * @param array $rules
+     */
+    public static function checkArray($array, array $rules = [])
+    {
+        Assert::assertIsArray($array);
+
+        if (!is_null($rules)) {
+            Assert::assertNotEmpty($array, 'Array is empty');
+            $validator = Validator::make($array, $rules);
+            Assert::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
+        }
+    }
+
+    /**
+     * Checklist for [Data] object.
+     *
+     * @param Data $data
+     * @param array|null $rules
+     */
+    public static function checkData($data, array $rules = null)
+    {
+        Assert::assertInstanceOf(Data::class, $data);
+
+        if (!is_null($rules)) {
+            Assert::assertTrue($data->isNotEmpty(), 'Data is empty');
+            $validator = Validator::make($data->toArray(), $rules);
+            Assert::assertFalse($validator->fails, Arr::first($validator->failed) ?? '');
+        }
     }
 }
