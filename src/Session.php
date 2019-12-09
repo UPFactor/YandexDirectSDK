@@ -319,12 +319,13 @@ class Session
      * @param array $params API service parameters
      * @return Result
      */
-    public static function call($service, $method, $params = []): Result
+    public static function call(string $service, string $method, array $params = []): Result
     {
         if (key_exists('SelectionCriteria', $params)){
             $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
         }
 
+        $service = strtolower($service);
         $url = (static::usedSandbox() ? static::sandboxApi : static::api).$service;
         $params = json_encode(['method' => (string) $method,'params' => $params], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $requestID = str_replace(['.',' '], '', microtime());

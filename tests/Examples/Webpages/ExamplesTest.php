@@ -68,6 +68,8 @@ class ExamplesTest extends TestCase
     {
         static::$campaignHPSO->delete();
         static::$campaignMCSO->delete();
+        static::$campaignHPSO = null;
+        static::$campaignMCSO = null;
         static::$adGroupHPSO = null;
         static::$adGroupMCSO = null;
     }

@@ -65,6 +65,7 @@ class ExamplesTest extends TestCase
     public static function tearDownAfterClass(): void
     {
         static::$campaigns->delete();
+        static::$campaigns = null;
         static::$keywords = null;
         static::$adGroups = null;
         static::$campaigns = null;
