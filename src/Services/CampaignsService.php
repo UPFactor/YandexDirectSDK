@@ -48,14 +48,14 @@ class CampaignsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
         'update' => 'update:updateCollection',
-        'archive' => 'archive:actionByIds',
-        'delete' => 'delete:actionByIds',
-        'resume' => 'resume:actionByIds',
-        'suspend' => 'suspend:actionByIds',
-        'unarchive' => 'unarchive:actionByIds'
+        'archive' => 'archive:actionById',
+        'delete' => 'delete:actionById',
+        'resume' => 'resume:actionById',
+        'suspend' => 'suspend:actionById',
+        'unarchive' => 'unarchive:actionById'
     ];
 
     /**

@@ -24,7 +24,7 @@ class CreativesService extends Service
     protected static $modelCollectionClass = Creatives::class;
 
     protected static $methods = [
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds'
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById'
     ];
 }

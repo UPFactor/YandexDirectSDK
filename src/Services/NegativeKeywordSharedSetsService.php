@@ -29,9 +29,9 @@ class NegativeKeywordSharedSetsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
         'update' => 'update:updateCollection',
-        'delete' => 'delete:actionByIds'
+        'delete' => 'delete:actionById'
     ];
 }

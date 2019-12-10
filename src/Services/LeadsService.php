@@ -23,6 +23,6 @@ class LeadsService extends Service
     protected static $modelCollectionClass = Leads::class;
 
     protected static $methods = [
-        'query' => 'get:selectionElements'
+        'query' => 'get:createQueryBuilder'
     ];
 }

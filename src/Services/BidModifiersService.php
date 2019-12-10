@@ -33,8 +33,8 @@ class BidModifiersService extends Service
     protected static $modelCollectionClass = BidModifiers::class;
 
     protected static $methods = [
-        'delete' => 'delete:actionByIds',
-        'query' => 'get:selectionElements'
+        'delete' => 'delete:actionById',
+        'query' => 'get:createQueryBuilder'
     ];
 
     /**

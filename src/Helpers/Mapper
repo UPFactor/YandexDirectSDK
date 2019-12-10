@@ -1228,7 +1228,7 @@ class ServiceMap extends ClassMap
                     ]));
                     break;
 
-                case 'actionByIds':
+                case 'actionById':
                     $this->methods->push(new MethodMap($this->class, [
                         'name' => $alias,
                         'own' => false,
@@ -1246,7 +1246,7 @@ class ServiceMap extends ClassMap
                     ]));
                     break;
 
-                case 'selectionElements':
+                case 'createQueryBuilder':
                     $this->methods->push(new MethodMap($this->class, [
                         'name' => $alias,
                         'own' => false,
@@ -1257,7 +1257,7 @@ class ServiceMap extends ClassMap
                     ]));
                     break;
 
-                case 'selectionByIds':
+                case 'selectById':
                     $this->methods->push(new MethodMap($this->class, [
                         'name' => $alias,
                         'own' => false,

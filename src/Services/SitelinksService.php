@@ -28,8 +28,8 @@ class SitelinksService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'delete' => 'delete:actionByIds',
-        'find' => 'get:selectionByIds'
+        'delete' => 'delete:actionById',
+        'find' => 'get:selectById'
     ];
 
     /**
@@ -37,7 +37,7 @@ class SitelinksService extends Service
      */
     public function query() : QueryBuilder
     {
-        return static::selectionElements('get', function($query){
+        return static::createQueryBuilder('get', function($query){
             if (empty($query['SelectionCriteria'])){
                 unset($query['SelectionCriteria']);
             }

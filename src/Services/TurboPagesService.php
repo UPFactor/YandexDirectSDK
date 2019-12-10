@@ -22,7 +22,7 @@ class TurboPagesService extends Service
     protected static $modelCollectionClass = TurboPages::class;
 
     protected static $methods = [
-        'find' => 'get:selectionByIds'
+        'find' => 'get:selectById'
     ];
 
     /**
@@ -30,7 +30,7 @@ class TurboPagesService extends Service
      */
     public static function query() : QueryBuilder
     {
-        return static::selectionElements('get', function($query){
+        return static::createQueryBuilder('get', function($query){
             if (empty($query['SelectionCriteria'])){
                 unset($query['SelectionCriteria']);
             }

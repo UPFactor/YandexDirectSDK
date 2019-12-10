@@ -27,7 +27,7 @@ class ClientsService extends Service
     protected static $modelCollectionClass = Clients::class;
 
     protected static $methods = [
-        'query' => 'get:selectionElements'
+        'query' => 'get:createQueryBuilder'
     ];
 
     /**

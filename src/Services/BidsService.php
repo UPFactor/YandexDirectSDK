@@ -27,7 +27,7 @@ class BidsService extends Service
     protected static $modelCollectionClass = Bids::class;
 
     protected static $methods = [
-        'query' => 'get:selectionElements',
+        'query' => 'get:createQueryBuilder',
     ];
 
     /**

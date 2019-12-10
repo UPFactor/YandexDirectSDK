@@ -30,9 +30,9 @@ class RetargetingListsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'delete' => 'delete:actionByIds',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
+        'delete' => 'delete:actionById',
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
         'update' => 'update:updateCollection'
     ];
 }

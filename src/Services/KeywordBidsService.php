@@ -27,7 +27,7 @@ class KeywordBidsService extends Service
     protected static $modelCollectionClass = KeywordBids::class;
 
     protected static $methods = [
-        'query' => 'get:selectionElements',
+        'query' => 'get:createQueryBuilder',
     ];
 
     /**

@@ -30,6 +30,6 @@ class AgencyClientsService extends Service
     protected static $methods = [
         'create' => 'add:addModel',
         'update' => 'update:updateCollection',
-        'query' => 'get:selectionElements'
+        'query' => 'get:createQueryBuilder'
     ];
 }

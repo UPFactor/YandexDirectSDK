@@ -33,11 +33,11 @@ class DynamicTextAdTargetsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
-        'delete' => 'delete:actionByIds',
-        'resume' => 'resume:actionByIds',
-        'suspend' => 'suspend:actionByIds'
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
+        'delete' => 'delete:actionById',
+        'resume' => 'resume:actionById',
+        'suspend' => 'suspend:actionById'
     ];
 
     /**

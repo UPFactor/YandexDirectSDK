@@ -36,11 +36,11 @@ class KeywordsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'delete' => 'delete:actionByIds',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
-        'resume' => 'resume:actionByIds',
-        'suspend' => 'suspend:actionByIds',
+        'delete' => 'delete:actionById',
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
+        'resume' => 'resume:actionById',
+        'suspend' => 'suspend:actionById',
         'update' => 'update:updateCollection',
     ];
 

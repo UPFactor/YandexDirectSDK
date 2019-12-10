@@ -226,6 +226,21 @@ abstract class Service
     }
 
     /**
+     * Typical method for updating model data.
+     *
+     * @param string $methodName
+     * @param ModelInterface $model
+     * @return Result
+     */
+    protected static function updateModel(string $methodName, ModelInterface $model): Result
+    {
+        $result = static::call($methodName, $model->toArray(Model::IS_UPDATABLE));
+        return $result->setResource(
+            $model->insert($result->data)
+        );
+    }
+
+    /**
      * Typical method for adding collection data
      *
      * @param string $methodName
@@ -256,21 +271,6 @@ abstract class Service
 
         return $result->setResource(
             $collection->insert($result->data->get($resultClassName))
-        );
-    }
-
-    /**
-     * Typical method for updating model data.
-     *
-     * @param string $methodName
-     * @param ModelInterface $model
-     * @return Result
-     */
-    protected static function updateModel(string $methodName, ModelInterface $model): Result
-    {
-        $result = static::call($methodName, $model->toArray(Model::IS_UPDATABLE));
-        return $result->setResource(
-            $model->insert($result->data)
         );
     }
 
@@ -309,21 +309,21 @@ abstract class Service
     }
 
     /**
-     * Typical data selection method.
+     * Creating a query builder.
      *
      * @param string $methodName
-     * @param Closure|null $handler
+     * @param Closure|null $queryHandler
      * @return QueryBuilder
      */
-    protected static function selectionElements(string $methodName, Closure $handler = null): QueryBuilder
+    protected static function createQueryBuilder(string $methodName, Closure $queryHandler = null): QueryBuilder
     {
         if (is_null(static::boot()->modelClass) or is_null(static::boot()->modelCollectionClass)){
             throw ServiceException::serviceNotSupportMethod(static::class, $methodName);
         }
 
         return new QueryBuilder(
-            function (QueryBuilder $query, $modifier) use ($methodName, $handler){
-                $result = static::call($methodName, is_null($handler) ? $query->toArray() : $handler($query->toArray()));
+            function (QueryBuilder $query, $modifier) use ($methodName, $queryHandler){
+                $result = static::call($methodName, is_null($queryHandler) ? $query->toArray() : $queryHandler($query->toArray()));
                 $result = $result->data->get(static::boot()->modelCollectionClass::getClassName());
 
                 if (is_null($result)){
@@ -351,9 +351,9 @@ abstract class Service
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    protected static function selectionByIds(string $methodName, $elements, array $fields = [])
+    protected static function selectById(string $methodName, $elements, array $fields = [])
     {
-        $query = static::selectionElements($methodName)
+        $query = static::createQueryBuilder($methodName)
             ->select('Id', ...$fields)
             ->whereIn('Ids', $elements);
 
@@ -373,7 +373,7 @@ abstract class Service
      * @param string $actionProperty
      * @return Result
      */
-    protected static function actionByProperty(string $methodName, $elements, $modelProperty, $actionProperty): Result
+    protected static function actionByProperty(string $methodName, $elements, string $modelProperty, string $actionProperty): Result
     {
         if ($elements instanceof ModelCommonInterface){
             if ($elements instanceof ModelCollectionInterface){
@@ -397,7 +397,7 @@ abstract class Service
      * @param ModelCommonInterface|string[]|integer[]|string|integer $elements
      * @return Result
      */
-    protected static function actionByIds(string $methodName, $elements): Result
+    protected static function actionById(string $methodName, $elements): Result
     {
         return static::actionByProperty($methodName, $elements, 'id', 'Ids');
     }

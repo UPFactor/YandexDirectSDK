@@ -27,7 +27,7 @@ class AdImagesService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'query' => 'get:selectionElements',
+        'query' => 'get:createQueryBuilder',
     ];
 
     /**

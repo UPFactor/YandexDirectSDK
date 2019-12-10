@@ -29,8 +29,8 @@ class AdExtensionsService extends Service
 
     protected static $methods = [
         'create' => 'add:addCollection',
-        'query' => 'get:selectionElements',
-        'find' => 'get:selectionByIds',
-        'delete' => 'delete:actionByIds'
+        'query' => 'get:createQueryBuilder',
+        'find' => 'get:selectById',
+        'delete' => 'delete:actionById'
     ];
 }
