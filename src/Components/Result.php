@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Components;
 
+use Closure;
 use Exception;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\RequestException;
@@ -12,18 +13,20 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 /**
  * Class Result
  *
- * @property-read string                                        $response
- * @property-read Data                                          $data
- * @property-read ModelInterface|ModelCollectionInterface       $resource
- * @property-read integer                                       $code
- * @property-read array                                         $header
- * @property-read string                                        $requestId
- * @property-read integer                                       $unitsSpent
- * @property-read integer                                       $unitsBalance
- * @property-read integer                                       $unitsLimit
- * @property-read string                                        $unitsUsedLogin
- * @property-read Data                                          $errors
- * @property-read Data                                          $warnings
+ * @property-read string                                            $response
+ * @property-read Data                                              $data
+ * @property-read null|ModelInterface|ModelCollectionInterface      $resource
+ * @property-read null|ModelInterface|ModelCollectionInterface      $successfulResource
+ * @property-read null|ModelInterface|ModelCollectionInterface      $failedResource
+ * @property-read integer                                           $code
+ * @property-read array                                             $header
+ * @property-read string                                            $requestId
+ * @property-read integer                                           $unitsSpent
+ * @property-read integer                                           $unitsBalance
+ * @property-read integer                                           $unitsLimit
+ * @property-read string                                            $unitsUsedLogin
+ * @property-read Data                                              $errors
+ * @property-read Data                                              $warnings
  *
  * @package YandexDirectSDK\Components
  */
@@ -101,6 +104,20 @@ class Result
      * @var ModelInterface|ModelCollectionInterface
      */
     protected $resource;
+
+    /**
+     * Result related successful resources.
+     *
+     * @var ModelInterface|ModelCollectionInterface
+     */
+    protected $successfulResource;
+
+    /**
+     * Result related failed resources.
+     *
+     * @var ModelInterface|ModelCollectionInterface
+     */
+    protected $failedResource;
 
     /**
      * Error stack.
@@ -303,6 +320,16 @@ class Result
     public function setResource(ModelCommonInterface $resource)
     {
         $this->resource = $resource;
+        if ($resource instanceof ModelCollectionInterface){
+            $this->successfulResource = $resource->not($this->errors->keys());
+            $this->failedResource = $resource->only($this->errors->keys());
+        } else {
+            if ($this->errors->isEmpty()){
+                $this->successfulResource = $resource;
+            } else {
+                $this->failedResource = $resource;
+            }
+        }
         return $this;
     }
 
@@ -315,6 +342,72 @@ class Result
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Returns the successful resource associated with the current response
+     * of the API server.
+     *
+     * @return ModelInterface|ModelCollectionInterface|null
+     */
+    public function getSuccessfulResource()
+    {
+        return $this->successfulResource;
+    }
+
+    /**
+     * Returns the failed resource associated with the current response
+     * of the API server.
+     *
+     * @return ModelInterface|ModelCollectionInterface|null
+     */
+    public function getFailedResource()
+    {
+        return $this->failedResource;
+    }
+
+    /**
+     * Execute callback function for the successful resource associated
+     * with the current API server response.
+     *
+     * @param Closure $closure
+     * @return $this
+     */
+    public function forSuccessfulResource(Closure $closure)
+    {
+        if (!is_null($this->successfulResource)){
+            if ($this->successfulResource instanceof ModelCollectionInterface) {
+                if ($this->successfulResource->isNotEmpty()) {
+                    $closure($this->successfulResource);
+                }
+            } elseif ($this->successfulResource instanceof ModelInterface) {
+                $closure($this->successfulResource);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Execute callback function for failed resource associated
+     * with the current response of the API server.
+     *
+     * @param Closure $closure
+     * @return $this
+     */
+    public function forFailedResource(Closure $closure)
+    {
+        if (!is_null($this->failedResource)){
+            if ($this->failedResource instanceof ModelCollectionInterface) {
+                if ($this->failedResource->isNotEmpty()) {
+                    $closure($this->failedResource, $this->errors);
+                }
+            } elseif ($this->failedResource instanceof ModelInterface) {
+                $closure($this->failedResource, $this->errors);
+            }
+        }
+
+        return $this;
     }
 
     /**

@@ -155,6 +155,15 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
     public function only($keys);
 
     /**
+     * Get a new collection based on the current one, eliminating
+     * a subset of items.
+     *
+     * @param string|array $keys
+     * @return static
+     */
+    public function not($keys);
+
+    /**
      * Returns all elements of the collection except the last.
      * Pass the "Number" parameter to exclude more elements from the ending of the collection.
      *
