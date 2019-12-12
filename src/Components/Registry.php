@@ -2,8 +2,8 @@
 
 namespace YandexDirectSDK\Components;
 
-use UPTools\CollectionBaseTrait;
-use UPTools\CollectionMapTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\MapTrait;
 
 /**
  * Class Registry
@@ -11,8 +11,5 @@ use UPTools\CollectionMapTrait;
  * @package YandexDirectSDK\Components
  */
 class Registry {
-
-    use CollectionBaseTrait,
-        CollectionMapTrait;
-
+    use BaseTrait, MapTrait;
 }

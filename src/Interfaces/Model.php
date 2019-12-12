@@ -57,4 +57,10 @@ interface Model extends ModelCommon
      */
     public function getPropertyValue($property);
 
+    /**
+     * Converts the current model to collection
+     *
+     * @return ModelCollectionInterface
+     */
+    public function toCollection();
 }

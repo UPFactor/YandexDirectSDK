@@ -388,6 +388,19 @@ abstract class Model implements ModelInterface
     }
 
     /**
+     * Converts the current model to collection
+     *
+     * @return ModelCollectionInterface
+     */
+    public function toCollection()
+    {
+        if (is_null($collection = static::getCompatibleCollectionClass())){
+            throw ModelException::modelNotSupportConversion($collection, 'toCollection');
+        }
+        return $collection::make($this);
+    }
+
+    /**
      * Insert properties into the model.
      *
      * @param Data|array $source
@@ -503,6 +516,10 @@ abstract class Model implements ModelInterface
      */
     public function getPropertyValue($property)
     {
+        if (is_string($property)){
+            $property = lcfirst($property);
+        }
+
         if (!static::boot()->hasProperty($property)){
             throw ModelException::modelPropertyNotExist(static::class, $property);
         }

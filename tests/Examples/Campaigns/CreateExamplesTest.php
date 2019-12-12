@@ -123,7 +123,6 @@ class CreateExamplesTest extends TestCase
 
         Checklists::checkResource($result, Campaigns::class, ['Id' => 'required|integer']);
         $campaign->delete();
-
     }
 
     /**

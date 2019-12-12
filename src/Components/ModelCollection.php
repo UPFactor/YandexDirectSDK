@@ -4,7 +4,9 @@ namespace YandexDirectSDK\Components;
 
 use ReflectionClass;
 use UPTools\Arr;
-use UPTools\CollectionBaseTrait;
+use UPTools\Components\Collection\ArrayAccessTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\MapTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 use YandexDirectSDK\Exceptions\ModelCollectionException;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
@@ -17,7 +19,9 @@ use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
  */
 abstract class ModelCollection implements ModelCollectionInterface
 {
-    use CollectionBaseTrait;
+    use BaseTrait,
+        MapTrait,
+        ArrayAccessTrait;
 
     /**
      * Boot data registry.
@@ -53,11 +57,6 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @var ModelInterface[]
      */
     protected $items = [];
-
-    /**
-     * @var int
-     */
-    protected $position = 0;
 
     /**
      * Returns object name.
@@ -196,67 +195,6 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Rewind the Iterator to the first element.
-     *
-     * @return void
-     */
-    public function rewind()
-    {
-        $this->position = 0;
-    }
-
-    /**
-     * Return the current element.
-     *
-     * @return ModelInterface
-     */
-    public function current()
-    {
-        return $this->items[$this->position];
-    }
-
-    /**
-     * Move forward to next element.
-     *
-     * @return void
-     */
-    public function next()
-    {
-        ++$this->position;
-    }
-
-    /**
-     * Return the key of the current element.
-     *
-     * @return int
-     */
-    public function key()
-    {
-        return $this->position;
-    }
-
-    /**
-     * Checks if current position is valid.
-     *
-     * @return bool
-     */
-    public function valid()
-    {
-        return isset($this->items[$this->position]);
-    }
-
-    /**
-     * Seeks to a position.
-     *
-     * @param int $position
-     * @return ModelInterface
-     */
-    public function seek($position)
-    {
-        return $this->items[$position];
-    }
-
-    /**
      * Retrieve the collection hash.
      *
      * @return string
@@ -334,17 +272,14 @@ abstract class ModelCollection implements ModelCollectionInterface
             if (!($source instanceof Data)){
                 return $this;
             }
-
-            $source = $source->all();
+            $source = $source->unwrap();
         }
 
         foreach ($source as $index => $model){
             if (array_key_exists($index, $this->items)){
                 $this->items[$index]->insert($model);
             } else {
-                $this->push(
-                    static::$compatibleModel::make($model)
-                );
+                $this->push(static::$compatibleModel::make($model));
             }
         }
 
@@ -359,6 +294,10 @@ abstract class ModelCollection implements ModelCollectionInterface
      */
     public function toArray($filter = 0)
     {
+        if ($filter !== 0){
+            $this->items = array_values($this->items);
+        }
+
         return Arr::map($this->items, function(ModelInterface $item) use ($filter){
             return $item->toArray($filter);
         });
@@ -397,8 +336,8 @@ abstract class ModelCollection implements ModelCollectionInterface
             throw InvalidArgumentException::modelCollectionMerge(static::class,  'array', $models);
         }
 
-        return Arr::map($models, function($item){
-            return $this->dataItemController($item);
+        return Arr::map($models, function($item, $key){
+            return $this->dataItemController($item, $key);
         });
     }
 
@@ -406,10 +345,15 @@ abstract class ModelCollection implements ModelCollectionInterface
      * Preprocessor adding new items to the collection.
      *
      * @param ModelInterface|array $model
+     * @param integer|null $key
      * @return ModelInterface
      */
-    protected function dataItemController($model)
+    protected function dataItemController($model, $key = null)
     {
+        if (!is_null($key) and !is_integer($key)){
+            throw InvalidArgumentException::modelCollectionKey(static::class, 'integer', $key);
+        }
+
         if (is_array($model)){
             return (static::$compatibleModel)::make()->insert($model);
         }

@@ -4,47 +4,50 @@ namespace YandexDirectSDK\Components;
 
 use Closure;
 use UPTools\Arr;
-use UPTools\CollectionBaseTrait;
-use UPTools\CollectionMapTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\MapTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 
 /**
  * Class ServiceMethodCollection
  *
- * @method static ServiceMethodCollection make(...$values)
- * @method static ServiceMethodCollection wrap(ServiceMethod[] $value)
- * @method ServiceMethodCollection reset(ServiceMethod[] $value = [])
- * @method string hash()
- * @method ServiceMethodCollection copy()
- * @method ServiceMethod[] all()
- * @method integer count()
- * @method boolean isEmpty(Closure $callable = null)
- * @method boolean isNotEmpty(Closure $callable = null)
- * @method array keys()
- * @method array values()
- * @method array divide()
- * @method ServiceMethod|mixed|null first($default = null, $callback = null)
- * @method ServiceMethod|mixed|null last($default = null, $callback = null)
- * @method ServiceMethod|mixed|null shift($default = null)
- * @method ServiceMethod|mixed|null pop($default = null)
- * @method ServiceMethodCollection initial($count = 1)
- * @method ServiceMethodCollection tail($count = 1)
- * @method ServiceMethodCollection map(Closure $callable, $context = null)
- * @method $this each(Closure $callable, $context = null)
- * @method ServiceMethodCollection filter(Closure $callable, $context = null)
- * @method ServiceMethodCollection slice($offset, $length = null)
- * @method ServiceMethod|ServiceMethod[] get($keys, $default = null)
- * @method ServiceMethod|ServiceMethod[] pull($keys, $default = null)
- * @method boolean has($keys, $strict = false)
- * @method ServiceMethodCollection remove($keys)
- * @method ServiceMethodCollection except($keys)
+ * @method static ServiceMethodCollection     make(...$values)
+ * @method static ServiceMethodCollection     wrap(ServiceMethod[] $value)
+ *
+ * @method ServiceMethod[]                    unwrap()
+ * @method ServiceMethodCollection            copy()
+ * @method ServiceMethodCollection            reset(ServiceMethod[] $value = [])
+ * @method string                             hash()
+ * @method ServiceMethod[]                    all()
+ * @method integer                            count()
+ * @method boolean                            isEmpty(Closure $callable = null)
+ * @method boolean                            isNotEmpty(Closure $callable = null)
+ * @method array                              keys()
+ * @method array                              values()
+ * @method array                              divide()
+ * @method ServiceMethod|mixed|null           first($default = null, $callback = null)
+ * @method ServiceMethod|mixed|null           last($default = null, $callback = null)
+ * @method ServiceMethod|mixed|null           shift($default = null)
+ * @method ServiceMethod|mixed|null           pop($default = null)
+ * @method ServiceMethodCollection            only($keys)
+ * @method ServiceMethodCollection            not($keys)
+ * @method ServiceMethodCollection            initial($count = 1)
+ * @method ServiceMethodCollection            tail($count = 1)
+ * @method ServiceMethodCollection            map(Closure $callable, $context = null)
+ * @method $this                              each(Closure $callable, $context = null)
+ * @method ServiceMethodCollection            filter(Closure $callable, $context = null)
+ * @method ServiceMethodCollection            slice($offset, $length = null)
+ * @method ServiceMethod|ServiceMethod[]      get($keys, $default = null)
+ * @method ServiceMethod|ServiceMethod[]      pull($keys, $default = null)
+ * @method boolean                            has($keys, $strict = false)
+ * @method $this                              remove($keys)
  *
  * @package YandexDirectSDK\Components
  */
 class ServiceMethodCollection
 {
-    use CollectionBaseTrait,
-        CollectionMapTrait;
+    use BaseTrait,
+        MapTrait;
 
     /**
      * Create a new collection.

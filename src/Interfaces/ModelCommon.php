@@ -4,6 +4,7 @@ namespace YandexDirectSDK\Interfaces;
 
 use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Components\Service;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
  * Interface ModelsCommon

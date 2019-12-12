@@ -97,6 +97,11 @@ class InvalidArgumentException extends BaseException
         return new static($collectionClass . ". Invalid model collection item. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");
     }
 
+    public static function modelCollectionKey($collectionClass, $expected, $actual)
+    {
+        return new static($collectionClass . ". Invalid model collection key. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");
+    }
+
     public static function modelCollectionMerge($collectionClass, $expected, $actual)
     {
         return new static ($collectionClass . ". Invalid model collection merge. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");

@@ -2,24 +2,29 @@
 
 namespace YandexDirectSDK\Components;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 use UPTools\Arr;
-use UPTools\CollectionBaseTrait;
-use UPTools\CollectionConversionTrait;
-use UPTools\CollectionFusionTrait;
-use UPTools\CollectionMathsTrait;
-use UPTools\CollectionMultipleTrait;
-use UPTools\CollectionSetTrait;
-use UPTools\CollectionSortingTrait;
+use UPTools\Components\Collection\ArrayAccessTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\ConversionTrait;
+use UPTools\Components\Collection\FusionTrait;
+use UPTools\Components\Collection\MathsTrait;
+use UPTools\Components\Collection\MultipleTrait;
+use UPTools\Components\Collection\SetTrait;
+use UPTools\Components\Collection\SortingTrait;
 
-class Data
+class Data implements Countable, IteratorAggregate, ArrayAccess
 {
-    use CollectionBaseTrait,
-        CollectionSortingTrait,
-        CollectionFusionTrait,
-        CollectionMultipleTrait,
-        CollectionSetTrait,
-        CollectionConversionTrait,
-        CollectionMathsTrait;
+    use BaseTrait,
+        ConversionTrait,
+        FusionTrait,
+        MultipleTrait,
+        SetTrait,
+        SortingTrait,
+        MathsTrait,
+        ArrayAccessTrait;
 
     /**
      * Create a new Data instance.

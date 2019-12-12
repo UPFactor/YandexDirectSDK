@@ -4,47 +4,50 @@ namespace YandexDirectSDK\Components;
 
 use Closure;
 use UPTools\Arr;
-use UPTools\CollectionBaseTrait;
-use UPTools\CollectionMapTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\MapTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 
 /**
  * Class ModelPropertyCollection
  *
- * @method static ModelPropertyCollection make(...$values)
- * @method static ModelPropertyCollection wrap(ModelProperty[] $value)
- * @method ModelPropertyCollection reset(ModelProperty[] $value = [])
- * @method string hash()
- * @method ModelPropertyCollection copy()
- * @method ModelProperty[] all()
- * @method integer count()
- * @method boolean isEmpty(Closure $callable = null)
- * @method boolean isNotEmpty(Closure $callable = null)
- * @method array keys()
- * @method array values()
- * @method array divide()
- * @method ModelProperty|mixed|null first($default = null, $callback = null)
- * @method ModelProperty|mixed|null last($default = null, $callback = null)
- * @method ModelProperty|mixed|null shift($default = null)
- * @method ModelProperty|mixed|null pop($default = null)
- * @method ModelPropertyCollection initial($count = 1)
- * @method ModelPropertyCollection tail($count = 1)
- * @method ModelPropertyCollection map(Closure $callable, $context = null)
- * @method $this each(Closure $callable, $context = null)
- * @method ModelPropertyCollection filter(Closure $callable, $context = null)
- * @method ModelPropertyCollection slice($offset, $length = null)
- * @method ModelProperty|ModelProperty[] get($keys, $default = null)
- * @method ModelProperty|ModelProperty[] pull($keys, $default = null)
- * @method boolean has($keys, $strict = false)
- * @method ModelPropertyCollection remove($keys)
- * @method ModelPropertyCollection except($keys)
+ * @method static ModelPropertyCollection     make(...$values)
+ * @method static ModelPropertyCollection     wrap(ModelProperty[] $value)
+ *
+ * @method ModelProperty[]                    unwrap()
+ * @method ModelPropertyCollection            copy()
+ * @method ModelPropertyCollection            reset(ModelProperty[] $value = [])
+ * @method string                             hash()
+ * @method ModelProperty[]                    all()
+ * @method integer                            count()
+ * @method boolean                            isEmpty(Closure $callable = null)
+ * @method boolean                            isNotEmpty(Closure $callable = null)
+ * @method array                              keys()
+ * @method array                              values()
+ * @method array                              divide()
+ * @method ModelProperty|mixed|null           first($default = null, $callback = null)
+ * @method ModelProperty|mixed|null           last($default = null, $callback = null)
+ * @method ModelProperty|mixed|null           shift($default = null)
+ * @method ModelProperty|mixed|null           pop($default = null)
+ * @method ModelPropertyCollection            only($keys)
+ * @method ModelPropertyCollection            not($keys)
+ * @method ModelPropertyCollection            initial($count = 1)
+ * @method ModelPropertyCollection            tail($count = 1)
+ * @method ModelPropertyCollection            map(Closure $callable, $context = null)
+ * @method $this                              each(Closure $callable, $context = null)
+ * @method ModelPropertyCollection            filter(Closure $callable, $context = null)
+ * @method ModelPropertyCollection            slice($offset, $length = null)
+ * @method ModelProperty|ModelProperty[]      get($keys, $default = null)
+ * @method ModelProperty|ModelProperty[]      pull($keys, $default = null)
+ * @method boolean                            has($keys, $strict = false)
+ * @method $this                              remove($keys)
  *
  * @package YandexDirectSDK\Components
  */
 class ModelPropertyCollection
 {
-    use CollectionBaseTrait,
-        CollectionMapTrait;
+    use BaseTrait,
+        MapTrait;
 
     /**
      * Create a new collection.

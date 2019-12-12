@@ -5,6 +5,7 @@ namespace YandexDirectSDK\Components;
 use Closure;
 use UPTools\Arr;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
+use YandexDirectSDK\Exceptions\ModelException;
 use YandexDirectSDK\Exceptions\ServiceException;
 use YandexDirectSDK\Session;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
@@ -252,11 +253,11 @@ abstract class Service
     protected static function addCollection(string $methodName, ModelCommonInterface $collection, $addClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::getCompatibleCollectionClass())){
+            try {
+                $collection = $collection->toCollection();
+            } catch (ModelException $error) {
                 throw ServiceException::modelNotSupportMethod($collection, $methodName);
             }
-
-            $collection = $modelCollection::make($collection);
         }
 
         if (is_null($addClassName)){
@@ -286,11 +287,11 @@ abstract class Service
     protected static function updateCollection(string $methodName, ModelCommonInterface $collection, $updateClassName = null, $resultClassName = null): Result
     {
         if ($collection instanceof ModelInterface){
-            if (is_null($modelCollection = $collection::getCompatibleCollectionClass())){
+            try {
+                $collection = $collection->toCollection();
+            } catch (ModelException $error) {
                 throw ServiceException::modelNotSupportMethod($collection, $methodName);
             }
-
-            $collection = $modelCollection::make($collection);
         }
 
         if (is_null($updateClassName)){
@@ -347,17 +348,17 @@ abstract class Service
      * Typical data selection method by id.
      *
      * @param string $methodName
-     * @param integer|integer[]|string|string[] $elements
+     * @param integer|integer[]|string|string[] $ids
      * @param array $fields
      * @return ModelInterface|ModelCollectionInterface|null
      */
-    protected static function selectById(string $methodName, $elements, array $fields = [])
+    protected static function selectById(string $methodName, $ids, array $fields = [])
     {
         $query = static::createQueryBuilder($methodName)
             ->select('Id', ...$fields)
-            ->whereIn('Ids', $elements);
+            ->whereIn('Ids', $ids);
 
-        if (!is_array($elements) or count($elements) === 1){
+        if (!is_array($ids) or count($ids) === 1){
             return $query->first();
         } else {
             return $query->get();
@@ -369,25 +370,39 @@ abstract class Service
      *
      * @param string $methodName
      * @param ModelCommonInterface|string[]|integer[]|string|integer $elements
-     * @param string $modelProperty
-     * @param string $actionProperty
+     * @param string $property
+     * @param string $criteria
      * @return Result
      */
-    protected static function actionByProperty(string $methodName, $elements, string $modelProperty, string $actionProperty): Result
+    protected static function actionByProperty(string $methodName, $elements, string $criteria = 'Ids', string $property = 'id'): Result
     {
-        if ($elements instanceof ModelCommonInterface){
-            if ($elements instanceof ModelCollectionInterface){
-                $elements = $elements->extract($modelProperty);
-            } elseif ($elements instanceof ModelInterface){
-                $elements = $elements->getPropertyValue($modelProperty);
-            } else {
-                throw InvalidArgumentException::serviceMethod(static::class, $methodName, ModelCollectionInterface::class."|".ModelInterface::class);
-            }
-        } elseif (!is_array($elements)) {
-            $elements = [$elements];
+        if (is_null(static::boot()->modelClass) or is_null(static::boot()->modelCollectionClass)){
+            throw ServiceException::serviceNotSupportMethod(static::class, $methodName);
         }
 
-        return static::call($methodName, (new QueryBuilder())->whereIn($actionProperty, $elements)->toArray());
+        if ($elements instanceof ModelCommonInterface){
+            if ($elements instanceof ModelInterface){
+                try {
+                    $elements = $elements->toCollection();
+                } catch (ModelException $error) {
+                    throw ServiceException::modelNotSupportMethod($elements, $methodName);
+                }
+            }
+            $resource = $elements;
+            $elements = $elements->extract($property);
+        } else {
+            $resource = static::boot()->modelCollectionClass::make();
+            $elements = is_array($elements) ? $elements : [$elements];
+            foreach ($elements as $element){
+                if (!is_string($element) and !is_integer($element)){
+                    throw InvalidArgumentException::serviceMethod(static::class, $methodName, "int|int[]|string|string[]|".ModelCollectionInterface::class."|".ModelInterface::class);
+                }
+                $resource->push(static::boot()->modelClass::make([$property => $element]));
+            }
+        }
+
+        return static::call($methodName, (new QueryBuilder())->whereIn($criteria, $elements)->toArray())
+            ->setResource($resource);
     }
 
     /**
@@ -399,6 +414,6 @@ abstract class Service
      */
     protected static function actionById(string $methodName, $elements): Result
     {
-        return static::actionByProperty($methodName, $elements, 'id', 'Ids');
+        return static::actionByProperty($methodName, $elements);
     }
 }

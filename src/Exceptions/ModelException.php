@@ -23,4 +23,9 @@ class ModelException extends BaseException
     {
         return new static("{$modelClass}::{$methodName}() does not exist.");
     }
+
+    public static function modelNotSupportConversion(string $modelClass, string $methodName)
+    {
+        return new static("{$modelClass}::{$methodName}(). Model does not support this type of conversion.");
+    }
 }

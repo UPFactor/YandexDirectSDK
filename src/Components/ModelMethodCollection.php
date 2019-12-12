@@ -4,47 +4,50 @@ namespace YandexDirectSDK\Components;
 
 use Closure;
 use UPTools\Arr;
-use UPTools\CollectionBaseTrait;
-use UPTools\CollectionMapTrait;
+use UPTools\Components\Collection\BaseTrait;
+use UPTools\Components\Collection\MapTrait;
 use YandexDirectSDK\Exceptions\InvalidArgumentException;
 
 /**
  * Class ModelMethodCollection
  *
- * @method static ModelMethodCollection make(...$values)
- * @method static ModelMethodCollection wrap(ModelMethod[] $value)
- * @method ModelMethodCollection reset(ModelMethod[] $value = [])
- * @method string hash()
- * @method ModelMethodCollection copy()
- * @method ModelMethod[] all()
- * @method integer count()
- * @method boolean isEmpty(Closure $callable = null)
- * @method boolean isNotEmpty(Closure $callable = null)
- * @method array keys()
- * @method array values()
- * @method array divide()
- * @method ModelMethod|mixed|null first($default = null, $callback = null)
- * @method ModelMethod|mixed|null last($default = null, $callback = null)
- * @method ModelMethod|mixed|null shift($default = null)
- * @method ModelMethod|mixed|null pop($default = null)
- * @method ModelMethodCollection initial($count = 1)
- * @method ModelMethodCollection tail($count = 1)
- * @method ModelMethodCollection map(Closure $callable, $context = null)
- * @method $this each(Closure $callable, $context = null)
- * @method ModelMethodCollection filter(Closure $callable, $context = null)
- * @method ModelMethodCollection slice($offset, $length = null)
- * @method ModelMethod|ModelMethod[] get($keys, $default = null)
- * @method ModelMethod|ModelMethod[] pull($keys, $default = null)
- * @method boolean has($keys, $strict = false)
- * @method ModelMethodCollection remove($keys)
- * @method ModelMethodCollection except($keys)
+ * @method static ModelMethodCollection     make(...$values)
+ * @method static ModelMethodCollection     wrap(ModelMethod[] $value)
+ *
+ * @method ModelMethod[]                    unwrap()
+ * @method ModelMethodCollection            copy()
+ * @method ModelMethodCollection            reset(ModelMethod[] $value = [])
+ * @method string                           hash()
+ * @method ModelMethod[]                    all()
+ * @method integer                          count()
+ * @method boolean                          isEmpty(Closure $callable = null)
+ * @method boolean                          isNotEmpty(Closure $callable = null)
+ * @method array                            keys()
+ * @method array                            values()
+ * @method array                            divide()
+ * @method ModelMethod|mixed|null           first($default = null, $callback = null)
+ * @method ModelMethod|mixed|null           last($default = null, $callback = null)
+ * @method ModelMethod|mixed|null           shift($default = null)
+ * @method ModelMethod|mixed|null           pop($default = null)
+ * @method ModelMethodCollection            only($keys)
+ * @method ModelMethodCollection            not($keys)
+ * @method ModelMethodCollection            initial($count = 1)
+ * @method ModelMethodCollection            tail($count = 1)
+ * @method ModelMethodCollection            map(Closure $callable, $context = null)
+ * @method $this                            each(Closure $callable, $context = null)
+ * @method ModelMethodCollection            filter(Closure $callable, $context = null)
+ * @method ModelMethodCollection            slice($offset, $length = null)
+ * @method ModelMethod|ModelMethod[]        get($keys, $default = null)
+ * @method ModelMethod|ModelMethod[]        pull($keys, $default = null)
+ * @method boolean                          has($keys, $strict = false)
+ * @method $this                            remove($keys)
  *
  * @package YandexDirectSDK\Components
  */
 class ModelMethodCollection
 {
-    use CollectionBaseTrait,
-        CollectionMapTrait;
+    use BaseTrait,
+        MapTrait;
 
     /**
      * Create a new collection.

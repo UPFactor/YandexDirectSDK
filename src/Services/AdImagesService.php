@@ -39,8 +39,9 @@ class AdImagesService extends Service
         return static::actionByProperty(
             'delete',
             $adImages,
-            'adImageHash',
-            'AdImageHashes'
+            'AdImageHashes',
+            'adImageHash'
+
         );
     }
 }

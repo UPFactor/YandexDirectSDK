@@ -598,7 +598,7 @@ class Result
 
         if (empty($sourceError)) {
             return $error;
-        };
+        }
 
         foreach ($sourceError as $k => $v){
             $k = str_replace(array('error_','request_'),'',$k);

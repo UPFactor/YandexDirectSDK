@@ -2,10 +2,10 @@
 
 namespace YandexDirectSDK\Interfaces;
 
+use ArrayAccess;
 use Closure;
 use Countable;
-use Iterator;
-use SeekableIterator;
+use IteratorAggregate;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 
 /**
@@ -13,7 +13,7 @@ use YandexDirectSDK\Interfaces\Model as ModelInterface;
  *
  * @package YandexDirectSDK\Interfaces
  */
-interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Countable
+interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * Returns class of compatible model.
@@ -226,6 +226,60 @@ interface ModelCollection extends ModelCommon, Iterator, SeekableIterator, Count
      * @return $this
      */
     public function push($value);
+
+    /**
+     * Get model/models from collection by key/keys.
+     *
+     * @param string|string[]|int|int[] $keys
+     * @param mixed|null $default
+     * @return ModelInterface|ModelInterface[]
+     */
+    public function get($keys, $default = null);
+
+    /**
+     * Get and delete model/models from collection by key/keys.
+     *
+     * @param string|string[]|int|int[] $keys
+     * @param mixed|null $default
+     * @return ModelInterface|ModelInterface[]
+     */
+    public function pull($keys, $default = null);
+
+    /**
+     * Check by key/keys if there is an model/models in the collection.
+     * Set the parameter [$strict], for additional checking for empty values.
+     *
+     * @param string|string[]|int|int[] $keys
+     * @param bool $strict
+     * @return bool
+     */
+    public function has($keys, $strict = false);
+
+    /**
+     * Set model to collection.
+     *
+     * @param string|int $key
+     * @param ModelInterface $value
+     * @return $this
+     */
+    public function set($key, $value);
+
+    /**
+     * Add model to collection, if it does not exist.
+     *
+     * @param string|int $key
+     * @param ModelInterface $value
+     * @return $this
+     */
+    public function add($key, $value);
+
+    /**
+     * Remove model/models from collection by key/keys.
+     *
+     * @param string|string[]|int|int[] $keys
+     * @return $this
+     */
+    public function remove($keys);
 
     /**
      * Extract the array of model property values from the collection.
