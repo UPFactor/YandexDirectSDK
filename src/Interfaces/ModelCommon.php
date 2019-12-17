@@ -3,8 +3,6 @@
 namespace YandexDirectSDK\Interfaces;
 
 use YandexDirectSDK\Components\Data;
-use YandexDirectSDK\Components\Service;
-use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
  * Interface ModelsCommon
@@ -22,14 +20,14 @@ interface ModelCommon
     /**
      * Returns the metadata of the declared methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getMethodsMeta();
 
     /**
      * Returns the metadata of the declared static methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getStaticMethodsMeta();
 
@@ -70,12 +68,4 @@ interface ModelCommon
      * @return string
      */
     public function toJson($filters = 0);
-
-    /**
-     * Insert data into the object.
-     *
-     * @param Data|array $source
-     * @return $this
-     */
-    public function insert($source);
 }

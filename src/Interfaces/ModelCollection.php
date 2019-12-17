@@ -6,7 +6,9 @@ use ArrayAccess;
 use Closure;
 use Countable;
 use IteratorAggregate;
+use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
  * Interface ModelCollection
@@ -222,7 +224,7 @@ interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, Arr
     /**
      * Push an item onto the end of the collection.
      *
-     * @param ModelInterface $value
+     * @param ModelInterface|array $value
      * @return $this
      */
     public function push($value);
@@ -259,7 +261,7 @@ interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, Arr
      * Set model to collection.
      *
      * @param string|int $key
-     * @param ModelInterface $value
+     * @param ModelInterface|array $value
      * @return $this
      */
     public function set($key, $value);
@@ -268,7 +270,7 @@ interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, Arr
      * Add model to collection, if it does not exist.
      *
      * @param string|int $key
-     * @param ModelInterface $value
+     * @param ModelInterface|array $value
      * @return $this
      */
     public function add($key, $value);
@@ -288,4 +290,12 @@ interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, Arr
      * @return array
      */
     public function extract($properties);
+
+    /**
+     * Insert data into the object.
+     *
+     * @param ModelCollectionInterface|ModelInterface[]|Data|array $source
+     * @return $this
+     */
+    public function insert($source);
 }

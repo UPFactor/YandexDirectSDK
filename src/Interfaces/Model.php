@@ -2,6 +2,7 @@
 
 namespace YandexDirectSDK\Interfaces;
 
+use YandexDirectSDK\Components\Data;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 
 /**
@@ -63,4 +64,12 @@ interface Model extends ModelCommon
      * @return ModelCollectionInterface
      */
     public function toCollection();
+
+    /**
+     * Insert data into the object.
+     *
+     * @param Data|array $source
+     * @return $this
+     */
+    public function insert($source);
 }

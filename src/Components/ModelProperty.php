@@ -5,6 +5,7 @@ namespace YandexDirectSDK\Components;
 use Exception;
 use UPTools\Arr;
 use YandexDirectSDK\Exceptions\ModelPropertyException;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
 /**
@@ -133,6 +134,10 @@ class ModelProperty
         if ($this->type === 'object'){
             if (count($this->permissibleValues) !== 1 or !is_subclass_of($this->permissibleValues[0], ModelCommonInterface::class)){
                 throw ModelPropertyException::inconsistentObjectTypeInSignature($signature[0] . ':' . $signature[1]);
+            }
+
+            if ($this->itemTag === true and !is_subclass_of($this->permissibleValues[0], ModelCollectionInterface::class)){
+                throw ModelPropertyException::inconsistentArrayOfObjectTypeInSignature($signature[0] . ':' . $signature[1]);
             }
             return;
         }

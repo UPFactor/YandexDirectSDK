@@ -125,7 +125,7 @@ abstract class Model implements ModelInterface
     /**
      * Returns the metadata of the declared methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getMethodsMeta()
     {
@@ -135,7 +135,7 @@ abstract class Model implements ModelInterface
     /**
      * Returns the metadata of the declared static methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getStaticMethodsMeta()
     {
@@ -348,7 +348,8 @@ abstract class Model implements ModelInterface
             if ($dataValue instanceof ModelCommonInterface){
                 if ($dataValue instanceof ModelInterface){
                     if (empty($dataValue = $dataValue->toArray($filter))){
-                        $dataValue = (object) [];
+                        $result[$dataKey] = null;
+                        continue;
                     }
                 } else {
                     $dataValue = $dataValue->toArray($filter);
@@ -408,15 +409,15 @@ abstract class Model implements ModelInterface
      */
     public function insert($source)
     {
-        if (empty($source)){
+        if (is_null($source)){
             return $this;
         }
 
         if (!is_array($source)){
             if (!($source instanceof Data)){
-                return $this;
+                throw InvalidArgumentException::modelInsert(static::class, Data::class . '|array', $source);
             }
-            $source = $source->all();
+            $source = $source->unwrap();
         }
 
         $properties = static::boot()->properties;

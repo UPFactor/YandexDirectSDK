@@ -71,7 +71,7 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Returns the metadata of the declared methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getMethodsMeta()
     {
@@ -81,7 +81,7 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Returns the metadata of the declared static methods.
      *
-     * @return Service[]
+     * @return array
      */
     public static function getStaticMethodsMeta()
     {
@@ -260,16 +260,19 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Insert model source into the collection.
      *
-     * @param Data|array $source
+     * @param ModelCollectionInterface|ModelInterface[]|Data|array $source
      * @return $this
      */
     public function insert($source)
     {
-        if (empty($source)) return $this;
-
-        if (!is_array($source)){
-            if (!($source instanceof Data)) return $this;
+        if ($source instanceof Data){
             $source = $source->unwrap();
+        } elseif (!is_array($source) and !($source instanceof ModelCollectionInterface)) {
+            throw InvalidArgumentException::modelCollectionInsert(
+                static::class,
+                static::class . "|" . Data::class . '|array',
+                $source
+            );
         }
 
         foreach ($source as $index => $model){
@@ -283,8 +286,8 @@ abstract class ModelCollection implements ModelCollectionInterface
                 $this->set($index, $model);
             }
         }
-        ksort($this->items);
 
+        ksort($this->items);
         return $this;
     }
 

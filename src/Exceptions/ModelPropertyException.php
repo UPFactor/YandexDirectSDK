@@ -3,6 +3,7 @@
 namespace YandexDirectSDK\Exceptions;
 
 use YandexDirectSDK\Components\ModelProperty;
+use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
 class ModelPropertyException extends BaseException
@@ -24,6 +25,14 @@ class ModelPropertyException extends BaseException
             "Inconsistent signature [{$signature}]. " .
             "The type [object] requires specifying a single class name that implements " .
             "the [" . ModelCommonInterface::class . "] interface as a permissible value.");
+    }
+
+    public static function inconsistentArrayOfObjectTypeInSignature(string $signature)
+    {
+        return new static(
+            "Inconsistent signature [{$signature}]. " .
+            "The type [arrayOfObject] requires specifying a single class name that implements " .
+            "the [" . ModelCollectionInterface::class . "] interface as a permissible value.");
     }
 
     public static function inconsistentEnumTypeInSignature(string $signature)
