@@ -1,0 +1,20 @@
+namespace YandexDirectSDK\FakeCollections {
+    class {$name} extends \YandexDirectSDK\Components\ModelCollection
+    {
+        public static $methods = [];
+        public static $staticMethods = [];
+        public static $compatibleMode = '';
+
+        public static function reboot($mock)
+        {
+            if (!is_null(self::$boot)){
+                self::$boot->remove(static::class);
+            }
+
+            static::$methods = $mock['methods'] ?? [];
+            static::$staticMethods = $mock['staticMethods'] ?? [];
+            static::$compatibleModel = $mock['compatibleModel'] ?? null;
+            static::boot();
+        }
+    }
+}

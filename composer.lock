@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a943b80bb221ac4418c8a5997fbb8313",
+    "content-hash": "a22e9df3a495f5042afaf62d2fdad406",
     "packages": [
         {
             "name": "upfactor/uptools-pack",
-            "version": "1.2.0",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/UPFactor/UPToolsPack.git",
-                "reference": "3f727ac0333d763c7815f2f2aa2a37adfe6c7634"
+                "reference": "8ee297ccd3b7eca3ca8bf26d4e720ec6327c459d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/UPFactor/UPToolsPack/zipball/3f727ac0333d763c7815f2f2aa2a37adfe6c7634",
-                "reference": "3f727ac0333d763c7815f2f2aa2a37adfe6c7634",
+                "url": "https://api.github.com/repos/UPFactor/UPToolsPack/zipball/8ee297ccd3b7eca3ca8bf26d4e720ec6327c459d",
+                "reference": "8ee297ccd3b7eca3ca8bf26d4e720ec6327c459d",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "files",
                 "strings"
             ],
-            "time": "2019-12-11T18:40:37+00:00"
+            "time": "2019-12-14T18:56:10+00:00"
         }
     ],
     "packages-dev": [

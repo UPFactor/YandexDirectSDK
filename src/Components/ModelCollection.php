@@ -101,12 +101,13 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Retrieve instance of compatible model.
      *
+     * @param Data|array|null $properties
      * @return ModelInterface|null
      */
-    public static function makeCompatibleModel()
+    public static function makeCompatibleModel($properties = null)
     {
         $compatibility = static::boot()->compatibility;
-        return is_null($compatibility) ? null : $compatibility::make();
+        return is_null($compatibility) ? null : $compatibility::make($properties);
     }
 
     /**
@@ -264,24 +265,25 @@ abstract class ModelCollection implements ModelCollectionInterface
      */
     public function insert($source)
     {
-        if (empty($source)){
-            return $this;
-        }
+        if (empty($source)) return $this;
 
         if (!is_array($source)){
-            if (!($source instanceof Data)){
-                return $this;
-            }
+            if (!($source instanceof Data)) return $this;
             $source = $source->unwrap();
         }
 
         foreach ($source as $index => $model){
             if (array_key_exists($index, $this->items)){
-                $this->items[$index]->insert($model);
+                if ($model instanceof ModelInterface){
+                    $this->set($index, $model);
+                } else {
+                    $this->items[$index]->insert($model);
+                }
             } else {
-                $this->push(static::$compatibleModel::make($model));
+                $this->set($index, $model);
             }
         }
+        ksort($this->items);
 
         return $this;
     }
@@ -295,6 +297,7 @@ abstract class ModelCollection implements ModelCollectionInterface
     public function toArray($filter = 0)
     {
         if ($filter !== 0){
+            ksort($this->items);
             $this->items = array_values($this->items);
         }
 
@@ -355,11 +358,12 @@ abstract class ModelCollection implements ModelCollectionInterface
         }
 
         if (is_array($model)){
-            return (static::$compatibleModel)::make()->insert($model);
+            return static::makeCompatibleModel($model);
         }
 
-        if (!is_object($model) or get_class($model) !== static::$compatibleModel){
-            throw InvalidArgumentException::modelCollectionItem(static::class, static::$compatibleModel, $model);
+        $compatibility = static::getCompatibleModelClass();
+        if (!is_object($model) or !($model instanceof $compatibility)){
+            throw InvalidArgumentException::modelCollectionItem(static::class, $compatibility, $model);
         }
 
         return $model;

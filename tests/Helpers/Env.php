@@ -2,8 +2,6 @@
 
 namespace YandexDirectSDKTest\Helpers;
 
-use YandexDirectSDK\Components\Model;
-use YandexDirectSDK\Components\ModelCollection;
 use YandexDirectSDK\Interfaces\Model as ModelInterface;
 use YandexDirectSDK\Interfaces\ModelCollection as ModelCollectionInterface;
 use YandexDirectSDK\Session;
@@ -78,55 +76,17 @@ class Env
      */
     public static function setUpModel(string $name, array $mock = [])
     {
-        $name = trim($name);
-        $namespace = __NAMESPACE__ . '\FakeModel';
-        $modelClass = $namespace . '\\' . $name;
-        $extendsClass = '\\' . Model::class;
+        $classSource = file_get_contents(static::getInitPath('FakeModel.class'));
+        $classSource = str_replace('{$name}', trim($name), $classSource);
+        $class = 'YandexDirectSDK\FakeModels\\'.trim($name);
 
-        if (!class_exists($modelClass)){
-            eval("
-                namespace {$namespace} {
-                    class {$name} extends {$extendsClass}
-                    {
-                        protected static \$properties = [];
-                        protected static \$methods = [];
-                        protected static \$staticMethods = [];
-                        protected static \$compatibleCollection;
-                        protected static \$nonWritableProperties = [];
-                        protected static \$nonReadableProperties = [];
-                        protected static \$nonUpdatableProperties = [];
-                        protected static \$nonAddableProperties = [];
-                        
-                        public static function reboot(\$mock)
-                        {
-                            if (!is_null(self::\$boot)){
-                                self::\$boot->remove(static::class);
-                            }
-                            
-                            static::\$properties = \$mock['properties'] ?? [];
-                            static::\$methods = \$mock['serviceMethods'] ?? [];
-                            static::\$staticMethods = \$mock['serviceMethods'] ?? [];
-                            static::\$compatibleCollection = \$mock['compatibleCollection'] ?? null;
-                            static::\$nonWritableProperties = \$mock['nonWritableProperties'] ?? [];
-                            static::\$nonReadableProperties = \$mock['nonReadableProperties'] ?? [];
-                            static::\$nonUpdatableProperties = \$mock['nonUpdatableProperties'] ?? [];
-                            static::\$nonAddableProperties = \$mock['nonAddableProperties'] ?? [];
-                            static::boot();
-                        }
-                    }             
-                } 
-            ");
+        if (!class_exists($class)){
+            eval($classSource);
         }
 
-        /**
-         * @noinspection PhpUndefinedMethodInspection
-         */
-        $modelClass::reboot($mock);
-
-        /**
-         * @var ModelInterface $modelClass
-         */
-        return $modelClass;
+        /** @noinspection PhpUndefinedMethodInspection */
+        $class::reboot($mock);
+        return $class;
     }
 
     /**
@@ -140,45 +100,17 @@ class Env
      */
     public static function setUpModelCollection(string $name, array $mock = [])
     {
-        $name = trim($name);
-        $namespace = __NAMESPACE__ . '\FakeModelCollection';
-        $collectionClass = $namespace . '\\' . $name;
-        $extendsClass = '\\' . ModelCollection::class;
+        $classSource = file_get_contents(static::getInitPath('FakeModelCollection.class'));
+        $classSource = str_replace('{$name}', trim($name), $classSource);
+        $class = 'YandexDirectSDK\FakeCollections\\'.trim($name);
 
-        if (!class_exists($collectionClass)){
-            eval("
-                namespace {$namespace} {
-                    class {$name} extends {$extendsClass}
-                    {
-                        public static \$methods = [];
-                        public static \$staticMethods = [];
-                        public static \$compatibleMode = 'asdasdasd';
-                        
-                        public static function reboot(\$mock)
-                        {
-                            if (!is_null(self::\$boot)){
-                                self::\$boot->remove(static::class);
-                            }
-                            
-                            static::\$methods = \$mock['serviceMethods'] ?? [];
-                            static::\$staticMethods = \$mock['serviceMethods'] ?? [];
-                            static::\$compatibleModel = \$mock['compatibleModel'] ?? null;
-                            static::boot();
-                        }
-                    }             
-                } 
-            ");
+        if (!class_exists($class)){
+            eval($classSource);
         }
 
-        /**
-         * @noinspection PhpUndefinedMethodInspection
-         */
-        $collectionClass::reboot($mock);
-
-        /**
-         * @var ModelCollectionInterface $collectionClass
-         */
-        return $collectionClass;
+        /** @noinspection PhpUndefinedMethodInspection */
+        $class::reboot($mock);
+        return $class;
     }
 
     /**

@@ -1,7 +1,7 @@
 /.idea/
 /vendor/
 /docs/
-/tests/Init/
+/tests/Init/init.json
 /tests/Run/
 *.phpunit.result.cache
 *.YDSession

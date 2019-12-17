@@ -1,0 +1,30 @@
+namespace YandexDirectSDK\FakeModels {
+    class {$name} extends \YandexDirectSDK\Components\Model
+    {
+        protected static $properties = [];
+        protected static $methods = [];
+        protected static $staticMethods = [];
+        protected static $compatibleCollection;
+        protected static $nonWritableProperties = [];
+        protected static $nonReadableProperties = [];
+        protected static $nonUpdatableProperties = [];
+        protected static $nonAddableProperties = [];
+
+        public static function reboot($mock)
+        {
+            if (!is_null(self::$boot)){
+                self::$boot->remove(static::class);
+            }
+
+            static::$properties = $mock['properties'] ?? [];
+            static::$methods = $mock['methods'] ?? [];
+            static::$staticMethods = $mock['staticMethods'] ?? [];
+            static::$compatibleCollection = $mock['compatibleCollection'] ?? null;
+            static::$nonWritableProperties = $mock['nonWritableProperties'] ?? [];
+            static::$nonReadableProperties = $mock['nonReadableProperties'] ?? [];
+            static::$nonUpdatableProperties = $mock['nonUpdatableProperties'] ?? [];
+            static::$nonAddableProperties = $mock['nonAddableProperties'] ?? [];
+            static::boot();
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "YD_SESSION_TOKEN": "YourToken",
+    "YD_SESSION_CLIENT": "",
+    "YD_SESSION_LANGUAGE": "en",
+    "YD_SESSION_SANDBOX": "true",
+    "YD_SESSION_OPERATOR_UNITS": "true",
+    "YD_SESSION_LOG_FILE": "/home/YandexDirectSDK/session.log"
+}
