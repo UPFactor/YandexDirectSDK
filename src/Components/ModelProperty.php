@@ -124,6 +124,18 @@ class ModelProperty
             return;
         }
 
+        if ($this->type === 'array' and isset($this->permissibleValues[0])){
+            switch ($this->permissibleValues[0]){
+                case 'int': $this->permissibleValues[0] = 'integer'; break;
+                case 'float': $this->permissibleValues[0] = 'double'; break;
+                default: {
+                    if (!in_array($this->permissibleValues[0], ['string','double','integer','array'])){
+                        throw ModelPropertyException::inconsistentTypeInSignature($signature[0] . ':' . $signature[1], $this->permissibleValues[0]);
+                    }
+                }
+            }
+        }
+
         if (in_array($this->type, ['enum','set'], true)){
             if (empty($this->permissibleValues)){
                 throw ModelPropertyException::inconsistentEnumTypeInSignature($signature[0] . ':' . $signature[1]);
@@ -447,7 +459,7 @@ class ModelProperty
             $value[$index] = $item;
         }
 
-        return $value;
+        return array_values($value);
     }
 
     /**

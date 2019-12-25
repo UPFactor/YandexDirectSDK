@@ -29,9 +29,9 @@ class ModelCollectionTest extends TestCase
     {
         $collection = Env::setUpModelCollection('TestCollection', [
             'compatibleModel' => Env::setUpModel('TestModel')
-        ])::make();
+        ]);
 
-        $this->assertEquals('TestCollection', $collection::getClassName());
+        $this->assertSame('TestCollection', $collection::getClassName());
     }
 
     public function testGetMethodsMeta()
@@ -42,9 +42,9 @@ class ModelCollectionTest extends TestCase
                 'create' => 'create\service\name',
                 'update' => 'update\service\name'
             ]
-        ])::make();
+        ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'create' => [
                     'name' => 'create',
@@ -67,9 +67,9 @@ class ModelCollectionTest extends TestCase
                 'create' => 'create\service\name',
                 'update' => 'update\service\name'
             ]
-        ])::make();
+        ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'create' => [
                     'name' => 'create',
@@ -88,9 +88,9 @@ class ModelCollectionTest extends TestCase
     {
         $collection = Env::setUpModelCollection('TestCollection', [
             'compatibleModel' => Env::setUpModel('TestModel')
-        ])::make();
+        ]);
 
-        $this->assertEquals(
+        $this->assertSame(
             'YandexDirectSDK\FakeModels\TestModel',
             $collection::getCompatibleModelClass()
         );
@@ -101,7 +101,7 @@ class ModelCollectionTest extends TestCase
         $modelClass = Env::setUpModel('TestModel');
         $collection = Env::setUpModelCollection('TestCollection', [
             'compatibleModel' => $modelClass
-        ])::make();
+        ]);
 
         $this->assertInstanceOf(
             $modelClass,

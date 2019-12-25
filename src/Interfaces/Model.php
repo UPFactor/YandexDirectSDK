@@ -48,7 +48,7 @@ interface Model extends ModelCommon
      * @param mixed  $value
      * @return $this
      */
-    public function setPropertyValue($property, $value);
+    public function setPropertyValue(string $property, $value);
 
     /**
      * Getting the value of the model property.
@@ -56,7 +56,7 @@ interface Model extends ModelCommon
      * @param string $property
      * @return mixed|null
      */
-    public function getPropertyValue($property);
+    public function getPropertyValue(string $property);
 
     /**
      * Converts the current model to collection

@@ -348,7 +348,7 @@ abstract class Model implements ModelInterface
             if ($dataValue instanceof ModelCommonInterface){
                 if ($dataValue instanceof ModelInterface){
                     if (empty($dataValue = $dataValue->toArray($filter))){
-                        $result[$dataKey] = null;
+                        $result[$dataKey] = [];
                         continue;
                     }
                 } else {
@@ -396,7 +396,7 @@ abstract class Model implements ModelInterface
     public function toCollection()
     {
         if (is_null($collection = static::getCompatibleCollectionClass())){
-            throw ModelException::modelNotSupportConversion($collection, 'toCollection');
+            throw ModelException::modelNotSupportConversion(static::class, 'toCollection');
         }
         return $collection::make($this);
     }
@@ -404,7 +404,7 @@ abstract class Model implements ModelInterface
     /**
      * Insert properties into the model.
      *
-     * @param Data|array $source
+     * @param ModelInterface|Data|array $source
      * @return $this
      */
     public function insert($source)
@@ -414,24 +414,39 @@ abstract class Model implements ModelInterface
         }
 
         if (!is_array($source)){
-            if (!($source instanceof Data)){
-                throw InvalidArgumentException::modelInsert(static::class, Data::class . '|array', $source);
+            if ($source instanceof Data){
+                $source = $source->unwrap();
+            } elseif ($source instanceof static){
+                $this->data = (function(){return $this->data;})->bindTo($source,$source)();
+                return $this;
+            } else {
+                throw InvalidArgumentException::modelInsert(
+                    static::class,
+                    static::class . '|' . Data::class . '|array',
+                    $source
+                );
             }
-            $source = $source->unwrap();
         }
-
-        $properties = static::boot()->properties;
 
         foreach ($source as $sourceKey => $sourceValue){
             $sourceKey = lcfirst($sourceKey);
 
-            if (is_null($property = $properties->get($sourceKey))){
-                continue;
+            if (is_null($property = static::boot()->getProperty($sourceKey))){
+                throw ModelException::modelPropertyNotExist(static::class, $sourceKey);
             }
 
             //Handling a tag [items]
-            if ($property->itemTag){
-                $sourceValue = $sourceValue['Items'] ?? null;
+            if ($property->itemTag and is_array($sourceValue)){
+                if (isset($sourceValue['Items']) and is_array($sourceValue['Items'])){
+                    $sourceValue = $sourceValue['Items'];
+                } else{
+                    throw InvalidArgumentException::modelArrayInsert(
+                        static::class,
+                        [$sourceKey, 'Items'],
+                        'array',
+                        null
+                    );
+                }
             }
 
             //Handling a custom property type
@@ -449,19 +464,37 @@ abstract class Model implements ModelInterface
 
             //Handling a models and model collections
             if ($property->type === 'object'){
-                /** @var ModelCommonInterface $permissibleValue */
                 $permissibleValue = $property->permissibleValues[0];
-
-                if (isset($this->data[$sourceKey]) and $this->data[$sourceKey] instanceof $permissibleValue){
-                    $this->data[$sourceKey]->insert($sourceValue);
+                if (is_array($sourceValue)){
+                    if (isset($this->data[$sourceKey]) and $this->data[$sourceKey] instanceof $permissibleValue){
+                        $this->data[$sourceKey]->insert($sourceValue);
+                    } else {
+                        $this->data[$sourceKey] = new $permissibleValue($sourceValue);
+                    }
+                } elseif ($sourceValue instanceof $permissibleValue) {
+                    $this->data[$sourceKey] = $sourceValue;
                 } else {
-                    $permissibleValue = new $permissibleValue();
-                    $this->data[$sourceKey] = $permissibleValue->insert($sourceValue);
+                    throw InvalidArgumentException::modelArrayInsert(
+                        static::class,
+                        $sourceKey,
+                        "{$permissibleValue}|array",
+                        $sourceValue
+                    );
                 }
                 continue;
             }
 
-            $this->data[$sourceKey] = $property->cast($sourceValue);
+            if (!$property->check($sourceValue, $castedValue)){
+                throw InvalidArgumentException::modelPropertyValue(
+                    static::class,
+                    $property->name,
+                    $property->type,
+                    $property->permissibleValues,
+                    $sourceValue
+                );
+            }
+
+            $this->data[$sourceKey] = $castedValue;
         }
 
         return $this;
@@ -474,14 +507,14 @@ abstract class Model implements ModelInterface
      * @param mixed  $value
      * @return $this
      */
-    public function setPropertyValue($property, $value)
+    public function setPropertyValue(string $property, $value)
     {
+        $property = lcfirst($property);
         if (!static::boot()->hasProperty($property)){
             throw ModelException::modelPropertyNotExist(static::class, $property);
         }
 
         $property = static::boot()->getProperty($property);
-
         if (!$property->writable){
             throw ModelException::modelPropertyNotWritable(static::class, $property->name);
         }
@@ -492,6 +525,11 @@ abstract class Model implements ModelInterface
             } else {
                 $this->data[$property->name] = $value;
             }
+            return $this;
+        }
+
+        if ($property->type === 'object' and is_array($value)){
+            $this->data[$property->name] = new $property->permissibleValues[0]($value);
             return $this;
         }
 
@@ -515,18 +553,14 @@ abstract class Model implements ModelInterface
      * @param string $property
      * @return mixed|null
      */
-    public function getPropertyValue($property)
+    public function getPropertyValue(string $property)
     {
-        if (is_string($property)){
-            $property = lcfirst($property);
-        }
-
+        $property = lcfirst($property);
         if (!static::boot()->hasProperty($property)){
             throw ModelException::modelPropertyNotExist(static::class, $property);
         }
 
         $property = static::boot()->getProperty($property);
-
         if (!$property->readable){
             throw ModelException::modelPropertyNotReadable(static::class, $property->name);
         }

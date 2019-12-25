@@ -267,10 +267,10 @@ abstract class ModelCollection implements ModelCollectionInterface
     {
         if ($source instanceof Data){
             $source = $source->unwrap();
-        } elseif (!is_array($source) and !($source instanceof ModelCollectionInterface)) {
+        } elseif (!is_array($source) and !($source instanceof static)) {
             throw InvalidArgumentException::modelCollectionInsert(
                 static::class,
-                static::class . "|" . Data::class . '|array',
+                static::class . '|' . Data::class . '|array',
                 $source
             );
         }

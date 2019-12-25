@@ -538,12 +538,14 @@ class Result
                     foreach ($value['Warnings'] as $warning){
                         $warnings[$key][] = $this->parseError($warning);
                     }
+                    unset($result[$resultItemKey][$key]['Warnings']);
                 }
 
                 if (array_key_exists('Errors', $value)){
                     foreach ($value['Errors'] as $error){
                         $errors[$key][] = $this->parseError($error);
                     }
+                    unset($result[$resultItemKey][$key]['Errors']);
                 }
             }
         }

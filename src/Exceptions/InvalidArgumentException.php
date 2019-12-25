@@ -86,9 +86,15 @@ class InvalidArgumentException extends BaseException
         return new static("{$modelClass}::{$propertyName}. Invalid model property type. Expects {$expects}, actual [" . static::getValueType($actual) . "].");
     }
 
-    public static function modelInsert($collectionClass, $expected, $actual)
+    public static function modelInsert($modelClass, $expected, $actual)
     {
-        return new static ($collectionClass . ". Invalid data type to insert into model. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");
+        return new static ("{$modelClass}. Invalid data type to insert into model. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");
+    }
+
+    public static function modelArrayInsert($modelClass, $key, $expected, $actual)
+    {
+        $key = is_array($key) ? implode('][', $key) : $key;
+        return new static ("{$modelClass}. Invalid data[{$key}] type to insert into model. Expects [{$expected}], actual [" . static::getValueType($actual) . "].");
     }
 
     /*
