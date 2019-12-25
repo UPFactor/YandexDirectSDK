@@ -11,7 +11,7 @@ use YandexDirectSDK\Components\Model;
  * @property     RetargetingListRuleArguments     $arguments
  * @property     string                           $operator
  *                                                
- * @method       $this                            setArguments(RetargetingListRuleArguments $arguments)
+ * @method       $this                            setArguments(RetargetingListRuleArguments|array $arguments)
  * @method       RetargetingListRuleArguments     getArguments()
  * @method       $this                            setOperator(string $operator)
  * @method       string                           getOperator()

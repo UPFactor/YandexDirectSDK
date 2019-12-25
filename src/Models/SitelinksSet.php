@@ -21,7 +21,7 @@ use YandexDirectSDK\Services\SitelinksService;
  * @method            Result                              delete()
  * @method            $this                               setId(integer $id)
  * @method            integer                             getId()
- * @method            $this                               setSitelinks(Sitelinks $sitelinks)
+ * @method            $this                               setSitelinks(Sitelinks|array $sitelinks)
  * @method            Sitelinks                           getSitelinks()
  * 
  * @package YandexDirectSDK\Models 

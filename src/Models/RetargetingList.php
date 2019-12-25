@@ -34,7 +34,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * @method            $this                                     setDescription(string $description)
  * @method            string                                    getDescription()
  * @method            string                                    getIsAvailable()
- * @method            $this                                     setRules(RetargetingListRules $rules)
+ * @method            $this                                     setRules(RetargetingListRules|array $rules)
  * @method            RetargetingListRules                      getRules()
  * @method            string                                    getScope()
  * 

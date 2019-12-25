@@ -20,7 +20,7 @@ use YandexDirectSDK\Services\KeywordBidsService;
  * @method       integer         getAdGroupId()
  * @method       $this           setKeywordId(integer $keywordId)
  * @method       integer         getKeywordId()
- * @method       $this           setBiddingRule(BiddingRule $biddingRule)
+ * @method       $this           setBiddingRule(BiddingRule|array $biddingRule)
  * @method       BiddingRule     getBiddingRule()
  * 
  * @package YandexDirectSDK\Models 

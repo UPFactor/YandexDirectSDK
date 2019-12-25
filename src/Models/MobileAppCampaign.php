@@ -10,9 +10,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     MobileAppCampaignSettings     $settings
  * @property     MobileAppCampaignStrategy     $biddingStrategy
  *                                             
- * @method       $this                         setSettings(MobileAppCampaignSettings $settings)
+ * @method       $this                         setSettings(MobileAppCampaignSettings|array $settings)
  * @method       MobileAppCampaignSettings     getSettings()
- * @method       $this                         setBiddingStrategy(MobileAppCampaignStrategy $biddingStrategy)
+ * @method       $this                         setBiddingStrategy(MobileAppCampaignStrategy|array $biddingStrategy)
  * @method       MobileAppCampaignStrategy     getBiddingStrategy()
  * 
  * @package YandexDirectSDK\Models 

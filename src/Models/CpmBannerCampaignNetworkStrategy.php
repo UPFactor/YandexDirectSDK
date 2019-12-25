@@ -14,13 +14,13 @@ use YandexDirectSDK\Components\Model as Model;
  *                                                                  
  * @method       $this                                              setBiddingStrategyType(string $biddingStrategyType)
  * @method       string                                             getBiddingStrategyType()
- * @method       $this                                              setWbMaximumImpressions(StrategyWbMaximumImpressions $wbMaximumImpressions)
+ * @method       $this                                              setWbMaximumImpressions(StrategyWbMaximumImpressions|array $wbMaximumImpressions)
  * @method       StrategyWbMaximumImpressions                       getWbMaximumImpressions()
- * @method       $this                                              setCpMaximumImpressions(StrategyCpMaximumImpressions $cpMaximumImpressions)
+ * @method       $this                                              setCpMaximumImpressions(StrategyCpMaximumImpressions|array $cpMaximumImpressions)
  * @method       StrategyCpMaximumImpressions                       getCpMaximumImpressions()
- * @method       $this                                              setWbDecreasedPriceForRepeatedImpressions(StrategyWbDecreasedPriceForRepeatedImpressions $wbDecreasedPriceForRepeatedImpressions)
+ * @method       $this                                              setWbDecreasedPriceForRepeatedImpressions(StrategyWbDecreasedPriceForRepeatedImpressions|array $wbDecreasedPriceForRepeatedImpressions)
  * @method       StrategyWbDecreasedPriceForRepeatedImpressions     getWbDecreasedPriceForRepeatedImpressions()
- * @method       $this                                              setCpDecreasedPriceForRepeatedImpressions(StrategyCpDecreasedPriceForRepeatedImpressions $cpDecreasedPriceForRepeatedImpressions)
+ * @method       $this                                              setCpDecreasedPriceForRepeatedImpressions(StrategyCpDecreasedPriceForRepeatedImpressions|array $cpDecreasedPriceForRepeatedImpressions)
  * @method       StrategyCpDecreasedPriceForRepeatedImpressions     getCpDecreasedPriceForRepeatedImpressions()
  * 
  * @package YandexDirectSDK\Models 

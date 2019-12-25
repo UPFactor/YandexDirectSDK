@@ -17,7 +17,7 @@ use YandexDirectSDK\Components\Model;
  * @method            string                 getSmsPhoneNumber()
  * @method            $this                  setEmail(string $email)
  * @method            string                 getEmail()
- * @method            $this                  setEmailSubscriptions(EmailSubscriptions $emailSubscriptions)
+ * @method            $this                  setEmailSubscriptions(EmailSubscriptions|array $emailSubscriptions)
  * @method            EmailSubscriptions     getEmailSubscriptions()
  * 
  * @package YandexDirectSDK\Models 

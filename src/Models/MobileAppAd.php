@@ -23,7 +23,7 @@ use YandexDirectSDK\Models\Foundation\SetAdImage;
  * @method            string                  getText()
  * @method            $this                   setTrackingUrl(string $trackingUrl)
  * @method            string                  getTrackingUrl()
- * @method            $this                   setFeatures(MobileAppAdFeatures $features)
+ * @method            $this                   setFeatures(MobileAppAdFeatures|array $features)
  * @method            MobileAppAdFeatures     getFeatures()
  * @method            $this                   setAgeLabel(string $ageLabel)
  * @method            string                  getAgeLabel()

@@ -9,7 +9,7 @@ use YandexDirectSDK\Components\Model;
  * 
  * @property     AdExtensionsAd     $adExtensions
  *                                  
- * @method       $this              setAdExtensions(AdExtensionsAd $adExtensions)
+ * @method       $this              setAdExtensions(AdExtensionsAd|array $adExtensions)
  * @method       AdExtensionsAd     getAdExtensions()
  * 
  * @package YandexDirectSDK\Models 

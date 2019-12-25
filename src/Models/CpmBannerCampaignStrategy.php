@@ -9,9 +9,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     CpmBannerCampaignSearchStrategy      $search
  * @property     CpmBannerCampaignNetworkStrategy     $network
  *                                                    
- * @method       $this                                setSearch(CpmBannerCampaignSearchStrategy $search)
+ * @method       $this                                setSearch(CpmBannerCampaignSearchStrategy|array $search)
  * @method       CpmBannerCampaignSearchStrategy      getSearch()
- * @method       $this                                setNetwork(CpmBannerCampaignNetworkStrategy $network)
+ * @method       $this                                setNetwork(CpmBannerCampaignNetworkStrategy|array $network)
  * @method       CpmBannerCampaignNetworkStrategy     getNetwork()
  * 
  * @package YandexDirectSDK\Models 

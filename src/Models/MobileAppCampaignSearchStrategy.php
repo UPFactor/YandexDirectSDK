@@ -15,15 +15,15 @@ use YandexDirectSDK\Components\Model as Model;
  *                                              
  * @method       $this                          setBiddingStrategyType(string $biddingStrategyType)
  * @method       string                         getBiddingStrategyType()
- * @method       $this                          setWbMaximumClicks(StrategyMaximumClicks $wbMaximumClicks)
+ * @method       $this                          setWbMaximumClicks(StrategyMaximumClicks|array $wbMaximumClicks)
  * @method       StrategyMaximumClicks          getWbMaximumClicks()
- * @method       $this                          setWbMaximumAppInstalls(StrategyMaximumAppInstalls $wbMaximumAppInstalls)
+ * @method       $this                          setWbMaximumAppInstalls(StrategyMaximumAppInstalls|array $wbMaximumAppInstalls)
  * @method       StrategyMaximumAppInstalls     getWbMaximumAppInstalls()
- * @method       $this                          setAverageCpc(StrategyAverageCpc $averageCpc)
+ * @method       $this                          setAverageCpc(StrategyAverageCpc|array $averageCpc)
  * @method       StrategyAverageCpc             getAverageCpc()
- * @method       $this                          setAverageCpi(StrategyAverageCpi $averageCpi)
+ * @method       $this                          setAverageCpi(StrategyAverageCpi|array $averageCpi)
  * @method       StrategyAverageCpi             getAverageCpi()
- * @method       $this                          setWeeklyClickPackage(StrategyWeeklyClickPackage $weeklyClickPackage)
+ * @method       $this                          setWeeklyClickPackage(StrategyWeeklyClickPackage|array $weeklyClickPackage)
  * @method       StrategyWeeklyClickPackage     getWeeklyClickPackage()
  * 
  * @package YandexDirectSDK\Models 

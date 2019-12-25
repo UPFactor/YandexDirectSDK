@@ -9,7 +9,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     AdBuilderAd     $creative
  * @property     string          $trackingUrl
  *                               
- * @method       $this           setCreative(AdBuilderAd $creative)
+ * @method       $this           setCreative(AdBuilderAd|array $creative)
  * @method       AdBuilderAd     getCreative()
  * @method       $this           setTrackingUrl(string $trackingUrl)
  * @method       string          getTrackingUrl()

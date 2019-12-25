@@ -16,15 +16,15 @@ use YandexDirectSDK\Components\Model;
  * @property     PriorityGoals               $priorityGoals
  * @property     string                      $attributionModel
  *                                           
- * @method       $this                       setBiddingStrategy(TextCampaignStrategy $biddingStrategy)
+ * @method       $this                       setBiddingStrategy(TextCampaignStrategy|array $biddingStrategy)
  * @method       TextCampaignStrategy        getBiddingStrategy()
- * @method       $this                       setSettings(TextCampaignSettings $settings)
+ * @method       $this                       setSettings(TextCampaignSettings|array $settings)
  * @method       TextCampaignSettings        getSettings()
  * @method       $this                       setCounterIds(integer[] $counterIds)
  * @method       integer[]                   getCounterIds()
- * @method       $this                       setRelevantKeywords(RelevantKeywordsSetting $relevantKeywords)
+ * @method       $this                       setRelevantKeywords(RelevantKeywordsSetting|array $relevantKeywords)
  * @method       RelevantKeywordsSetting     getRelevantKeywords()
- * @method       $this                       setPriorityGoals(PriorityGoals $priorityGoals)
+ * @method       $this                       setPriorityGoals(PriorityGoals|array $priorityGoals)
  * @method       PriorityGoals               getPriorityGoals()
  * @method       $this                       setAttributionModel(string $attributionModel)
  * @method       string                      getAttributionModel()

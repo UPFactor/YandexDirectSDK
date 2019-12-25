@@ -12,13 +12,13 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     integer[]                     $counterIds
  * @property     FrequencyCapSetting           $frequencyCap
  *                                             
- * @method       $this                         setBiddingStrategy(CpmBannerCampaignStrategy $biddingStrategy)
+ * @method       $this                         setBiddingStrategy(CpmBannerCampaignStrategy|array $biddingStrategy)
  * @method       CpmBannerCampaignStrategy     getBiddingStrategy()
- * @method       $this                         setSettings(CpmBannerCampaignSettings $settings)
+ * @method       $this                         setSettings(CpmBannerCampaignSettings|array $settings)
  * @method       CpmBannerCampaignSettings     getSettings()
  * @method       $this                         setCounterIds(integer[] $counterIds)
  * @method       integer[]                     getCounterIds()
- * @method       $this                         setFrequencyCap(FrequencyCapSetting $frequencyCap)
+ * @method       $this                         setFrequencyCap(FrequencyCapSetting|array $frequencyCap)
  * @method       FrequencyCapSetting           getFrequencyCap()
  * 
  * @package YandexDirectSDK\Models 

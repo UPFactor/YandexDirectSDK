@@ -29,7 +29,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @method            $this                   setSitelinkSetId(integer $sitelinkSetId)
  * @method            integer                 getSitelinkSetId()
  * @method            ExtensionModeration     getSitelinksModeration()
- * @method            $this                   setCalloutSetting(AdExtensionSetting $calloutSetting)
+ * @method            $this                   setCalloutSetting(AdExtensionSetting|array $calloutSetting)
  * @method            AdExtensionSetting      getCalloutSetting()
  * @method            $this                   setAdExtensionIds(integer[] $adExtensionIds)
  * @method            integer[]               getAdExtensionIds()

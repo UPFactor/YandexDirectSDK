@@ -14,13 +14,13 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     PriorityGoals                   $priorityGoals
  * @property     string                          $attributionModel
  *                                               
- * @method       $this                           setBiddingStrategy(DynamicTextCampaignStrategy $biddingStrategy)
+ * @method       $this                           setBiddingStrategy(DynamicTextCampaignStrategy|array $biddingStrategy)
  * @method       DynamicTextCampaignStrategy     getBiddingStrategy()
- * @method       $this                           setSettings(DynamicTextCampaignSettings $settings)
+ * @method       $this                           setSettings(DynamicTextCampaignSettings|array $settings)
  * @method       DynamicTextCampaignSettings     getSettings()
  * @method       $this                           setCounterIds(integer[] $counterIds)
  * @method       integer[]                       getCounterIds()
- * @method       $this                           setPriorityGoals(PriorityGoals $priorityGoals)
+ * @method       $this                           setPriorityGoals(PriorityGoals|array $priorityGoals)
  * @method       PriorityGoals                   getPriorityGoals()
  * @method       $this                           setAttributionModel(string $attributionModel)
  * @method       string                          getAttributionModel()

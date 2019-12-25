@@ -14,7 +14,7 @@ use YandexDirectSDK\Models\Foundation\SetTrackingPixels;
  * @property-read     TurboPageModeration     $turboPageModeration
  * @property          TrackingPixels          $trackingPixels
  *                                            
- * @method            $this                   setCreative(AdBuilderAd $creative)
+ * @method            $this                   setCreative(AdBuilderAd|array $creative)
  * @method            AdBuilderAd             getCreative()
  * @method            $this                   setHref(string $href)
  * @method            string                  getHref()

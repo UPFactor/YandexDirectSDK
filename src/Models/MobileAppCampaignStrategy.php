@@ -9,9 +9,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     MobileAppCampaignSearchStrategy      $search
  * @property     MobileAppCampaignNetworkStrategy     $network
  *                                                    
- * @method       $this                                setSearch(MobileAppCampaignSearchStrategy $search)
+ * @method       $this                                setSearch(MobileAppCampaignSearchStrategy|array $search)
  * @method       MobileAppCampaignSearchStrategy      getSearch()
- * @method       $this                                setNetwork(MobileAppCampaignNetworkStrategy $network)
+ * @method       $this                                setNetwork(MobileAppCampaignNetworkStrategy|array $network)
  * @method       MobileAppCampaignNetworkStrategy     getNetwork()
  * 
  * @package YandexDirectSDK\Models 

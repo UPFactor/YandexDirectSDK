@@ -1048,7 +1048,7 @@ class ModelMap extends ClassMap
                             [
                                 'name' => $propertyMeta['name'],
                                 'var' => '$' . $propertyMeta['name'],
-                                'type' => $propertyResultType
+                                'type' => $propertyResultType . ($propertyMeta['type'] === 'object' ? '|array' : '')
                             ]
                         ]
                     ]));

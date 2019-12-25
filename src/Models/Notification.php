@@ -10,9 +10,9 @@ use YandexDirectSDK\Components\Model;
  * @property     SmsSettings       $smsSettings
  * @property     EmailSettings     $emailSettings
  *                                 
- * @method       $this             setSmsSettings(SmsSettings $smsSettings)
+ * @method       $this             setSmsSettings(SmsSettings|array $smsSettings)
  * @method       SmsSettings       getSmsSettings()
- * @method       $this             setEmailSettings(EmailSettings $emailSettings)
+ * @method       $this             setEmailSettings(EmailSettings|array $emailSettings)
  * @method       EmailSettings     getEmailSettings()
  * 
  * @package YandexDirectSDK\Models 

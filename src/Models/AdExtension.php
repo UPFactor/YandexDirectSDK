@@ -27,7 +27,7 @@ use YandexDirectSDK\Services\AdExtensionsService;
  * @method            integer                           getId()
  * @method            string                            getAssociated()
  * @method            string                            getType()
- * @method            $this                             setCallout(Callout $callout)
+ * @method            $this                             setCallout(Callout|array $callout)
  * @method            Callout                           getCallout()
  * @method            array                             getState()
  * @method            string                            getStatus()

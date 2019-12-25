@@ -9,9 +9,9 @@ use YandexDirectSDK\Components\Model as Model;
  * @property     DynamicTextCampaignSearchStrategy      $search
  * @property     DynamicTextCampaignNetworkStrategy     $network
  *                                                      
- * @method       $this                                  setSearch(DynamicTextCampaignSearchStrategy $search)
+ * @method       $this                                  setSearch(DynamicTextCampaignSearchStrategy|array $search)
  * @method       DynamicTextCampaignSearchStrategy      getSearch()
- * @method       $this                                  setNetwork(DynamicTextCampaignNetworkStrategy $network)
+ * @method       $this                                  setNetwork(DynamicTextCampaignNetworkStrategy|array $network)
  * @method       DynamicTextCampaignNetworkStrategy     getNetwork()
  * 
  * @package YandexDirectSDK\Models 

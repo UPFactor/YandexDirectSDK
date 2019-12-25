@@ -14,7 +14,7 @@ use YandexDirectSDK\Components\Model as Model;
  * @method       string[]                          getSchedule()
  * @method       $this                             setConsiderWorkingWeekends(string $considerWorkingWeekends)
  * @method       string                            getConsiderWorkingWeekends()
- * @method       $this                             setHolidaysSchedule(TimeTargetingOnPublicHolidays $holidaysSchedule)
+ * @method       $this                             setHolidaysSchedule(TimeTargetingOnPublicHolidays|array $holidaysSchedule)
  * @method       TimeTargetingOnPublicHolidays     getHolidaysSchedule()
  * 
  * @package YandexDirectSDK\Models 

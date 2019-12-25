@@ -56,7 +56,7 @@ use YandexDirectSDK\Models\Foundation\SetAdImage;
  * @method            $this                   setSitelinkSetId(integer $sitelinkSetId)
  * @method            integer                 getSitelinkSetId()
  * @method            ExtensionModeration     getSitelinksModeration()
- * @method            $this                   setCalloutSetting(AdExtensionSetting $calloutSetting)
+ * @method            $this                   setCalloutSetting(AdExtensionSetting|array $calloutSetting)
  * @method            AdExtensionSetting      getCalloutSetting()
  * @method            $this                   setDisplayUrlPath(string $displayUrlPath)
  * @method            string                  getDisplayUrlPath()
@@ -64,9 +64,9 @@ use YandexDirectSDK\Models\Foundation\SetAdImage;
  * @method            $this                   setAdExtensionIds(integer[] $adExtensionIds)
  * @method            integer[]               getAdExtensionIds()
  * @method            AdExtensionsAd          getAdExtensions()
- * @method            $this                   setVideoExtension(VideoExtension $videoExtension)
+ * @method            $this                   setVideoExtension(VideoExtension|array $videoExtension)
  * @method            VideoExtension          getVideoExtension()
- * @method            $this                   setPriceExtension(PriceExtension $priceExtension)
+ * @method            $this                   setPriceExtension(PriceExtension|array $priceExtension)
  * @method            PriceExtension          getPriceExtension()
  * 
  * @package YandexDirectSDK\Models 

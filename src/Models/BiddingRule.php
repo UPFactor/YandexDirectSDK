@@ -9,9 +9,9 @@ use YandexDirectSDK\Components\Model;
  * @property     SearchByTrafficVolume     $searchByTrafficVolume
  * @property     NetworkByCoverage         $networkByCoverage
  *                                         
- * @method       $this                     setSearchByTrafficVolume(SearchByTrafficVolume $searchByTrafficVolume)
+ * @method       $this                     setSearchByTrafficVolume(SearchByTrafficVolume|array $searchByTrafficVolume)
  * @method       SearchByTrafficVolume     getSearchByTrafficVolume()
- * @method       $this                     setNetworkByCoverage(NetworkByCoverage $networkByCoverage)
+ * @method       $this                     setNetworkByCoverage(NetworkByCoverage|array $networkByCoverage)
  * @method       NetworkByCoverage         getNetworkByCoverage()
  * 
  * @package YandexDirectSDK\Models 

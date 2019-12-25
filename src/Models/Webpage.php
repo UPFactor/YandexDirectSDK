@@ -41,7 +41,7 @@ use YandexDirectSDK\Services\DynamicTextAdTargetsService;
  * @method            $this                     setAdGroupId(integer $adGroupId)
  * @method            integer                   getAdGroupId()
  * @method            integer                   getCampaignId()
- * @method            $this                     setConditions(WebpageConditions $conditions)
+ * @method            $this                     setConditions(WebpageConditions|array $conditions)
  * @method            WebpageConditions         getConditions()
  * @method            string                    getConditionType()
  * @method            $this                     setBid(integer $bid)
