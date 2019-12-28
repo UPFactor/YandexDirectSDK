@@ -82,7 +82,6 @@ class QueryBuilder
             if (!is_string($field)){
                 throw InvalidArgumentException::invalidType(static::class.'::select', ($k+1), 'string|string[]');
             }
-
             $this->selection[] = trim($field);
         }
 
@@ -179,7 +178,9 @@ class QueryBuilder
      */
     public function toJson()
     {
-        return Arr::toJson($this->toArray());
+        $params = $this->toArray();
+        $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
+        return Arr::toJson($params);
     }
 
     /**
@@ -193,7 +194,6 @@ class QueryBuilder
         if (is_null($getter = $this->getter)){
             throw RuntimeException::make(static::class.'::get. Undefined Getter for request.');
         }
-
         return $getter($this, 'get');
     }
 

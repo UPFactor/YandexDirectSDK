@@ -56,16 +56,16 @@ interface ModelCommon
     /**
      * Converts to a Data object.
      *
-     * @param int $filters
+     * @param int $filter
      * @return Data
      */
-    public function toData($filters = 0);
+    public function toData($filter = 0);
 
     /**
      * Converts to JSON.
      *
-     * @param int $filters
+     * @param int $filter
      * @return string
      */
-    public function toJson($filters = 0);
+    public function toJson($filter = 0);
 }

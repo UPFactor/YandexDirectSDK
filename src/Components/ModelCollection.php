@@ -312,22 +312,22 @@ abstract class ModelCollection implements ModelCollectionInterface
     /**
      * Converts the current collection to a Data object.
      *
-     * @param int $filters
+     * @param int $filter
      * @return Data
      */
-    public function toData($filters = 0){
-        return new Data($this->toArray($filters));
+    public function toData($filter = 0){
+        return new Data($this->toArray($filter));
     }
 
     /**
      * Converts the current collection to JSON.
      *
-     * @param int $filters
+     * @param int $filter
      * @return string
      */
-    public function toJson($filters = 0)
+    public function toJson($filter = 0)
     {
-        return Arr::toJson($this->toArray($filters));
+        return Arr::toJson($this->toArray($filter | Model::IS_JSON));
     }
 
     /**

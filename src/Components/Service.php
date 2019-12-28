@@ -220,7 +220,7 @@ abstract class Service
      */
     protected static function addModel(string $methodName, ModelInterface $model): Result
     {
-        $result = static::call($methodName, $model->toArray(Model::IS_ADDABLE));
+        $result = static::call($methodName, $model->toJson(Model::IS_ADDABLE));
         return $result->setResource(
             $model->insert($result->data)
         );
@@ -235,7 +235,7 @@ abstract class Service
      */
     protected static function updateModel(string $methodName, ModelInterface $model): Result
     {
-        $result = static::call($methodName, $model->toArray(Model::IS_UPDATABLE));
+        $result = static::call($methodName, $model->toJson(Model::IS_UPDATABLE));
         return $result->setResource(
             $model->insert($result->data)
         );
@@ -268,8 +268,7 @@ abstract class Service
             $resultClassName = 'AddResults';
         }
 
-        $result = static::call($methodName, [$addClassName => $collection->toArray(Model::IS_ADDABLE)]);
-
+        $result = static::call($methodName, '{"' . $addClassName . '":' . $collection->toJson(Model::IS_ADDABLE) . '}');
         return $result->setResource(
             $collection->insert($result->data->get($resultClassName))
         );
@@ -302,7 +301,7 @@ abstract class Service
             $resultClassName = 'UpdateResults';
         }
 
-        $result = static::call($methodName, [$updateClassName => $collection->toArray(Model::IS_UPDATABLE)]);
+        $result = static::call($methodName, '{"' . $updateClassName . '":' . $collection->toJson(Model::IS_UPDATABLE) . '}');
 
         return $result->setResource(
             $collection->insert($result->data->get($resultClassName))
@@ -324,7 +323,7 @@ abstract class Service
 
         return new QueryBuilder(
             function (QueryBuilder $query, $modifier) use ($methodName, $queryHandler){
-                $result = static::call($methodName, is_null($queryHandler) ? $query->toArray() : $queryHandler($query->toArray()));
+                $result = static::call($methodName, is_null($queryHandler) ? $query->toJson() : $queryHandler($query->toArray()));
                 $result = $result->data->get(static::boot()->modelCollectionClass::getClassName());
 
                 if (is_null($result)){
@@ -401,7 +400,7 @@ abstract class Service
             }
         }
 
-        return static::call($methodName, (new QueryBuilder())->whereIn($criteria, $elements)->toArray())
+        return static::call($methodName, (new QueryBuilder())->whereIn($criteria, $elements)->toJson())
             ->setResource($resource);
     }
 

@@ -316,24 +316,27 @@ class Session
      *
      * @param string $service API service name
      * @param string $method API service method
-     * @param array $params API service parameters
+     * @param array|string $params API service parameters (array or json)
      * @return Result
      */
-    public static function call(string $service, string $method, array $params = []): Result
+    public static function call(string $service, string $method, $params = []): Result
     {
-        if (key_exists('SelectionCriteria', $params)){
-            $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
-        }
-
         $service = strtolower($service);
         $url = (static::usedSandbox() ? static::sandboxApi : static::api).$service;
-        $params = json_encode(['method' => (string) $method,'params' => $params], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $requestID = str_replace(['.',' '], '', microtime());
+
+        if (is_array($params)){
+            if (key_exists('SelectionCriteria', $params)){
+                $params['SelectionCriteria'] = (object) $params['SelectionCriteria'];
+            }
+            $params = json_encode(['method' => $method, 'params' => $params], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        } else {
+            $params = '{"method": "' . $method . '", "params": ' . $params . '}';
+        }
 
         static::requestLogging($requestID, $url, $params);
 
         if (is_null(static::$callHandler)){
-
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_POST, true);
@@ -356,22 +359,18 @@ class Session
                 static::exceptionLogging($requestID, $exception);
                 throw $exception;
             }
-
         } else {
-
             try {
                 $result = call_user_func(static::$callHandler, $service, $method, $params);
             } catch (Exception $exception){
                 static::exceptionLogging($requestID, $exception);
                 throw $exception;
             }
-
         }
 
         static::responseLogging($requestID, $result);
         static::errorLogging($requestID, $result);
         static::warningLogging($requestID, $result);
-
         return $result;
     }
 

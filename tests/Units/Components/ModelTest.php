@@ -697,7 +697,7 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
                 $model->toJson()
             );
         }, $meta);
@@ -712,7 +712,7 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
                 (string) $model
             );
         }, $meta);
@@ -781,7 +781,7 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                sha1(json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)),
+                sha1(json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE)),
                 $model->hash()
             );
         }, $meta);

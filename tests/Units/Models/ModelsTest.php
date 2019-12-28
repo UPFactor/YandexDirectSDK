@@ -328,6 +328,13 @@ class ModelsTest extends TestCase
     public static function creatingAddRequest($collection, array $properties):void
     {
         static::assertEquals(
+            $properties['add'],
+            $collection::wrap($properties['get'])
+                ->insert($properties['add'])
+                ->toArray(Model::IS_ADDABLE)
+        );
+
+        /*static::assertEquals(
             static::arrayTyping(
                 $properties['add']
             ),
@@ -336,7 +343,7 @@ class ModelsTest extends TestCase
                     ->insert(static::arrayMerge($properties['get'], $properties['add']))
                     ->toArray(Model::IS_ADDABLE)
             )
-        );
+        );*/
     }
 
     /**

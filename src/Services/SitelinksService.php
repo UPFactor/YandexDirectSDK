@@ -35,7 +35,7 @@ class SitelinksService extends Service
     /**
      * @return QueryBuilder
      */
-    public function query() : QueryBuilder
+    public static function query() : QueryBuilder
     {
         return static::createQueryBuilder('get', function($query){
             if (empty($query['SelectionCriteria'])){

@@ -16,10 +16,11 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
  */
 abstract class Model implements ModelInterface
 {
-    const IS_READABLE = 1 << 0;     // 0001
-    const IS_WRITABLE = 1 << 1;     // 0010
-    const IS_ADDABLE = 1 << 2;      // 0100
-    const IS_UPDATABLE = 1 << 3;    // 1000
+    const IS_READABLE = 1 << 0;     // 00001
+    const IS_WRITABLE = 1 << 1;     // 00010
+    const IS_ADDABLE = 1 << 2;      // 00100
+    const IS_UPDATABLE = 1 << 3;    // 01000
+    const IS_JSON = 1 << 4;         // 10000
 
     /**
      * Boot data registry.
@@ -348,7 +349,7 @@ abstract class Model implements ModelInterface
             if ($dataValue instanceof ModelCommonInterface){
                 if ($dataValue instanceof ModelInterface){
                     if (empty($dataValue = $dataValue->toArray($filter))){
-                        $result[$dataKey] = [];
+                        $result[$dataKey] = $filter & self::IS_JSON ? (object)[] : [];
                         continue;
                     }
                 } else {
@@ -370,22 +371,22 @@ abstract class Model implements ModelInterface
     /**
      * Converts the current model to a Data object.
      *
-     * @param int $filters
+     * @param int $filter
      * @return Data
      */
-    public function toData($filters = 0){
-        return new Data($this->toArray($filters));
+    public function toData($filter = 0){
+        return new Data($this->toArray($filter));
     }
 
     /**
      * Converts the current model to JSON.
      *
-     * @param int $filters
+     * @param int $filter
      * @return string
      */
-    public function toJson($filters = 0)
+    public function toJson($filter = 0)
     {
-        return Arr::toJson($this->toArray($filters));
+        return Arr::toJson($this->toArray($filter | static::IS_JSON));
     }
 
     /**
