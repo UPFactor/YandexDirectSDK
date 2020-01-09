@@ -25,7 +25,7 @@ interface Model extends ModelCommon
      *
      * @return array
      */
-    public static function getPropertiesMeta();
+    public static function getPropertiesMeta():array;
 
     /**
      * Returns class of compatible collection.

@@ -67,5 +67,10 @@
             <file>Examples/AudienceTargets/ExamplesTest.php</file>
         </testsuite>
 
+        <testsuite name="ClientsExamples">
+            <file>Examples/AgencyClients/ExamplesTest.php</file>
+            <file>Examples/Clients/ExamplesTest.php</file>
+        </testsuite>
+
     </testsuites>
 </phpunit>

@@ -647,6 +647,11 @@ class ModelTest extends TestCase
         return $this->modelPropertyTypeProvider('toConvert');
     }
 
+    public function providerToJSONConversionModel(): array
+    {
+        return $this->modelPropertyTypeProvider('toJSON');
+    }
+
     /*
      | Helpers
      |-------------------------------------------------------------------------------
@@ -655,8 +660,9 @@ class ModelTest extends TestCase
     /**
      * @param callable $converter
      * @param array $meta
+     * @param bool $jsonMode
      */
-    protected function checkConverting(callable $converter, array $meta):void
+    protected function checkConverting(callable $converter, array $meta, bool $jsonMode = false):void
     {
         $model = $modelClass = Env::setUpModel('ModelTest', [
             'properties' => ['test' => $meta['type']]
@@ -666,7 +672,13 @@ class ModelTest extends TestCase
             $this->{'data'}['test'] = $value;
         })->bindTo($model,$model)($meta['value']);
 
-        $converter($model, ['Test' => $meta['expected']]);
+        $expected = ['Test' => $meta['expected']];
+
+        if ($jsonMode){
+            $converter($model, json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE));
+        } else {
+            $converter($model, $expected);
+        }
     }
 
     /*
@@ -689,7 +701,7 @@ class ModelTest extends TestCase
     }
 
     /**
-     * @dataProvider providerToConversionModel
+     * @dataProvider providerToJSONConversionModel
      * @depends testToArray
      * @param array $meta
      */
@@ -697,14 +709,30 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+                $expected,
                 $model->toJson()
             );
-        }, $meta);
+        }, $meta, true);
     }
 
     /**
-     * @dataProvider providerToConversionModel
+     * @depends testToJson
+     */
+    public function testToJson_EmptyObject():void
+    {
+        static::assertSame(
+            '{}',
+            Env::setUpModel('TestModel')::make()->toJson()
+        );
+
+        static::assertSame(
+            '[]',
+            Env::setUpModelCollection('TestCollection', ['compatibleModel' => Env::setUpModel('TestModel')])::make()->toJson()
+        );
+    }
+
+    /**
+     * @dataProvider providerToJSONConversionModel
      * @depends testToArray
      * @param array $meta
      */
@@ -712,10 +740,41 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+                $expected,
                 (string) $model
             );
-        }, $meta);
+        }, $meta, true);
+    }
+
+    /**
+     * @depends testToString
+     */
+    public function testToString_EmptyObject():void
+    {
+        static::assertSame(
+            '{}',
+            (string) Env::setUpModel('TestModel')::make()
+        );
+
+        static::assertSame(
+            '[]',
+            (string) Env::setUpModelCollection('TestCollection', ['compatibleModel' => Env::setUpModel('TestModel')])::make()
+        );
+    }
+
+    /**
+     * @dataProvider providerToJSONConversionModel
+     * @depends testToJson
+     * @param array $meta
+     */
+    public function testSerialize(array $meta):void
+    {
+        $this->checkConverting(function(ModelInterface $model, $expected){
+            static::assertSame(
+                $expected,
+                unserialize(serialize($model))->toJson()
+            );
+        }, $meta, true);
     }
 
     /**
@@ -781,10 +840,10 @@ class ModelTest extends TestCase
     {
         $this->checkConverting(function(ModelInterface $model, $expected){
             static::assertSame(
-                sha1(json_encode($expected, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE)),
+                sha1($expected),
                 $model->hash()
             );
-        }, $meta);
+        }, $meta, true);
     }
 
     /*
@@ -806,14 +865,117 @@ class ModelTest extends TestCase
      */
     public function testCopy():void
     {
+        $childModelClass = Env::setUpModel('ChildModelTest', [
+            'properties' => [
+                'i' => 'integer',
+                's' => 'string',
+                'f' => 'float',
+                'b' => 'boolean'
+            ]
+        ]);
+
+        $modelClass = Env::setUpModel('ModelTest', [
+            'properties' => [
+                'child' => 'object:'.$childModelClass
+            ]
+        ]);
+
+        $originalModel = $modelClass::make();
+        $originalModel->setPropertyValue('child', $childModelClass::make(['i'=>12, 's'=>'text', 'f'=>3.14, 'b'=>true]));
+
         $this->assertNotSame(
-            $originalModel = Env::setUpModel('ModelTest')::make(),
+            $originalModel,
             $cloneModel = $originalModel->copy()
         );
 
         $this->assertInstanceOf(
-            ModelInterface::class,
+            $modelClass,
+            $originalModel
+        );
+
+        $this->assertInstanceOf(
+            $modelClass,
             $cloneModel
+        );
+
+        $this->assertNotSame(
+            $originalModel->getPropertyValue('child'),
+            $cloneModel->getPropertyValue('child')
+        );
+
+        $this->assertInstanceOf(
+            $childModelClass,
+            $originalModel->getPropertyValue('child')
+        );
+
+        $this->assertInstanceOf(
+            $childModelClass,
+            $cloneModel->getPropertyValue('child')
+        );
+
+        $this->assertSame(
+            $originalModel->toArray(),
+            $cloneModel->toArray()
+        );
+    }
+
+    /**
+     * @depends testToArray
+     * @return void
+     */
+    public function testClone():void
+    {
+        $childModelClass = Env::setUpModel('ChildModelTest', [
+            'properties' => [
+                'i' => 'integer',
+                's' => 'string',
+                'f' => 'float',
+                'b' => 'boolean'
+            ]
+        ]);
+
+        $modelClass = Env::setUpModel('ModelTest', [
+            'properties' => [
+                'child' => 'object:'.$childModelClass
+            ]
+        ]);
+
+        $originalModel = $modelClass::make();
+        $originalModel->setPropertyValue('child', $childModelClass::make(['i'=>12, 's'=>'text', 'f'=>3.14, 'b'=>true]));
+
+        $this->assertNotSame(
+            $originalModel,
+            $cloneModel = clone $originalModel
+        );
+
+        $this->assertInstanceOf(
+            $modelClass,
+            $originalModel
+        );
+
+        $this->assertInstanceOf(
+            $modelClass,
+            $cloneModel
+        );
+
+        $this->assertNotSame(
+            $originalModel->getPropertyValue('child'),
+            $cloneModel->getPropertyValue('child')
+        );
+
+        $this->assertInstanceOf(
+            $childModelClass,
+            $originalModel->getPropertyValue('child')
+        );
+
+        $this->assertInstanceOf(
+            $childModelClass,
+            $cloneModel->getPropertyValue('child')
+        );
+
+        $this->assertSame(
+            $originalModel->toArray(),
+            $cloneModel->toArray()
         );
     }
 

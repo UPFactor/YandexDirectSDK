@@ -10,12 +10,88 @@ use YandexDirectSDK\Components\Data;
 
 class FakeApi
 {
+    protected $apiPath = null;
+
+    /**
+     * FakeApi static constructor.
+     *
+     * @param string $apiPath
+     * @return static
+     */
+    public static function make(string $apiPath)
+    {
+        return new static($apiPath);
+    }
+
+    /**
+     * FakeApi constructor.
+     *
+     * @param string $apiPath
+     */
+    public function __construct(string $apiPath)
+    {
+        $this->apiPath = $apiPath;
+    }
+
+    /**
+     * @param string $key
+     * @return array|mixed|object|null
+     * @throws Exception
+     */
+    public function getAsObject(string $key = null)
+    {
+        $object = $this->get($this->apiPath);
+
+        if (is_null($key)){
+            return $object;
+        }
+
+        foreach (explode('.', $key) as $key){
+            if(is_object($object) and isset($object->{$key})){
+                $object = $object->{$key};
+            } elseif (is_array($object) and isset($object[$key])) {
+                $object = $object[$key];
+            } else {
+                return null;
+            }
+        }
+
+        return $object;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getAsJson(string $key = null)
+    {
+        return json_encode($this->getAsObject($key));
+    }
+
+    /**
+     * @param string $key
+     * @return array|mixed|null
+     */
+    public function getAsArray(string $key = null)
+    {
+        $array = json_decode(json_encode($this->get($this->apiPath)), true);
+        return is_null($key) ? $array : Arr::get($array, $key);
+    }
+
+    /**
+     * @param string $key
+     * @return Data
+     */
+    public function getAsData(string $key = null)
+    {
+        return Data::make($this->getAsArray($key));
+    }
+
     /**
      * @param string $apiPath
-     * @param string $key
-     * @return mixed
+     * @return array|object
      */
-    public static function get(string $apiPath, string $key = null)
+    protected function get(string $apiPath)
     {
         $apiPath = str_replace(['\\','/'], DIRECTORY_SEPARATOR, $apiPath);
         $apiPath = Str::end($apiPath, '.api');
@@ -24,25 +100,22 @@ class FakeApi
         $apiContent = $apiFile->content();
 
         if (Str::isJSON($apiContent)) {
-
-            $apiContent = json_decode($apiContent, true);
-
+            $apiContent = json_decode($apiContent);
         } else {
-
             if (preg_match_all('/\((.*?)\)(, \.{3})?/', $apiContent, $segments)){
                 foreach ($segments[0] as $index => $lexeme){
                     $string = trim($segments[1][$index]);
                     $isMultiple = !empty($segments[2][$index]);
 
                     if (strpos($string, '|') !== false){
-                        $string = static::enumGenerate($string, $isMultiple);
+                        $string = $this->enumGenerate($string, $isMultiple);
                     } else {
                         switch ($string){
-                            case 'decimal': $string = static::decimalGenerate($isMultiple); break;
-                            case 'int': $string = static::intGenerate($isMultiple); break;
-                            case 'long': $string = static::longGenerate($isMultiple); break;
-                            case 'string': $string = static::stringGenerate($isMultiple); break;
-                            case 'base64Binary': $string = static::stringGenerate($isMultiple); break;
+                            case 'decimal': $string = $this->decimalGenerate($isMultiple); break;
+                            case 'int': $string = $this->intGenerate($isMultiple); break;
+                            case 'long': $string = $this->longGenerate($isMultiple); break;
+                            case 'string': $string = $this->stringGenerate($isMultiple); break;
+                            case 'base64Binary': $string = $this->stringGenerate($isMultiple); break;
                         }
                     }
 
@@ -55,38 +128,14 @@ class FakeApi
             $apiContent = str_replace('...', '', $apiContent);
 
             if (Str::isJSON($apiContent)){
-                $apiContent = json_decode($apiContent, true);
+                $apiContent = json_decode($apiContent);
                 $apiFile->put(json_encode($apiContent, JSON_PRETTY_PRINT));
             } else {
                 throw new Exception('File API [' . $apiFile->path . '], has invalid content');
             }
         }
 
-        if (!is_array($apiContent)){
-            throw new Exception('File API [' . $apiFile->path . '], has invalid content');
-        }
-
-        return is_null($key) ? $apiContent : Arr::get($apiContent, $key);
-    }
-
-    /**
-     * @param string $apiPath
-     * @param string $key
-     * @return string
-     */
-    public static function getJson(string $apiPath, string $key = null): string
-    {
-        return json_encode(static::get($apiPath, $key), JSON_PRETTY_PRINT);
-    }
-
-    /**
-     * @param $apiPath
-     * @param string $key
-     * @return Data
-     */
-    public static function getData($apiPath, string $key = null): Data
-    {
-        return Data::make(static::get($apiPath, $key));
+        return $apiContent;
     }
 
     /**
@@ -94,7 +143,7 @@ class FakeApi
      * @param bool $isMultiple
      * @return array|mixed
      */
-    protected static function enumGenerate(string $content, bool $isMultiple = false)
+    protected function enumGenerate(string $content, bool $isMultiple = false)
     {
         $content = str_replace( ' ', '', $content);
         $content = explode('|', $content);
@@ -117,7 +166,7 @@ class FakeApi
      * @param bool $isMultiple
      * @return string
      */
-    protected static function decimalGenerate(bool $isMultiple = false)
+    protected function decimalGenerate(bool $isMultiple = false)
     {
         static $value = 100.10;
         $value++;
@@ -128,7 +177,7 @@ class FakeApi
      * @param bool $isMultiple
      * @return string
      */
-    protected static function intGenerate(bool $isMultiple = false)
+    protected function intGenerate(bool $isMultiple = false)
     {
         static $value = 10000;
         $value++;
@@ -139,7 +188,7 @@ class FakeApi
      * @param bool $isMultiple
      * @return string
      */
-    protected static function longGenerate(bool $isMultiple = false)
+    protected function longGenerate(bool $isMultiple = false)
     {
         static $value = 1000000;
         $value++;
@@ -150,7 +199,7 @@ class FakeApi
      * @param bool $isMultiple
      * @return string
      */
-    protected static function stringGenerate(bool $isMultiple = false)
+    protected function stringGenerate(bool $isMultiple = false)
     {
         static $value = 1;
         $string = 'This is string #' . (string)(++$value);

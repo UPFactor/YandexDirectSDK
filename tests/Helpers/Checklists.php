@@ -59,7 +59,11 @@ class Checklists
         }
 
         if (!empty($expectedProperties)){
-            static::checkModelCollection($resource, null, $expectedProperties);
+            if ($resource instanceof ModelCollectionInterface){
+                static::checkModelCollection($resource, null, $expectedProperties);
+            } else {
+                static::checkModel($resource, null, $expectedProperties);
+            }
         }
 
         return $resource;

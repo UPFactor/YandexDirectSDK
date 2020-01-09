@@ -1168,11 +1168,6 @@ class ServiceMap extends ClassMap
             return;
         }
 
-        if (empty($serviceMethodsMeta)){
-            $this->console->warning("Service provider [{$this->name}]. Service methods is missing.");
-            return;
-        }
-
         if (is_null($serviceModelClass) or is_null($serviceModelCollectionClass)){
             $this->console->warning("Service provider [{$this->name}]. Dependent model or collection of models is not declared.");
             return;
@@ -1185,6 +1180,28 @@ class ServiceMap extends ClassMap
 
         if (!class_exists($serviceModelCollectionClass)){
             $this->console->warning("Service provider [{$this->name}]. The dependent model collection [{$serviceModelCollectionClass}] is not exist.");
+            return;
+        }
+
+        $this->methods->each(function(MethodMap $method) use ($serviceModelClass, $serviceModelCollectionClass){
+            switch ($method->return){
+                case ModelCommonInterface::class: {
+                    $method->return = $serviceModelClass.'|'.$serviceModelCollectionClass.'|null';
+                    break;
+                }
+                case ModelInterface::class: {
+                    $method->return = $serviceModelClass.'|null';
+                    break;
+                }
+                case ModelCollectionInterface::class: {
+                    $method->return = $serviceModelCollectionClass;
+                    break;
+                }
+            }
+        });
+
+        if (empty($serviceMethodsMeta)){
+            $this->console->warning("Service provider [{$this->name}]. Service methods is missing.");
             return;
         }
 

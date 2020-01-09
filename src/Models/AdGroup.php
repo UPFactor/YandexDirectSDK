@@ -169,65 +169,95 @@ class AdGroup extends Model
     ];
 
     /**
-     * Setter.
+     * Reloading method to set value of [cpmBannerKeywordsAdGroup] property.
      *
      * @return $this
      */
     public function setCpmBannerKeywordsAdGroup()
     {
-        $this->data['cpmBannerKeywordsAdGroup'] = (object) [];
+        $this->data['cpmBannerKeywordsAdGroup'] = $this->setterCpmBannerKeywordsAdGroup();
         return $this;
     }
 
     /**
-     * Import handler.
-     *
-     * @return object
-     */
-    public function importCpmBannerKeywordsAdGroup()
-    {
-        return (object) [];
-    }
-
-    /**
-     * Setter.
+     * Reloading method to set value of [cpmBannerUserProfileAdGroup] property.
      *
      * @return $this
      */
     public function setCpmBannerUserProfileAdGroup()
     {
-        $this->data['cpmBannerUserProfileAdGroup'] = (object) [];
+        $this->data['cpmBannerUserProfileAdGroup'] = $this->setterCpmBannerUserProfileAdGroup();
         return $this;
     }
 
     /**
-     * Import handler.
-     *
-     * @return object
-     */
-    public function importCpmBannerUserProfileAdGroup()
-    {
-        return (object) [];
-    }
-
-    /**
-     * Setter.
+     * Reloading method to set value of [cpmVideoAdGroup] property.
      *
      * @return $this
      */
     public function setCpmVideoAdGroup()
     {
-        $this->data['cpmVideoAdGroup'] = (object) [];
+        $this->data['cpmVideoAdGroup'] = $this->setterCpmVideoAdGroup();
         return $this;
     }
 
     /**
-     * Import handler.
+     * Setter of [cpmBannerKeywordsAdGroup] property.
      *
-     * @return object
+     * @return CpmBannerKeywordsAdGroup
      */
-    public function importCpmVideoAdGroup()
+    protected function setterCpmBannerKeywordsAdGroup()
     {
-        return (object) [];
+        return CpmBannerKeywordsAdGroup::make();
+    }
+
+    /**
+     * Setter of [cpmBannerUserProfileAdGroup] property.
+     *
+     * @return CpmBannerUserProfileAdGroup
+     */
+    protected function setterCpmBannerUserProfileAdGroup()
+    {
+        return CpmBannerUserProfileAdGroup::make();
+    }
+
+    /**
+     * Setter of [cpmVideoAdGroup] property.
+     *
+     * @return CpmVideoAdGroup
+     */
+    protected function setterCpmVideoAdGroup()
+    {
+        return CpmVideoAdGroup::make();
+    }
+
+    /**
+     * Import handler of [cpmBannerKeywordsAdGroup] property.
+     *
+     * @return CpmBannerKeywordsAdGroup
+     */
+    protected function importCpmBannerKeywordsAdGroup()
+    {
+        return $this->setterCpmBannerKeywordsAdGroup();
+    }
+
+    /**
+     * Import handler of [cpmBannerUserProfileAdGroup] property.
+     *
+     * @return CpmBannerUserProfileAdGroup
+     */
+    protected function importCpmBannerUserProfileAdGroup()
+    {
+        return $this->setterCpmBannerUserProfileAdGroup();
+    }
+
+    /**
+     * Import handler of [cpmVideoAdGroup] property.
+     *
+     * @return CpmVideoAdGroup
+     */
+    protected function importCpmVideoAdGroup()
+    {
+        return $this->setterCpmVideoAdGroup();
     }
 }

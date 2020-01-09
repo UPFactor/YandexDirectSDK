@@ -12,6 +12,7 @@ use YandexDirectSDK\Interfaces\ModelCommon as ModelCommonInterface;
 
 /**
  * Class Model
+ *
  * @package YandexDirectSDK\Components
  */
 abstract class Model implements ModelInterface
@@ -20,7 +21,6 @@ abstract class Model implements ModelInterface
     const IS_WRITABLE = 1 << 1;     // 00010
     const IS_ADDABLE = 1 << 2;      // 00100
     const IS_UPDATABLE = 1 << 3;    // 01000
-    const IS_JSON = 1 << 4;         // 10000
 
     /**
      * Boot data registry.
@@ -108,7 +108,7 @@ abstract class Model implements ModelInterface
      *
      * @return string
      */
-    public static function getClassName()
+    public static function getClassName():string
     {
         return static::boot()->name;
     }
@@ -118,7 +118,7 @@ abstract class Model implements ModelInterface
      *
      * @return array
      */
-    public static function getPropertiesMeta()
+    public static function getPropertiesMeta():array
     {
         return static::boot()->properties->toArray();
     }
@@ -128,7 +128,7 @@ abstract class Model implements ModelInterface
      *
      * @return array
      */
-    public static function getMethodsMeta()
+    public static function getMethodsMeta():array
     {
         return static::boot()->methods->toArray();
     }
@@ -138,7 +138,7 @@ abstract class Model implements ModelInterface
      *
      * @return array
      */
-    public static function getStaticMethodsMeta()
+    public static function getStaticMethodsMeta():array
     {
         return static::boot()->staticMethods->toArray();
     }
@@ -222,6 +222,38 @@ abstract class Model implements ModelInterface
     }
 
     /**
+     * Serialization handler.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['data'];
+    }
+
+    /**
+     * Deserialization handler.
+     *
+     * @return void
+     */
+    public function __wakeup()
+    {
+        static::boot();
+    }
+
+    /**
+     * Cloning handler.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $data = $this->toArray();
+        $this->data = [];
+        $this->insert($data);
+    }
+
+    /**
      * Overload object properties.
      *
      * @param string $property
@@ -302,24 +334,24 @@ abstract class Model implements ModelInterface
      *
      * @return string
      */
-    public function hash()
+    public function hash():string
     {
         return Arr::hash($this->toArray());
     }
 
     /**
-     * Converts the current model to array.
+     * Converter of model.
      *
      * @param int $filter
-     * @return array
+     * @param bool $jsonMode
+     * @return array|object
      */
-    public function toArray($filter = 0)
+    public function converter(int $filter, bool $jsonMode = false)
     {
         $result = [];
         $properties = static::boot()->properties;
 
         foreach ($this->data as $dataKey => $dataValue){
-
             if (is_null($property = $properties->get($dataKey))){
                 continue;
             }
@@ -347,14 +379,7 @@ abstract class Model implements ModelInterface
 
             //Handling a models and model collections
             if ($dataValue instanceof ModelCommonInterface){
-                if ($dataValue instanceof ModelInterface){
-                    if (empty($dataValue = $dataValue->toArray($filter))){
-                        $result[$dataKey] = $filter & self::IS_JSON ? (object)[] : [];
-                        continue;
-                    }
-                } else {
-                    $dataValue = $dataValue->toArray($filter);
-                }
+                $dataValue = $dataValue->converter($filter, $jsonMode);
             }
 
             //Handling a tag [items]
@@ -365,7 +390,18 @@ abstract class Model implements ModelInterface
             $result[$dataKey] = $dataValue;
         }
 
-        return $result;
+        return $jsonMode ? (object) $result : $result;
+    }
+
+    /**
+     * Converts the current model to array.
+     *
+     * @param int $filter
+     * @return array|object
+     */
+    public function toArray(int $filter = 0):array
+    {
+        return $this->converter($filter);
     }
 
     /**
@@ -374,8 +410,9 @@ abstract class Model implements ModelInterface
      * @param int $filter
      * @return Data
      */
-    public function toData($filter = 0){
-        return new Data($this->toArray($filter));
+    public function toData(int $filter = 0):Data
+    {
+        return new Data($this->converter($filter));
     }
 
     /**
@@ -384,9 +421,9 @@ abstract class Model implements ModelInterface
      * @param int $filter
      * @return string
      */
-    public function toJson($filter = 0)
+    public function toJson(int $filter = 0):string
     {
-        return Arr::toJson($this->toArray($filter | static::IS_JSON));
+        return Arr::toJson($this->converter($filter, true));
     }
 
     /**

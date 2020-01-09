@@ -46,8 +46,11 @@ trait ModelPropertyTypeProvider
      * tests.*.expected.toGet:      если модель содержит значение из установленного набора (values), то метод getPropertyValue()
      *                              должен возвращать значение соответствующее элементу набора toGet.
      *
-     * tests.*.expected.toConvert:  если модель содержит значение из установленного набора (values), то метод toArray()
+     * tests.*.expected.toConvert:  если модель содержит значение из установленного набора (values), то методы toArray(), toData()
      *                              должен возвращать значение соответствующее элементу набора toConvert
+     *
+     * tests.*.expected.toJSON:     если модель содержит значение из установленного набора (values), то методы toJson()
+     *                              должен возвращать значение соответствующее элементу json_encode(toJSON)
      *
      * @param string $forSet
      * @return array
@@ -104,7 +107,8 @@ trait ModelPropertyTypeProvider
                         'values' => [true, false],
                         'expected' => [
                             'toGet' => [true, false],
-                            'toConvert' => [true, false]
+                            'toConvert' => [true, false],
+                            'toJSON' => [true, false]
                         ]
                     ],
                     [
@@ -133,7 +137,9 @@ trait ModelPropertyTypeProvider
                         'values' => ['1', '', 'str', '123', '12.5', '0'],
                         'expected' => [
                             'toGet' => ['1', '', 'str', '123', '12.5', '0'],
-                            'toConvert' => ['1', '', 'str', '123', '12.5', '0']
+                            'toConvert' => ['1', '', 'str', '123', '12.5', '0'],
+                            'toJSON' => ['1', '', 'str', '123', '12.5', '0']
+
                         ]
                     ],
                     [
@@ -162,7 +168,8 @@ trait ModelPropertyTypeProvider
                         'values' => [123.0, 123.0, 12.5, 12.5, 0.0, 0.0],
                         'expected' => [
                             'toGet' => [123.0, 123.0, 12.5, 12.5, 0.0, 0.0],
-                            'toConvert' => [123.0, 123.0, 12.5, 12.5, 0.0, 0.0]
+                            'toConvert' => [123.0, 123.0, 12.5, 12.5, 0.0, 0.0],
+                            'toJSON' => [123.0, 123.0, 12.5, 12.5, 0.0, 0.0]
                         ]
                     ],
                     [
@@ -188,10 +195,11 @@ trait ModelPropertyTypeProvider
                         ]
                     ],
                     [
-                        'values' => [123, 123, 12, 12, 0, 0],
+                        'values' => [123, 12, 0],
                         'expected' => [
-                            'toGet' => [123, 123, 12, 12, 0, 0],
-                            'toConvert' => [123, 123, 12, 12, 0, 0]
+                            'toGet' => [123, 12, 0],
+                            'toConvert' => [123, 12, 0],
+                            'toJSON' => [123, 12, 0]
                         ]
                     ],
                     [
@@ -320,6 +328,29 @@ trait ModelPropertyTypeProvider
                                 ['Items' => [
                                     'Items' => [$collection1,$collection2]
                                 ]]
+                            ],
+                            'toJSON' => [
+                                null,
+                                ['Items' => []],
+                                ['Items' => [1,2,3]],
+                                ['Items' => ['str1','str2']],
+                                ['Items' => [(object)[],(object)[]]],
+                                ['Items' => [(object)[],(object)[]]],
+                                ['Items' => [
+                                    'Items' => []
+                                ]],
+                                ['Items' => [
+                                    'Items' => [1,2,3]
+                                ]],
+                                ['Items' => [
+                                    'Items' => ['str1','str2']
+                                ]],
+                                ['Items' => [
+                                    'Items' => [(object)[],(object)[]]
+                                ]],
+                                ['Items' => [
+                                    'Items' => [(object)[],(object)[]]
+                                ]]
                             ]
                         ]
                     ],
@@ -395,6 +426,10 @@ trait ModelPropertyTypeProvider
                             'toConvert' => [
                                 null,
                                 ['Items' => ['str1','str2']],
+                            ],
+                            'toJSON' => [
+                                null,
+                                ['Items' => ['str1','str2']],
                             ]
                         ]
                     ],
@@ -467,6 +502,10 @@ trait ModelPropertyTypeProvider
                             'toConvert' => [
                                 null,
                                 ['Items' => [1.1,1.2]],
+                            ],
+                            'toJSON' => [
+                                null,
+                                ['Items' => [1.1,1.2]],
                             ]
                         ]
                     ],
@@ -537,6 +576,10 @@ trait ModelPropertyTypeProvider
                                 [1,2,3],
                             ],
                             'toConvert' => [
+                                null,
+                                ['Items' => [1,2,3]],
+                            ],
+                            'toJSON' => [
                                 null,
                                 ['Items' => [1,2,3]],
                             ]
@@ -630,6 +673,16 @@ trait ModelPropertyTypeProvider
                                 [$collection1,$collection2],
                                 ['Items' => [1,2,3]],
                                 ['Items' => ['str1','str2']]
+                            ],
+                            'toJSON' => [
+                                null,
+                                [],
+                                [1,2,3],
+                                ['str1','str2'],
+                                [(object)[],(object)[]],
+                                [(object)[],(object)[]],
+                                ['Items' => [1,2,3]],
+                                ['Items' => ['str1','str2']]
                             ]
                         ]
                     ],
@@ -698,6 +751,11 @@ trait ModelPropertyTypeProvider
                                 null,
                                 [],
                                 ['str1','str2'],
+                            ],
+                            'toJSON' => [
+                                null,
+                                [],
+                                ['str1','str2'],
                             ]
                         ]
                     ],
@@ -763,6 +821,11 @@ trait ModelPropertyTypeProvider
                                 null,
                                 [],
                                 [1.2,1.2],
+                            ],
+                            'toJSON' => [
+                                null,
+                                [],
+                                [1.2,1.2],
                             ]
                         ]
                     ],
@@ -825,6 +888,11 @@ trait ModelPropertyTypeProvider
                                 [1,2,3],
                             ],
                             'toConvert' => [
+                                null,
+                                [],
+                                [1,2,3],
+                            ],
+                            'toJSON' => [
                                 null,
                                 [],
                                 [1,2,3],
@@ -894,6 +962,16 @@ trait ModelPropertyTypeProvider
                                 [[$model1,$model2],[$collection1,$collection2]],
                                 ['Items' => ['str1','str2']],
                                 ['Items' => [1,2,3]]
+                            ],
+                            'toJSON' => [
+                                null,
+                                [],
+                                [[1,2,3],[4,5,6]],
+                                [[1.1,1.2],[2.1,2.2]],
+                                [['str1','str2'],['str3','str4']],
+                                [[(object)[],(object)[]],[(object)[],(object)[]]],
+                                ['Items' => ['str1','str2']],
+                                ['Items' => [1,2,3]]
                             ]
                         ]
                     ],
@@ -920,7 +998,8 @@ trait ModelPropertyTypeProvider
                             'toInsert' => ['a','b'],
                             'toSet' => ['a','b'],
                             'toGet' => ['a','b'],
-                            'toConvert' => ['a','b']
+                            'toConvert' => ['a','b'],
+                            'toJSON' => ['a','b']
                         ]
                     ],
                     [
@@ -962,7 +1041,8 @@ trait ModelPropertyTypeProvider
                         'values' => [['a'],['b'],['a','b']],
                         'expected' => [
                             'toGet' => [['a'],['b'],['a','b']],
-                            'toConvert' => [['a'],['b'],['a','b']]
+                            'toConvert' => [['a'],['b'],['a','b']],
+                            'yoJSON' => [['a'],['b'],['a','b']]
                         ]
                     ],
                     [
@@ -1058,6 +1138,11 @@ trait ModelPropertyTypeProvider
                                 ['a','b']
                             ],
                             'toConvert' => [
+                                ['Items' => ['a']],
+                                ['Items' => ['b']],
+                                ['Items' => ['a','b']]
+                            ],
+                            'toJSON' => [
                                 ['Items' => ['a']],
                                 ['Items' => ['b']],
                                 ['Items' => ['a','b']]
@@ -1170,6 +1255,11 @@ trait ModelPropertyTypeProvider
                                 null,
                                 ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true],
                                 []
+                            ],
+                            'toJSON' => [
+                                null,
+                                ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true],
+                                (object)[]
                             ]
                         ]
                     ]
@@ -1325,6 +1415,14 @@ trait ModelPropertyTypeProvider
                                 $emptyCollection
                             ],
                             'toConvert' => [
+                                null,
+                                [
+                                    ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true],
+                                    ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true]
+                                ],
+                                []
+                            ],
+                            'toJSON' => [
                                 null,
                                 [
                                     ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true],
@@ -1601,6 +1699,18 @@ trait ModelPropertyTypeProvider
                                 $emptyCollection
                             ],
                             'toConvert' => [
+                                null,
+                                [
+                                    'Items' => [
+                                        ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true],
+                                        ['I'=>12, 'S'=>'text', 'F'=>3.14, 'B'=>true]
+                                    ]
+                                ],
+                                [
+                                    'Items' => []
+                                ]
+                            ],
+                            'toJSON' => [
                                 null,
                                 [
                                     'Items' => [

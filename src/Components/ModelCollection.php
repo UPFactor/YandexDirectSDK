@@ -63,7 +63,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @return string
      */
-    public static function getClassName()
+    public static function getClassName():string
     {
         return static::boot()->name;
     }
@@ -73,7 +73,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @return array
      */
-    public static function getMethodsMeta()
+    public static function getMethodsMeta():array
     {
         return static::boot()->methods->toArray();
     }
@@ -83,7 +83,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @return array
      */
-    public static function getStaticMethodsMeta()
+    public static function getStaticMethodsMeta():array
     {
         return static::boot()->staticMethods->toArray();
     }
@@ -164,6 +164,38 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
+     * Serialization handler.
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        return ['items'];
+    }
+
+    /**
+     * Deserialization handler.
+     *
+     * @return void
+     */
+    public function __wakeup()
+    {
+        static::boot();
+    }
+
+    /**
+     * Cloning handler.
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        $this->items = Arr::map($this->items, function(ModelInterface $item){
+            return $item->copy();
+        });
+    }
+
+    /**
      * Overloading object static methods.
      *
      * @param string $method
@@ -200,7 +232,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      *
      * @return string
      */
-    public function hash()
+    public function hash():string
     {
         return Arr::hash($this->toArray());
     }
@@ -224,7 +256,7 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param string|string[] $properties
      * @return array
      */
-    public function extract($properties)
+    public function extract($properties):array
     {
         if (is_string($properties)){
             return Arr::map($this->items, function(ModelInterface $model) use ($properties){
@@ -292,21 +324,33 @@ abstract class ModelCollection implements ModelCollectionInterface
     }
 
     /**
-     * Converts the current collection to array.
+     * Converter of model collection.
      *
      * @param int $filter
-     * @return array
+     * @param bool $jsonMode
+     * @return array|object
      */
-    public function toArray($filter = 0)
+    public function converter(int $filter, bool $jsonMode = false)
     {
         if ($filter !== 0){
             ksort($this->items);
             $this->items = array_values($this->items);
         }
 
-        return Arr::map($this->items, function(ModelInterface $item) use ($filter){
-            return $item->toArray($filter);
+        return Arr::map($this->items, function(ModelInterface $item) use ($filter, $jsonMode){
+            return $item->converter($filter, $jsonMode);
         });
+    }
+
+    /**
+     * Converts the current collection to array.
+     *
+     * @param int $filter
+     * @return array
+     */
+    public function toArray(int $filter = 0):array
+    {
+        return $this->converter($filter);
     }
 
     /**
@@ -315,8 +359,9 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param int $filter
      * @return Data
      */
-    public function toData($filter = 0){
-        return new Data($this->toArray($filter));
+    public function toData(int $filter = 0):Data
+    {
+        return new Data($this->converter($filter));
     }
 
     /**
@@ -325,9 +370,9 @@ abstract class ModelCollection implements ModelCollectionInterface
      * @param int $filter
      * @return string
      */
-    public function toJson($filter = 0)
+    public function toJson(int $filter = 0):string
     {
-        return Arr::toJson($this->toArray($filter | Model::IS_JSON));
+        return Arr::toJson($this->converter($filter, true));
     }
 
     /**

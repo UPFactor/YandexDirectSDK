@@ -19,16 +19,12 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Representative extends Model 
 { 
-    const CHIEF = 'CHIEF';
-    const DELEGATE = 'DELEGATE';
-    const UNKNOWN = 'UNKNOWN';
-
     protected static $compatibleCollection = Representatives::class;
 
     protected static $properties = [
         'login' => 'string',
         'email' => 'string',
-        'role' => 'enum:' . self::CHIEF . ',' . self::DELEGATE . ',' . self::UNKNOWN,
+        'role' => 'string',
     ];
 
     protected static $nonWritableProperties = [

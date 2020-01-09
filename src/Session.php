@@ -94,9 +94,9 @@ class Session
      *
      * @param string $client
      */
-    public static function setClient(string $client)
+    public static function setClient(string $client = null)
     {
-        $_ENV['YD_SESSION_CLIENT'] = $client;
+        $_ENV['YD_SESSION_CLIENT'] = is_null($client) ? static::defaultOptions['client'] : $client;
     }
 
     /**
@@ -396,7 +396,7 @@ class Session
             'sandbox: ' . static::usedSandbox(),
             'client: ' . static::getClient(),
             'url: ' . $url,
-            'params' . $params
+            'params: ' . $params
 
         ];
 

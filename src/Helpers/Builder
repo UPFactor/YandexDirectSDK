@@ -146,7 +146,7 @@ class Builder extends ConsoleLauncher
             $content .= "     */ \n";
             $content .= "    protected \$items = []; \n\n";
             $content .= "    /** \n";
-            $content .= "     * @var {$modelClassName} \n";
+            $content .= "     * @var string|{$modelClassName} \n";
             $content .= "     */ \n";
             $content .= "    protected static \$compatibleModel = {$modelClassName}::class; \n\n";
             $content .= "    protected static \$methods = []; \n\n";
@@ -204,7 +204,7 @@ class Builder extends ConsoleLauncher
                 }
 
                 try {
-                    FakeApi::get(str_replace(Env::getDataPath(), '', $file->path));
+                    FakeApi::make(str_replace(Env::getDataPath(), '', $file->path))->getAsObject();
                 } catch (Exception $error){
                     $counter['fail']++;
                     $this->warning($error->getMessage());

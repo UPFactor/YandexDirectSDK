@@ -344,6 +344,29 @@ abstract class Service
     }
 
     /**
+     * Typical data selection method by property values.
+     *
+     * @param string $methodName
+     * @param string $criteria
+     * @param string $property
+     * @param integer|integer[]|string|string[] $propertyValues
+     * @param array $fields
+     * @return ModelInterface|ModelCollectionInterface
+     */
+    protected static function selectByProperty(string $methodName, string $criteria, string $property, $propertyValues, array $fields = [])
+    {
+        $query = static::createQueryBuilder($methodName)
+            ->select($property, ...$fields)
+            ->whereIn($criteria, $propertyValues);
+
+        if (!is_array($propertyValues) or count($propertyValues) === 1){
+            return $query->first();
+        } else {
+            return $query->get();
+        }
+    }
+
+    /**
      * Typical data selection method by id.
      *
      * @param string $methodName
@@ -353,15 +376,7 @@ abstract class Service
      */
     protected static function selectById(string $methodName, $ids, array $fields = [])
     {
-        $query = static::createQueryBuilder($methodName)
-            ->select('Id', ...$fields)
-            ->whereIn('Ids', $ids);
-
-        if (!is_array($ids) or count($ids) === 1){
-            return $query->first();
-        } else {
-            return $query->get();
-        }
+        return static::selectByProperty($methodName, 'Ids', 'Id', $ids, $fields);
     }
 
     /**

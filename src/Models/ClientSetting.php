@@ -21,13 +21,14 @@ class ClientSetting extends Model
 {
     const CORRECT_TYPOS_AUTOMATICALLY = 'CORRECT_TYPOS_AUTOMATICALLY';
     const DISPLAY_STORE_RATING = 'DISPLAY_STORE_RATING';
+    const SHARED_ACCOUNT_ENABLED = 'SHARED_ACCOUNT_ENABLED';
     const YES = 'YES';
     const NO = 'NO';
 
     protected static $compatibleCollection = ClientSettings::class;
 
     protected static $properties = [
-        'option' => 'enum:' . self::CORRECT_TYPOS_AUTOMATICALLY . ',' . self::DISPLAY_STORE_RATING,
+        'option' => 'enum:' . self::CORRECT_TYPOS_AUTOMATICALLY . ',' . self::DISPLAY_STORE_RATING. ',' . self::SHARED_ACCOUNT_ENABLED,
         'value' => 'enum:' . self::YES . ',' . self::NO
     ];
 

@@ -7,11 +7,11 @@ use YandexDirectSDK\Components\Model;
 /** 
  * Class ClientRestriction 
  * 
- * @property-read     string     $element
- * @property-read     string     $value
- *                               
- * @method            string     getElement()
- * @method            string     getValue()
+ * @property-read     string      $element
+ * @property-read     integer     $value
+ *                                
+ * @method            string      getElement()
+ * @method            integer     getValue()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -21,7 +21,7 @@ class ClientRestriction extends Model
 
     protected static $properties = [
         'element' => 'string',
-        'value' => 'string'
+        'value' => 'integer'
     ];
 
     protected static $nonWritableProperties = [

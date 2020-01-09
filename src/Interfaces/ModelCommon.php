@@ -15,21 +15,21 @@ interface ModelCommon
      *
      * @return string
      */
-    public static function getClassName();
+    public static function getClassName():string;
 
     /**
      * Returns the metadata of the declared methods.
      *
      * @return array
      */
-    public static function getMethodsMeta();
+    public static function getMethodsMeta():array;
 
     /**
      * Returns the metadata of the declared static methods.
      *
      * @return array
      */
-    public static function getStaticMethodsMeta();
+    public static function getStaticMethodsMeta():array;
 
     /**
      * Retrieve copy of the object.
@@ -39,11 +39,20 @@ interface ModelCommon
     public function copy();
 
     /**
-     * Retrieve the object hash
+     * Retrieve the object hash.
      *
      * @return string
      */
-    public function hash();
+    public function hash():string;
+
+    /**
+     * Converter of object.
+     *
+     * @param int $filter
+     * @param bool $jsonMode
+     * @return array|object
+     */
+    public function converter(int $filter, bool $jsonMode = false);
 
     /**
      * Converts to array.
@@ -51,7 +60,7 @@ interface ModelCommon
      * @param int $filter
      * @return array
      */
-    public function toArray($filter = 0);
+    public function toArray(int $filter = 0):array;
 
     /**
      * Converts to a Data object.
@@ -59,7 +68,7 @@ interface ModelCommon
      * @param int $filter
      * @return Data
      */
-    public function toData($filter = 0);
+    public function toData(int $filter = 0):Data;
 
     /**
      * Converts to JSON.
@@ -67,5 +76,5 @@ interface ModelCommon
      * @param int $filter
      * @return string
      */
-    public function toJson($filter = 0);
+    public function toJson(int $filter = 0):string;
 }

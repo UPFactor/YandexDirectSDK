@@ -7,21 +7,22 @@ use YandexDirectSDK\Collections\ClientSettings;
 use YandexDirectSDK\Collections\Grands;
 use YandexDirectSDK\Collections\Representatives;
 use YandexDirectSDK\Components\Model;
+use YandexDirectSDK\Components\QueryBuilder;
+use YandexDirectSDK\Components\Result;
+use YandexDirectSDK\Services\ClientsService;
 
 /** 
  * Class Client 
  * 
  * @property-read     double                 $accountQuality
  * @property-read     string                 $archived
- * @property          integer                $clientId
+ * @property-read     integer                $clientId
  * @property          string                 $clientInfo
  * @property-read     integer                $countryId
  * @property-read     string                 $createdAt
- * @property          string                 $login
- * @property          string                 $firstName
- * @property          string                 $lastName
- * @property          string                 $currency
- * @property          Grands                 $grants
+ * @property-read     string                 $login
+ * @property-read     string                 $currency
+ * @property-read     Grands                 $grants
  * @property          ClientNotification     $notification
  * @property          string                 $phone
  * @property-read     integer                $overdraftSumAvailable
@@ -31,23 +32,17 @@ use YandexDirectSDK\Components\Model;
  * @property-read     string                 $type
  * @property-read     double                 $vatRate
  *                                           
+ * @method static     QueryBuilder           query()
+ * @method            Result                 update()
  * @method            double                 getAccountQuality()
  * @method            string                 getArchived()
- * @method            $this                  setClientId(integer $clientId)
  * @method            integer                getClientId()
  * @method            $this                  setClientInfo(string $clientInfo)
  * @method            string                 getClientInfo()
  * @method            integer                getCountryId()
  * @method            string                 getCreatedAt()
- * @method            $this                  setLogin(string $login)
  * @method            string                 getLogin()
- * @method            $this                  setFirstName(string $firstName)
- * @method            string                 getFirstName()
- * @method            $this                  setLastName(string $lastName)
- * @method            string                 getLastName()
- * @method            $this                  setCurrency(string $currency)
  * @method            string                 getCurrency()
- * @method            $this                  setGrants(Grands|array $grants)
  * @method            Grands                 getGrants()
  * @method            $this                  setNotification(ClientNotification|array $notification)
  * @method            ClientNotification     getNotification()
@@ -65,16 +60,15 @@ use YandexDirectSDK\Components\Model;
  */ 
 class Client extends Model 
 { 
-    const RUB = 'RUB';
-    const BYN = 'BYN';
-    const CHF = 'CHF';
-    const EUR = 'EUR';
-    const KZT = 'KZT';
-    const TRY = 'TRY';
-    const UAH = 'UAH';
-    const USD = 'USD';
-
     protected static $compatibleCollection = Clients::class;
+
+    protected static $staticMethods = [
+        'query' => ClientsService::class
+    ];
+
+    protected static $methods = [
+        'update' => ClientsService::class
+    ];
 
     protected static $properties = [
         'accountQuality' => 'float',
@@ -84,9 +78,7 @@ class Client extends Model
         'countryId' => 'integer',
         'createdAt' => 'string',
         'login' => 'string',
-        'firstName' => 'string',
-        'lastName' => 'string',
-        'currency' => 'enum:' . self::RUB . ',' . self::BYN . ',' . self::CHF . ',' . self::EUR . ',' . self::KZT . ',' . self::TRY . ',' . self::UAH . ',' . self::USD,
+        'currency' => 'string',
         'grants' => 'object:' . Grands::class,
         'notification' => 'object:' . ClientNotification::class,
         'phone' => 'string',
@@ -98,23 +90,15 @@ class Client extends Model
         'vatRate' => 'float'
     ];
 
-    protected static $nonAddableProperties = [
-        'clientInfo',
-        'phone'
-    ];
-
-    protected static $nonUpdatableProperties = [
-        'login',
-        'firstName',
-        'lastName',
-        'currency'
-    ];
-
     protected static $nonWritableProperties = [
         'accountQuality',
         'archived',
+        'clientId',
         'countryId',
         'createdAt',
+        'login',
+        'currency',
+        'grants',
         'overdraftSumAvailable',
         'representatives',
         'restrictions',

@@ -289,7 +289,7 @@ interface ModelCollection extends ModelCommon, Countable, IteratorAggregate, Arr
      * @param string|string[] $properties
      * @return array
      */
-    public function extract($properties);
+    public function extract($properties):array;
 
     /**
      * Insert data into the object.

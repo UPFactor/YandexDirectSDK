@@ -158,7 +158,7 @@ class Result
         }
 
         if (!($response = curl_exec($resource))) {
-            throw RuntimeException::make(static::class.'::constructor. CURL error: ' . curl_error($resource));
+            throw RuntimeException::make(static::class.'::constructor. Request error: ' . curl_error($resource));
         }
 
         $this->response = $response;
