@@ -18,7 +18,18 @@
                         "Operator": "ALL"
                     }
                 ],
-                "Scope": "FOR_TARGETS_AND_ADJUSTMENTS"
+                "Scope": "FOR_TARGETS_AND_ADJUSTMENTS",
+                "AvailableForTargetsInAdGroupTypes": {
+                    "Items": [
+                        "TEXT_AD_GROUP",
+                        "MOBILE_APP_AD_GROUP",
+                        "DYNAMIC_TEXT_AD_GROUP",
+                        "CPM_BANNER_AD_GROUP",
+                        "CPM_VIDEO_AD_GROUP",
+                        "CONTENT_PROMOTION_AD_GROUP",
+                        "SMART_AD_GROUP"
+                    ]
+                }
             }
         ],
         "LimitedBy": 1000003

@@ -13,7 +13,13 @@ use YandexDirectSDKTest\Helpers\Env;
 trait ModelPropertyTypeProvider
 {
     /**
-     * Структуры данных для тестирования:
+     * Цель тестирования:
+     * todo: описание цели тестирования
+     *
+     * Методология тестирования:
+     * todo: описание методологии тестирования
+     *
+     * Структуры данных тестирования:
      *
      *  [
      *      propertyType => string|array,

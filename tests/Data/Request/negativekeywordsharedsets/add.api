@@ -1,0 +1,14 @@
+{
+    "method": "add",
+    "params": {
+        "NegativeKeywordSharedSets": [
+            {
+                "Name": "This is string #2",
+                "NegativeKeywords": [
+                    "This is string #3",
+                    "This is string #4"
+                ]
+            }
+        ]
+    }
+}

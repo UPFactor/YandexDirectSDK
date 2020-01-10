@@ -1,0 +1,15 @@
+{
+    "method": "update",
+    "params": {
+        "NegativeKeywordSharedSets": [
+            {
+                "Id": 1000001,
+                "Name": "This is string #5",
+                "NegativeKeywords": [
+                    "This is string #6",
+                    "This is string #7"
+                ]
+            }
+        ]
+    }
+}

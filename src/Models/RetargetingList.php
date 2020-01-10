@@ -19,6 +19,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * @property-read     string                                    $isAvailable
  * @property          RetargetingListRules                      $rules
  * @property-read     string                                    $scope
+ * @property-read     string[]                                  $availableForTargetsInAdGroupTypes
  *                                                              
  * @method static     QueryBuilder                              query()
  * @method static     RetargetingList|RetargetingLists|null     find(integer|integer[]|string|string[] $ids, string[] $fields=null)
@@ -37,6 +38,7 @@ use YandexDirectSDK\Services\RetargetingListsService;
  * @method            $this                                     setRules(RetargetingListRules|array $rules)
  * @method            RetargetingListRules                      getRules()
  * @method            string                                    getScope()
+ * @method            string[]                                  getAvailableForTargetsInAdGroupTypes()
  * 
  * @package YandexDirectSDK\Models 
  */ 
@@ -67,7 +69,8 @@ class RetargetingList extends Model
         'description' => 'string',
         'isAvailable' => 'string',
         'rules' => 'object:' .  RetargetingListRules::class,
-        'scope' => 'string'
+        'scope' => 'string',
+        'availableForTargetsInAdGroupTypes' => 'arrayOfSet:TEXT_AD_GROUP,MOBILE_APP_AD_GROUP,DYNAMIC_TEXT_AD_GROUP,CPM_BANNER_AD_GROUP,CPM_VIDEO_AD_GROUP,CONTENT_PROMOTION_AD_GROUP,SMART_AD_GROUP'
     ];
 
     protected static $nonUpdatableProperties = [
@@ -76,7 +79,8 @@ class RetargetingList extends Model
 
     protected static $nonWritableProperties = [
         'isAvailable',
-        'scope'
+        'scope',
+        'availableForTargetsInAdGroupTypes'
     ];
 
     protected static $nonAddableProperties = [
